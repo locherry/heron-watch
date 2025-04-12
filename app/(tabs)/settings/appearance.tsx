@@ -20,7 +20,7 @@ export default function Appearance() {
     const {setTheme, setTint} = useTheme()
 
     const THEMES = [
-        { label: 'System default', value: 'system', iconName: 'gear' },
+        { label: 'System default', value: 'system', iconName: 'gearshape' },
         { label: 'Light theme', value: 'light', iconName: 'sun.max.fill' },
         { label: 'Dark theme', value: 'dark', iconName: 'moon.fill' },
     ] satisfies {

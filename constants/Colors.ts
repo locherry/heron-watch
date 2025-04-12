@@ -16,8 +16,8 @@ export const tintColors = [
   },
   {
     name: "rust",
-    light: "#FF864DFF",
-    dark: '#BE4313FF'
+    light: "#E08459FF",
+    dark: '#A1421DFF'
   },
   {
     name: "sunny",

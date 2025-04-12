@@ -22,7 +22,6 @@ export const MAPPING = {
   // See MaterialIcons here: https://icons.expo.fyi
   // See SF Symbols in the SF Symbols app on Mac or here :  http://github.com/andrewtavis/sf-symbols-online/blob/master/README_dark.md 
   MaterialIcons: {
-    'house.fill': 'home',
     'paperplane.fill': 'send',
     'chevron.left.forwardslash.chevron.right': 'code',
     'chevron.right': 'chevron-right',
@@ -48,11 +47,16 @@ export const MAPPING = {
     'rectangle.stack': "cubes-stacked",
   } satisfies IconMapping<typeof FontAwesome6>,
   MaterialCommunityIcons: {
+    'house.fill': 'home',
+    'house': 'home-outline',
+    'gearshape.fill': 'cog',
+    'gearshape': 'cog-outline',
+    'shield.fill': 'shield',
+    'shield': 'shield-outline',
     'line.3.horizontal.decrease': 'filter',
     'trash':'delete',
     'arrow.right.arrow.left':'transfer',
     'gift.fill' : 'gift',
-    'gear': 'cog',
     'chart.pie': 'chart-pie',
     'ellipsis' : 'dots-horizontal',
     'moon.fill' : 'moon-waning-crescent',

@@ -34,21 +34,21 @@ export default function TabLayout() {
                 name="settings"
                 options={{
                     title: 'Settings',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
+                    tabBarIcon: ({ color, focused }) => <IconSymbol size={28} name={focused ? "gearshape.fill" : "gearshape"}  color={color} />,
                 }}
             />
             <Tabs.Screen
                 name="home"
                 options={{
                     title: 'Home',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+                    tabBarIcon: ({ color, focused}) => <IconSymbol size={28} name={focused ? 'house.fill' : 'house'} color={color} />,
                 }}
             />
             <Tabs.Screen
                 name="admin"
                 options={{
                     title: 'Administration',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chart.pie" color={color} />,
+                    tabBarIcon: ({ color, focused }) => <IconSymbol size={28} name={focused ? 'shield.fill' : 'shield'} color={color} />,
                     // href: null,
                 }}
             />
