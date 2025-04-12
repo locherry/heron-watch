@@ -29,7 +29,8 @@ export const MAPPING = {
     'chevron.left': 'chevron-left',
     'tag.fill':'sell',
     'pencil' : 'edit',
-    'rectangle.portrait.and.arrow.right' : 'logout'
+    'rectangle.portrait.and.arrow.right' : 'logout',
+    'paintpalette' : 'palette'
   } satisfies IconMapping<typeof MaterialIcons>,
   FontAwesome: {
     'exclamationmark.circle.fill': "exclamation-circle",
@@ -53,7 +54,9 @@ export const MAPPING = {
     'gift.fill' : 'gift',
     'gear': 'cog',
     'chart.pie': 'chart-pie',
-    'ellipsis' : 'dots-horizontal'
+    'ellipsis' : 'dots-horizontal',
+    'moon.fill' : 'moon-waning-crescent',
+    'sun.max.fill' : 'white-balance-sunny',
   } satisfies IconMapping<typeof MaterialCommunityIcons>,
 } satisfies Record<
   IconLibraryName,

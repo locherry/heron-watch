@@ -1,7 +1,7 @@
 import { StyleSheet, View, type ViewProps } from "react-native";
 import { IconFramed } from "./IconFramed";
-import { Row } from "../Row";
-import { Column } from "../Column";
+import { Row } from "../ui/Row";
+import { Column } from "../ui/Column";
 import { ThemedText } from "../Themed/ThemedText";
 type Props = ViewProps & {}
 export function Banner({ style, ...rest }: Props) {

@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
-import { Row } from "./Row";
+import { Row } from "./ui/Row";
 import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { ThemedText } from "./Themed/ThemedText";

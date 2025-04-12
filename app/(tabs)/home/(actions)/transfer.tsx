@@ -1,4 +1,4 @@
-import { Card } from '@/components/Card';
+import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/Header';
 import RootView from '@/components/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';

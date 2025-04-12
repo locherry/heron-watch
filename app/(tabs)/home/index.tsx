@@ -1,12 +1,12 @@
 import { ActionTable } from '@/components/Action/ActionTable';
 import { ActionTableEntry, ActionType } from '@/components/Action/ActionTableEntry';
 import { ActionTableHeader } from '@/components/Action/ActionTableHeader';
-import { Card } from '@/components/Card';
-import { Column } from '@/components/Column';
+import { Card } from '@/components/ui/Card';
+import { Column } from '@/components/ui/Column';
 import { Header } from '@/components/Header';
 import { QRScanner } from '@/components/QRScanner';
 import RootView from '@/components/RootView';
-import { Row } from '@/components/Row';
+import { Row } from '@/components/ui/Row';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { BtnIcon } from '@/components/ui/BtnIcon';
 import { IconSymbol } from '@/components/ui/IconSymbol';

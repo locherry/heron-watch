@@ -28,11 +28,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         lineHeight: 16
     },
-    // caption: {
-    //     fontSize: 14,
-    //     lineHeight: 16,
-    //     fontWeight: "bold"
-    // },
     subtitle: {
         fontSize: 12,
         lineHeight: 16
@@ -46,10 +41,17 @@ const styles = StyleSheet.create({
 
 type Props = TextProps & {
     variant?: keyof typeof styles,
-    color?: keyof typeof Colors["light"] & keyof typeof Colors["dark"]
+    color?: keyof typeof Colors["light"] & keyof typeof Colors["dark"],
+    align?:'center'|'left'|'right'|'justify'
 }
 
-export function ThemedText({ variant, color, style, ...rest }: Props) {
+export function ThemedText({ variant,align, color, style, ...rest }: Props) {
     const colors = useThemeColor();
-    return <Text style={[styles[variant ?? "body"], { color: colors[color ?? "text"] }, style]} {...rest}></Text>
+    return <Text style={[
+        styles[variant ?? "body"], 
+        { 
+            color: colors[color ?? "text"],
+            textAlign : align??undefined
+        }, 
+        style]} {...rest}></Text>
 }

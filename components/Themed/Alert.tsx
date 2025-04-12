@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { FontAwesome } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { Row } from "../Row";
+import { Row } from "../ui/Row";
 import { Colors } from "@/constants/Colors";
 import { IconSymbol } from "../ui/IconSymbol";
 import { useState } from "react";

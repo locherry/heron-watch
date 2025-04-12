@@ -4,7 +4,6 @@ import { IconSymbol } from "./ui/IconSymbol";
 
 type Props = ViewProps & {
     onPress: ()=>void,
-
 }
 
 export function QRScanner({ style, onPress, ...rest }: Props) {

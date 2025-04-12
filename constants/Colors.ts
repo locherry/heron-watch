@@ -1,17 +1,30 @@
-const tintColorLight = '#3BBCE7FF';
-const tintColorDark = '#054053FF';
-
-// const tintColorLight = '#8CD88AFF';
-// const tintColorDark = '#194618FF';
-
-// const tintColorLight = '#FFB7E7FF';
-// const tintColorDark = '#680647FF';
-
-// const tintColorLight = '#FFC0A3FF';
-// const tintColorDark = '#A75410FF';
-
-const complementaryColorLight = '#F1581CFF';
-const complementaryColorDark = '#C04413FF';
+export const tintColors = [
+  {
+    name: "framboise",
+    light: "#FFB7E7FF",
+    dark: '#680647FF'
+  },
+  {
+    name: "ocean",
+    light: "#8FD8F0FF",
+    dark: '#054053FF'
+  },
+  {
+    name: "sauge",
+    light: "#99CE97FF",
+    dark: '#2B552BFF'
+  },
+  {
+    name: "rust",
+    light: "#FF864DFF",
+    dark: '#BE4313FF'
+  },
+  {
+    name: "sunny",
+    light: "#F1D11CFF",
+    dark: '#857206FF'
+  },
+] as { name: string, light: string, dark: string }[]
 
 const palette = {
   blue: "#0d6efd",
@@ -52,9 +65,7 @@ const palette = {
 
 export const Colors = {
   light: {
-    tint: tintColorLight,
-    complementary: complementaryColorLight,
-
+    // tint is declared in the useThemeColor hook
     white: palette.white,
     gray100: palette.gray100,
     gray200: palette.gray200,
@@ -79,9 +90,6 @@ export const Colors = {
     dark: palette.gray900
   },
   dark: {
-    tint: tintColorDark,
-    complementary: complementaryColorDark,
-
     white: palette.black,
     gray100: palette.gray900,
     gray200: palette.gray800,

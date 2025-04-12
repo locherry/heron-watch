@@ -1,4 +1,4 @@
-import { Card } from '@/components/Card';
+import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/Header';
 import { QRScanner } from '@/components/QRScanner';
 import RootView from '@/components/RootView';

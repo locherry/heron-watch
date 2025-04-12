@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
-import { Row } from "../Row";
+import { Row } from "../ui/Row";
 import { ThemedText } from "../Themed/ThemedText";
 import { BtnIcon } from "../ui/BtnIcon";
 import { useThemeColor } from "@/hooks/color/useThemeColor";

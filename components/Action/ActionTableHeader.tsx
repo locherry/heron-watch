@@ -1,5 +1,5 @@
 import { StyleSheet, View, type ViewProps } from "react-native";
-import { Row } from "../Row";
+import { Row } from "../ui/Row";
 import { ThemedText } from "../Themed/ThemedText";
 
 export type ActionType = {

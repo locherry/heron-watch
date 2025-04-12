@@ -1,8 +1,8 @@
 import { SecureStorage } from "@/class/SecureStorage";
-import { Card } from "@/components/Card";
+import { Card } from "@/components/ui/Card";
 import { Header } from "@/components/Header";
 import RootView from "@/components/RootView";
-import { Row } from "@/components/Row";
+import { Row } from "@/components/ui/Row";
 import { Alert } from "@/components/Themed/Alert";
 import { ThemedText } from "@/components/Themed/ThemedText";
 import { ThemedTextInput } from "@/components/Themed/ThemedTextInput";
@@ -23,7 +23,7 @@ export default function Login() {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     const [msgList, setMsgList] = useState<string[]>([])
-    
+
     const router = useRouter()
     const authentification = () => {
         const isFormValid = () => {
@@ -41,13 +41,12 @@ export default function Login() {
             data.then(r => {
                 console.log(r)
                 router.replace("/home")
-                
-                SecureStorage.set('user_session', { 
-                    username: 'hello', 
-                    email: email, 
+                SecureStorage.initializeDefaults()
+                SecureStorage.set('user_session', {
+                    username: 'hello',
+                    email: email,
                     token: r.jwt,
-                    language : 'en',
-                    role:'admin'
+                    role: 'admin'
                 })
             }).catch(e => {
                 setMsgList([...msgList, e.message])
