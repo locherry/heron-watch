@@ -11,6 +11,7 @@ export function ColorBall({ style, accessibilityViewIsModal, active = false, col
     const themeColors = useThemeColor()
     const borderColor = active ? themeColors.gray400 : themeColors.gray200
     return <View style={[style, styles.root]} {...rest}>
+        {/* background disk color */}
         <View style={[
             styles.ball,
             {
@@ -18,9 +19,11 @@ export function ColorBall({ style, accessibilityViewIsModal, active = false, col
                 height: radius,
                 backgroundColor: colors[0],
                 borderRadius: radius,
-                outline: `3px solid ${borderColor}`
+                // outline: `3px solid ${borderColor}`
             }
         ]} />
+
+        {/* foreground half-disk color */}
         <View style={[
             styles.ball,
             {
@@ -33,6 +36,21 @@ export function ColorBall({ style, accessibilityViewIsModal, active = false, col
                 backgroundColor: colors[1],
                 borderBottomEndRadius: radius,
                 borderBottomStartRadius: radius,
+            }
+        ]} />
+        
+        {/* border backgound (with other view elements because "outline" property not supported on android) */}
+        <View style={[
+            styles.ball,
+            {
+                position: 'absolute',
+                inset:0,
+                width: radius,
+                height: radius,
+                backgroundColor: borderColor,
+                borderRadius: radius,
+                transform:"scale(1.15)",
+                zIndex:-1
             }
         ]} />
     </View>

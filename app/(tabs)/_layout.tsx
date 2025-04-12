@@ -1,13 +1,9 @@
 import { Header } from '@/components/Header';
-import RootView from '@/components/RootView';
-import { ThemedText } from '@/components/Themed/ThemedText';
+import {RootView} from '@/components/RootView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { useAuth } from '@/hooks/useAuth';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Redirect, Tabs } from 'expo-router';
-import { View } from 'react-native';
-import { TabList, TabTrigger, TabSlot } from 'expo-router/ui';
 
 export default function TabLayout() {
     const colors = useThemeColor()
@@ -26,7 +22,8 @@ export default function TabLayout() {
                 tabBarInactiveTintColor: colors.gray800,
                 tabBarActiveBackgroundColor: colors.gray100,
                 tabBarStyle: {
-                    backgroundColor: colors.gray900,
+                    // backgroundColor: colors.gray900,
+                    borderColor:colors.gray100,
                 },
                 header: () => <RootView>
                     <Header title={route.name} />

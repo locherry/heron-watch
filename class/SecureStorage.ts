@@ -42,7 +42,9 @@ export class SecureStorage {
         ][];
 
         await Promise.all(
-            entries.map(([key, value]) => this.set(key, value))
+            entries.map(([key, value]) => {
+                this.get(key).then(data => !data? this.set(key, value) : null)
+            })
         );
     }
 

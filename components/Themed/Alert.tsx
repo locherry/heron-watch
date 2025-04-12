@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
     root: {
         padding: 4,
         borderRadius: 4,
-        marginBottom: 8
+        marginBottom: 8,
+        width:'100%'
     },
     discard: {
         alignSelf: "flex-end",

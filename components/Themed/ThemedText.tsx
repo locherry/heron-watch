@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 
 type Props = TextProps & {
     variant?: keyof typeof styles,
-    color?: keyof typeof Colors["light"] & keyof typeof Colors["dark"],
+    color?: string
     align?:'center'|'left'|'right'|'justify'
 }
 
@@ -50,7 +50,7 @@ export function ThemedText({ variant,align, color, style, ...rest }: Props) {
     return <Text style={[
         styles[variant ?? "body"], 
         { 
-            color: colors[color ?? "text"],
+            color: color ?? colors.text,
             textAlign : align??undefined
         }, 
         style]} {...rest}></Text>

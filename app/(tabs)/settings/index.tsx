@@ -1,7 +1,7 @@
 import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/class/SecureStorage';
 import { Card } from '@/components/ui/Card';
 import { Column } from '@/components/ui/Column';
-import RootView from '@/components/RootView';
+import { RootView } from '@/components/RootView';
 import { Row } from '@/components/ui/Row';
 import { SettingsEntry } from '@/components/SettingsEntry';
 import { ThemedText } from '@/components/Themed/ThemedText';
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   settingsContainer: {
-    minWidth:200
+    minWidth: 200
   },
 
   triggerStyle: {

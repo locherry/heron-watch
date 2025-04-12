@@ -1,7 +1,7 @@
 import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/class/SecureStorage';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/Header';
-import RootView from '@/components/RootView';
+import { RootView } from '@/components/RootView';
 import { Row } from '@/components/ui/Row';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';

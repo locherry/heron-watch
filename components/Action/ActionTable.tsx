@@ -19,20 +19,21 @@ type Props = ViewProps & {
 }
 
 export function ActionTable({ style, actions }: Props) {
-    return <View style={[styles.root, style]}>
+    return <View style={[styles.root, { flex: 1 }, style]}>
         <ActionTableHeader />
-        <ScrollView>
-            <FlatList
-                data={actions}
-                renderItem={({ item }) => <ActionTableEntry action={item} />}
-            />
-        </ScrollView>
+        <FlatList
+            data={actions}
+            renderItem={({ item }) => <ActionTableEntry action={item} />}
+            style={{ flex: 1 }}  // Required for web scrolling
+            contentContainerStyle={{ minHeight: '100%' }} // Web-specific fix
+            scrollEnabled={true}
+            nestedScrollEnabled={true} // Enable nested scrolling
+        />
     </View>
-
 }
 
 const styles = StyleSheet.create({
     root: {
-        //     width:"100%"
+        // paddingBlockEnd: 200
     }
 })

@@ -2,20 +2,20 @@ import { useThemeColor } from "@/hooks/color/useThemeColor";
 import { useClosestMedia } from "@/hooks/useClosestMedia";
 import { StatusBar, StyleSheet, View, ViewProps, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemeProvider } from "../context/ThemeContext";
 
 
 type Props = ViewProps & {
     color?: string
 }
-
-export default function RootView({ style, color, ...rest }: Props) {
+export function RootView({ style, color, ...rest }: Props) {
     const colors = useThemeColor()
     const padding = {
-        '2xl' : 400,
-        'xl' : 300,
-        'lg' : 200,
-        'md' : 100,
-        'sm' : 8
+        '2xl': 400,
+        'xl': 300,
+        'lg': 200,
+        'md': 100,
+        'sm': 8
     }
     const media = useClosestMedia() as keyof typeof padding
     const mediaStyles = {

@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/Card';
 import { Column } from '@/components/ui/Column';
 import { Header } from '@/components/Header';
-import RootView from '@/components/RootView';
+import {RootView} from '@/components/RootView';
 import { Alert } from '@/components/Themed/Alert';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { ThemedTextInput } from '@/components/Themed/ThemedTextInput';
@@ -15,24 +15,8 @@ export default function Tab() {
   return (
     <RootView style={styles.container}>
       <Card style={styles.card}>
-        <ScrollView>
-          <Column gap={16}>
             <ThemedText variant='h1'>Tab Admin</ThemedText>
-            <View style={styles.cardItem}>
-              <ThemedText variant='h2'>Alert types :</ThemedText>
-              <FlatList
-                data={alertTypes}
-                renderItem={e => <Alert type={e.item}>This is a {e.item} alert</Alert>} />
-            </View>
-            <View style={styles.cardItem}>
-              <ThemedText variant='h2'>Text variants :</ThemedText>
-              <FlatList
-                data={textVariants}
-                renderItem={e => <ThemedText variant={e.item}>This is a ThemedText component with the variant : {e.item}</ThemedText>} />
-            </View>
-            <ThemedTextInput onChange={() => { }} placeHolder='This is a ThemedTextInput' />
-          </Column>
-        </ScrollView>
+            
       </Card>
     </RootView>
   )

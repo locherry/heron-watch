@@ -1,7 +1,7 @@
 import { Banner } from "@/components/Brand/Banner";
 import { Card } from "@/components/ui/Card";
 import { Column } from "@/components/ui/Column";
-import RootView from "@/components/RootView";
+import {RootView} from "@/components/RootView";
 import { Row } from "@/components/ui/Row";
 import { ThemedText } from "@/components/Themed/ThemedText";
 import { ThemeContext } from "@react-navigation/native";
@@ -9,9 +9,7 @@ import { Link } from "expo-router";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { SecureStorage } from "@/class/SecureStorage";
 
-export default function Index() {
-  SecureStorage.initializeDefaults()
-  
+export default function Index() {  
   return (
     <RootView>
       <Column style={styles.container} gap={24}>

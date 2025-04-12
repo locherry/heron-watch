@@ -1,7 +1,7 @@
 import { SecureStorage } from "@/class/SecureStorage";
 import { Card } from "@/components/ui/Card";
 import { Header } from "@/components/Header";
-import RootView from "@/components/RootView";
+import {RootView} from "@/components/RootView";
 import { Row } from "@/components/ui/Row";
 import { Alert } from "@/components/Themed/Alert";
 import { ThemedText } from "@/components/Themed/ThemedText";
@@ -41,7 +41,6 @@ export default function Login() {
             data.then(r => {
                 console.log(r)
                 router.replace("/home")
-                SecureStorage.initializeDefaults()
                 SecureStorage.set('user_session', {
                     username: 'hello',
                     email: email,
