@@ -1,10 +1,10 @@
 import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
-import { ThemedText } from "./ThemedText";
+import { ThemedText } from "../Themed/ThemedText";
 import { FontAwesome } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { Row } from "../ui/Row";
+import { Row } from "./Row";
 import { Colors } from "@/constants/Colors";
-import { IconSymbol } from "../ui/IconSymbol";
+import { IconSymbol } from "./IconSymbol";
 import { useState } from "react";
 import { IconSymbolName } from "@/constants/Icons";
 
@@ -21,7 +21,7 @@ type Props = ViewProps & {
     type: keyof typeof dict
 }
 
-export function Alert({ style, type, children, ...rest }: Props) {
+export function AlertMessage({ style, type, children, ...rest }: Props) {
     const colors = useThemeColor()
     const [visible, setVisible] = useState(true)
     const textLightStyles = type == 'dark' ? {

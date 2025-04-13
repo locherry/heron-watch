@@ -7,8 +7,15 @@ type API = {
         jwt: string,
         username: string,
         email: string,
-        role: 'admin' | ''
-    }
+        role: 'admin' | 'defaut',
+        id:number,
+    },
+    // '/users/[id]' : {
+    //     username: string,
+    //     email: string,
+    //     role: 'admin' | 'defaut',
+    //     id:number,
+    // }
 }
 
 
@@ -26,7 +33,7 @@ export async function useFetchQuery<K extends keyof API>(
     const response = await fetch(endpoint + path, {
         method: options.method,
         headers: options.headers,
-        body: options.method !== "GET" ? JSON.stringify(options.body) : undefined // If method is get no need to send body
+        body: options.method !== "GET" ? JSON.stringify(options.body) : undefined // If method is "GET" no need to send body
     });
 
     if (!response.ok) throw new Error(`Request failed: ${response.status}`);

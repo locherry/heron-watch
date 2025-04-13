@@ -1,12 +1,11 @@
 import { SecureStorage, SecureStorageData } from '@/class/SecureStorage';
 import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/Header';
 import { RootView } from '@/components/RootView';
 import { Row } from '@/components/ui/Row';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { Select } from '@/components/ui/Select';
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable } from 'react-native';
 import { tintColors } from '@/constants/Colors';
 import { Column } from '@/components/ui/Column';
 import { ColorBall } from '@/components/ColorBall';
@@ -44,13 +43,13 @@ export default function Appearance() {
     const colors = useThemeColor()
 
     const applyThemeToApp = (themeValue: SecureStorageData['preferences']['theme']) => {
-        setThemeSelected(themeValue)
         setTheme(themeValue)
+        setThemeSelected(themeValue)
     }
 
     const applyColorToApp = (tintValue: SecureStorageData['preferences']['colorScheme']) => {
-        setColorSelected(tintValue)
         setTint(tintValue)
+        setColorSelected(tintValue)
     }
 
     return <RootView style={styles.container}>

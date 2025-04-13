@@ -15,15 +15,20 @@ export const tintColors = [
     dark: '#2B552BFF'
   },
   {
+    name: "sunny",
+    light: "#E6CB35FF",
+    dark: '#A5810BFF'
+  },
+  {
     name: "rust",
     light: "#E08459FF",
     dark: '#A1421DFF'
   },
-  {
-    name: "sunny",
-    light: "#F1D11CFF",
-    dark: '#857206FF'
-  },
+  // {
+  //   name: "fire",
+  //   light: "#EE5555FF",
+  //   dark: '#A52222FF'
+  // },
 ] as { name: string, light: string, dark: string }[]
 
 const palette = {

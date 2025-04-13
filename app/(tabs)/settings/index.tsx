@@ -11,11 +11,23 @@ import { Select } from '@/components/ui/Select';
 import { Link, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, Settings, StyleSheet, View } from 'react-native';
+import { Alert } from '@/class/Alert';
 
 export default function Tab() {
   const logout = () => {
-    SecureStorage.remove("user_session")
-    router.push('/login')
+    Alert.alert('Please confirm', 'Do you really want to log out ?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK', onPress: () => {
+          SecureStorage.remove("user_session")
+          router.push('/login')
+        }
+      },
+    ]);
   }
 
   return <RootView>

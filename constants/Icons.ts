@@ -21,16 +21,6 @@ type IconMapping<T extends React.ElementType> = Partial<Record<
 export const MAPPING = {
   // See MaterialIcons here: https://icons.expo.fyi
   // See SF Symbols in the SF Symbols app on Mac or here :  http://github.com/andrewtavis/sf-symbols-online/blob/master/README_dark.md 
-  MaterialIcons: {
-    'paperplane.fill': 'send',
-    'chevron.left.forwardslash.chevron.right': 'code',
-    'chevron.right': 'chevron-right',
-    'chevron.left': 'chevron-left',
-    'tag.fill':'sell',
-    'pencil' : 'edit',
-    'rectangle.portrait.and.arrow.right' : 'logout',
-    'paintpalette' : 'palette'
-  } satisfies IconMapping<typeof MaterialIcons>,
   FontAwesome: {
     'exclamationmark.circle.fill': "exclamation-circle",
     'xmark.circle.fill' : 'times-circle',
@@ -46,6 +36,16 @@ export const MAPPING = {
   FontAwesome6: {
     'rectangle.stack': "cubes-stacked",
   } satisfies IconMapping<typeof FontAwesome6>,
+  MaterialIcons: {
+    // 'paperplane.fill': 'send',
+    'chevron.left.forwardslash.chevron.right': 'code',
+    'chevron.right': 'chevron-right',
+    'chevron.left': 'chevron-left',
+    'tag.fill':'sell',
+    'pencil' : 'edit',
+    'rectangle.portrait.and.arrow.right' : 'logout',
+    'paintpalette' : 'palette'
+  } satisfies IconMapping<typeof MaterialIcons>,
   MaterialCommunityIcons: {
     'house.fill': 'home',
     'house': 'home-outline',

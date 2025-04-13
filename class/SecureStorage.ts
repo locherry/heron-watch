@@ -5,10 +5,10 @@ import { Platform } from 'react-native';
 
 export type SecureStorageData = {
     user_session: {
+        id : number,
         username: string,
         email: string,
-        token: string,
-        // language: "en" | "ba" | "fr",
+        jwt: string,
         role: 'admin' | 'default'
     },
     preferences: {
@@ -21,9 +21,10 @@ export type SecureStorageData = {
 
 export const DefaultSecureStorageData = {
     user_session: {
+        id: 0,
         username: 'username',
         email: 'user.name@mail.com',
-        token: '',
+        jwt: '',
         // language: "en" | "ba" | "fr",
         role: 'default'
     },

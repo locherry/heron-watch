@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { Header } from "@/components/Header";
 import {RootView} from "@/components/RootView";
 import { Row } from "@/components/ui/Row";
-import { Alert } from "@/components/Themed/Alert";
+import { AlertMessage } from "@/components/ui/AlertMessage";
 import { ThemedText } from "@/components/Themed/ThemedText";
 import { ThemedTextInput } from "@/components/Themed/ThemedTextInput";
 import { Config } from "@/constants/Config";
@@ -44,8 +44,9 @@ export default function Login() {
                 SecureStorage.set('user_session', {
                     username: 'hello',
                     email: email,
-                    token: r.jwt,
-                    role: 'admin'
+                    jwt: r.jwt,
+                    role: 'admin',
+                    id: r.id
                 })
             }).catch(e => {
                 setMsgList([...msgList, e.message])
@@ -62,7 +63,7 @@ export default function Login() {
                 <View>
                     <FlatList data={msgList}
                         scrollEnabled={false}
-                        renderItem={(e) => <Alert type="danger">{e.item}</Alert>}
+                        renderItem={(e) => <AlertMessage type="danger">{e.item}</AlertMessage>}
                     />
                 </View>
 

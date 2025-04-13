@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/Card';
 import { Column } from '@/components/ui/Column';
 import { Header } from '@/components/Header';
 import {RootView} from '@/components/RootView';
-import { Alert } from '@/components/Themed/Alert';
+import { Alert } from '@/components/ui/AlertMessage';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { ThemedTextInput } from '@/components/Themed/ThemedTextInput';
 import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
