@@ -23,10 +23,8 @@ export function ThemedTextInput({ style, textContentType, placeHolder, value, on
     if (Platform.OS == "web") {
         useLayoutEffect(() => {
             textInputRef.current.style.setProperty("transition", 'background-color 5000s', "important");
-            // textInputRef.current.style.setProperty("color", colors.text, "important");
-            // textInputRef.current.style.setProperty("-webkit-text-fill-color", colors.text, "important");
-            textInputRef.current.style.setProperty("color", '#fff', "important");
-            textInputRef.current.style.setProperty("-webkit-text-fill-color", '#fff', "important");
+            textInputRef.current.style.setProperty("color", colors.text, "important");
+            textInputRef.current.style.setProperty("-webkit-text-fill-color", colors.text, "important");
         }, []) //Used to disable auto completion background color behaviour on textInput
     }
 

@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/Card';
 import { Column } from '@/components/ui/Column';
 import { Header } from '@/components/Header';
 import {RootView} from '@/components/RootView';
-import { Alert } from '@/components/ui/AlertMessage';
+import { AlertMessage } from '@/components/ui/AlertMessage';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { ThemedTextInput } from '@/components/Themed/ThemedTextInput';
 import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 export default function UX() {
   type T = keyof typeof Colors["light"]
-  const alertTypes = ['danger', 'info', 'warning', 'success', 'light', 'dark'] as React.ComponentProps<typeof Alert>['type'][]
+  const alertTypes = ['danger', 'info', 'warning', 'success', 'light', 'dark'] as React.ComponentProps<typeof AlertMessage>['type'][]
   const textVariants = ['h1', 'h2', 'h3', 'h4', 'subtitle', 'link'] as React.ComponentProps<typeof ThemedText>['variant'][]
 
   const [selected, setSelected] = useState('select an option')
@@ -24,11 +24,11 @@ export default function UX() {
           <Column style={styles.cardItem}>
             <ThemedText variant='h2'>Alert types :</ThemedText>
             {alertTypes.map((alertType) =>
-              <Alert
+              <AlertMessage
                 type={alertType}
                 key={alertType}>
                 This is a {alertType} alert
-              </Alert>
+              </AlertMessage>
             )}
           </Column>
           <View style={styles.cardItem}>
