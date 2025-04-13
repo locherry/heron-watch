@@ -1,7 +1,6 @@
 import { tintColors } from '@/constants/Colors';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
-// import SecureStore from 'expo-secure-store';
 
 export type SecureStorageData = {
     user_session: {
@@ -16,7 +15,6 @@ export type SecureStorageData = {
         colorScheme: typeof tintColors[number]['name']
         language: "en" | "eu" | "fr",
     }
-    // theme_preference: 'light' | 'dark' | 'system';
 }
 
 export const DefaultSecureStorageData = {
@@ -25,7 +23,6 @@ export const DefaultSecureStorageData = {
         username: 'username',
         email: 'user.name@mail.com',
         jwt: '',
-        // language: "en" | "ba" | "fr",
         role: 'default'
     },
     preferences: {

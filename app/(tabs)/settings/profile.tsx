@@ -34,7 +34,7 @@ export default function Profile() {
                         <ThemedText>{userSession.email}</ThemedText>
                     </Row>
                     <Row gap={8}>
-                        <IconSymbol name='person.crop.circle' />
+                        <IconSymbol name='shield' />
                         <ThemedText>{userSession.role} user</ThemedText>
                     </Row>
                 </Card>

@@ -33,7 +33,7 @@ export function IconSymbol({
     );
   }
 
-  const iconLibrary = findIconLibrary(name) ?? 'MaterialIcons' as IconLibraryName
+  const iconLibrary = findIconLibrary(name) ?? Object.keys(IconLibraries)[0] as IconLibraryName
   const IconComponent = IconLibraries[iconLibrary]
   
   // @ts-ignore
