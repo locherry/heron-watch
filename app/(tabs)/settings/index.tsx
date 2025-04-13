@@ -1,4 +1,4 @@
-import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/class/SecureStorage';
+import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
 import { Card } from '@/components/ui/Card';
 import { Column } from '@/components/ui/Column';
 import { RootView } from '@/components/RootView';
@@ -11,7 +11,7 @@ import { Select } from '@/components/ui/Select';
 import { Link, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, Settings, StyleSheet, View } from 'react-native';
-import { Alert } from '@/class/Alert';
+import { Alert } from '@/components/Alert/Alert';
 
 export default function Tab() {
   const logout = () => {

@@ -43,7 +43,7 @@ export default function Home() {
         { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
         { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
         { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-    ] as ActionType[]
+    ] satisfies ActionType[]
 
     type ActionBtn = {
         name: string,
@@ -70,7 +70,7 @@ export default function Home() {
         name: "Transfer to the shop",
         iconName: "arrow.right.arrow.left",
         href: "/home/transfer"
-    },] as ActionBtn[]
+    },] satisfies ActionBtn[]
 
     return <RootView style={styles.container}>
         <Card style={styles.card}>

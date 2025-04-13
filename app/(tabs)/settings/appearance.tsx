@@ -1,4 +1,4 @@
-import { SecureStorage, SecureStorageData } from '@/class/SecureStorage';
+import { SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
 import { Card } from '@/components/ui/Card';
 import { RootView } from '@/components/RootView';
 import { Row } from '@/components/ui/Row';
@@ -12,7 +12,7 @@ import { ColorBall } from '@/components/ColorBall';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { IconSymbolName } from '@/constants/Icons';
 import { Link } from 'expo-router';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function Appearance() {
 

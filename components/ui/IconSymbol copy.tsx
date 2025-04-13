@@ -19,7 +19,6 @@ type Props = ViewProps & {
  *
  * Icon `name`s are based on SFSymbols and require manual mapping to some specific icon librairies (such as Fontawesome and MaterialIcons).
  */
-
 export function IconSymbol({
   name,
   size = 24,
@@ -35,12 +34,7 @@ export function IconSymbol({
 
   const iconLibrary = findIconLibrary(name) ?? 'MaterialIcons' as IconLibraryName
   const IconComponent = IconLibraries[iconLibrary]
-  
-  // @ts-ignore
-  // Yes TS detect it is not compatible, but it works
-  const iconName = MAPPING[iconLibrary][name] as React.ComponentProps<
-    typeof IconLibraries[typeof iconLibrary]
-  >['name']; 
+  const iconName = MAPPING[iconLibrary][name]
 
   //Error Handling
   if (!IconComponent || !iconName) {

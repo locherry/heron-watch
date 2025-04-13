@@ -1,4 +1,4 @@
-import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/class/SecureStorage';
+import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/Header';
 import { RootView } from '@/components/RootView';

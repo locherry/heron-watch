@@ -29,7 +29,7 @@ export const tintColors = [
   //   light: "#EE5555FF",
   //   dark: '#A52222FF'
   // },
-] as { name: string, light: string, dark: string }[]
+] satisfies { name: string, light: string, dark: string }[]
 
 const palette = {
   blue: "#0d6efd",

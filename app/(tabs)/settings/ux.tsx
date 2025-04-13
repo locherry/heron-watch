@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/Card';
 import { Column } from '@/components/ui/Column';
 import { Header } from '@/components/Header';
-import {RootView} from '@/components/RootView';
+import { RootView } from '@/components/RootView';
 import { AlertMessage } from '@/components/ui/AlertMessage';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { ThemedTextInput } from '@/components/Themed/ThemedTextInput';
@@ -16,31 +16,29 @@ export default function UX() {
   const textVariants = ['h1', 'h2', 'h3', 'h4', 'subtitle', 'link'] as React.ComponentProps<typeof ThemedText>['variant'][]
 
   const [selected, setSelected] = useState('select an option')
-  return (
-    <RootView style={styles.container}>
-      <Card style={styles.card}>
-        <Column gap={16}>
-          <ThemedText variant='h1'>UX styles</ThemedText>
-          <Column style={styles.cardItem}>
-            <ThemedText variant='h2'>Alert types :</ThemedText>
-            {alertTypes.map((alertType) =>
-              <AlertMessage
-                type={alertType}
-                key={alertType}>
-                This is a {alertType} alert
-              </AlertMessage>
-            )}
-          </Column>
-          <View style={styles.cardItem}>
-            <ThemedText variant='h2'>Text variants :</ThemedText>
-            {textVariants.map((textVariant) => <ThemedText variant={textVariant} key={textVariant}>This is a ThemedText component with the variant : {textVariant}</ThemedText>)}
-          </View>
-          <ThemedTextInput onChange={() => { }} placeHolder='This is a ThemedTextInput' />
+  return <RootView style={styles.container}>
+    <Card style={styles.card}>
+      <Column gap={16}>
+        <ThemedText variant='h1'>UX styles</ThemedText>
+        <Column style={styles.cardItem}>
+          <ThemedText variant='h2'>Alert types :</ThemedText>
+          {alertTypes.map((alertType) =>
+            <AlertMessage
+              type={alertType}
+              key={alertType}>
+              This is a {alertType} alert
+            </AlertMessage>
+          )}
         </Column>
-        <Select options={[{ label: '1st option', value: "1" }, { label: '2nd option', value: "2" }, { label: '3rd option', value: "3" }]} selectedValue={selected} onSelect={setSelected} />
-      </Card>
-    </RootView>
-  )
+        <View style={styles.cardItem}>
+          <ThemedText variant='h2'>Text variants :</ThemedText>
+          {textVariants.map((textVariant) => <ThemedText variant={textVariant} key={textVariant}>This is a ThemedText component with the variant : {textVariant}</ThemedText>)}
+        </View>
+        <ThemedTextInput onChange={() => { }} placeHolder='This is a ThemedTextInput' />
+      </Column>
+      <Select options={[{ label: '1st option', value: "1" }, { label: '2nd option', value: "2" }, { label: '3rd option', value: "3" }]} selectedValue={selected} onSelect={setSelected} />
+    </Card>
+  </RootView>
 }
 
 const styles = StyleSheet.create({

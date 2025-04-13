@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useColorScheme } from '../hooks/color/useColorScheme';
-import { SecureStorage } from '@/class/SecureStorage';
+import { SecureStorage } from '@/classes/SecureStorage';
 import { tintColors } from '@/constants/Colors';
 
 type ThemeContextType = {

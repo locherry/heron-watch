@@ -1,5 +1,5 @@
 import { RootView } from '@/components/RootView';
-import { ThemeProvider } from '@/context/ThemeContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import { Slot } from 'expo-router';
 import { Stack } from 'expo-router/stack';
  

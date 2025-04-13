@@ -7,7 +7,7 @@ import { ThemedText } from "@/components/Themed/ThemedText";
 import { ThemeContext } from "@react-navigation/native";
 import { Link } from "expo-router";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
-import { SecureStorage } from "@/class/SecureStorage";
+import { SecureStorage } from "@/classes/SecureStorage";
 
 export default function Index() {  
   return (

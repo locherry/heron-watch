@@ -1,4 +1,4 @@
-import { SecureStorage } from "@/class/SecureStorage"
+import { SecureStorage } from "@/classes/SecureStorage"
 
 export function useAuth() {
     return SecureStorage.get('user_session')
