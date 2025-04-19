@@ -1,17 +1,20 @@
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/Header';
-import {RootView} from '@/components/RootView';
+import { RootView } from '@/components/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React from 'react';
+import { SafeAreaView } from 'react-native';
+import { DataTable, TableColumn } from '@/components/ui/DataTable';
 
 export default function Give() {
-  return (
-    <RootView style={styles.container}>
-      <Card style={styles.card}>
-        <ThemedText>Give</ThemedText>
-      </Card>
-    </RootView>
-  );
+
+  return <RootView style={styles.container}>
+    <Card style={styles.card}>
+      <ThemedText variant='h1'>Give</ThemedText>
+    </Card>
+  </RootView>
+
 }
 
 const styles = StyleSheet.create({
@@ -25,6 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     alignItems: 'center',
-    width:"100%"
+    width: "100%"
   }
 });

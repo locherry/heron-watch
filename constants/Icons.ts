@@ -1,5 +1,3 @@
-import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const IconLibraries = {
@@ -23,17 +21,9 @@ type IconMapping<T extends React.ElementType> = Partial<Record<
 // See SF Symbols in the SF Symbols app on Mac or here :  http://github.com/andrewtavis/sf-symbols-online/blob/master/README_dark.md 
 export const MAPPING = {
   /* 
-  /!\ Try to stick with the minimum icon library to be more efficient
+  /!\ Try to stick with the minimum icon libraries to be more efficient
   */
   MaterialCommunityIcons: {
-    // for alerts
-    'exclamationmark.circle.fill': "alert-circle",
-    'xmark.circle.fill': 'close-circle',
-    'info.circle.fill': 'information',
-    'checkmark.circle.fill': 'check-circle',
-    'circle.fill': 'circle',
-    'questionmark.circle': 'help-circle',
-
     // Tabbar Icons
     'house.fill': 'home',
     'house': 'home-outline',
@@ -43,14 +33,14 @@ export const MAPPING = {
     'shield': 'shield-outline',
 
     //settings icons
-    'person.crop.circle': 'account',
+    'person.crop.circle': 'account-outline',
     'envelope': 'email-outline',
     'character.bubble': 'translate',
     'chevron.right': 'chevron-right',
-    'rectangle.portrait.and.arrow.right': 'logout',
-    'paintpalette': 'palette',
-    'moon.fill': 'moon-waning-crescent',
-    'sun.max.fill': 'white-balance-sunny',
+    'rectangle.portrait.and.arrow.right': 'logout-variant',
+    'paintpalette': 'palette-outline',
+    'moon.fill': 'weather-night',
+    'sun.max.fill': 'weather-sunny',
 
     //action icons
     'tag': 'tag-outline',
@@ -61,20 +51,28 @@ export const MAPPING = {
     'pencil': 'pencil',
     'ellipsis': 'dots-horizontal',
 
-    // Miscellaneous
+    //QRcode scanner
     'viewfinder.rectangular': 'qrcode',
+    'flashlight.on.fill' : 'flash',
+    'flashlight.off.fill' : 'flash-off',
+    'viewfinder' : 'scan-helper',
+
+    // for alerts
+    'exclamationmark.circle.fill': "alert-circle",
+    'xmark.circle.fill': 'close-circle',
+    'info.circle.fill': 'information',
+    'checkmark.circle.fill': 'check-circle',
+    'circle.fill': 'circle',
+    'questionmark.circle': 'help-circle',
+
+    // Miscellaneous
     'chevron.left': 'chevron-left',
+    'xmark': 'close',
 
     // 'line.3.horizontal.decrease': 'filter',
     // 'chart.pie': 'chart-pie',
   } satisfies IconMapping<typeof MaterialCommunityIcons>,
   // FontAwesome: {
-  //   // 'exclamationmark.circle.fill': "exclamation-circle",
-  //   // 'xmark.circle.fill' : 'times-circle',
-  //   // 'info.circle.fill' : 'info-circle',
-  //   // 'checkmark.circle.fill' : 'check-circle',    
-  //   // 'circle.fill' : 'circle',
-  //   // 'questionmark.circle' : 'question-circle',
   // } satisfies IconMapping<typeof FontAwesome>,
   // FontAwesome6: {
   //   // 'rectangle.stack': "cubes-stacked",

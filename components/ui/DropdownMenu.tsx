@@ -12,11 +12,9 @@ export const MenuOption = ({
   onSelect: () => void;
   children: ReactNode;
 }) => {
-  return (
-    <TouchableOpacity onPress={onSelect} style={styles.menuOption}>
-      {children}
-    </TouchableOpacity>
-  );
+  return <TouchableOpacity onPress={onSelect} style={styles.menuOption}>
+    {children}
+  </TouchableOpacity>
 };
 
 interface DropdownMenuProps {
@@ -37,7 +35,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   dropdownWidth = 150,
 }) => {
   const triggerRef = useRef<View>(null);
-  const [position, setPosition] = useState({x: 0, y: 0, width: 0});
+  const [position, setPosition] = useState({ x: 0, y: 0, width: 0 });
 
   useEffect(() => {
     if (triggerRef.current && visible) {
@@ -50,38 +48,37 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
       });
     }
   }, [visible]);
+  
   const colors = useThemeColor()
-  return (
-    <View>
-      <TouchableWithoutFeedback onPress={handleOpen}>
-        <View ref={triggerRef}>{trigger}</View>
-      </TouchableWithoutFeedback>
-      {visible && (
-        <Modal
-          transparent={true}
-          visible={visible}
-          animationType="fade"
-          onRequestClose={handleClose}>
-          <TouchableWithoutFeedback onPress={handleClose}>
-            <View style={styles.modalOverlay}>
-              <View
-                style={[
-                  styles.menu,
-                  {
-                    top: position.y,
-                    left: position.x + position.width / 2 - dropdownWidth / 2,
-                    width: dropdownWidth,
-                    backgroundColor:colors.gray200
-                  },
-                ]}>
-                {children}
-              </View>
+  return <View>
+    <TouchableWithoutFeedback onPress={handleOpen}>
+      <View ref={triggerRef}>{trigger}</View>
+    </TouchableWithoutFeedback>
+    {visible && (
+      <Modal
+        transparent={true}
+        visible={visible}
+        animationType="fade"
+        onRequestClose={handleClose}>
+        <TouchableWithoutFeedback onPress={handleClose}>
+          <View style={styles.modalOverlay}>
+            <View
+              style={[
+                styles.menu,
+                {
+                  top: position.y,
+                  left: position.x + position.width / 2 - dropdownWidth / 2,
+                  width: dropdownWidth,
+                  backgroundColor: colors.gray200
+                },
+              ]}>
+              {children}
             </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      )}
-    </View>
-  );
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    )}
+  </View>
 };
 
 const styles = StyleSheet.create({

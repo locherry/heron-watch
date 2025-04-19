@@ -1,13 +1,14 @@
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { CSSProperties } from "react";
+import React, { CSSProperties } from "react";
+import { Trans } from "react-i18next";
 import { StyleSheet, Text, type TextProps } from "react-native";
 
 const styles = StyleSheet.create({
     h1: {
         fontSize: 24,
         lineHeight: 32,
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
     h2: {
         fontSize: 18,
@@ -42,16 +43,65 @@ const styles = StyleSheet.create({
 type Props = TextProps & {
     variant?: keyof typeof styles,
     color?: string
-    align?:'center'|'left'|'right'|'justify'
+    align?: 'center' | 'left' | 'right' | 'justify',
+    capitalizeFirst?: boolean
+    weight?: 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900'
 }
 
-export function ThemedText({ variant,align, color, style, ...rest }: Props) {
+export function ThemedText({ variant, align, color, style, children, capitalizeFirst, weight, ...rest }: Props) {
     const colors = useThemeColor();
+    const isHeading = variant?.startsWith('h');
+
+    const capitalizeFirstLetter = () => {
+        if (!children) {
+            return children
+        } else if (typeof children == 'string') {
+            let string = children as string
+            if (string.length > 0) {
+                string = string[0].toUpperCase() + string.slice(1)
+                return string
+            }
+        } else if (
+            // check if typeof children = string[] 
+            typeof children == 'object' &&
+            children !== null &&
+            Array.isArray(children) &&
+            '0' in children &&
+            typeof children[0] == 'string'
+        ) {
+            let string = children[0] as string
+            if (string.length > 0) {
+                string = string[0].toUpperCase() + string.slice(1)
+                // return string
+            }
+            return [string, ...children.slice(1)]
+        } else if (React.isValidElement(children)) {
+            const childProps = children.props as { children: any }
+            if (childProps && typeof childProps.children === 'string') {
+                let string = childProps.children;
+                if (string.length > 0) {
+                    string = string[0].toUpperCase() + string.slice(1);
+                }
+                return React.cloneElement(children, childProps, string);
+            }
+        }
+        return children
+    }
+    const renderText = () => {
+        if (isHeading || capitalizeFirst) {
+            return capitalizeFirstLetter()
+        }
+        return children;
+    };
     return <Text style={[
-        styles[variant ?? "body"], 
-        { 
+        styles[variant ?? "body"],
+        {
             color: color ?? colors.text,
-            textAlign : align??undefined
-        }, 
-        style]} {...rest}></Text>
+            textAlign: align ?? undefined,
+            fontWeight: weight ?? undefined
+        },
+        style
+    ]} {...rest}>
+        {renderText()}
+    </Text>
 }

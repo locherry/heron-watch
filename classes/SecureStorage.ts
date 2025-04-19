@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 
 export type SecureStorageData = {
     user_session: {
-        id : number,
+        id: number,
         username: string,
         email: string,
         jwt: string,
@@ -13,7 +13,7 @@ export type SecureStorageData = {
     preferences: {
         theme: 'light' | 'dark' | 'system',
         colorScheme: typeof tintColors[number]['name']
-        language: "en" | "eu" | "fr",
+        language: "EN" | "EU" | "FR",
     }
 }
 
@@ -28,7 +28,7 @@ export const DefaultSecureStorageData = {
     preferences: {
         theme: 'system',
         colorScheme: tintColors[0]['name'],
-        language: "en",
+        language: "EN",
     }
 } satisfies SecureStorageData
 
@@ -41,7 +41,7 @@ export class SecureStorage {
 
         await Promise.all(
             entries.map(([key, value]) => {
-                this.get(key).then(data => !data? this.set(key, value) : null)
+                this.get(key).then(data => !data ? this.set(key, value) : null)
             })
         );
     }
@@ -68,8 +68,10 @@ export class SecureStorage {
         let value = null
         try {
             if (Platform.OS === 'web') {
-                const res = await sessionStorage.getItem(key)
-                value = res != null ? JSON.parse(res) : res
+                if (sessionStorage) {
+                    const res = await sessionStorage.getItem(key)
+                    value = res != null ? JSON.parse(res) : res
+                }
             } else {
                 value = await SecureStore.getItemAsync(key).then(res => res != null ? JSON.parse(res) : null)
             }

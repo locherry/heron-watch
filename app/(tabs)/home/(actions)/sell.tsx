@@ -1,19 +1,25 @@
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/Header';
-import { QRScanner } from '@/components/QRScanner';
-import {RootView} from '@/components/RootView';
+import { RootView } from '@/components/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Alert } from '@/components/Alert/Alert';
+import { QRScannerButton } from '@/components/ui/Button/QRScannerButton';
 
 export default function Sell() {
-  return (
-    <RootView style={styles.container}>
-      <Card style={styles.card}>
-        <ThemedText>Sell items</ThemedText>
-        <QRScanner onPress={()=>{}}/>
-      </Card>
-    </RootView>
-  );
+  const { t } = useTranslation()
+  return <RootView style={styles.container}>
+    <Card style={styles.card}>
+      <ThemedText variant='h2'>{t('sell')}</ThemedText>
+      {/* <QRScanner /> */}
+
+      <QRScannerButton onQRDetect={(qrData) => {
+        // Handle the QR code data here
+        Alert.alert('QR Detected: ', qrData);
+      }} />
+    </Card>
+  </RootView>
 }
 
 const styles = StyleSheet.create({
@@ -27,6 +33,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     alignItems: 'center',
-    width:"100%"
+    width: "100%"
   }
 });

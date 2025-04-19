@@ -1,17 +1,15 @@
 import { Card } from '@/components/ui/Card';
 import { Header } from '@/components/Header';
-import {RootView} from '@/components/RootView';
+import { RootView } from '@/components/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { View, Text, StyleSheet } from 'react-native';
 
 export default function Stock() {
-  return (
-    <RootView style={styles.container}>
-      <Card style={styles.card}>
-        <ThemedText>Stock</ThemedText>
-      </Card>
-    </RootView>
-  );
+  return <RootView style={styles.container}>
+    <Card style={styles.card}>
+      <ThemedText>Stock</ThemedText>
+    </Card>
+  </RootView>
 }
 
 const styles = StyleSheet.create({
@@ -25,6 +23,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     alignItems: 'center',
-    width:"100%"
+    width: "100%"
   }
 });

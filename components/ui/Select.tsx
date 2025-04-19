@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { IconSymbol } from './IconSymbol';
 import { Row } from './Row';
+import { ThemedText } from '../Themed/ThemedText';
 
 type Option<T> = {
     label: string;
@@ -25,8 +26,8 @@ export const Select = <T extends string | number>({
     placeholder = "Select an option"
 }: SelectProps<T>) => {
     const placeholderOption = {
-        label : placeholder,
-        value : 'placeholder',
+        label: placeholder,
+        value: 'placeholder',
         iconName: undefined
     }
     const colors = useThemeColor()
@@ -60,42 +61,40 @@ export const Select = <T extends string | number>({
 
     })
 
-    return (
-        <View style={styles.container}>
-            <TouchableOpacity
-                style={styles.trigger}
-                onPress={() => setIsOpen(!isOpen)}
-            >
-                <Row gap={8}>
-                    {selectedOption.iconName ? <IconSymbol name={selectedOption.iconName} /> : null}
-                    <Text style={styles.triggerText}>{selectedOption.label}</Text>
-                </Row>
-            </TouchableOpacity>
+    return <View style={styles.container}>
+        <TouchableOpacity
+            style={styles.trigger}
+            onPress={() => setIsOpen(!isOpen)}
+        >
+            <Row gap={8}>
+                {selectedOption.iconName ? <IconSymbol name={selectedOption.iconName} /> : null}
+                <ThemedText capitalizeFirst style={styles.triggerText}>{selectedOption.label}</ThemedText>
+            </Row>
+        </TouchableOpacity>
 
-            {isOpen && (
-                <View style={styles.optionsContainer}>
-                    <FlatList
-                        data={options}
-                        keyExtractor={(item) => item.value.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                style={[
-                                    styles.option,
-                                    selectedValue === item.value && styles.selectedOption
-                                ]}
-                                onPress={() => handleSelect(item.value)}
-                            >
-                                <Row gap={8}>
-                                    {item.iconName ? <IconSymbol name={item.iconName} /> : null}
-                                    <Text style={styles.optionText}>{item.label}</Text>
-                                </Row>
-                            </TouchableOpacity>
-                        )}
-                    />
-                </View>
-            )}
-        </View>
-    );
+        {isOpen && (
+            <View style={styles.optionsContainer}>
+                <FlatList
+                    data={options}
+                    keyExtractor={(item) => item.value.toString()}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            style={[
+                                styles.option,
+                                selectedValue === item.value && styles.selectedOption
+                            ]}
+                            onPress={() => handleSelect(item.value)}
+                        >
+                            <Row gap={8}>
+                                {item.iconName ? <IconSymbol name={item.iconName} /> : null}
+                                <ThemedText capitalizeFirst style={styles.optionText}>{item.label}</ThemedText >
+                            </Row>
+                        </TouchableOpacity>
+                    )}
+                />
+            </View>
+        )}
+    </View>
 };
 
 const constantStyles = StyleSheet.create({

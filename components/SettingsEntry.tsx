@@ -16,7 +16,7 @@ export function SettingsEntry({ style, iconName, href, text, onPress, ...rest }:
     let content = <Row style={[style, styles.root]} gap={16}>
         <IconSymbol name={iconName} />
         <View style={styles.content}>
-            {text ? <ThemedText>{text}</ThemedText> : <View {...rest} />}
+            {text ? <ThemedText capitalizeFirst>{text}</ThemedText> : <View {...rest} />}
         </View>
 
         <IconSymbol name='chevron.right' />

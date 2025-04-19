@@ -1,6 +1,6 @@
 export const tintColors = [
   {
-    name: "framboise",
+    name: "raspberry",
     light: "#FFB7E7FF",
     dark: '#680647FF'
   },
@@ -10,7 +10,7 @@ export const tintColors = [
     dark: '#054053FF'
   },
   {
-    name: "sauge",
+    name: "sage",
     light: "#99CE97FF",
     dark: '#2B552BFF'
   },
