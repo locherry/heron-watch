@@ -1,7 +1,7 @@
 import { SecureStorage } from "@/classes/SecureStorage";
 import { Card } from "@/components/ui/Card";
 import { Header } from "@/components/Header";
-import {RootView} from "@/components/RootView";
+import { RootView } from "@/components/RootView";
 import { Row } from "@/components/ui/Row";
 import { AlertMessage } from "@/components/ui/AlertMessage";
 import { ThemedText } from "@/components/Themed/ThemedText";
@@ -42,11 +42,14 @@ export default function Login() {
                 console.log(r)
                 router.replace("/home")
                 SecureStorage.set('user_session', {
-                    username: 'hello',
-                    email: email,
+                    id: r.user_info.id,
+                    username: r.user_info.role,
+                    firstName: r.user_info.first_name,
+                    lastName: r.user_info.last_name,
+                    email: r.user_info.email, 
+
                     jwt: r.jwt,
-                    role: 'admin',
-                    id: r.id
+                    role: r.user_info.role,
                 })
             }).catch(e => {
                 setMsgList([...msgList, e.message])

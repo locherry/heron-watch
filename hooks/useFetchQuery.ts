@@ -2,13 +2,25 @@ import { Config } from "@/constants/Config"
 
 
 type API = {
+    // '/login': {
+    //     message: string,
+    //     jwt: string,
+    //     username: string,
+    //     email: string,
+    //     role: 'admin' | 'defaut',
+    //     id:number,
+    // },
     '/login': {
         message: string,
         jwt: string,
-        username: string,
-        email: string,
-        role: 'admin' | 'defaut',
-        id:number,
+        user_info: {
+            id: number,
+            first_name : string,
+            last_name:string
+            username: string,
+            email: string,
+            role: 'admin' | 'default',
+        }
     },
     // '/users/[id]' : {
     //     username: string,

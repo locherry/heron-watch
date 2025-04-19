@@ -52,12 +52,12 @@ export default function Home() {
     ] satisfies ActionType[]
 
     const columns: TableColumn<ActionType>[] = [
+        { key: 'name', header: t('action') },
         {
             key: 'quantity',
             header: '#',
             //   renderCell: (item: ActionType) => <Text style={{ color: colors.info }}>{item.quantity}</Text>
         },
-        { key: 'name', header: t('action') },
         { key: 'productName', header: t('product') },
         {
             key: 'date',

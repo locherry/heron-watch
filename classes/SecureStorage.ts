@@ -6,6 +6,8 @@ export type SecureStorageData = {
     user_session: {
         id: number,
         username: string,
+        firstName: string,
+        lastName: string,
         email: string,
         jwt: string,
         role: 'admin' | 'default'
@@ -21,6 +23,8 @@ export const DefaultSecureStorageData = {
     user_session: {
         id: 0,
         username: 'username',
+        firstName: 'user',
+        lastName: 'name',
         email: 'user.name@mail.com',
         jwt: '',
         role: 'default'
