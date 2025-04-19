@@ -1,53 +1,54 @@
 import { Banner } from "@/components/Brand/Banner";
 import { Card } from "@/components/ui/Card";
 import { Column } from "@/components/ui/Column";
-import {RootView} from "@/components/RootView";
+import { RootView } from "@/components/RootView";
 import { Row } from "@/components/ui/Row";
 import { ThemedText } from "@/components/Themed/ThemedText";
-import { ThemeContext } from "@react-navigation/native";
 import { Link } from "expo-router";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
-import { SecureStorage } from "@/classes/SecureStorage";
+// import { Trans, useTranslation } from "react-i18next";
 
-export default function Index() {  
-  return (
-    <RootView>
-      <Column style={styles.container} gap={24}>
-        <Banner />
-        <Card style={styles.card}>
-          <ThemedText variant="h2">Welcome to Heron !</ThemedText>
+export default function Index() {
+  // const { t, i18n } = useTranslation();
+  return <RootView>
+    <Column style={styles.container} gap={24}>
+      <Banner />
+      <Card style={styles.card}>
+        <ThemedText variant="h2">Welcome to Heron !</ThemedText>
+        <ThemedText variant="h2">
+          {/* <Trans>Welcome to <strong>Heron</strong></Trans> */}
+        </ThemedText>
 
-          <Row gap={32}>
-            <Column>
-              <ThemedText>Follow right where you left :</ThemedText>
-              <Link style={styles.btn} href='/login' asChild>
-                <Button title="login"></Button>
-              </Link>
-            </Column>
+        <Row gap={32}>
+          <Column>
+            <ThemedText>Follow right where you left :</ThemedText>
+            <Link style={styles.btn} href='/login' asChild>
+              <Button title="login"></Button>
+            </Link>
+          </Column>
 
-            <Column>
-              <ThemedText>New to Heron ?</ThemedText>
-              <Link style={styles.btn} href='/login' asChild>
-                <Button title="Let's make a tour"></Button>
-              </Link>
-            </Column>
-          </Row>
-          <ThemedText>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur perspiciatis similique earum nobis omnis consectetur maxime accusamus vel quisquam, nesciunt alias commodi, quae molestiae necessitatibus laudantium autem voluptatem atque suscipit!</ThemedText>
-          <ThemedText>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur perspiciatis similique earum nobis omnis consectetur maxime accusamus vel quisquam, nesciunt alias commodi, quae molestiae necessitatibus laudantium autem voluptatem atque suscipit!</ThemedText>
+          <Column>
+            <ThemedText>New to Heron ?</ThemedText>
+            <Link style={styles.btn} href='/login' asChild>
+              <Button title="Let's make a tour"></Button>
+            </Link>
+          </Column>
+        </Row>
+        <ThemedText>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur perspiciatis similique earum nobis omnis consectetur maxime accusamus vel quisquam, nesciunt alias commodi, quae molestiae necessitatibus laudantium autem voluptatem atque suscipit!</ThemedText>
+        <ThemedText>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur perspiciatis similique earum nobis omnis consectetur maxime accusamus vel quisquam, nesciunt alias commodi, quae molestiae necessitatibus laudantium autem voluptatem atque suscipit!</ThemedText>
 
-          <ThemedText>Made with ❤️ by Ellande & Aloys || All rights reserved</ThemedText>
+        <ThemedText>Made with ❤️ by Ellande & Aloys || All rights reserved</ThemedText>
 
-        </Card>
-      </Column>
+      </Card>
+    </Column>
 
-      <View style={styles.cattail}>
-        <Image
-          source={require('@/assets/images/Cattail_flowers_Silouhette.svg')}
-          style={styles.cattail}
-        />
-      </View>
-    </RootView>
-  );
+    <View style={styles.cattail}>
+      <Image
+        source={require('@/assets/images/Cattail_flowers_Silouhette.svg')}
+        style={styles.cattail}
+      />
+    </View>
+  </RootView>
 }
 
 const styles = StyleSheet.create({
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
   },
   cattail: {
     position: 'absolute',
+    zIndex:-1,
     // backgroundColor: 'red',
     // backgroundSize: '100%',
     // backgroundPosition:'cover',

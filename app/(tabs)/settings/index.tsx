@@ -12,18 +12,21 @@ import { Link, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, Settings, StyleSheet, View } from 'react-native';
 import { Alert } from '@/components/Alert/Alert';
+import { useTranslation } from 'react-i18next';
 
 export default function Tab() {
+  const {t} = useTranslation()
   const logout = () => {
-    Alert.alert('Please confirm', 'Do you really want to log out ?', [
+    Alert.alert(t('Please confirm'), t('Do you really want to log out ?'), [
       {
-        text: 'Cancel',
+        text: t('cancel'),
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       {
-        text: 'OK', onPress: () => {
+        text: t('OK'), onPress: () => {
           SecureStorage.remove("user_session")
+          SecureStorage.remove("preferences")
           router.push('/login')
         }
       },
@@ -32,27 +35,27 @@ export default function Tab() {
 
   return <RootView>
     <Card style={styles.card}>
-      <ThemedText variant='h1'>Settings</ThemedText>
+      <ThemedText variant='h1'>{t("tabBar.settings")}</ThemedText>
       <Column gap={16} style={styles.settingsContainer}>
         <SettingsEntry
           iconName="person.crop.circle"
           href="/settings/profile"
-          text="Profile"
+          text={t("settings.profile.name")}
         />
         <SettingsEntry
           iconName="character.bubble"
-          text="Language options"
           href='/settings/language'
+          text={t("settings.language.name")}
         />
         <SettingsEntry
           iconName="paintpalette"
-          text="Appearance"
           href='/settings/appearance'
+          text={t("settings.appearance.name")}
         />
         <SettingsEntry
           iconName="rectangle.portrait.and.arrow.right"
           onPress={logout}
-          text="Logout"
+          text={t("logout")}
         />
       </Column>
     </Card>

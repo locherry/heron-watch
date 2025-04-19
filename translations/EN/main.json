@@ -1,0 +1,54 @@
+{
+    "tabBar": {
+        "home": "home",
+        "admin": "admin",
+        "settings": "settings"
+    },
+    "settings": {
+        "profile": {
+            "name": "profile",
+            "userInfo": "user info",
+            "deleteUser": "delete user",
+            "userRole": {
+                "admin": "admin user",
+                "default": "default user"
+            }
+        },
+        "language": {
+            "appLanguage": "app Language",
+            "name": "language"
+        },
+        "appearance": {
+            "name": "appearance",
+            "tintColor": "tint color",
+            "theme": "theme",
+            "lightTheme": "light theme",
+            "darkTheme": "dark theme",
+            "systemDefault": "system default"
+        }
+    },
+    "color": {
+        "raspberry": "raspberry",
+        "ocean": "ocean",
+        "sage": "sage",
+        "sunny": "sunny",
+        "rust": "rust"
+    },
+    "Please confirm": "Please confirm",
+    "Do you really want to log out ?" : "Do you really want to log out?",
+    "Scan Qr code" : "Scan Qr code",
+    "cancel" : "cancel",
+    "OK":"OK",
+    "sell" : "sell",
+    "stock" : "stock",
+    "give" : "give",
+    "discard" : "discard",
+    "transfer to the shop" : "transfer to the shop",
+    "history" : "history",
+    "welcome home !" : "welcome home !",
+    "action" : "action",
+    "date" : "date",
+    "user": "user",
+    "product": "product",
+    "logout" : "logout"
+}

@@ -8,6 +8,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
+import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
     const colors = useThemeColor()
@@ -19,34 +20,36 @@ export default function Profile() {
         SecureStorage.get("user_session")
             .then((session) => session && setuserSession(session))
     }, [])
-    return (
-        <RootView style={styles.container}>
-            <Card style={styles.card}>
-                <ThemedText variant='h1'>Profile</ThemedText>
-                <Card backgroundColor={colors.gray100} style={styles.profileItem}>
-                    <ThemedText variant='h2' align='center'>User Info</ThemedText>
-                    <Row gap={8}>
-                        <IconSymbol name='person.crop.circle' />
-                        <ThemedText>{userSession.username}</ThemedText>
-                    </Row>
-                    <Row gap={8}>
-                        <IconSymbol name='envelope' />
-                        <ThemedText>{userSession.email}</ThemedText>
-                    </Row>
-                    <Row gap={8}>
-                        <IconSymbol name='shield' />
-                        <ThemedText>{userSession.role} user</ThemedText>
-                    </Row>
-                </Card>
-                <Card backgroundColor={colors.gray100} style={styles.profileItem}>
-                    <Row gap={8}>
-                        <IconSymbol name='trash' />
-                        <ThemedText>Delete User</ThemedText>
-                    </Row>
-                </Card>
+    const { t } = useTranslation()
+    return <RootView style={styles.container}>
+        <Card style={styles.card}>
+            <ThemedText variant='h1'>{t("settings.profile.name")}</ThemedText>
+            <Card backgroundColor={colors.gray100} style={styles.profileItem}>
+                <ThemedText variant='h2' align='center'>{t('settings.profile.userInfo')}</ThemedText>
+                <Row gap={8}>
+                    <IconSymbol name='person.crop.circle' />
+                    <ThemedText>{userSession.username}</ThemedText>
+                </Row>
+                <Row gap={8}>
+                    <IconSymbol name='envelope' />
+                    <ThemedText>{userSession.email}</ThemedText>
+                </Row>
+                <Row gap={8}>
+                    <IconSymbol name='shield' />
+                    <ThemedText>
+                        {t(`settings.profile.userRole.${userSession.role}`, {
+                            defaultValue: userSession.role // Shows raw role if no translation
+                        })}</ThemedText>
+                </Row>
             </Card>
-        </RootView>
-    );
+            <Card backgroundColor={colors.gray100} style={styles.profileItem}>
+                <Row gap={8}>
+                    <IconSymbol name='trash' />
+                    <ThemedText>Delete User</ThemedText>
+                </Row>
+            </Card>
+        </Card>
+    </RootView>
 }
 
 const styles = StyleSheet.create({

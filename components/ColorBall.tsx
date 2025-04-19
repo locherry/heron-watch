@@ -9,7 +9,7 @@ type Props = ViewProps & {
 
 export function ColorBall({ style, accessibilityViewIsModal, active = false, colors, radius = 40, ...rest }: Props) {
     const themeColors = useThemeColor()
-    const borderColor = active ? themeColors.gray400 : themeColors.gray200
+    const borderColor = active ? themeColors.gray500 : themeColors.gray200
     return <View style={[style, styles.root]} {...rest}>
         {/* background disk color */}
         <View style={[

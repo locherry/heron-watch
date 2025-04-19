@@ -1,0 +1,55 @@
+{
+  "tabBar": {
+    "home": "accueil",
+    "admin": "admin",
+    "settings": "paramètres"
+  },
+  "settings": {
+    "profile": {
+      "name": "profil",
+      "userInfo": "information utilisateur",
+      "delete user": "supprimer l'utilisateur",
+      "userRole": {
+        "admin": "utilisateur administrateur",
+        "default": "utilisateur par défaut"
+      },
+      "deleteUser": "supprimer l'utilisateur"
+    },
+    "language": {
+      "name": "langage",
+      "appLanguage": "langue de l'application"
+    },
+    "appearance": {
+      "name": "apparence",
+      "lightTheme": "thème clair",
+      "darkTheme": "thème sombre",
+      "systemDefault": "thème système",
+      "tintColor": "couleur de la teinte",
+      "theme": "thème"
+    }
+  },
+  "Please confirm": "Veuillez confirmer",
+  "Do you really want to log out ?": "Voulez-vous vraiment vous déconnecter ?",
+  "color": {
+    "ocean": "océan",
+    "sage": "sauge",
+    "sunny": "ensoleillé",
+    "rust": "rouille",
+    "raspberry": "framboise"
+  },
+  "cancel": "annuler",
+  "OK": "OK",
+  "sell": "vendre",
+  "stock": "stocker",
+  "give": "donner",
+  "discard": "écarter",
+  "transfer to the shop": "transférer au magasin",
+  "history": "historique",
+  "welcome home !": "bienvenue à la maison !",
+  "action": "action",
+  "date": "date",
+  "user": "utilisateur",
+  "product": "produit",
+  "Scan Qr code": "Scanner le code Qr",
+  "logout": "déconnexion"
+}

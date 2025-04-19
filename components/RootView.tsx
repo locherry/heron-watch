@@ -2,7 +2,6 @@ import { useThemeColor } from "@/hooks/color/useThemeColor";
 import { useClosestMedia } from "@/hooks/useClosestMedia";
 import { StatusBar, StyleSheet, View, ViewProps, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ThemeProvider } from "../context/ThemeContext";
 
 
 type Props = ViewProps & {

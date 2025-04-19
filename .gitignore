@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+# Local Scripts
+scripts/
+
 # VScode
 .vscode/
 

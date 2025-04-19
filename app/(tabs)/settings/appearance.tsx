@@ -13,15 +13,17 @@ import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { IconSymbolName } from '@/constants/Icons';
 import { Link } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 export default function Appearance() {
 
-    const {setTheme, setTint} = useTheme()
+    const { t } = useTranslation()
+    const { setTheme, setTint } = useTheme()
 
     const THEMES = [
-        { label: 'System default', value: 'system', iconName: 'gearshape' },
-        { label: 'Light theme', value: 'light', iconName: 'sun.max.fill' },
-        { label: 'Dark theme', value: 'dark', iconName: 'moon.fill' },
+        { label: t('settings.appearance.systemDefault'), value: 'system', iconName: 'gearshape' },
+        { label: t('settings.appearance.lightTheme'), value: 'light', iconName: 'sun.max.fill' },
+        { label: t('settings.appearance.darkTheme'), value: 'dark', iconName: 'moon.fill' },
     ] satisfies {
         label: string,
         value: SecureStorageData['preferences']['theme'],
@@ -38,26 +40,26 @@ export default function Appearance() {
                 setColorSelected(prefs?.colorScheme ?? tintColors[0]["name"])
             }
         )
-    }, [themeSelected, colorSelected])
+    }, [])
 
     const colors = useThemeColor()
 
     const applyThemeToApp = (themeValue: SecureStorageData['preferences']['theme']) => {
-        setTheme(themeValue)
         setThemeSelected(themeValue)
+        setTheme(themeValue)
     }
 
     const applyColorToApp = (tintValue: SecureStorageData['preferences']['colorScheme']) => {
-        setTint(tintValue)
         setColorSelected(tintValue)
+        setTint(tintValue)
     }
 
     return <RootView style={styles.container}>
         <Card style={styles.card}>
-            <ThemedText variant='h2'>Appearance</ThemedText>
+            <ThemedText variant='h1'>{t('settings.appearance.name')}</ThemedText>
             <Column gap={16}>
                 <Card backgroundColor={colors.gray100} style={styles.appearanceItem}>
-                    <ThemedText variant='h3'>Tint Color</ThemedText>
+                    <ThemedText variant='h2'>{t('settings.appearance.tintColor')}</ThemedText>
                     <Row gap={16}>
                         {tintColors.map((color) =>
                             <Pressable onPress={() => applyColorToApp(color.name)} key={color.name}>
@@ -65,18 +67,18 @@ export default function Appearance() {
                                     <ColorBall
                                         colors={[color.dark, color.light]}
                                         active={colorSelected == color.name} />
-                                    <ThemedText>{color.name}</ThemedText>
+                                    <ThemedText>{t(`color.${color.name}`)}</ThemedText>
                                 </Column>
                             </Pressable>)}
                     </Row>
                 </Card>
                 <Card backgroundColor={colors.gray100} style={[styles.appearanceItem, { overflow: 'visible' }]}>
-                    <ThemedText variant='h3'>Theme</ThemedText>
+                    <ThemedText variant='h2'>{t('settings.appearance.theme')}</ThemedText>
                     <Select options={THEMES} selectedValue={themeSelected}
                         onSelect={applyThemeToApp} />
                 </Card>
                 <Card backgroundColor={colors.gray100} style={[styles.appearanceItem, { zIndex: -1 }]}>
-                    <ThemedText variant='h3'>UX</ThemedText>
+                    <ThemedText variant='h2'>UX</ThemedText>
                     <Link href='/settings/ux'>
                         <ThemedText variant='link'>View UX components</ThemedText>
                     </Link>
