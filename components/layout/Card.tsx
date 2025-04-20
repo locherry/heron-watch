@@ -1,6 +1,5 @@
-import { Shadows } from "@/constants/Shadows";
 import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { StyleSheet, View, type ViewProps, type ViewStyle } from "react-native";
+import { View, type ViewProps, type ViewStyle } from "react-native";
 
 type Props = ViewProps & {
     backgroundColor? : string
@@ -18,6 +17,5 @@ export function Card({ style, backgroundColor, ...rest }: Props) {
 const styles = {
     borderRadius: 8,
     overflow: "hidden",
-    ...Shadows.dp2,
 
 } satisfies ViewStyle

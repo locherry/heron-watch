@@ -1,8 +1,7 @@
-import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/Header';
-import { RootView } from '@/components/RootView';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { View, Text, StyleSheet } from 'react-native';
+import { Card } from '@/components/layout/Card';
+import { StyleSheet } from 'react-native';
 
 export default function Transfer() {
   return <RootView style={styles.container}>

@@ -1,10 +1,10 @@
 import { SecureStorage } from '@/classes/SecureStorage';
 import { Alert } from '@/components/Alert/Alert';
-import { RootView } from '@/components/RootView';
 import { SettingsEntry } from '@/components/SettingsEntry';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { Card } from '@/components/ui/Card';
-import { Column } from '@/components/ui/Column';
+import { Card } from '@/components/layout/Card';
+import { Column } from '@/components/layout/Column';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';

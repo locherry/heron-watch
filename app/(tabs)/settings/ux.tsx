@@ -1,14 +1,13 @@
-import { Card } from '@/components/ui/Card';
-import { Column } from '@/components/ui/Column';
-import { Header } from '@/components/Header';
-import { RootView } from '@/components/RootView';
-import { AlertMessage } from '@/components/ui/AlertMessage';
+import { Card } from '@/components/layout/Card';
+import { Column } from '@/components/layout/Column';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { ThemedTextInput } from '@/components/Themed/ThemedTextInput';
-import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { AlertMessage } from '@/components/ui/AlertMessage';
 import { Select } from '@/components/ui/Select';
 import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function UX() {
   type T = keyof typeof Colors["light"]

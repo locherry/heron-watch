@@ -1,7 +1,7 @@
 import { SecureStorage } from '@/classes/SecureStorage';
-import { Header } from '@/components/Header';
-import { RootView } from '@/components/RootView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Header } from '@/components/layout/Header';
+import { RootView } from '@/components/Themed/RootView';
+import { IconSymbol } from '@/components/ui/Icon/IconSymbol';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { useAuth } from '@/hooks/useAuth';
 import { Tabs } from 'expo-router';

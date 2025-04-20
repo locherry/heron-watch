@@ -1,19 +1,19 @@
 import { SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
-import { Card } from '@/components/ui/Card';
-import { RootView } from '@/components/RootView';
-import { Row } from '@/components/ui/Row';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
+import { Card } from '@/components/layout/Card';
+import { Column } from '@/components/layout/Column';
+import { Row } from '@/components/layout/Row';
+import { ColorBall } from '@/components/ui/ColorBall';
 import { Select } from '@/components/ui/Select';
-import { useEffect, useState } from 'react';
-import { StyleSheet, Pressable } from 'react-native';
 import { tintColors } from '@/constants/Colors';
-import { Column } from '@/components/ui/Column';
-import { ColorBall } from '@/components/ColorBall';
-import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { IconSymbolName } from '@/constants/Icons';
-import { Link } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useThemeColor } from '@/hooks/color/useThemeColor';
+import { Link } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Pressable, StyleSheet } from 'react-native';
 
 export default function Appearance() {
 

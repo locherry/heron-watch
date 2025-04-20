@@ -1,10 +1,10 @@
-import { IconSymbolName } from "@/constants/Icons";
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle, type ViewProps } from "react-native";
-import { IconSymbol } from "../IconSymbol";
 import { ThemedText } from "@/components/Themed/ThemedText";
+import { IconSymbolName } from "@/constants/Icons";
 import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { Row } from "../Row";
-import { Column } from "../Column";
+import { Pressable, StyleProp, StyleSheet, ViewStyle, type ViewProps } from "react-native";
+import { Column } from "../../layout/Column";
+import { Row } from "../../layout/Row";
+import { IconSymbol } from "../Icon/IconSymbol";
 
 const variantType = ['default', 'primary', 'danger']
 

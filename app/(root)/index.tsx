@@ -1,11 +1,11 @@
 import { Banner } from "@/components/Brand/Banner";
-import { Card } from "@/components/ui/Card";
-import { Column } from "@/components/ui/Column";
-import { RootView } from "@/components/RootView";
-import { Row } from "@/components/ui/Row";
+import { RootView } from "@/components/Themed/RootView";
 import { ThemedText } from "@/components/Themed/ThemedText";
+import { Card } from "@/components/layout/Card";
+import { Column } from "@/components/layout/Column";
+import { Row } from "@/components/layout/Row";
 import { Link } from "expo-router";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, View } from "react-native";
 // import { Trans, useTranslation } from "react-i18next";
 
 export default function Index() {

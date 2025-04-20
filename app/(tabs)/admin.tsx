@@ -1,7 +1,7 @@
-import { Card } from '@/components/ui/Card';
-import { RootView } from '@/components/RootView';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { StyleSheet } from 'react-native'
+import { Card } from '@/components/layout/Card';
+import { StyleSheet } from 'react-native';
 
 export default function Tab() {
   return <RootView style={styles.container}>

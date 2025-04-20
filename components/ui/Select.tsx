@@ -1,10 +1,10 @@
 import { IconSymbolName } from '@/constants/Icons';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import { IconSymbol } from './IconSymbol';
-import { Row } from './Row';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Row } from '../layout/Row';
 import { ThemedText } from '../Themed/ThemedText';
+import { IconSymbol } from './Icon/IconSymbol';
 
 type Option<T> = {
     label: string;

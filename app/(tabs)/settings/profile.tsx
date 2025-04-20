@@ -1,14 +1,13 @@
 import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
-import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/Header';
-import { RootView } from '@/components/RootView';
-import { Row } from '@/components/ui/Row';
+import { Card } from '@/components/layout/Card';
+import { Row } from '@/components/layout/Row';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { IconSymbol } from '@/components/ui/Icon/IconSymbol';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet } from 'react-native';
 
 export default function Profile() {
     const colors = useThemeColor()

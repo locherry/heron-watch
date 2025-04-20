@@ -1,10 +1,8 @@
-import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
-import { Row } from "./ui/Row";
-import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { ThemedText } from "./Themed/ThemedText";
-import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { IconSymbol } from "./ui/IconSymbol";
+import { Pressable, StyleSheet, type ViewProps } from "react-native";
+import { ThemedText } from "../Themed/ThemedText";
+import { IconSymbol } from "../ui/Icon/IconSymbol";
+import { Row } from "./Row";
 
 type Props = ViewProps & {
     title:string,

@@ -1,7 +1,7 @@
 import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
-import { RootView } from '@/components/RootView';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { Card } from '@/components/ui/Card';
+import { Card } from '@/components/layout/Card';
 import { Select } from '@/components/ui/Select';
 import i18n from '@/translations/i18n';
 import { t } from 'i18next';

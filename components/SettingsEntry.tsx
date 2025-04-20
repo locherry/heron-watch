@@ -1,9 +1,9 @@
 import { IconSymbolName } from "@/constants/Icons";
-import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
-import { Row } from "./ui/Row";
-import { IconSymbol } from "./ui/IconSymbol";
 import { Link, Route } from "expo-router";
+import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
+import { Row } from "./layout/Row";
 import { ThemedText } from "./Themed/ThemedText";
+import { IconSymbol } from "./ui/Icon/IconSymbol";
 
 type Props = ViewProps & {
     iconName: IconSymbolName,

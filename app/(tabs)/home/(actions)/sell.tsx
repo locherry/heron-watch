@@ -1,11 +1,10 @@
-import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/Header';
-import { RootView } from '@/components/RootView';
-import { ThemedText } from '@/components/Themed/ThemedText';
-import { View, Text, StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { Alert } from '@/components/Alert/Alert';
+import { Card } from '@/components/layout/Card';
+import { RootView } from '@/components/Themed/RootView';
+import { ThemedText } from '@/components/Themed/ThemedText';
 import { QRScannerButton } from '@/components/ui/Button/QRScannerButton';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet } from 'react-native';
 
 export default function Sell() {
   const { t } = useTranslation()

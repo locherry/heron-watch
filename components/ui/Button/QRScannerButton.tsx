@@ -1,12 +1,10 @@
-import React, { useState, useRef } from 'react';
-import { Modal, View, TouchableOpacity, Text, StyleSheet, Pressable, Platform } from 'react-native';
-import { CameraView, useCameraPermissions, CameraType, BarcodeScanningResult } from 'expo-camera';
-import { MaterialIcons } from '@expo/vector-icons';
-import { ThemedText } from '../../Themed/ThemedText';
-import { Button } from './Button';
+import { BarcodeScanningResult, CameraView, useCameraPermissions } from 'expo-camera';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconSymbol } from '../IconSymbol';
-import { PulsingIcon } from '../PulsingIcon';
+import { Modal, Platform, StyleSheet, View } from 'react-native';
+import { ThemedText } from '../../Themed/ThemedText';
+import { PulsingIcon } from '../Icon/PulsingIcon';
+import { Button } from './Button';
 
 type QRScannerButtonProps = {
   onQRDetect: (data: string) => void;

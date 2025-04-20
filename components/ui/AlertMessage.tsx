@@ -1,12 +1,11 @@
-import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
-import { ThemedText } from "../Themed/ThemedText";
-import { FontAwesome } from "@expo/vector-icons";
-import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { Row } from "./Row";
 import { Colors } from "@/constants/Colors";
-import { IconSymbol } from "./IconSymbol";
-import { useState } from "react";
 import { IconSymbolName } from "@/constants/Icons";
+import { useThemeColor } from "@/hooks/color/useThemeColor";
+import { useState } from "react";
+import { Pressable, StyleSheet, type ViewProps } from "react-native";
+import { Row } from "../layout/Row";
+import { ThemedText } from "../Themed/ThemedText";
+import { IconSymbol } from "./Icon/IconSymbol";
 
 const dict = {
     danger: "xmark.circle.fill",

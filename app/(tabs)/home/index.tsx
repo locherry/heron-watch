@@ -1,16 +1,16 @@
-import { Card } from '@/components/ui/Card';
-import { Column } from '@/components/ui/Column';
-import { RootView } from '@/components/RootView';
-import { Row } from '@/components/ui/Row';
+import { Card } from '@/components/layout/Card';
+import { Column } from '@/components/layout/Column';
+import { Row } from '@/components/layout/Row';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { IconSymbolName } from '@/constants/Icons';
-import { Link, Route, router } from 'expo-router';
-import { View, Text, StyleSheet, ScrollView, FlatList, Pressable, Image } from 'react-native';
-import { Trans, useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/Button/Button';
 import { DataTable, TableColumn } from '@/components/ui/DataTable';
+import { IconSymbolName } from '@/constants/Icons';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { useDateFormatter } from '@/hooks/useDateFormatter';
-import { Button } from '@/components/ui/Button/Button';
+import { Route, router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { Pressable, StyleSheet } from 'react-native';
 
 export default function Home() {
     const { t } = useTranslation()

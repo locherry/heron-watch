@@ -1,9 +1,9 @@
-import { StyleSheet, View, type ViewProps } from "react-native";
-import { IconFramed } from "./IconFramed";
-import { Row } from "../ui/Row";
-import { Column } from "../ui/Column";
-import { ThemedText } from "../Themed/ThemedText";
 import { useThemeColor } from "@/hooks/color/useThemeColor";
+import { StyleSheet, type ViewProps } from "react-native";
+import { ThemedText } from "../Themed/ThemedText";
+import { Column } from "../layout/Column";
+import { Row } from "../layout/Row";
+import { IconFramed } from "./IconFramed";
 type Props = ViewProps & {}
 export function Banner({ style, ...rest }: Props) {
     const colors = useThemeColor()

@@ -1,10 +1,10 @@
 import { SecureStorage } from "@/classes/SecureStorage";
-import { Header } from "@/components/Header";
-import { RootView } from "@/components/RootView";
+import { Card } from "@/components/layout/Card";
+import { Header } from "@/components/layout/Header";
+import { RootView } from "@/components/Themed/RootView";
 import { ThemedText } from "@/components/Themed/ThemedText";
 import { ThemedTextInput } from "@/components/Themed/ThemedTextInput";
 import { AlertMessage } from "@/components/ui/AlertMessage";
-import { Card } from "@/components/ui/Card";
 import { useTheme } from "@/contexts/ThemeContext";
 
 import { useThemeColor } from "@/hooks/color/useThemeColor";

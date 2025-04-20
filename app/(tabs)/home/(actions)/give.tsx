@@ -1,11 +1,8 @@
-import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/Header';
-import { RootView } from '@/components/RootView';
+import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Card } from '@/components/layout/Card';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
-import { DataTable, TableColumn } from '@/components/ui/DataTable';
+import { StyleSheet } from 'react-native';
 
 export default function Give() {
 
