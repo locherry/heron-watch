@@ -13,14 +13,15 @@ import { useTranslation } from 'react-i18next';
 export default function Profile() {
     const colors = useThemeColor()
 
-    const [userSession, setuserSession] = useState<SecureStorageData['user_session']>(DefaultSecureStorageData['user_session']);
+    const [userSession, setuserSession] = useState<SecureStorageData['userSession']>(DefaultSecureStorageData['userSession']);
 
     useEffect(() => {
         // Fetch user session and update state
-        SecureStorage.get("user_session")
+        SecureStorage.get("userSession")
             .then((session) => session && setuserSession(session))
     }, [])
     const { t } = useTranslation()
+    
     return <RootView style={styles.container}>
         <Card style={styles.card}>
             <ThemedText variant='h1'>{t("settings.profile.name")}</ThemedText>

@@ -26,7 +26,7 @@ export default function Appearance() {
         { label: t('settings.appearance.darkTheme'), value: 'dark', iconName: 'moon.fill' },
     ] satisfies {
         label: string,
-        value: SecureStorageData['preferences']['theme'],
+        value: SecureStorageData['userPreferences']['theme'],
         iconName: IconSymbolName
     }[]
 
@@ -34,22 +34,22 @@ export default function Appearance() {
     const [colorSelected, setColorSelected] = useState<typeof tintColors[number]['name'] | null>(null);
 
     useEffect(() => {
-        SecureStorage.get('preferences').then(
+        SecureStorage.get('userPreferences').then(
             prefs => {
                 setThemeSelected(prefs?.theme ?? 'system')
-                setColorSelected(prefs?.colorScheme ?? tintColors[0]["name"])
+                setColorSelected(prefs?.tintColor ?? tintColors[0]["name"])
             }
         )
     }, [])
 
     const colors = useThemeColor()
 
-    const applyThemeToApp = (themeValue: SecureStorageData['preferences']['theme']) => {
+    const applyThemeToApp = (themeValue: SecureStorageData['userPreferences']['theme']) => {
         setThemeSelected(themeValue)
         setTheme(themeValue)
     }
 
-    const applyColorToApp = (tintValue: SecureStorageData['preferences']['colorScheme']) => {
+    const applyColorToApp = (tintValue: SecureStorageData['userPreferences']['tintColor']) => {
         setColorSelected(tintValue)
         setTint(tintValue)
     }

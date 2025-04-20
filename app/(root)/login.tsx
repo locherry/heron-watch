@@ -1,23 +1,26 @@
 import { SecureStorage } from "@/classes/SecureStorage";
-import { Card } from "@/components/ui/Card";
 import { Header } from "@/components/Header";
 import { RootView } from "@/components/RootView";
-import { Row } from "@/components/ui/Row";
-import { AlertMessage } from "@/components/ui/AlertMessage";
 import { ThemedText } from "@/components/Themed/ThemedText";
 import { ThemedTextInput } from "@/components/Themed/ThemedTextInput";
-import { Config } from "@/constants/Config";
+import { AlertMessage } from "@/components/ui/AlertMessage";
+import { Card } from "@/components/ui/Card";
+import { useTheme } from "@/contexts/ThemeContext";
 
 import { useThemeColor } from "@/hooks/color/useThemeColor";
 import { useFetchQuery } from "@/hooks/useFetchQuery";
-import { FontAwesome, FontAwesome6, MaterialIcons } from "@expo/vector-icons";
-import { Redirect, router, useRouter } from "expo-router";
+import i18n from "@/translations/i18n";
+
+import { FontAwesome } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { useState } from "react";
-import { FlatList, Image, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 
 
 export default function Login() {
     const colors = useThemeColor()
+    const {setTheme, setTint} = useTheme()
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -31,26 +34,34 @@ export default function Login() {
             return reg.test(email)
         }
         if (isFormValid()) {
-            const data = useFetchQuery('/login', {
-                method: 'POST',
-                body: {
+            const data = useFetchQuery(
+                '/login',
+                'POST',
+                {
                     email: email,
                     password: password
                 }
-            })
+            )
             data.then(r => {
-                console.log(r)
                 router.replace("/home")
-                SecureStorage.set('user_session', {
+                SecureStorage.set('userSession', {
                     id: r.user_info.id,
                     username: r.user_info.role,
                     firstName: r.user_info.first_name,
                     lastName: r.user_info.last_name,
-                    email: r.user_info.email, 
+                    email: r.user_info.email,
 
                     jwt: r.jwt,
                     role: r.user_info.role,
                 })
+                SecureStorage.set('userPreferences', {
+                    theme: r.user_preferences.theme,
+                    tintColor: r.user_preferences.tint_color,
+                    language: r.user_preferences.language
+                })
+                setTheme(r.user_preferences.theme)
+                setTint(r.user_preferences.tint_color)
+                i18n.changeLanguage(r.user_preferences.language)
             }).catch(e => {
                 setMsgList([...msgList, e.message])
             })

@@ -9,7 +9,7 @@ import mainEN from './EN/main.json'
 import mainEU from './EU/main.json'
 import mainFR from './FR/main.json'
 
-const ressources = {
+export const languageRessources = {
   EN: {
     main: mainEN
   },
@@ -36,7 +36,7 @@ i18n
   .init({
     fallbackLng: 'EN',
     debug: true,
-    resources: ressources,
+    resources: languageRessources,
     ns: ['main'],
     defaultNS: 'main',
   })

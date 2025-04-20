@@ -4,7 +4,7 @@ import { RootView } from '@/components/RootView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { useAuth } from '@/hooks/useAuth';
-import { Redirect, Tabs } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -26,7 +26,7 @@ export default function TabLayout() {
     const {t} = useTranslation()
 
     useEffect(()=>{
-        SecureStorage.get('user_session').then(
+        SecureStorage.get('userSession').then(
             userSession => userSession? setUserRole(userSession.role) : null
         )
     })

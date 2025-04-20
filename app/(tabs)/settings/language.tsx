@@ -1,15 +1,12 @@
 import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
-import { Card } from '@/components/ui/Card';
-import { Header } from '@/components/Header';
 import { RootView } from '@/components/RootView';
-import { Row } from '@/components/ui/Row';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import i18n from '@/translations/i18n';
 import { t } from 'i18next';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 export default function Language() {
 
@@ -18,21 +15,21 @@ export default function Language() {
         { value: "EU", label: "Euskera" },
         { value: "FR", label: "Français" },
     ] satisfies {
-        value: SecureStorageData['preferences']['language'],
+        value: SecureStorageData['userPreferences']['language'],
         label: string
     }[]
 
-    const [selectedLanguage, setSelectedLanguage] = useState<typeof LANGUAGES[number]['value'] | null>(DefaultSecureStorageData['preferences']['language']);
+    const [selectedLanguage, setSelectedLanguage] = useState<typeof LANGUAGES[number]['value'] | null>(DefaultSecureStorageData['userPreferences']['language']);
 
     useEffect(() => {
         // Fetch user session and update state
-        SecureStorage.get("preferences")
+        SecureStorage.get("userPreferences")
             .then((prefs) => prefs && setSelectedLanguage(prefs.language))
     }, [])
 
-    const applyLanguageToApp = (languageValue: SecureStorageData['preferences']['language']) => {
+    const applyLanguageToApp = (languageValue: SecureStorageData['userPreferences']['language']) => {
         setSelectedLanguage(languageValue)
-        SecureStorage.modify('preferences', 'language', languageValue)
+        SecureStorage.modify('userPreferences', 'language', languageValue)
         i18n.changeLanguage(languageValue)
     }
     

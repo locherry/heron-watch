@@ -1,9 +1,10 @@
 import { tintColors } from '@/constants/Colors';
+import { languageRessources } from '@/translations/i18n';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
 export type SecureStorageData = {
-    user_session: {
+    userSession: {
         id: number,
         username: string,
         firstName: string,
@@ -12,15 +13,15 @@ export type SecureStorageData = {
         jwt: string,
         role: 'admin' | 'default'
     },
-    preferences: {
+    userPreferences: {
         theme: 'light' | 'dark' | 'system',
-        colorScheme: typeof tintColors[number]['name']
-        language: "EN" | "EU" | "FR",
+        tintColor: typeof tintColors[number]['name']
+        language: keyof typeof languageRessources,
     }
 }
 
 export const DefaultSecureStorageData = {
-    user_session: {
+    userSession: {
         id: 0,
         username: 'username',
         firstName: 'user',
@@ -29,9 +30,9 @@ export const DefaultSecureStorageData = {
         jwt: '',
         role: 'default'
     },
-    preferences: {
+    userPreferences: {
         theme: 'system',
-        colorScheme: tintColors[0]['name'],
+        tintColor: tintColors[0]['name'],
         language: "EN",
     }
 } satisfies SecureStorageData

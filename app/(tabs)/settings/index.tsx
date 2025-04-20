@@ -1,18 +1,13 @@
-import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
-import { Card } from '@/components/ui/Card';
-import { Column } from '@/components/ui/Column';
+import { SecureStorage } from '@/classes/SecureStorage';
+import { Alert } from '@/components/Alert/Alert';
 import { RootView } from '@/components/RootView';
-import { Row } from '@/components/ui/Row';
 import { SettingsEntry } from '@/components/SettingsEntry';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import { DropdownMenu, MenuOption } from '@/components/ui/DropdownMenu';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import { Select } from '@/components/ui/Select';
-import { Link, router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Pressable, Settings, StyleSheet, View } from 'react-native';
-import { Alert } from '@/components/Alert/Alert';
+import { Card } from '@/components/ui/Card';
+import { Column } from '@/components/ui/Column';
+import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet } from 'react-native';
 
 export default function Tab() {
   const {t} = useTranslation()
@@ -25,8 +20,8 @@ export default function Tab() {
       },
       {
         text: t('OK'), onPress: () => {
-          SecureStorage.remove("user_session")
-          SecureStorage.remove("preferences")
+          SecureStorage.remove("userSession")
+          SecureStorage.remove("userPreferences")
           router.push('/login')
         }
       },

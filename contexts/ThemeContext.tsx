@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useColorScheme } from '../hooks/color/useColorScheme';
 import { SecureStorage } from '@/classes/SecureStorage';
 import { tintColors } from '@/constants/Colors';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useColorScheme } from '../hooks/color/useColorScheme';
 
 type ThemeContextType = {
     theme: 'light' | 'dark';
@@ -22,32 +22,31 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         const loadPreferences = async () => {
             try {
-                const prefs = await SecureStorage.get('preferences');
+                const prefs = await SecureStorage.get('userPreferences');
                 setThemeState(
                     prefs?.theme === 'system' ? systemTheme :
                         prefs?.theme || systemTheme
                 );
                 setTint(
-                    prefs?.colorScheme || tintColors[0].name
+                    prefs?.tintColor || tintColors[0].name
                 );
             } catch (e) {
                 console.warn(e);
             }
         };
         loadPreferences();
-    }, [systemTheme]);
+    }, [systemTheme, theme, tint]);
 
     const setTheme = async (newTheme: 'light' | 'dark' | 'system') => {
         const actualTheme = newTheme === 'system' ? systemTheme : newTheme;
         setThemeState(actualTheme);
-        await SecureStorage.modify('preferences', 'theme', newTheme);
+        await SecureStorage.modify('userPreferences', 'theme', newTheme);
     };
 
     const updateTint = async (newTint: typeof tintColors[number]['name']) => {
         setTint(newTint);
-        await SecureStorage.modify('preferences', 'colorScheme', newTint);
+        await SecureStorage.modify('userPreferences', 'tintColor', newTint);
     };
-
 
     return <ThemeContext.Provider
         value={{ theme, tint, setTheme, setTint: updateTint }}
