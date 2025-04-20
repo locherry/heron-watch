@@ -7,7 +7,6 @@ export default function Tab() {
   return <RootView style={styles.container}>
     <Card style={styles.card}>
       <ThemedText variant='h1'>Tab Admin</ThemedText>
-
     </Card>
   </RootView>
 }
@@ -25,4 +24,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: "100%"
   },
-});
+})

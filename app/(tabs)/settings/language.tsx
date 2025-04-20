@@ -3,13 +3,13 @@ import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { Card } from '@/components/layout/Card';
 import { Select } from '@/components/ui/Select';
+import { useFetchQuery } from '@/hooks/useFetchQuery';
 import i18n from '@/translations/i18n';
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 export default function Language() {
-
     const LANGUAGES = [
         { value: "EN", label: "English" },
         { value: "EU", label: "Euskera" },
@@ -31,6 +31,23 @@ export default function Language() {
         setSelectedLanguage(languageValue)
         SecureStorage.modify('userPreferences', 'language', languageValue)
         i18n.changeLanguage(languageValue)
+
+        SecureStorage.get("userSession")
+            .then((userSession) => {
+                if (userSession) {
+                    useFetchQuery(
+                        '/users/[id]',
+                        'PATCH',
+                        {
+                            user_preferences: {
+                                language: languageValue
+                            }
+                        },
+                        undefined,
+                        { id: 1 }
+                    ).catch(e=>console.log(e))
+                }
+            })
     }
 
     return <RootView style={styles.container}>

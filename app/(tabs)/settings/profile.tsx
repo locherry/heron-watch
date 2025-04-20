@@ -20,7 +20,7 @@ export default function Profile() {
             .then((session) => session && setuserSession(session))
     }, [])
     const { t } = useTranslation()
-    
+
     return <RootView style={styles.container}>
         <Card style={styles.card}>
             <ThemedText variant='h1'>{t("settings.profile.name")}</ThemedText>
@@ -39,7 +39,8 @@ export default function Profile() {
                     <ThemedText>
                         {t(`settings.profile.userRole.${userSession.role}`, {
                             defaultValue: userSession.role // Shows raw role if no translation
-                        })}</ThemedText>
+                        })}
+                    </ThemedText>
                 </Row>
             </Card>
             <Card backgroundColor={colors.gray100} style={styles.profileItem}>

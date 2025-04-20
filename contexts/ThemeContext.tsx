@@ -26,26 +26,26 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
                 setThemeState(
                     prefs?.theme === 'system' ? systemTheme :
                         prefs?.theme || systemTheme
-                );
+                )
                 setTint(
                     prefs?.tintColor || tintColors[0].name
-                );
+                )
             } catch (e) {
                 console.warn(e);
             }
         };
         loadPreferences();
-    }, [systemTheme, theme, tint]);
+    }, [systemTheme])
 
     const setTheme = async (newTheme: 'light' | 'dark' | 'system') => {
-        const actualTheme = newTheme === 'system' ? systemTheme : newTheme;
-        setThemeState(actualTheme);
-        await SecureStorage.modify('userPreferences', 'theme', newTheme);
+        const actualTheme = newTheme === 'system' ? systemTheme : newTheme
+        setThemeState(actualTheme)
+        SecureStorage.modify('userPreferences', 'theme', newTheme)
     };
 
     const updateTint = async (newTint: typeof tintColors[number]['name']) => {
-        setTint(newTint);
-        await SecureStorage.modify('userPreferences', 'tintColor', newTint);
+        setTint(newTint)
+        SecureStorage.modify('userPreferences', 'tintColor', newTint)
     };
 
     return <ThemeContext.Provider

@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 export default function Transfer() {
   return <RootView style={styles.container}>
     <Card style={styles.card}>
-      <ThemedText>Transfer</ThemedText>
+      <ThemedText variant='h1'>Transfer</ThemedText>
     </Card>
   </RootView>
 }

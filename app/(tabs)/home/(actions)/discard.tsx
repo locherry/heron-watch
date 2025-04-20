@@ -9,7 +9,7 @@ export default function Discard() {
 
   return <RootView style={styles.container}>
     <Card style={styles.card}>
-      <ThemedText>{t("Discard")}</ThemedText>
+      <ThemedText variant='h1'>{t("Discard")}</ThemedText>
     </Card>
   </RootView>
 }

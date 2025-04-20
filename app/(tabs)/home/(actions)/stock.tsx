@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 export default function Stock() {
   return <RootView style={styles.container}>
     <Card style={styles.card}>
-      <ThemedText>Stock</ThemedText>
+      <ThemedText variant='h1'>Stock</ThemedText>
     </Card>
   </RootView>
 }
