@@ -10,7 +10,7 @@ export default function Sell() {
   const { t } = useTranslation()
   return <RootView style={styles.container}>
     <Card style={styles.card}>
-      <ThemedText variant='h2'>{t('sell')}</ThemedText>
+      <ThemedText variant='h1'>{t('sell')}</ThemedText>
       {/* <QRScanner /> */}
 
       <QRScannerButton onQRDetect={(qrData) => {

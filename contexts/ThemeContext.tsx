@@ -13,7 +13,7 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-    SecureStorage.initializeDefaults()
+    // SecureStorage.initializeDefaults()
 
     const systemTheme = useColorScheme() ?? 'light';
     const [theme, setThemeState] = useState<'light' | 'dark'>(systemTheme);

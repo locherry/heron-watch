@@ -32,7 +32,7 @@ export default function Language() {
         SecureStorage.modify('userPreferences', 'language', languageValue)
         i18n.changeLanguage(languageValue)
     }
-    
+
     return <RootView style={styles.container}>
         <Card style={styles.card}>
             <ThemedText variant="h1">

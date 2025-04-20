@@ -15,7 +15,7 @@ export type SecureStorageData = {
     },
     userPreferences: {
         theme: 'light' | 'dark' | 'system',
-        tintColor: typeof tintColors[number]['name']
+        tintColor: typeof tintColors[number]['name'],
         language: keyof typeof languageRessources,
     }
 }
@@ -38,18 +38,18 @@ export const DefaultSecureStorageData = {
 } satisfies SecureStorageData
 
 export class SecureStorage {
-    static initializeDefaults = async () => {
-        const entries = Object.entries(DefaultSecureStorageData) as [
-            keyof typeof DefaultSecureStorageData,
-            typeof DefaultSecureStorageData[keyof typeof DefaultSecureStorageData]
-        ][];
+    // static initializeDefaults = async () => {
+    //     const entries = Object.entries(DefaultSecureStorageData) as [
+    //         keyof typeof DefaultSecureStorageData,
+    //         typeof DefaultSecureStorageData[keyof typeof DefaultSecureStorageData]
+    //     ][];
 
-        await Promise.all(
-            entries.map(([key, value]) => {
-                this.get(key).then(data => !data ? this.set(key, value) : null)
-            })
-        );
-    }
+    //     await Promise.all(
+    //         entries.map(([key, value]) => {
+    //             this.get(key).then(data => !data ? this.set(key, value) : null)
+    //         })
+    //     );
+    // }
 
     static set = async <K extends keyof SecureStorageData>(
         key: K,
@@ -59,9 +59,9 @@ export class SecureStorage {
             const value_str = JSON.stringify(value)
 
             if (Platform.OS === 'web') {
-                await sessionStorage.setItem(key, value_str);
+                await sessionStorage.setItem(key, value_str)
             } else {
-                await SecureStore.setItemAsync(key, value_str);
+                await SecureStore.setItemAsync(key, value_str)
             }
             console.info('Data stored securely');
         } catch (error) {
