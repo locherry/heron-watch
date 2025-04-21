@@ -44,7 +44,7 @@ export const QRScannerButton: React.FC<QRScannerButtonProps> = ({ onQRDetect }) 
     <Button
       onPress={handleOpenScanner}
       iconName='viewfinder.rectangular'
-      variant='primary'>
+      type='primary'>
       <ThemedText variant='h2'>
         {t('Scan')}
       </ThemedText>
@@ -53,9 +53,9 @@ export const QRScannerButton: React.FC<QRScannerButtonProps> = ({ onQRDetect }) 
       <View style={styles.modalContainer}>
         {!permission?.granted ? (
           <View style={styles.permissionContainer}>
-            <ThemedText>{t('Camera permission is required.')}</ThemedText>
+            <ThemedText variant='h2'>{t('Camera permission is required.')}</ThemedText>
             <Button onPress={requestPermission} iconName='viewfinder.rectangular'
-            variant='primary'>
+            type='primary'>
               <ThemedText variant='h2'>{t('Grant Permission')}</ThemedText>
             </Button>
           </View>

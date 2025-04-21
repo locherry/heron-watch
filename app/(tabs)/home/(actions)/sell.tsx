@@ -2,6 +2,8 @@ import { Alert } from '@/components/Alert/Alert';
 import { Card } from '@/components/layout/Card';
 import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
+import { ThemedTextInput } from '@/components/Themed/ThemedTextInput';
+import { Button } from '@/components/ui/Button/Button';
 import { QRScannerButton } from '@/components/ui/Button/QRScannerButton';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
@@ -11,12 +13,18 @@ export default function Sell() {
   return <RootView style={styles.container}>
     <Card style={styles.card}>
       <ThemedText variant='h1'>{t('sell')}</ThemedText>
-      {/* <QRScanner /> */}
 
       <QRScannerButton onQRDetect={(qrData) => {
         // Handle the QR code data here
         Alert.alert('QR Detected: ', qrData);
       }} />
+      <ThemedTextInput
+        onChange={() => { }}
+        placeHolder='Quantity' />
+      <ThemedTextInput
+        onChange={() => { }}
+        placeHolder='ProductCode' />
+      <Button onPress={()=>{}} text='Add action'/> 
     </Card>
   </RootView>
 }

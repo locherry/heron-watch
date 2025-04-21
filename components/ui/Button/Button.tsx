@@ -6,7 +6,7 @@ import { Column } from "../../layout/Column";
 import { Row } from "../../layout/Row";
 import { IconSymbol } from "../Icon/IconSymbol";
 
-const variantType = ['default', 'primary', 'danger']
+const typeType = ['default', 'primary', 'danger']
 
 type Props = ViewProps & {
     onPress: () => void,
@@ -14,14 +14,14 @@ type Props = ViewProps & {
     iconColor?: string,
     iconSize?: number,
     text?: string,
-    variant?: typeof variantType[number],
+    type?: typeof typeType[number],
     direction?: 'column' | 'row',
     disabled?: boolean
 }
 
-export function Button({ style, onPress, iconName, iconColor, iconSize, text, children, direction = 'row', variant = 'default', disabled = false, ...rest }: Props) {
+export function Button({ style, onPress, iconName, iconColor, iconSize, text, children, direction = 'row', type = 'default', disabled = false, ...rest }: Props) {
     const colors = useThemeColor()
-    const variantStyle = {
+    const typeStyle = {
         'default': {
             backgroundColor: colors.gray300,
         },
@@ -30,8 +30,17 @@ export function Button({ style, onPress, iconName, iconColor, iconSize, text, ch
         },
         'danger': {
             backgroundColor: colors.danger,
+        },
+        'success': {
+            backgroundColor: colors.success,
+        },
+        'info': {
+            backgroundColor: colors.info,
+        },
+        'warning': {
+            backgroundColor: colors.warning,
         }
-    } as Record<typeof variantType[number], StyleProp<ViewStyle>>
+    } as Record<typeof typeType[number], StyleProp<ViewStyle>>
 
     const Direction = direction == 'row' ? Row : Column
 
@@ -39,7 +48,7 @@ export function Button({ style, onPress, iconName, iconColor, iconSize, text, ch
         onPress={!disabled ? onPress : null}
         
         style={[
-            variantStyle[variant],
+            typeStyle[type],
             { cursor: !disabled ? 'pointer' : 'auto' },
             { opacity: !disabled ? 1 : .7 },
             styles.root,

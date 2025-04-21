@@ -3,6 +3,7 @@ import { Card } from '@/components/layout/Card';
 import { Row } from '@/components/layout/Row';
 import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
+import { Button } from '@/components/ui/Button/Button';
 import { IconSymbol } from '@/components/ui/Icon/IconSymbol';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { useEffect, useState } from 'react';
@@ -28,7 +29,7 @@ export default function Profile() {
                 <ThemedText variant='h2' align='center'>{t('settings.profile.userInfo')}</ThemedText>
                 <Row gap={8}>
                     <IconSymbol name='person.crop.circle' />
-                    <ThemedText>{userSession.username}</ThemedText>
+                    <ThemedText capitalizeFirst>{userSession.username}</ThemedText>
                 </Row>
                 <Row gap={8}>
                     <IconSymbol name='envelope' />
@@ -36,18 +37,28 @@ export default function Profile() {
                 </Row>
                 <Row gap={8}>
                     <IconSymbol name='shield' />
-                    <ThemedText>
-                        {t(`settings.profile.userRole.${userSession.role}`, {
-                            defaultValue: userSession.role // Shows raw role if no translation
-                        })}
+                    <ThemedText capitalizeFirst>
+                        {t(`settings.profile.userRole.${userSession.role}`)}
                     </ThemedText>
                 </Row>
             </Card>
             <Card backgroundColor={colors.gray100} style={styles.profileItem}>
-                <Row gap={8}>
-                    <IconSymbol name='trash' />
-                    <ThemedText>Delete User</ThemedText>
+                <ThemedText variant='h2' align='center'>Actions</ThemedText>
+                <Row gap={8} style={{ alignSelf: "center" }}>
+                    <Button
+                        iconName='pencil'
+                        text='Edit User'
+                        variant='primary'
+                        onPress={() => { }}
+                    />
+                    <Button
+                        iconName='trash'
+                        text='Delete User'
+                        variant='danger'
+                        onPress={() => { }}
+                    />
                 </Row>
+
             </Card>
         </Card>
     </RootView>
@@ -63,10 +74,12 @@ const styles = StyleSheet.create({
         gap: 16,
         flex: 1,
         padding: 16,
+        paddingHorizontal: '20%',
         alignItems: 'center',
         width: "100%"
     },
     profileItem: {
         padding: 20,
+        width: '100%'
     }
 });

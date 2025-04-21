@@ -1,8 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/color/useThemeColor";
 import React, { useLayoutEffect, useRef } from "react";
-import { Platform, Pressable, StyleSheet, TextInput, View, type ViewProps } from "react-native";
-import { ThemedText } from "./ThemedText";
+import { Platform, Pressable, StyleSheet, TextInput, type ViewProps } from "react-native";
 
 type Props = ViewProps & {
     placeHolder?: string,

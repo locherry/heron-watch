@@ -1,7 +1,5 @@
-import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/color/useThemeColor";
-import React, { CSSProperties } from "react";
-import { Trans } from "react-i18next";
+import React from "react";
 import { StyleSheet, Text, type TextProps } from "react-native";
 
 const styles = StyleSheet.create({
@@ -9,11 +7,13 @@ const styles = StyleSheet.create({
         fontSize: 24,
         lineHeight: 32,
         fontWeight: "bold",
+        marginBottom:12
     },
     h2: {
         fontSize: 18,
         lineHeight: 24,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        marginBottom:8
     },
     h3: {
         fontSize: 14,

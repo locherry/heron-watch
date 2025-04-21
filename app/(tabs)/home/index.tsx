@@ -107,7 +107,7 @@ export default function Home() {
                                 onPress={() => router.push(actionBtn.href)}
                                 iconSize={50}
                                 iconName={actionBtn.iconName}
-                                variant='primary'
+                                type='primary'
                             />
                             <ThemedText style={{ textAlign: 'center' }} capitalizeFirst>{t(actionBtn.name)}</ThemedText>
                         </Column>

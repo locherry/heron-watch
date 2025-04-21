@@ -1,5 +1,6 @@
+import { useThemeColor } from '@/hooks/color/useThemeColor';
 import React, { useMemo } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { ThemedText } from '../Themed/ThemedText';
 
 export interface TableColumn<T> {
@@ -14,10 +15,11 @@ interface TableProps<T> {
 }
 
 const calculateTextWidth = (text: string, fontSize: number = 14): number => {
-    return Math.min(200, Math.max(40, text.length * fontSize * 0.6));
+    return Math.min(120, Math.max(20, text.length * fontSize * 0.6));
 };
 
 export function DataTable<T extends object>({ data, columns }: TableProps<T>) {
+    const colors = useThemeColor()
     const columnWidths = useMemo(() => {
         return columns.map(column => {
             let maxWidth = calculateTextWidth(column.header);
@@ -30,7 +32,10 @@ export function DataTable<T extends object>({ data, columns }: TableProps<T>) {
     }, [data, columns]);
 
     const headerRow = (
-        <View style={styles.headerRow}>
+        <View style={[
+            styles.headerRow, {
+                borderBottomColor: colors.gray300,
+            }]}>
             {columns.map((column, index) => (
                 <View key={index.toString()} style={{ width: columnWidths[index] }}>
                     <ThemedText style={styles.headerText} capitalizeFirst>{column.header}</ThemedText>
@@ -40,7 +45,8 @@ export function DataTable<T extends object>({ data, columns }: TableProps<T>) {
     );
 
     const renderItem = ({ item }: { item: T }) => (
-        <View style={styles.row}>
+        <View style={[styles.row, {
+            borderBottomColor: colors.gray200}]}>
             {columns.map((column, index) => (
                 <View key={index.toString()} style={{ width: columnWidths[index] }}>
                     <ThemedText numberOfLines={1} style={styles.cellText}>
@@ -75,7 +81,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 12,
         borderBottomWidth: 2,
-        borderBottomColor: '#e0e0e0',
     },
     headerText: {
         fontWeight: '600',
@@ -85,7 +90,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#eee',
     },
     cellText: {
         paddingHorizontal: 4,
