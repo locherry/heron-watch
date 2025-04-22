@@ -1,3 +1,4 @@
+import { SecureStorage } from "@/classes/SecureStorage"
 import { tintColors } from "@/constants/Colors"
 import { Config } from "@/constants/Config"
 import { languageRessources } from "@/translations/i18n"
@@ -121,17 +122,23 @@ export async function useFetchQuery<
     const endpoint = Config.endpoint;
     const url = buildPath(path, params);
 
+    const jwt = await SecureStorage.get('userSession').then(userSession => userSession?.jwt)
+
+
+    const authorizationHeader = jwt
+        ? { Authorization: `Bearer ${jwt}` }
+        : null;
     const fetchOptions: RequestInit = {
         method: method as string,
         headers: {
             "Content-Type": "application/json",
+            ...authorizationHeader,
             ...(headers || {})
-        },
+        } as Record<string, string>,
         ...(body ? { body: JSON.stringify(body) } : {})
     };
 
     const response = await fetch(endpoint + url, fetchOptions);
-
     if (!response.ok) throw new Error(`Request failed: ${response.status}`);
 
     const contentType = response.headers.get("content-type");

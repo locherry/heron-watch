@@ -10,6 +10,7 @@ import { tintColors } from '@/constants/Colors';
 import { IconSymbolName } from '@/constants/Icons';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
+import { useFetchQuery } from '@/hooks/useFetchQuery';
 import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -47,11 +48,47 @@ export default function Appearance() {
     const applyThemeToApp = (themeValue: SecureStorageData['userPreferences']['theme']) => {
         setThemeSelected(themeValue)
         setTheme(themeValue)
+
+        SecureStorage.get("userSession")
+            .then((userSession) => {
+                console.log(userSession)
+                if (userSession) {
+                    useFetchQuery(
+                        '/users/[id]',
+                        'PATCH',
+                        {
+                            user_preferences: {
+                                theme: themeValue
+                            }
+                        },
+                        undefined,
+                        { id: userSession.id }
+                    ).catch(e => console.log(e))
+                }
+            })
     }
 
     const applyColorToApp = (tintValue: SecureStorageData['userPreferences']['tintColor']) => {
         setColorSelected(tintValue)
         setTint(tintValue)
+
+        SecureStorage.get("userSession")
+            .then((userSession) => {
+                if (userSession) {
+                    console.log(userSession)
+                    useFetchQuery(
+                        '/users/[id]',
+                        'PATCH',
+                        {
+                            user_preferences: {
+                                tint_color: tintValue
+                            }
+                        },
+                        undefined,
+                        { id: userSession.id }
+                    ).catch(e => console.log(e))
+                }
+            })
     }
 
     return <RootView style={styles.container}>

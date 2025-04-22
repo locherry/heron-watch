@@ -44,9 +44,10 @@ export default function Login() {
             )
             data.then(r => {
                 router.replace("/home")
+                console.log(r.user_info)
                 SecureStorage.set('userSession', {
                     id: r.user_info.id,
-                    username: r.user_info.role,
+                    username: r.user_info.username,
                     firstName: r.user_info.first_name,
                     lastName: r.user_info.last_name,
                     email: r.user_info.email,
