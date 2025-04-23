@@ -1,7 +1,7 @@
 import { IconSymbolName } from '@/constants/Icons';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { Row } from '../layout/Row';
 import { ThemedText } from '../Themed/ThemedText';
 import { IconSymbol } from './Icon/IconSymbol';
@@ -62,7 +62,7 @@ export const Select = <T extends string | number>({
     })
 
     return <View style={styles.container}>
-        <TouchableOpacity
+        <Pressable
             style={styles.trigger}
             onPress={() => setIsOpen(!isOpen)}
         >
@@ -70,7 +70,7 @@ export const Select = <T extends string | number>({
                 {selectedOption.iconName ? <IconSymbol name={selectedOption.iconName} /> : null}
                 <ThemedText capitalizeFirst style={styles.triggerText}>{selectedOption.label}</ThemedText>
             </Row>
-        </TouchableOpacity>
+        </Pressable>
 
         {isOpen && (
             <View style={styles.optionsContainer}>
@@ -78,7 +78,7 @@ export const Select = <T extends string | number>({
                     data={options}
                     keyExtractor={(item) => item.value.toString()}
                     renderItem={({ item }) => (
-                        <TouchableOpacity
+                        <Pressable
                             style={[
                                 styles.option,
                                 selectedValue === item.value && styles.selectedOption
@@ -89,7 +89,7 @@ export const Select = <T extends string | number>({
                                 {item.iconName ? <IconSymbol name={item.iconName} /> : null}
                                 <ThemedText capitalizeFirst style={styles.optionText}>{item.label}</ThemedText >
                             </Row>
-                        </TouchableOpacity>
+                        </Pressable>
                     )}
                 />
             </View>

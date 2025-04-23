@@ -15,7 +15,8 @@ interface TableProps<T> {
 }
 
 const calculateTextWidth = (text: string, fontSize: number = 14): number => {
-    return Math.min(120, Math.max(20, text.length * fontSize * 0.6));
+    const firstLine = text.split('\n')[0]
+    return Math.min(120, Math.max(20, firstLine.length * fontSize * 0.6));
 };
 
 export function DataTable<T extends object>({ data, columns }: TableProps<T>) {
@@ -49,7 +50,7 @@ export function DataTable<T extends object>({ data, columns }: TableProps<T>) {
             borderBottomColor: colors.gray200}]}>
             {columns.map((column, index) => (
                 <View key={index.toString()} style={{ width: columnWidths[index] }}>
-                    <ThemedText numberOfLines={1} style={styles.cellText}>
+                    <ThemedText style={styles.cellText}>
                         {column.renderCell ? column.renderCell(item) : String(item[column.key])}
                     </ThemedText>
                 </View>

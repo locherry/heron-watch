@@ -51,7 +51,6 @@ export default function Appearance() {
 
         SecureStorage.get("userSession")
             .then((userSession) => {
-                console.log(userSession)
                 if (userSession) {
                     useFetchQuery(
                         '/users/[id]',
@@ -75,7 +74,6 @@ export default function Appearance() {
         SecureStorage.get("userSession")
             .then((userSession) => {
                 if (userSession) {
-                    console.log(userSession)
                     useFetchQuery(
                         '/users/[id]',
                         'PATCH',

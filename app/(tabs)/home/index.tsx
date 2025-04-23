@@ -6,65 +6,55 @@ import { ThemedText } from '@/components/Themed/ThemedText';
 import { Button } from '@/components/ui/Button/Button';
 import { DataTable, TableColumn } from '@/components/ui/DataTable';
 import { IconSymbolName } from '@/constants/Icons';
-import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { useDateFormatter } from '@/hooks/useDateFormatter';
+import { useFetchQuery } from '@/hooks/useFetchQuery';
 import { Route, router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet } from 'react-native';
 
 export default function Home() {
     const { t } = useTranslation()
     const formatDate = useDateFormatter();
-    const colors = useThemeColor()
 
     type ActionType = {
-        name:string,
-        productName:string,
-        quantity:number,
-        date:Date,
-        userName:string
+        id: number,
+        quantity: number
+        comment: string
+        product_code: string
+        lot_number: number
+        created_by_id: number
+        created_at: Date
+        action_id: number
     }
     const date = new Date("2005-04-12")
-    const actions = [
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Mi", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Mi", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Mi", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Mi", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Mi", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Mi", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Mi", date: date },
-        { name: "stock", productName: "foie de volaille", quantity: 69, userName: "Jean-Fa", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
-        { name: "sell", productName: "foie de volaille", quantity: 8, userName: "Jean-Sol", date: date },
+    const defaultActions = [
+        { id: 1, quantity: 8, comment: '', product_code: "FDC", lot_number: 432, created_at: date, created_by_id: 1, action_id: 2 },
+        { id: 1, quantity: 8, comment: '', product_code: "FDC", lot_number: 432, created_at: date, created_by_id: 1, action_id: 2 },
+        { id: 1, quantity: 8, comment: '', product_code: "FDC", lot_number: 432, created_at: date, created_by_id: 1, action_id: 2 },
     ] satisfies ActionType[]
+    const [actions, setActions] = useState(defaultActions)
+
+    useEffect(() => {
+        useFetchQuery('/actions').then(res => {
+            res && setActions(res)
+        })
+    }, [])
 
     const columns: TableColumn<ActionType>[] = [
-        { key: 'name', header: t('action') },
+        { key: 'id', header: t('action') },
         {
             key: 'quantity',
             header: '#',
             //   renderCell: (item: ActionType) => <Text style={{ color: colors.info }}>{item.quantity}</Text>
         },
-        { key: 'productName', header: t('product') },
+        { key: 'product_code', header: t('product') },
         {
-            key: 'date',
+            key: 'created_at',
             header: t('date'),
-            renderCell: (item: ActionType) => formatDate(item.date)
+            renderCell: (item: ActionType) => formatDate(item.created_at).replace(' ', '\n')
         },
-        { key: 'userName', header: t('user') },
+        { key: 'created_by_id', header: t('user') },
     ];
 
     type ActionBtn = {
@@ -114,6 +104,7 @@ export default function Home() {
                     </Pressable>)}
             </Row>
             <ThemedText variant='h2'>{t("history")}</ThemedText>
+            
             <DataTable
                 data={actions}
                 columns={columns} />

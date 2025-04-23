@@ -4,6 +4,18 @@
         "admin": "admin",
         "settings": "settings"
     },
+    "admin" : {
+        "tabName" : "admin panel",
+        "usersPanel" : {
+            "name" : "manage users"
+        },
+        "stocksPanel" : {
+            "name" : "manage stocks"
+        },
+        "statsPanel" : {
+            "name" : "view stats"
+        }
+    },
     "settings": {
         "profile": {
             "name": "profile",
@@ -34,6 +46,7 @@
         "sunny": "sunny",
         "rust": "rust"
     },
+
     "Please confirm": "Please confirm",
     "Do you really want to log out ?" : "Do you really want to log out?",
     "Scan Qr code" : "Scan Qr code",

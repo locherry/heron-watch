@@ -42,6 +42,10 @@ export const MAPPING = {
     'moon.fill': 'weather-night',
     'sun.max.fill': 'weather-sunny',
 
+    // Admin Tab icons
+    'chart.pie': 'chart-pie',
+    'person.2' : 'account-multiple-outline',
+
     //action icons
     'tag': 'tag-outline',
     'rectangle.stack': "package-variant",
@@ -70,7 +74,6 @@ export const MAPPING = {
     'xmark': 'close',
 
     // 'line.3.horizontal.decrease': 'filter',
-    // 'chart.pie': 'chart-pie',
   } satisfies IconMapping<typeof MaterialCommunityIcons>,
   // FontAwesome: {
   // } satisfies IconMapping<typeof FontAwesome>,

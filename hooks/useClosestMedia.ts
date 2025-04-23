@@ -13,7 +13,6 @@ const sizes = {
 
 function isMatch(media: keyof typeof sizes) {
     const dim = Dimensions.get('window').width;
-    // console.log(dim, media)
     const mediaNum = parseInt(sizes[media], 10)
     return dim > mediaNum
     // const query = `(min-width: ${sizes[media]})`;

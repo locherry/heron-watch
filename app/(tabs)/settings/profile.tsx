@@ -48,13 +48,13 @@ export default function Profile() {
                     <Button
                         iconName='pencil'
                         text='Edit User'
-                        variant='primary'
+                        type='primary'
                         onPress={() => { }}
                     />
                     <Button
                         iconName='trash'
                         text='Delete User'
-                        variant='danger'
+                        type='danger'
                         onPress={() => { }}
                     />
                 </Row>

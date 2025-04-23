@@ -45,7 +45,7 @@ export default function Language() {
                         },
                         undefined,
                         { id: userSession.id }
-                    ).catch(e => console.log(e))
+                    ).catch(e => console.error(e))
                 }
             })
     }

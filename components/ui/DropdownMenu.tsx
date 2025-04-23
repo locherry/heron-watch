@@ -1,9 +1,7 @@
-import { TouchableOpacity } from 'react-native';
 
-import React, { useRef, useEffect, useState, ReactNode } from 'react';
-import { View, Modal, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
-import { Shadows } from '@/constants/Shadows';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import { Modal, Pressable, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 
 export const MenuOption = ({
   onSelect,
@@ -12,9 +10,9 @@ export const MenuOption = ({
   onSelect: () => void;
   children: ReactNode;
 }) => {
-  return <TouchableOpacity onPress={onSelect} style={styles.menuOption}>
+  return <Pressable onPress={onSelect} style={styles.menuOption}>
     {children}
-  </TouchableOpacity>
+  </Pressable>
 };
 
 interface DropdownMenuProps {
@@ -93,8 +91,7 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 5,
     padding: 10,
-    elevation: 4,
-    ...Shadows.dp2
+    elevation: 4
   },
   menuOption: {
     padding: 5,

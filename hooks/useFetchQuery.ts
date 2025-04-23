@@ -37,15 +37,13 @@ type API = {
     '/users': {
         GET: {
             response: {
-                data: {
-                    id: number,
-                    first_name: string
-                    last_name: string
-                    username: string
-                    email: string
-                    role: 'admin' | 'default'
-                }[]
-            }
+                id: number,
+                first_name: string
+                last_name: string
+                username: string
+                email: string
+                role: 'admin' | 'default'
+            }[]
         }
     },
     '/users/[id]': {
@@ -68,6 +66,20 @@ type API = {
             }
         }
         DELETE: {}
+    },
+    '/actions': {
+        GET: {
+            response: {
+                id: number,
+                quantity: number
+                comment: string
+                product_code: string
+                lot_number: number
+                created_by_id: number
+                created_at: Date
+                action_id: number
+            }[]
+        }
     }
 }
 
@@ -113,7 +125,7 @@ export async function useFetchQuery<
     M extends MethodForPath<P>
 >(
     path: P,
-    method: M,
+    method?: M,
     body?: RequestBodyType<P, M>,
     headers?: RequestHeadersType<P, M>,
     params?: P extends keyof RouteParams ? RouteParams[P] : undefined
@@ -124,12 +136,12 @@ export async function useFetchQuery<
 
     const jwt = await SecureStorage.get('userSession').then(userSession => userSession?.jwt)
 
-
     const authorizationHeader = jwt
         ? { Authorization: `Bearer ${jwt}` }
         : null;
+
     const fetchOptions: RequestInit = {
-        method: method as string,
+        method: (method ?? 'GET') as string,
         headers: {
             "Content-Type": "application/json",
             ...authorizationHeader,
@@ -138,7 +150,8 @@ export async function useFetchQuery<
         ...(body ? { body: JSON.stringify(body) } : {})
     };
 
-    const response = await fetch(endpoint + url, fetchOptions);
+    const response = await fetch(endpoint + url, fetchOptions)
+
     if (!response.ok) throw new Error(`Request failed: ${response.status}`);
 
     const contentType = response.headers.get("content-type");

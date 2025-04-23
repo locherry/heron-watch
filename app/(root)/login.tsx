@@ -14,7 +14,7 @@ import i18n from "@/translations/i18n";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { FlatList, Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, View } from "react-native";
 
 
 export default function Login() {
@@ -43,8 +43,6 @@ export default function Login() {
                 }
             )
             data.then(r => {
-                router.replace("/home")
-                console.log(r.user_info)
                 SecureStorage.set('userSession', {
                     id: r.user_info.id,
                     username: r.user_info.username,
@@ -54,7 +52,11 @@ export default function Login() {
 
                     jwt: r.jwt,
                     role: r.user_info.role,
-                })
+                }).then(
+                    // wait for SecureStorage to complete storing the jwt, because used in home to fetch data
+                    () => router.replace("/home")
+                )
+
                 SecureStorage.set('userPreferences', {
                     theme: r.user_preferences.theme,
                     tintColor: r.user_preferences.tint_color,
@@ -113,15 +115,15 @@ export default function Login() {
                                 <FontAwesome name={passwordVisible ? "eye" : "eye-slash"} size={24} color={colors.gray800} />
                             </Pressable>
                         </View>
-                        <TouchableOpacity style={[styles.forgot_button]}>
+                        <Pressable style={[styles.forgot_button]}>
                             <ThemedText variant="link">Forgot Password?</ThemedText>
-                        </TouchableOpacity>
+                        </Pressable>
                     </View>
 
 
-                    <TouchableOpacity style={[styles.loginBtn, { backgroundColor: colors.tint }]} onPress={authentification}>
+                    <Pressable style={[styles.loginBtn, { backgroundColor: colors.tint }]} onPress={authentification}>
                         <ThemedText variant="h3">Login</ThemedText>
-                    </TouchableOpacity>
+                    </Pressable>
                 </Card>
             </View>
         </View>

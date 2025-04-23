@@ -1,8 +1,8 @@
-import path from 'path'
-import { fileURLToPath } from 'url';
-import fs from 'fs'
-import axios from 'axios';
 import { devConfig } from '@/devEnvConfig';
+import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -91,7 +91,6 @@ const updateTranslations = async () => {
     const refFiles = getFiles(translationDir + path.sep + translationRef)
 
     for (const refFile of refFiles) {
-        console.log(refFile)
         const refJson = JSON.parse(fs.readFileSync(translationDir + path.sep + translationRef + path.sep + refFile, 'utf8'));
 
         for (const dir of dirs) {
