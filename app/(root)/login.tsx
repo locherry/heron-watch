@@ -1,7 +1,7 @@
 import { SecureStorage } from "@/classes/SecureStorage";
 import { Card } from "@/components/layout/Card";
 import { Header } from "@/components/layout/Header";
-import { RootView } from "@/components/Themed/RootView";
+import { RootView } from "@/components/layout/RootView";
 import { ThemedText } from "@/components/Themed/ThemedText";
 import { ThemedTextInput } from "@/components/Themed/ThemedTextInput";
 import { AlertMessage } from "@/components/ui/AlertMessage";

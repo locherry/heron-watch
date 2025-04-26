@@ -36,7 +36,6 @@ export const MAPPING = {
     'person.crop.circle': 'account-outline',
     'envelope': 'email-outline',
     'character.bubble': 'translate',
-    'chevron.right': 'chevron-right',
     'rectangle.portrait.and.arrow.right': 'logout-variant',
     'paintpalette': 'palette-outline',
     'moon.fill': 'weather-night',
@@ -71,6 +70,9 @@ export const MAPPING = {
 
     // Miscellaneous
     'chevron.left': 'chevron-left',
+    'chevron.right': 'chevron-right',
+    'chevron.down': 'chevron-down',
+    'chevron.up': 'chevron-up',
     'xmark': 'close',
 
     // 'line.3.horizontal.decrease': 'filter',

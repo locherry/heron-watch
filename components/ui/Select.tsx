@@ -69,6 +69,8 @@ export const Select = <T extends string | number>({
             <Row gap={8}>
                 {selectedOption.iconName ? <IconSymbol name={selectedOption.iconName} /> : null}
                 <ThemedText capitalizeFirst style={styles.triggerText}>{selectedOption.label}</ThemedText>
+
+                <IconSymbol name={isOpen ? "chevron.up" : 'chevron.down'} />
             </Row>
         </Pressable>
 
@@ -109,7 +111,8 @@ const constantStyles = StyleSheet.create({
         borderRadius: 4
     },
     triggerText: {
-        fontSize: 16
+        fontSize: 16,
+        flex: 1
     },
     optionsContainer: {
         position: "absolute",

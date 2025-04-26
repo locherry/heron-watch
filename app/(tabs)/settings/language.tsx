@@ -1,7 +1,7 @@
 import { DefaultSecureStorageData, SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
-import { RootView } from '@/components/Themed/RootView';
-import { ThemedText } from '@/components/Themed/ThemedText';
 import { Card } from '@/components/layout/Card';
+import { RootView } from '@/components/layout/RootView';
+import { ThemedText } from '@/components/Themed/ThemedText';
 import { Select } from '@/components/ui/Select';
 import { useFetchQuery } from '@/hooks/useFetchQuery';
 import i18n from '@/translations/i18n';

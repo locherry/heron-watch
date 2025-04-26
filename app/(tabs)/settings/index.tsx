@@ -1,10 +1,10 @@
 import { SecureStorage } from '@/classes/SecureStorage';
 import { Alert } from '@/components/Alert/Alert';
 import { SettingsEntry } from '@/components/SettingsEntry';
-import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { Card } from '@/components/layout/Card';
 import { Column } from '@/components/layout/Column';
+import { RootView } from '@/components/layout/RootView';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
@@ -15,7 +15,7 @@ export default function Tab() {
     Alert.alert(t('Please confirm'), t('Do you really want to log out ?'), [
       {
         text: t('cancel'),
-        onPress: () => console.log('Cancel Pressed'),
+        onPress: () => console.info('Cancel Pressed'),
         style: 'cancel',
       },
       {

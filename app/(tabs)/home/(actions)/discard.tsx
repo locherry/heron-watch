@@ -1,6 +1,6 @@
-import { RootView } from '@/components/Themed/RootView';
-import { ThemedText } from '@/components/Themed/ThemedText';
 import { Card } from '@/components/layout/Card';
+import { RootView } from '@/components/layout/RootView';
+import { ThemedText } from '@/components/Themed/ThemedText';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 

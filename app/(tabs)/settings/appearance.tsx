@@ -1,9 +1,9 @@
 import { SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
-import { RootView } from '@/components/Themed/RootView';
-import { ThemedText } from '@/components/Themed/ThemedText';
 import { Card } from '@/components/layout/Card';
 import { Column } from '@/components/layout/Column';
+import { RootView } from '@/components/layout/RootView';
 import { Row } from '@/components/layout/Row';
+import { ThemedText } from '@/components/Themed/ThemedText';
 import { ColorBall } from '@/components/ui/ColorBall';
 import { Select } from '@/components/ui/Select';
 import { tintColors } from '@/constants/Colors';
@@ -62,7 +62,7 @@ export default function Appearance() {
                         },
                         undefined,
                         { id: userSession.id }
-                    ).catch(e => console.log(e))
+                    ).catch(e => console.error(e))
                 }
             })
     }
@@ -84,7 +84,7 @@ export default function Appearance() {
                         },
                         undefined,
                         { id: userSession.id }
-                    ).catch(e => console.log(e))
+                    ).catch(e => console.error(e))
                 }
             })
     }

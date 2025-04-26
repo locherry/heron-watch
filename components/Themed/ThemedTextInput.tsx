@@ -27,11 +27,11 @@ export function ThemedTextInput({ style, textContentType, placeHolder, value, on
         }, []) //Used to disable auto completion background color behaviour on textInput
     }
 
-    return <Pressable onPress={focusOnTextInput} onFocus={focusOnTextInput} style={[style]}>
+    return <Pressable onPress={focusOnTextInput} onFocus={focusOnTextInput} style={[styles.root, { backgroundColor: colors.gray200 }]}>
         <TextInput
             textContentType={textContentType ?? "none"}
             ref={textInputRef}
-            style={[styles.root, { color: colors.text, paddingHorizontal: 8 }]}
+            style={[styles.textInput, { color: colors.text, paddingHorizontal: 8 }]}
             value={value ?? ""}
             placeholder={placeHolder ?? ""}
             placeholderTextColor={colors.text}
@@ -44,6 +44,12 @@ export function ThemedTextInput({ style, textContentType, placeHolder, value, on
 
 const styles = StyleSheet.create({
     root: {
+        borderRadius: 8,
+        width: "100%",
+        height: 40,
+        alignItems: "center",
+    },
+    textInput: {
         flex: 1,
         width: "100%",
         height: "100%",

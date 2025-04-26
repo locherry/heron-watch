@@ -1,5 +1,5 @@
 import { Card } from '@/components/layout/Card';
-import { RootView } from '@/components/Themed/RootView';
+import { RootView } from '@/components/layout/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { useTranslation } from 'react-i18next';

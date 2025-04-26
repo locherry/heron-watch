@@ -5,10 +5,10 @@ import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { FontAwesome } from '@expo/vector-icons';
 import { SymbolWeight } from 'expo-symbols';
 import React from 'react';
-import { OpaqueColorValue, ViewProps } from 'react-native';
+import { OpaqueColorValue, TextStyle } from 'react-native';
 
 
-type Props = ViewProps & {
+type Props = TextStyle & {
   name: IconSymbolName;
   size?: number;
   color?: string | OpaqueColorValue;
@@ -23,7 +23,7 @@ type Props = ViewProps & {
 export function IconSymbol({
   name,
   size = 24,
-  color,
+  color
 }: Props) {
   const colors = useThemeColor()
 
@@ -56,5 +56,13 @@ export function IconSymbol({
     color={color ?? colors.gray900}
     size={size}
     name={iconName}
+    
+    
+    style={[
+      {
+        width: size,
+        height: size,
+      },
+    ]}
   />
 }

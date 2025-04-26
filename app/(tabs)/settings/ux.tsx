@@ -1,8 +1,8 @@
 import { Alert } from '@/components/Alert/Alert';
 import { Card } from '@/components/layout/Card';
 import { Column } from '@/components/layout/Column';
+import { RootView } from '@/components/layout/RootView';
 import { Row } from '@/components/layout/Row';
-import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { ThemedTextInput } from '@/components/Themed/ThemedTextInput';
 import { AlertMessage } from '@/components/ui/AlertMessage';

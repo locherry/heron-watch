@@ -1,6 +1,6 @@
 import { Card } from '@/components/layout/Card';
+import { RootView } from '@/components/layout/RootView';
 import { Row } from '@/components/layout/Row';
-import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { Button } from '@/components/ui/Button/Button';
 import { useThemeColor } from '@/hooks/color/useThemeColor';

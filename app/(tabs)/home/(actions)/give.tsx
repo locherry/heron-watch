@@ -1,6 +1,6 @@
-import { RootView } from '@/components/Themed/RootView';
-import { ThemedText } from '@/components/Themed/ThemedText';
 import { Card } from '@/components/layout/Card';
+import { RootView } from '@/components/layout/RootView';
+import { ThemedText } from '@/components/Themed/ThemedText';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 

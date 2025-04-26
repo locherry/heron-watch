@@ -1,8 +1,8 @@
 import { SettingsEntry } from '@/components/SettingsEntry';
-import { RootView } from '@/components/Themed/RootView';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { Card } from '@/components/layout/Card';
 import { Column } from '@/components/layout/Column';
+import { RootView } from '@/components/layout/RootView';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 

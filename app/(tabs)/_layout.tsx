@@ -1,6 +1,6 @@
 import { SecureStorage } from '@/classes/SecureStorage';
 import { Header } from '@/components/layout/Header';
-import { RootView } from '@/components/Themed/RootView';
+import { RootView } from '@/components/layout/RootView';
 import { IconSymbol } from '@/components/ui/Icon/IconSymbol';
 import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { useAuth } from '@/hooks/useAuth';

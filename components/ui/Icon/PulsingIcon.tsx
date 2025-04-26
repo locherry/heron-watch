@@ -1,17 +1,15 @@
+import { IconSymbolName } from '@/constants/Icons';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
   Easing,
-  withSequence,
+  useAnimatedStyle,
+  useSharedValue,
   withRepeat,
-  useDerivedValue,
-  useAnimatedProps
+  withSequence,
+  withTiming
 } from 'react-native-reanimated';
 import { IconSymbol } from './IconSymbol';
-import { IconSymbolName } from '@/constants/Icons';
 
 type PulsingIconProps = {
   name: IconSymbolName;
@@ -19,7 +17,7 @@ type PulsingIconProps = {
   size: number;
   minScale?: number; // e.g. 0.85
   maxScale?: number; // e.g. 1.15
-  duration?: number; // e.g. 900
+  duration?: number; // e.g. 1000
 };
 
 export const PulsingIcon: React.FC<PulsingIconProps> = ({
@@ -58,6 +56,6 @@ export const PulsingIcon: React.FC<PulsingIconProps> = ({
 
 const styles = StyleSheet.create({
   iconContainer: {
-    // Add any additional styles for the icon container here
+
   },
 });
