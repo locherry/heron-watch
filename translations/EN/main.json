@@ -4,16 +4,16 @@
         "admin": "admin",
         "settings": "settings"
     },
-    "admin" : {
-        "tabName" : "admin panel",
-        "usersPanel" : {
-            "name" : "manage users"
+    "admin": {
+        "tabName": "admin panel",
+        "usersPanel": {
+            "name": "manage users"
         },
-        "stocksPanel" : {
-            "name" : "manage stocks"
+        "stocksPanel": {
+            "name": "manage stocks"
         },
-        "statsPanel" : {
-            "name" : "view stats"
+        "statsPanel": {
+            "name": "view stats"
         }
     },
     "settings": {
@@ -23,7 +23,7 @@
             "deleteUser": "delete user",
             "userRole": {
                 "admin": "admin user",
-                "default": "default user"
+                "user": "user"
             }
         },
         "language": {
@@ -39,6 +39,17 @@
             "systemDefault": "system default"
         }
     },
+    "user":{
+        "firstName": "first name",
+        "lastName": "last name",
+        "username": "username",
+        "email": "email",
+        "password": "password",
+        "role": "role",
+        "addUser": "add user",
+        "admin": "admin",
+        "user": "user"
+    },
     "color": {
         "raspberry": "raspberry",
         "ocean": "ocean",
@@ -46,22 +57,34 @@
         "sunny": "sunny",
         "rust": "rust"
     },
-
+    "common": {
+        "delete": "delete",
+        "edit": "edit",
+        "save": "save",
+        "add": "add",
+        "back": "back",
+        "next": "next",
+        "done": "done",
+        "close": "close",
+        "history": "history",
+        "loading": "loading",
+        "error": "error",
+        "success": "success",
+        "action": "action",
+        "date": "date",
+        "user": "user",
+        "product": "product",
+        "logout": "logout",
+        "cancel": "cancel",
+        "OK": "OK",
+        "sell": "sell",
+        "stock": "stock",
+        "give": "give",
+        "discard": "discard"
+    },
     "Please confirm": "Please confirm",
-    "Do you really want to log out ?" : "Do you really want to log out?",
-    "Scan Qr code" : "Scan Qr code",
-    "cancel" : "cancel",
-    "OK":"OK",
-    "sell" : "sell",
-    "stock" : "stock",
-    "give" : "give",
-    "discard" : "discard",
-    "transfer to the shop" : "transfer to the shop",
-    "history" : "history",
-    "welcome home !" : "welcome home !",
-    "action" : "action",
-    "date" : "date",
-    "user": "user",
-    "product": "product",
-    "logout" : "logout"
+    "Do you really want to log out ?": "Do you really want to log out?",
+    "Scan Qr code": "Scan Qr code",
+    "transfer to the shop": "transfer to the shop",
+    "welcome home !": "welcome home !"
 }

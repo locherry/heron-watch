@@ -11,7 +11,7 @@
       "delete user": "supprimer l'utilisateur",
       "userRole": {
         "admin": "utilisateur administrateur",
-        "default": "utilisateur par défaut"
+        "user": "utilisateur par défaut"
       },
       "deleteUser": "supprimer l'utilisateur"
     },

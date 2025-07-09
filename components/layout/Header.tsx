@@ -17,7 +17,7 @@ export function Header({ style, title, rightCornerText, ...rest }: Props) {
                 <IconSymbol name="chevron.left" size={32}/>
                 <ThemedText
                     variant="h1"
-                    style={{ textTransform: "capitalize" }}
+                    style={{ textTransform: "capitalize", marginBottom: 0, marginTop: 0 }}
                 >
                     {title}
                 </ThemedText>

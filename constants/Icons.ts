@@ -33,7 +33,7 @@ export const MAPPING = {
     'shield': 'shield-outline',
 
     //settings icons
-    'person.crop.circle': 'account-outline',
+    'person.crop.circle': 'account-circle-outline',
     'envelope': 'email-outline',
     'character.bubble': 'translate',
     'rectangle.portrait.and.arrow.right': 'logout-variant',
@@ -52,7 +52,9 @@ export const MAPPING = {
     'gift': 'gift-outline',
     'trash': 'trash-can-outline',
     'pencil': 'pencil',
+    'lock': 'lock-outline',
     'ellipsis': 'dots-horizontal',
+    'plus': 'plus',
 
     //QRcode scanner
     'viewfinder.rectangular': 'qrcode',

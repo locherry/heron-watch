@@ -54,7 +54,7 @@ export default function Home() {
             header: t('date'),
             renderCell: (item: ActionType) => formatDate(item.created_at).replace(' ', '\n')
         },
-        { key: 'created_by_id', header: t('user') },
+        { key: 'created_by_id', header: t('common.user') },
     ];
 
     type ActionBtn = {

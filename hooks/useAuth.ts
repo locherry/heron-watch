@@ -2,7 +2,7 @@ import { SecureStorage } from "@/classes/SecureStorage"
 import { router } from "expo-router";
 
 export async function useAuth() {
-    const userSession = await SecureStorage.get('user_session');
+    const userSession = await SecureStorage.get('userSession');
     if (userSession?.id == 0) {
         router.replace('/login')
     }

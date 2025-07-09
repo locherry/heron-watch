@@ -11,7 +11,7 @@ export type SecureStorageData = {
         lastName: string,
         email: string,
         jwt: string,
-        role: 'admin' | 'default'
+        role: 'admin' | 'user'
     },
     userPreferences: {
         theme: 'light' | 'dark' | 'system',
@@ -28,7 +28,7 @@ export const DefaultSecureStorageData = {
         lastName: 'name',
         email: 'user.name@mail.com',
         jwt: '',
-        role: 'default'
+        role: 'user'
     },
     userPreferences: {
         theme: 'system',

@@ -123,8 +123,8 @@ const constantStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#ccc",
         borderRadius: 4,
-        zIndex: 10,
-        elevation: 10, // Android elevation
+        zIndex: 9999, // Ensure dropdown is on top
+        elevation: 20, // Higher Android elevation
     },
     option: {
         padding: 12,

@@ -23,7 +23,7 @@ type API = {
                         last_name: string
                         username: string
                         email: string
-                        role: 'admin' | 'default'
+                        role: 'admin' | 'user'
                     },
                     user_preferences: {
                         theme: 'system' | 'dark' | 'light'
@@ -42,11 +42,34 @@ type API = {
                 last_name: string
                 username: string
                 email: string
-                role: 'admin' | 'default'
+                role: 'admin' | 'user'
             }[]
+        },
+        POST: {
+            request: {
+                body: {
+                    first_name: string
+                    last_name: string
+                    username: string
+                    email: string
+                    password: string
+                    role: 'admin' | 'user'
+                }
+            },
+            response: {}
         }
     },
     '/users/[id]': {
+        GET: {
+            response: {
+                id: number,
+                first_name: string
+                last_name: string
+                username: string
+                email: string
+                role: 'admin' | 'user'
+            }
+        },
         PATCH: {
             request: {
                 body: {
@@ -55,7 +78,7 @@ type API = {
                         last_name?: string
                         username?: string
                         email?: string
-                        role?: 'admin' | 'default'
+                        role?: 'admin' | 'user'
                     },
                     user_preferences?: {
                         theme?: 'system' | 'dark' | 'light'
@@ -64,7 +87,7 @@ type API = {
                     }
                 }
             }
-        }
+        },
         DELETE: {}
     },
     '/actions': {

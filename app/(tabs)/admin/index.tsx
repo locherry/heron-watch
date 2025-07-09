@@ -14,7 +14,7 @@ export default function Tab() {
             <Column gap={16}>
                 <SettingsEntry
                     iconName="person.2"
-                    href="/admin/usersPanel"
+                    href="/admin/users"
                     text={t("admin.usersPanel.name")}
                 />
                 <SettingsEntry

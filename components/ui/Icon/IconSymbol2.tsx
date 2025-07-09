@@ -5,7 +5,7 @@ import { useThemeColor } from '@/hooks/color/useThemeColor';
 import { FontAwesome } from '@expo/vector-icons';
 import { SymbolWeight } from 'expo-symbols';
 import React from 'react';
-import { OpaqueColorValue, TextStyle } from 'react-native';
+import { OpaqueColorValue, TextStyle, ViewProps } from 'react-native';
 
 
 type Props = TextStyle & {

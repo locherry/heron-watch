@@ -45,7 +45,7 @@ export function ThemedTextInput({ style, textContentType, placeHolder, value, on
 const styles = StyleSheet.create({
     root: {
         borderRadius: 8,
-        width: "100%",
+        // width: "100%",
         height: 40,
         alignItems: "center",
     },
