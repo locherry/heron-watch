@@ -1,20 +1,21 @@
-import { StyleProp, View, ViewProps, ViewStyle } from "react-native";
+import React from "react";
+import { View } from "react-native";
 
-type Props = ViewProps & {
-    gap?: number,
-    center?: boolean
+interface RootViewProps {
+  children: React.ReactNode;
+  gap?: number;
+  className?: string; // Optional className prop for customization
 }
 
-export function Column({ style, gap, center, ...rest }:Props) {
-    return <View style={[
-        rowStyle, 
-        style, 
-        gap ? { gap: gap } : {},
-        center ? {alignItems: "center"}: {}
-    ]} {...rest}/>
-}
+const Column: React.FC<RootViewProps> = ({ children, gap, className }) => {
+  return (
+    <View
+      style={gap ? { gap: gap } : {}}
+      className={`flex-1 justify-start items-center ${className}`}
+    >
+      {children}
+    </View>
+  );
+};
 
-const rowStyle = {
-    flexDirection:"column",
-    // alignItems: "center"
-} satisfies ViewStyle
+export default Column;

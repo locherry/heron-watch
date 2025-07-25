@@ -1,187 +1,65 @@
-import { SecureStorage } from "@/classes/SecureStorage";
-import { Card } from "@/components/layout/Card";
-import { Header } from "@/components/layout/Header";
-import { RootView } from "@/components/layout/RootView";
-import { ThemedText } from "@/components/Themed/ThemedText";
-import { ThemedTextInput } from "@/components/Themed/ThemedTextInput";
-import { AlertMessage } from "@/components/ui/AlertMessage";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useRouter } from "expo-router"; // For navigation
+import { t } from "i18next";
+import * as React from "react";
+import { View } from "react-native";
+import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
+import { Text } from "~/components/ui/text";
+import { capitalizeFirst } from "~/lib/utils";
 
-import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { useFetchQuery } from "@/hooks/useFetchQuery";
-import i18n from "@/translations/i18n";
+export default function LoginScreen() {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState<string | null>(null);
+  
+  const router = useRouter();
 
-import { FontAwesome } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import { FlatList, Pressable, StyleSheet, View } from "react-native";
-
-
-export default function Login() {
-    const colors = useThemeColor()
-    const {setTheme, setTint} = useTheme()
-
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordVisible, setPasswordVisible] = useState(false);
-
-    const [msgList, setMsgList] = useState<string[]>([])
-
-    const router = useRouter()
-    const authentification = () => {
-        const isFormValid = () => {
-            const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            return reg.test(email)
-        }
-        if (isFormValid()) {
-            const data = useFetchQuery(
-                '/login',
-                'POST',
-                {
-                    email: email,
-                    password: password
-                }
-            )
-            data.then(r => {
-                SecureStorage.set('userSession', {
-                    id: r.user_info.id,
-                    username: r.user_info.username,
-                    firstName: r.user_info.first_name,
-                    lastName: r.user_info.last_name,
-                    email: r.user_info.email,
-
-                    jwt: r.jwt,
-                    role: r.user_info.role,
-                }).then(
-                    // wait for SecureStorage to complete storing the jwt, because used in home to fetch data
-                    () => router.replace("/home")
-                )
-
-                SecureStorage.set('userPreferences', {
-                    theme: r.user_preferences.theme,
-                    tintColor: r.user_preferences.tint_color,
-                    language: r.user_preferences.language
-                })
-                setTheme(r.user_preferences.theme)
-                setTint(r.user_preferences.tint_color)
-                i18n.changeLanguage(r.user_preferences.language)
-            }).catch(e => {
-                setMsgList([...msgList, e.message])
-            })
-        } else {
-            setMsgList([...msgList, 'Invalid email address'])
-        }
+  const handleLogin = () => {
+    if (!email || !password) {
+      setError("Please fill in both fields.");
+      return;
     }
+    // Simulate login success
+    setError(null);
+    router.push("/home/raw_materials"); // Navigate to home after successful login
+  };
 
-    return <RootView>
-        <View>
-            <Header title="login" />
-            <View style={styles.body}>
-                <View>
-                    <FlatList data={msgList}
-                        scrollEnabled={false}
-                        renderItem={(e) => <AlertMessage type="danger">{e.item}</AlertMessage>}
-                    />
-                </View>
+  return (
+    <View className="flex-1 justify-center items-center p-6">
+      <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
+        <Text className="text-2xl font-semibold  mb-4 text-center">
+          Login
+        </Text>
 
-                <Card style={styles.card}>
-                    <ThemedText variant="h2" style={styles.title}>Login Form</ThemedText>
+        {error && (
+          <Text className="text-red-500 text-sm text-center mb-4">{error}</Text>
+        )}
 
-                    <View style={styles.inputView}>
-                        <ThemedText variant="h3" style={[styles.label]}>Email</ThemedText>
-                        <ThemedTextInput
-                            style={[styles.input, { backgroundColor: colors.gray200 }]}
-                            textContentType="username"
-                            onChange={(email) => setEmail(email)}
-                            value={email}
+        {/* Email Input */}
+        <Input
+          value={email}
+          onChangeText={setEmail}
+          placeholder={capitalizeFirst(t("common.email"))}
+          className="mb-4"
+          keyboardType="email-address"
+        />
 
-                            placeHolder="Entrer your email ..." />
-                    </View>
-
-                    <View style={styles.inputView}>
-                        <ThemedText variant="h3" style={[styles.label]}>Password</ThemedText>
-                        <View>
-                            <ThemedTextInput
-                                style={[styles.input, { backgroundColor: colors.gray200 }]}
-                                textContentType="password"
-                                placeHolder="Entrer your password ..."
-                                secureTextEntry={!passwordVisible}
-                                onChange={(password) => setPassword(password)}
-                                value={password}
-                            />
-                            <Pressable
-                                style={styles.icon}
-                                onPress={() => setPasswordVisible(!passwordVisible)}>
-                                <FontAwesome name={passwordVisible ? "eye" : "eye-slash"} size={24} color={colors.gray800} />
-                            </Pressable>
-                        </View>
-                        <Pressable style={[styles.forgot_button]}>
-                            <ThemedText variant="link">Forgot Password?</ThemedText>
-                        </Pressable>
-                    </View>
-
-
-                    <Pressable style={[styles.loginBtn, { backgroundColor: colors.tint }]} onPress={authentification}>
-                        <ThemedText variant="h3">Login</ThemedText>
-                    </Pressable>
-                </Card>
-            </View>
-        </View>
-    </RootView>
+        {/* Password Input */}
+        <Input
+          value={password}
+          onChangeText={setPassword}
+          placeholder={capitalizeFirst(t("common.password"))}
+          secureTextEntry
+          className="mb-6"
+        />
+        <Button
+          onPress={handleLogin}
+          variant={"outline"}
+        >
+          {capitalizeFirst(t("common.login"))}
+        </Button>
+      </Card>
+    </View>
+  );
 }
-
-
-const styles = StyleSheet.create({
-    card: {
-        paddingVertical: 32,
-        paddingHorizontal: "20%"
-    },
-    forgot_button: {
-        alignSelf: "flex-end",
-    },
-    title: {
-        marginBottom: 8,
-        alignSelf: "center"
-    },
-    label: {
-        alignSelf: "baseline",
-        marginBlockEnd: 8
-        // marginVertical: 20,
-    },
-    input: {
-        borderRadius: 8,
-        width: "100%",
-        height: 40,
-        alignItems: "center",
-        // paddingHorizontal: 8,
-        // marginBlockEnd: 12
-    },
-    inputView: {
-        // position: "relative",
-        paddingVertical: 16,
-        // gap: 8
-    },
-    loginBtn: {
-        width: "100%",
-        borderRadius: 8,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    icon: {
-        position: "absolute",
-        top: "15%",
-        right: 10
-    },
-
-    body: {
-        // marginVertical: 60,
-        display: "flex",
-        justifyContent: "center",
-        // height: "80%",
-        // borderBlockColor: "red",
-        // borderColor: "red",
-        // borderWidth: 4,
-        // borderStyle: "solid"
-    },
-})

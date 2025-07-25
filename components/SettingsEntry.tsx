@@ -1,44 +1,51 @@
-import { IconSymbolName } from "@/constants/Icons";
-import { Link, Route } from "expo-router";
-import { Pressable, StyleSheet, View, type ViewProps } from "react-native";
-import { Row } from "./layout/Row";
-import { ThemedText } from "./Themed/ThemedText";
-import { IconSymbol } from "./ui/Icon/IconSymbol";
+import { Link, LinkProps } from "expo-router";
+import type { LucideIcon } from "lucide-react-native";
+import React from "react";
+import { Pressable, View } from "react-native";
+import { ChevronRight } from "~/lib/icons/ChevronRight";
+import { Card } from "./ui/card";
+import { P } from "./ui/typography";
 
-type Props = ViewProps & {
-    iconName: IconSymbolName,
-    href?: Route,
-    text?: string,
-    onPress?: () => void
-}
+const SettingsEntry = ({
+  icon: Icon,
+  title,
+  href,
+  onPress,
+}: {
+  icon: LucideIcon;
+  title: string;
+  href?: LinkProps["href"];
+  onPress?: () => void;
+}) => {
+  const Content = () => (
+    <Card className="flex-row items-center justify-between p-4">
+      <View className="flex-row items-center">
+        <Icon size={24} className="mr-3 text-foreground" strokeWidth={1.5} />
+        <P>{title}</P>
+      </View>
+      <ChevronRight size={24} className="text-muted-foreground" />
+    </Card>
+  );
 
-export function SettingsEntry({ style, iconName, href, text, onPress, ...rest }: Props) {
-    let content = <Row style={[style, styles.root]} gap={16}>
-        <IconSymbol name={iconName} />
-        <View style={styles.content}>
-            {text ? <ThemedText capitalizeFirst>{text}</ThemedText> : <View {...rest} />}
-        </View>
+  if (href) {
+    return (
+      <Link href={href} asChild>
+        <Pressable>
+          <Content />
+        </Pressable>
+      </Link>
+    );
+  }
 
-        <IconSymbol name='chevron.right' />
-    </Row>
+  if (onPress) {
+    return (
+      <Pressable onPress={onPress}>
+        <Content />
+      </Pressable>
+    );
+  }
 
-    if (href) {
-        content = <Link href={href}>{content}</Link>
-    }
-    if (onPress) {
-        content = <Pressable onPress={onPress}>{content}</Pressable>
-    }
+  return <Content />;
+};
 
-    return content
-}
-
-const styles = StyleSheet.create({
-    root: {
-        // justifyContent:'flex-start',
-        // flex: 1,
-        width: '100%'
-    },
-    content:{
-        flex:1
-    }
-})
+export default SettingsEntry;

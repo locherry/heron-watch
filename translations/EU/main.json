@@ -1,11 +1,97 @@
 {
-  "tabBar": {},
+  "tabBar": {
+    "home": "etxea",
+    "admin": "admin",
+    "settings": "ezarpenak"
+  },
+  "admin": {
+    "tabName": "administrazio panela",
+    "usersPanel": {
+      "name": "erabiltzaileak kudeatu"
+    },
+    "stocksPanel": {
+      "name": "stockak kudeatu"
+    },
+    "statsPanel": {
+      "name": "estatistikak ikusi"
+    }
+  },
   "settings": {
     "profile": {
-      "userRole": {}
+      "name": "profil",
+      "userInfo": "erabiltzailearen informazioa",
+      "deleteUser": "erabiltzailea ezabatu",
+      "userRole": {
+        "admin": "admin erabiltzailea",
+        "user": "erabiltzailea"
+      }
     },
-    "language": {},
-    "appearance": {}
+    "language": {
+      "appLanguage": "aplikazioaren hizkuntza",
+      "name": "hizkuntza"
+    },
+    "appearance": {
+      "name": "itxura",
+      "tintColor": "kolore ukitua",
+      "theme": "gaia",
+      "lightTheme": "argizko gaia",
+      "darkTheme": "iluneko gaia",
+      "systemDefault": "sistemaren lehenetsia"
+    }
   },
-  "color": {}
+  "user": {
+    "firstName": "izena",
+    "lastName": "abizena",
+    "username": "erabiltzaile izena",
+    "email": "posta elektronikoa",
+    "password": "pasahitza",
+    "role": "rola",
+    "addUser": "erabiltzailea gehitu",
+    "admin": "admin",
+    "user": "erabiltzailea"
+  },
+  "color": {
+    "raspberry": "ahabia",
+    "ocean": "ozeanoa",
+    "sage": "salbia",
+    "sunny": "eguzkitsua",
+    "rust": "herdoila"
+  },
+  "common": {
+    "settings": "ezarpenak",
+    "delete": "ezabatu",
+    "edit": "editatu",
+    "save": "gorde",
+    "add": "gehitu",
+    "back": "atzera",
+    "next": "hurrengoa",
+    "done": "eginda",
+    "close": "itxi",
+    "history": "historia",
+    "loading": "kargatzen",
+    "error": "errorea",
+    "success": "arrakasta",
+    "action": "ekintza",
+    "date": "data",
+    "user": "erabiltzailea",
+    "product": "produktua",
+    "logout": "irten",
+    "login": "sartu",
+    "cancel": "ezeztatu",
+    "OK": "ADOS",
+    "sell": "saldu",
+    "stock": "stocka",
+    "give": "eman",
+    "discard": "baztertu",
+    "password": "pasahitza",
+    "email": "posta"
+  },
+  "Please confirm": "Mesedez baieztatu",
+  "Do you really want to log out ?": "Benetan irten nahi duzu?",
+  "Scan Qr code": "Eskaneatu QR kodea",
+  "transfer to the shop": "dendara transferitu",
+  "welcome home !": "ongi etorri etxera!",
+  "Finished products": "Amaitutako produktuak",
+  "Raw materials": "Lehengaiak",
+  "View stocks": "Ikusi stockak"
 }

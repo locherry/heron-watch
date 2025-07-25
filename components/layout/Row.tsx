@@ -1,14 +1,21 @@
-import { View, ViewProps, ViewStyle } from "react-native";
+import React from "react";
+import { View } from "react-native";
 
-type Props = ViewProps & {
-    gap?: number
+interface RootViewProps {
+  children: React.ReactNode;
+  gap?: number;
+  className?: string; // Optional className prop for customization
 }
 
-export function Row({ style, gap, ...rest }:Props) {
-    return <View style={[rowStyle, style, gap ? { gap: gap } : undefined]} {...rest}/>
-}
+const Row: React.FC<RootViewProps> = ({ children, gap, className }) => {
+  return (
+    <View
+      style={[gap ? { gap: gap } : {}]}
+      className={`flex-1 flex-row justify-start items-center ${className}`}
+    >
+      {children}
+    </View>
+  );
+};
 
-const rowStyle = {
-    flexDirection:"row",
-    alignItems: "center"
-} satisfies ViewStyle
+export default Row;

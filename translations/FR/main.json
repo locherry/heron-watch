@@ -4,52 +4,94 @@
     "admin": "admin",
     "settings": "paramètres"
   },
+  "admin": {
+    "tabName": "panneau d'administration",
+    "usersPanel": {
+      "name": "gérer les utilisateurs"
+    },
+    "stocksPanel": {
+      "name": "gérer les stocks"
+    },
+    "statsPanel": {
+      "name": "voir les statistiques"
+    }
+  },
   "settings": {
     "profile": {
       "name": "profil",
-      "userInfo": "information utilisateur",
-      "delete user": "supprimer l'utilisateur",
+      "userInfo": "informations utilisateur",
+      "deleteUser": "supprimer l'utilisateur",
       "userRole": {
-        "admin": "utilisateur administrateur",
-        "user": "utilisateur par défaut"
-      },
-      "deleteUser": "supprimer l'utilisateur"
+        "admin": "utilisateur admin",
+        "user": "utilisateur"
+      }
     },
     "language": {
-      "name": "langage",
-      "appLanguage": "langue de l'application"
+      "appLanguage": "langue de l'application",
+      "name": "langue"
     },
     "appearance": {
       "name": "apparence",
+      "tintColor": "couleur d'accent",
+      "theme": "thème",
       "lightTheme": "thème clair",
       "darkTheme": "thème sombre",
-      "systemDefault": "thème système",
-      "tintColor": "couleur de la teinte",
-      "theme": "thème"
+      "systemDefault": "par défaut du système"
     }
   },
-  "Please confirm": "Veuillez confirmer",
-  "Do you really want to log out ?": "Voulez-vous vraiment vous déconnecter ?",
+  "user": {
+    "firstName": "prénom",
+    "lastName": "nom",
+    "username": "nom d'utilisateur",
+    "email": "email",
+    "password": "mot de passe",
+    "role": "rôle",
+    "addUser": "ajouter un utilisateur",
+    "admin": "admin",
+    "user": "utilisateur"
+  },
   "color": {
+    "raspberry": "framboise",
     "ocean": "océan",
     "sage": "sauge",
     "sunny": "ensoleillé",
-    "rust": "rouille",
-    "raspberry": "framboise"
+    "rust": "rouille"
   },
-  "cancel": "annuler",
-  "OK": "OK",
-  "sell": "vendre",
-  "stock": "stocker",
-  "give": "donner",
-  "discard": "écarter",
+  "common": {
+    "settings": "paramètres",
+    "delete": "supprimer",
+    "edit": "modifier",
+    "save": "enregistrer",
+    "add": "ajouter",
+    "back": "retour",
+    "next": "suivant",
+    "done": "terminé",
+    "close": "fermer",
+    "history": "historique",
+    "loading": "chargement",
+    "error": "erreur",
+    "success": "succès",
+    "action": "action",
+    "date": "date",
+    "user": "utilisateur",
+    "product": "produit",
+    "logout": "se déconnecter",
+    "login": "se connecter",
+    "cancel": "annuler",
+    "OK": "OK",
+    "sell": "vendre",
+    "stock": "stock",
+    "give": "donner",
+    "discard": "jeter",
+    "password": "mot de passe",
+    "email": "email"
+  },
+  "Please confirm": "Veuillez confirmer",
+  "Do you really want to log out ?": "Voulez-vous vraiment vous déconnecter ?",
+  "Scan Qr code": "Scanner le code QR",
   "transfer to the shop": "transférer au magasin",
-  "history": "historique",
-  "welcome home !": "bienvenue à la maison !",
-  "action": "action",
-  "date": "date",
-  "user": "utilisateur",
-  "product": "produit",
-  "Scan Qr code": "Scanner le code Qr",
-  "logout": "déconnexion"
+  "welcome home !": "bienvenue chez vous !",
+  "Finished products": "Produits finis",
+  "Raw materials": "Matières premières",
+  "View stocks": "Voir les stocks"
 }

@@ -1,144 +1,98 @@
-import { SecureStorage, SecureStorageData } from '@/classes/SecureStorage';
-import { Card } from '@/components/layout/Card';
-import { Column } from '@/components/layout/Column';
-import { RootView } from '@/components/layout/RootView';
-import { Row } from '@/components/layout/Row';
-import { ThemedText } from '@/components/Themed/ThemedText';
-import { ColorBall } from '@/components/ui/ColorBall';
-import { Select } from '@/components/ui/Select';
-import { tintColors } from '@/constants/Colors';
-import { IconSymbolName } from '@/constants/Icons';
-import { useTheme } from '@/contexts/ThemeContext';
-import { useThemeColor } from '@/hooks/color/useThemeColor';
-import { useFetchQuery } from '@/hooks/useFetchQuery';
-import { Link } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet } from 'react-native';
+import { Laptop } from "lib/icons/Laptop";
+import { MoonStar } from "lib/icons/MoonStar";
+import { Sun } from "lib/icons/Sun";
+import { LucideIcon } from "lucide-react-native";
+import React from "react";
+import { View } from "react-native";
+import RootView from "~/components/layout/RootView";
+import { Label } from "~/components/ui/label";
 
-export default function Appearance() {
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "~/components/ui/select";
+import { H3, P } from "~/components/ui/typography";
 
-    const { t } = useTranslation()
-    const { setTheme, setTint } = useTheme()
+import { useColorScheme } from 'lib/useColorScheme';
 
-    const THEMES = [
-        { label: t('settings.appearance.systemDefault'), value: 'system', iconName: 'gearshape' },
-        { label: t('settings.appearance.lightTheme'), value: 'light', iconName: 'sun.max.fill' },
-        { label: t('settings.appearance.darkTheme'), value: 'dark', iconName: 'moon.fill' },
-    ] satisfies {
-        label: string,
-        value: SecureStorageData['userPreferences']['theme'],
-        iconName: IconSymbolName
-    }[]
+// Define Option type
+type Option = {
+  value: string;
+  label: string;
+  icon: LucideIcon;
+};
 
-    const [themeSelected, setThemeSelected] = useState<typeof THEMES[number]['value'] | null>(null);
-    const [colorSelected, setColorSelected] = useState<typeof tintColors[number]['name'] | null>(null);
+type SelectOption = {
+    value: string;
+    label: string;
+} | undefined;
+export default function AppearanceSelect() {
+  const { colorScheme, setColorScheme, toggleColorScheme } = useColorScheme();  // Using the provided hook
 
-    useEffect(() => {
-        SecureStorage.get('userPreferences').then(
-            prefs => {
-                setThemeSelected(prefs?.theme ?? 'system')
-                setColorSelected(prefs?.tintColor ?? tintColors[0]["name"])
-            }
-        )
-    }, [])
+  const options: Option[] = [
+    { value: "light", label: "Light", icon: Sun },
+    { value: "dark", label: "Dark", icon: MoonStar },
+    { value: "system", label: "System", icon: Laptop },
+  ];
 
-    const colors = useThemeColor()
+  const [value, setValue] = React.useState<string>(colorScheme ?? "system"); // Default to current system theme
 
-    const applyThemeToApp = (themeValue: SecureStorageData['userPreferences']['theme']) => {
-        setThemeSelected(themeValue)
-        setTheme(themeValue)
-
-        SecureStorage.get("userSession")
-            .then((userSession) => {
-                if (userSession) {
-                    useFetchQuery(
-                        '/users/[id]',
-                        'PATCH',
-                        {
-                            user_preferences: {
-                                theme: themeValue
-                            }
-                        },
-                        undefined,
-                        { id: userSession.id }
-                    ).catch(e => console.error(e))
-                }
-            })
+  const handleValueChange = (newValue:SelectOption) => {
+    setValue(newValue?.value ?? "system");
+    if (newValue?.value === "light" || newValue?.value === "dark") {
+      setColorScheme(newValue.value);  // Update the color scheme based on user selection
+    } else {
+      setColorScheme("system");  // Set to system's theme when "system" is selected
     }
+  };
 
-    const applyColorToApp = (tintValue: SecureStorageData['userPreferences']['tintColor']) => {
-        setColorSelected(tintValue)
-        setTint(tintValue)
-
-        SecureStorage.get("userSession")
-            .then((userSession) => {
-                if (userSession) {
-                    useFetchQuery(
-                        '/users/[id]',
-                        'PATCH',
-                        {
-                            user_preferences: {
-                                tint_color: tintValue
-                            }
-                        },
-                        undefined,
-                        { id: userSession.id }
-                    ).catch(e => console.error(e))
+  return (
+    <RootView>
+      <H3 className="mb-3">Appearance menu</H3>
+      <Label>Theme</Label>
+      <Select
+        onValueChange={handleValueChange}
+      >
+        <SelectTrigger className="w-[250px]">
+          <SelectValue
+            className="text-foreground text-sm native:text-lg flex flex-row items-center"
+            placeholder="Select Appearance Mode"
+          >
+            <View className="mr-2 flex flex-row items-center">
+              {(() => {
+                const selectedOption = options.find(
+                  (option) => option.value === value
+                );
+                if (selectedOption?.icon) {
+                  return (
+                    <selectedOption.icon className="mr-2" size={16} />
+                  );
                 }
-            })
-    }
-
-    return <RootView style={styles.container}>
-        <Card style={styles.card}>
-            <ThemedText variant='h1'>{t('settings.appearance.name')}</ThemedText>
-            <Column gap={16}>
-                <Card backgroundColor={colors.gray100} style={styles.appearanceItem}>
-                    <ThemedText variant='h2'>{t('settings.appearance.tintColor')}</ThemedText>
-                    <Row gap={16}>
-                        {tintColors.map((color) =>
-                            <Pressable onPress={() => applyColorToApp(color.name)} key={color.name}>
-                                <Column center>
-                                    <ColorBall
-                                        colors={[color.dark, color.light]}
-                                        active={colorSelected == color.name} />
-                                    <ThemedText>{t(`color.${color.name}`)}</ThemedText>
-                                </Column>
-                            </Pressable>)}
-                    </Row>
-                </Card>
-                <Card backgroundColor={colors.gray100} style={[styles.appearanceItem, { overflow: 'visible' }]}>
-                    <ThemedText variant='h2'>{t('settings.appearance.theme')}</ThemedText>
-                    <Select options={THEMES} selectedValue={themeSelected}
-                        onSelect={applyThemeToApp} />
-                </Card>
-                <Card backgroundColor={colors.gray100} style={[styles.appearanceItem, { zIndex: -1 }]}>
-                    <ThemedText variant='h2'>UX</ThemedText>
-                    <Link href='/settings/ux'>
-                        <ThemedText variant='link'>View UX components</ThemedText>
-                    </Link>
-                </Card>
-            </Column>
-        </Card>
+                return null; // If there's no icon, render nothing
+              })()}
+              <P className="capitalize">{value}</P>
+            </View>
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent className="w-[250px]">
+          <SelectGroup>
+            {options.map((option) => (
+              <SelectItem
+                key={option.value}
+                label={option.label}
+                value={option.value}
+                icon={option.icon}
+              >
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </RootView>
+  );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    card: {
-        gap: 16,
-        flex: 1,
-        padding: 16,
-        alignItems: 'center',
-        width: "100%"
-    },
-    appearanceItem: {
-        alignItems: 'center',
-        padding: 16,
-        gap: 16
-    }
-});

@@ -1,90 +1,97 @@
 {
-    "tabBar": {
-        "home": "home",
-        "admin": "admin",
-        "settings": "settings"
+  "tabBar": {
+    "home": "home",
+    "admin": "admin",
+    "settings": "settings"
+  },
+  "admin": {
+    "tabName": "admin panel",
+    "users": {
+      "name": "manage users"
     },
-    "admin": {
-        "tabName": "admin panel",
-        "usersPanel": {
-            "name": "manage users"
-        },
-        "stocksPanel": {
-            "name": "manage stocks"
-        },
-        "statsPanel": {
-            "name": "view stats"
-        }
-    },
-    "settings": {
-        "profile": {
-            "name": "profile",
-            "userInfo": "user info",
-            "deleteUser": "delete user",
-            "userRole": {
-                "admin": "admin user",
-                "user": "user"
-            }
-        },
-        "language": {
-            "appLanguage": "app Language",
-            "name": "language"
-        },
-        "appearance": {
-            "name": "appearance",
-            "tintColor": "tint color",
-            "theme": "theme",
-            "lightTheme": "light theme",
-            "darkTheme": "dark theme",
-            "systemDefault": "system default"
-        }
-    },
-    "user":{
-        "firstName": "first name",
-        "lastName": "last name",
-        "username": "username",
-        "email": "email",
-        "password": "password",
-        "role": "role",
-        "addUser": "add user",
-        "admin": "admin",
+    "exports": {
+      "name": "Export to spreadsheet"
+    }
+  },
+  "settings": {
+    "profile": {
+      "name": "profile",
+      "userInfo": "user info",
+      "deleteUser": "delete user",
+      "userRole": {
+        "admin": "admin user",
         "user": "user"
+      }
     },
-    "color": {
-        "raspberry": "raspberry",
-        "ocean": "ocean",
-        "sage": "sage",
-        "sunny": "sunny",
-        "rust": "rust"
+    "language": {
+      "appLanguage": "app Language",
+      "name": "language"
     },
-    "common": {
-        "delete": "delete",
-        "edit": "edit",
-        "save": "save",
-        "add": "add",
-        "back": "back",
-        "next": "next",
-        "done": "done",
-        "close": "close",
-        "history": "history",
-        "loading": "loading",
-        "error": "error",
-        "success": "success",
-        "action": "action",
-        "date": "date",
-        "user": "user",
-        "product": "product",
-        "logout": "logout",
-        "cancel": "cancel",
-        "OK": "OK",
-        "sell": "sell",
-        "stock": "stock",
-        "give": "give",
-        "discard": "discard"
-    },
-    "Please confirm": "Please confirm",
-    "Do you really want to log out ?": "Do you really want to log out?",
-    "Scan Qr code": "Scan Qr code",
-    "transfer to the shop": "transfer to the shop",
-    "welcome home !": "welcome home !"
+    "appearance": {
+      "name": "appearance",
+      "tintColor": "tint color",
+      "theme": "theme",
+      "lightTheme": "light theme",
+      "darkTheme": "dark theme",
+      "systemDefault": "system default"
+    }
+  },
+  "user": {
+    "firstName": "first name",
+    "lastName": "last name",
+    "username": "username",
+    "email": "email",
+    "password": "password",
+    "role": "role",
+    "addUser": "add user",
+    "admin": "admin",
+    "user": "user"
+  },
+  "color": {
+    "raspberry": "raspberry",
+    "ocean": "ocean",
+    "sage": "sage",
+    "sunny": "sunny",
+    "rust": "rust"
+  },
+  "common": {
+    "exports": "exports",
+    "user": "user",
+    "users": "users",
+    "settings": "settings",
+    "delete": "delete",
+    "edit": "edit",
+    "save": "save",
+    "add": "add",
+    "back": "back",
+    "next": "next",
+    "done": "done",
+    "close": "close",
+    "history": "history",
+    "loading": "loading",
+    "error": "error",
+    "success": "success",
+    "action": "action",
+    "date": "date",
+    "product": "product",
+    "logout": "logout",
+    "login": "login",
+    "cancel": "cancel",
+    "OK": "OK",
+    "sell": "sell",
+    "stock": "stock",
+    "give": "give",
+    "discard": "discard",
+    "password": "password",
+    "email": "email"
+  },
+  "Please confirm": "Please confirm",
+  "Do you really want to log out ?": "Do you really want to log out?",
+  "Scan Qr code": "Scan Qr code",
+  "transfer to the shop": "transfer to the shop",
+  "welcome home !": "welcome home !",
+  "Finished products": "Finished products",
+  "Raw Materials": "Raw materials",
+  "View stocks": "View stocks",
+  "New actions": "New actions"
 }

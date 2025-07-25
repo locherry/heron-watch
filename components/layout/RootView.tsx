@@ -1,49 +1,29 @@
-import { useThemeColor } from "@/hooks/color/useThemeColor";
-import { useClosestMedia } from "@/hooks/useClosestMedia";
-import { StatusBar, StyleSheet, View, ViewProps, ViewStyle } from "react-native";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
-type Props = ViewProps & {
-    color?: string
-}
-export function RootView({ style, color, ...rest }: Props) {
-    const colors = useThemeColor()
-    const padding = {
-        '2xl': 400,
-        'xl': 300,
-        'lg': 200,
-        'md': 100,
-        'sm': 8
-    }
-    const media = useClosestMedia() as keyof typeof padding
-    const mediaStyles = {
-        // paddingHorizontal: ['md', 'lg'].includes(media) ? 200 : ['xl', '2xl'].includes(media) ? 400 : 8
-        paddingHorizontal: padding[media]
-    } satisfies ViewStyle
-
-    return <>
-        <StatusBar
-            animated={true}
-            backgroundColor={color ?? colors.tint}
-            // barStyle={'default'}
-            // showHideTransition={true}
-            hidden={false} />
-        <SafeAreaView style={[
-            mediaStyles,
-            styles.container,
-            { backgroundColor: color ?? colors.tint },
-            style,
-        ]} {...rest}>
-        </SafeAreaView>
-    </>
+interface RootViewProps {
+  children: React.ReactNode;
+  className?: string; // Optional className prop for customization
 }
 
+const RootView: React.FC<RootViewProps> = ({
+  // children,
+  className,
+  ...rest
+}) => {
+  return (
+    <SafeAreaView
+      // style={{ flex: 1 }}
+      className={`flex-1 justify-start items-center p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 ${className}`}
+      {...rest}
+    >
+      {/* <View
+        className={`flex-1 justify-start items-center p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 ${className}`}
+      > */}
+      {/* <Card className="w-full h-full p-4">{children}</Card> */}
+      {/* </View> */}
+    </SafeAreaView>
+  );
+};
 
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 4,
-        flex: 1,
-    }
-})
+export default RootView;

@@ -1,60 +1,78 @@
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import { Slot } from 'expo-router';
-import React, { useEffect } from 'react';
-import { LogBox } from 'react-native';
+import "~/global.css";
+
+import {
+  DarkTheme,
+  DefaultTheme,
+  Theme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { PortalHost } from "@rn-primitives/portal";
+import { Slot } from "expo-router";
+import * as React from "react";
+import { Platform } from "react-native";
+import { NAV_THEME } from "~/lib/constants";
+import { useColorScheme } from "~/lib/useColorScheme";
 
 // import i18n (needs to be bundled ;))
-import { SecureStorage } from '@/classes/SecureStorage';
-import { useTranslation } from 'react-i18next';
-import '../translations/i18n';
+import { useTranslation } from "react-i18next";
+import { SecureStorage } from "~/lib/SecureStorage";
+import "../translations/i18n";
 
-const hideNonRelevantLogs = (ignoredLogs: string[]) => {
-  // Still use LogBox for in-app yellow box
-  LogBox.ignoreLogs(ignoredLogs);
+const LIGHT_THEME: Theme = {
+  ...DefaultTheme,
+  colors: NAV_THEME.light,
+};
+const DARK_THEME: Theme = {
+  ...DarkTheme,
+  colors: NAV_THEME.dark,
+};
 
-  // Monkey-patch console methods to filter out unwanted warnings
-  if (__DEV__) {
-    // @ts-expect-error
-    const shouldIgnore = (args) =>
-      ignoredLogs.some((log) => args.join(' ').includes(log));
-    // @ts-expect-error
-    const patchConsole = (method) => {
-      // @ts-expect-error
-      const original = console[method]
-      // @ts-expect-error
-      console[method] = (...args) => {
-        if (!shouldIgnore(args)) {
-          original(...args);
-        }
-      };
-    };
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary
+} from "expo-router";
 
-    ['log', 'info', 'warn', 'error'].forEach(patchConsole);
+export default function RootLayout() {
+  const hasMounted = React.useRef(false);
+  const { colorScheme, isDarkColorScheme } = useColorScheme();
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const { i18n } = useTranslation();
+
+  useIsomorphicLayoutEffect(() => {
+    SecureStorage.get("userPreferences").then((prefs) => {
+      prefs ? i18n.changeLanguage(prefs.language) : null;
+    });
+
+    if (hasMounted.current) {
+      return;
+    }
+
+    if (Platform.OS === "web") {
+      // Adds the background color to the html element to prevent white background on overscroll.
+      document.documentElement.classList.add("bg-background");
+    }
+    setIsColorSchemeLoaded(true);
+    hasMounted.current = true;
+  }, []);
+
+  if (!isColorSchemeLoaded) {
+    return null;
   }
-}
 
-export default function Layout() {
-  const { i18n } = useTranslation()
-
-  // Suppress this warning, it comes from react navigation or similar library and wait for the update to remove this warning
-  hideNonRelevantLogs([
-    'props.pointerEvents is deprecated. Use style.pointerEvents',
-    'findHostInstance_DEPRECATED' // TouchableOpacity deprecated ==> use Pressable instead
-  ])
-
-
-  useEffect(() => {
-    SecureStorage.get("userPreferences").then(
-      prefs => {
-        prefs ? i18n.changeLanguage(prefs.language) : null
-      }
-    )
-  }, [])
-  return <React.StrictMode>
-    {/* <Suspense fallback="...is loading"> */}
-    <ThemeProvider>
-      <Slot />
+  return (
+    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+      {/* <StatusBar style={isDarkColorScheme ? "light" : "dark"} /> */}
+      {/* <SafeAreaView> */}
+        <Slot />
+        {/* <Stack screenOptions={{ headerShown: false }} /> */}
+      {/* </SafeAreaView> */}
+      {/* Default Portal Host (one per app) */}
+      <PortalHost />
     </ThemeProvider>
-    {/* </Suspense> */}
-  </React.StrictMode>
+  );
 }
+
+const useIsomorphicLayoutEffect =
+  Platform.OS === "web" && typeof window === "undefined"
+    ? React.useEffect
+    : React.useLayoutEffect;
