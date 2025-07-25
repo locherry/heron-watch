@@ -2,10 +2,9 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { LucideIcon } from "lucide-react-native";
 import * as React from "react";
 import { ReactNode } from "react";
-import { Pressable, PressableStateCallbackType, View } from "react-native";
+import { Pressable, PressableStateCallbackType, Text, View } from "react-native";
 import { TextClassContext } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { P } from "./typography";
 
 const buttonVariants = cva(
   "group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
@@ -95,16 +94,12 @@ function Button({
         role="button"
         {...props}
       >
-        {(state: PressableStateCallbackType) =>
-          Icon ? (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon className="mr-2 text-foreground" strokeWidth={1.5} />
-              {typeof children === 'function' ? children(state) : <P>{children}</P>}
-            </View>
-          ) : (
-            typeof children === 'function' ? children(state) : <P>{children}</P>
-          )
-        }
+        {(state: PressableStateCallbackType) => (
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {Icon && <Icon className="mr-2" strokeWidth={1.5}/>}
+            <Text>{typeof children === 'function' ? children(state) : children}</Text>
+          </View>
+        )}
       </Pressable>
     </TextClassContext.Provider>
   );

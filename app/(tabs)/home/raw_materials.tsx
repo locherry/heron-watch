@@ -3,9 +3,10 @@ import * as React from "react";
 import { View } from "react-native";
 import RootView from "~/components/layout/RootView";
 import { Button } from "~/components/ui/button";
-import { H3 } from "~/components/ui/typography";
+import { H3, P } from "~/components/ui/typography";
 import { Package } from "~/lib/icons/Package";
 import { Plus } from "~/lib/icons/Plus";
+import { capitalizeFirst } from "~/lib/utils";
 
 export default function TabsScreen() {
   return (
@@ -19,6 +20,8 @@ export default function TabsScreen() {
           {t('New actions')}
         </Button>
       </View>
+      <H3>{capitalizeFirst(t("common.history"))}</H3>
+      <P>Action table here ...</P>
     </RootView>
   );
 }

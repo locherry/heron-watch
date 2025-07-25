@@ -1,10 +1,9 @@
 import { Link, LinkProps } from "expo-router";
 import type { LucideIcon } from "lucide-react-native";
 import React from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { ChevronRight } from "~/lib/icons/ChevronRight";
 import { cn } from "~/lib/utils";
-import { Button } from "./ui/button";
 import { P } from "./ui/typography";
 
 const SettingsEntry = ({
@@ -20,41 +19,36 @@ const SettingsEntry = ({
 }) => {
   const rootClassName = cn(
     "flex-row items-center justify-between p-4 my-1 hover:bg-muted"
-  );
-
-  const content = (
-    <View className="flex-row items-center justify-between flex-1">
+  )
+  const Content = () => (
+    <>
       <View className="flex-row items-center">
         <Icon size={24} className="mr-3 text-foreground" strokeWidth={1.5} />
         <P>{title}</P>
       </View>
-      <ChevronRight size={24} className="text-muted-foreground" />
-    </View>
+      <ChevronRight size={24} className="text-muted-foreground absolute right-3" />
+    </>
   );
 
   if (href) {
     return (
-      <Link href={href} asChild>
-        <Button variant={"outline"} className={rootClassName}>
-          {content}
-        </Button>
+      <Link href={href} asChild className={rootClassName}>
+        <Pressable>
+          <Content />
+        </Pressable>
       </Link>
     );
   }
 
   if (onPress) {
     return (
-      <Button variant={"outline"} className={rootClassName} onPress={onPress}>
-        {content}
-      </Button>
+      <Pressable onPress={onPress} className={rootClassName}>
+        <Content />
+      </Pressable>
     );
   }
 
-  return (
-    <Button variant={"outline"} className={rootClassName} disabled>
-      {content}
-    </Button>
-  );
+  return <Content />;
 };
 
 export default SettingsEntry;
