@@ -1,14 +1,34 @@
-import { Tabs } from "expo-router";
-import React from "react";
+import { router, Tabs } from "expo-router";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform } from "react-native";
 import { House } from "~/lib/icons/House";
 import { Settings } from "~/lib/icons/Settings";
 import { Shield } from "~/lib/icons/Shield";
+import { useAuth } from "~/lib/useAuth";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function TabLayout() {
   const { t } = useTranslation();
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authStatus = await useAuth(); // Call your useAuth function
+      if (!authStatus) {
+        router.replace('/login'); // Redirect to login if not authenticated
+      }
+      setIsAuthenticated(authStatus);
+    };
+
+    checkAuth();
+  }, []);
+
+  if (isAuthenticated === null) {
+    return null; // Render nothing while the authentication check is in progress
+  }
+
   return (
     <Tabs
       screenOptions={{

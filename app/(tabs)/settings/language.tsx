@@ -17,6 +17,7 @@ import {
   SecureStorage,
   SecureStorageData,
 } from "~/lib/SecureStorage";
+import { useApiMutation } from "~/lib/useApiMutation";
 import { capitalizeFirst } from "~/lib/utils";
 import i18n from "~/translations/i18n";
 
@@ -26,8 +27,7 @@ type Option = {
   label: string;
 };
 
-
-export default function Language() {
+export default function LanguageSettings() {
   const LANGUAGES: Option[] = [
     { value: "EN", label: "English" },
     { value: "EU", label: "Euskera" },
@@ -35,19 +35,20 @@ export default function Language() {
   ];
 
   const [selectedLanguage, setSelectedLanguage] = useState<
-    (typeof LANGUAGES)[number]["value"] | null
+    (typeof LANGUAGES)[number]["value"]
   >(DefaultSecureStorageData["userPreferences"]["language"]);
 
+  const { mutate: updateLanguage } = useApiMutation("/users/{userID}", "patch");
+
   useEffect(() => {
-    // Fetch user session and update state
     SecureStorage.get("userPreferences").then(
       (prefs) => prefs && setSelectedLanguage(prefs.language)
     );
   }, []);
+
   const applyLanguageToApp = (languageOption: Option | undefined) => {
-    if (languageOption == undefined) {
-      return;
-    }
+    if (!languageOption) return;
+
     const languageValue = languageOption.value;
     setSelectedLanguage(languageValue);
     SecureStorage.modify("userPreferences", "language", languageValue);
@@ -55,17 +56,15 @@ export default function Language() {
 
     SecureStorage.get("userSession").then((userSession) => {
       if (userSession) {
-        // useFetchQuery(
-        //   "/users/[id]",
-        //   "PATCH",
-        //   {
-        //     user_preferences: {
-        //       language: languageValue,
-        //     },
-        //   },
-        //   undefined,
-        //   { id: userSession.id }
-        // ).catch((e) => console.error(e));
+        updateLanguage({
+          pathParams: { userID: userSession.id },
+          body: {
+            user_preferences: {
+              language: languageValue,
+            },
+          },
+        });
+        console.debug("patch")
       }
     });
   };
@@ -74,12 +73,17 @@ export default function Language() {
     <RootView>
       <H3 className="mb-3">{capitalizeFirst(t("settings.language.name"))}</H3>
       <Label>{capitalizeFirst(t("settings.language.appLanguage"))}</Label>
-      <Select onValueChange={applyLanguageToApp as (option: Option) => void}>
+      <Select
+        defaultValue={LANGUAGES.find(
+          (value) => value.value == selectedLanguage
+        )}
+        onValueChange={applyLanguageToApp}
+      >
         <SelectTrigger className="w-[250px]">
           <SelectValue
             className="text-foreground text-sm native:text-lg flex flex-row items-center"
             placeholder="Select app language"
-          ></SelectValue>
+          />
         </SelectTrigger>
         <SelectContent className="w-[250px]">
           <SelectGroup>
@@ -89,9 +93,7 @@ export default function Language() {
                 key={option.value}
                 label={option.label}
                 value={option.value}
-              >
-                {option.label}
-              </SelectItem>
+              />
             ))}
           </SelectGroup>
         </SelectContent>

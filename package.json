@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "translate": "node ./scripts/updateTranslation.js"
+    "translate": "node ./scripts/updateTranslation.js",
+    "update_api_interface": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -26,6 +27,7 @@
     "@rn-primitives/slot": "^1.2.0",
     "@rn-primitives/switch": "^1.2.0",
     "@rn-primitives/tabs": "^1.2.0",
+    "@tanstack/react-query": "^5.83.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "expo": "53.0.20",
@@ -66,6 +68,7 @@
     "@types/react": "~19.0.10",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
+    "openapi-typescript": "^7.8.0",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.8.3"

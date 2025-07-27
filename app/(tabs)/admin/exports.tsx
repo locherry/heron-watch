@@ -9,8 +9,8 @@ export default function App() {
   return (
     <RootView>
       <H2>{capitalizeFirst(t("common.exports"))}</H2>
-      <Button variant="outline">Export to excel for Kooklin</Button>
-      <Button variant="outline">Import clients to DB</Button>
+      <Button variant="outline">{t("Export to excel for Kooklin")}</Button>
+      <Button variant="outline">{t("Import clients from JESAISPLUSCOMMENTQUELLESAPPELLELAPPLI")}</Button>
     </RootView>
   );
 }
