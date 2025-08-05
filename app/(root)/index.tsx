@@ -1,9 +1,19 @@
 import { useRouter } from "expo-router"; // For navigation
 import * as React from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
+import { SvgUri } from "react-native-svg";
+import Banner from "~/components/Banner";
 import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
-
+import { H1, H3, H4, P } from "~/components/ui/typography";
+import { RefreshCcw } from "~/lib/icons/RefreshCcw"; // Assuming you have a RefreshCcw icon
+import { ServerCrash } from "~/lib/icons/ServerCrash"; // Assuming you have a RefreshCcw icon
+import { Megaphone } from "~/lib/icons/Megaphone"; // Assuming you have a RefreshCcw icon
+import { Separator } from "@rn-primitives/select";
+import { Label } from "~/components/ui/label";
+import Column from "~/components/layout/Column";
+import Row from "~/components/layout/Row";
 export default function App() {
   const router = useRouter(); // Initialize the router
 
@@ -12,21 +22,53 @@ export default function App() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center p-6 bg-blue-50">
-      {/* Optional: Add an image/logo */}
-      {/* <Image
-        source={require("~/assets/logo.png")} // Add a logo if you have one
-        style={{ width: 120, height: 120, marginBottom: 20 }}
+    <>
+      <View className="flex-1 items-center justify-center p-4 m-4">
+        <Banner className="mb-8 sm:w-[400px]" />
+        {/* Features Section */}
+        <Card className="w-full max-w-[400px] mb-6 p-4">
+          <H4 className="text-xl font-semibold mb-3">
+            Your all in one solution for:
+          </H4>
+          <Row className="">
+            <Column className="h-full items-center w-1/3">
+              <RefreshCcw />
+              <P className="mt-2 text-center">Real-Time Tracking</P>
+            </Column>
+            <Column className="h-full items-center w-1/3">
+              <Megaphone />
+              <P className="mt-2 text-center">Inventory Alerts</P>
+            </Column>
+            <Column className="h-full items-center w-1/3">
+              <ServerCrash />
+              <P className="mt-2 text-center">Error management</P>
+            </Column>
+          </Row>
+        </Card>
+        <Row className="flex-none" gap={16}>
+          <Label>Get right where your left :</Label>
+          <Button onPress={handleLoginPress}>
+            <Text>Login</Text>
+          </Button>
+        </Row>
+        <P className="text-muted-foreground">
+          Made with ❤️ by Ellande & Aloys || All rights reserved
+        </P>
+        {/* <Image
+        className="w-full h-100 absolute"
+        source={require("~/assets/images/Cattail_flowers_Silouhette.svg")}
       /> */}
-      
-      <Text className="text-3xl font-bold text-gray-800 mb-6">Welcome to Heron Watch !</Text>
-
-      <Button
-        onPress={handleLoginPress}
-        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg shadow-md"
-      >
-        Login
-      </Button>
-    </View>
+      </View>
+      {/* Cattail Silhouette Image at the bottom */}
+      <Image
+        source={require("~/assets/images/Cattail_flowers_Silouhette.svg")}
+        className="absolute bottom-0 left-0 w-full"
+        style={{
+          width: "100%",
+          height: 120, // Adjust the height as needed
+          tintColor: "rgba(0, 0, 0, 0.1)", // Muted color (semi-transparent black)
+        }}
+      />
+    </>
   );
 }

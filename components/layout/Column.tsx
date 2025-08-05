@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 interface RootViewProps {
   children: React.ReactNode;
@@ -10,8 +10,11 @@ interface RootViewProps {
 const Column: React.FC<RootViewProps> = ({ children, gap, className }) => {
   return (
     <View
-      style={gap ? { gap: gap } : {}}
-      className={`flex-1 justify-start items-center ${className}`}
+      style={[
+        gap ? { gap: gap } : {},
+        // { alignItems: 'flex-start' },
+      ]}
+      className={`${className}`}
     >
       {children}
     </View>
