@@ -6,14 +6,11 @@
   },
   "admin": {
     "tabName": "panneau d'administration",
-    "usersPanel": {
+    "users": {
       "name": "gérer les utilisateurs"
     },
-    "stocksPanel": {
-      "name": "gérer les stocks"
-    },
-    "statsPanel": {
-      "name": "voir les statistiques"
+    "exports": {
+      "name": "exporter vers tableur"
     }
   },
   "settings": {
@@ -22,7 +19,7 @@
       "userInfo": "informations utilisateur",
       "deleteUser": "supprimer l'utilisateur",
       "userRole": {
-        "admin": "utilisateur admin",
+        "admin": "utilisateur administrateur",
         "user": "utilisateur"
       }
     },
@@ -32,7 +29,7 @@
     },
     "appearance": {
       "name": "apparence",
-      "tintColor": "couleur d'accent",
+      "tintColor": "couleur d’accent",
       "theme": "thème",
       "lightTheme": "thème clair",
       "darkTheme": "thème sombre",
@@ -43,11 +40,11 @@
     "firstName": "prénom",
     "lastName": "nom",
     "username": "nom d'utilisateur",
-    "email": "email",
+    "email": "e-mail",
     "password": "mot de passe",
     "role": "rôle",
     "addUser": "ajouter un utilisateur",
-    "admin": "admin",
+    "admin": "administrateur",
     "user": "utilisateur"
   },
   "color": {
@@ -57,7 +54,22 @@
     "sunny": "ensoleillé",
     "rust": "rouille"
   },
+  "stocks": {
+    "finishedProducts": "produits finis",
+    "rawMaterials": "matières premières",
+    "viewStocks": "voir les stocks",
+    "newActions": "nouvelles actions",
+    "fresh": "frais",
+    "frozen": "congelé",
+    "dried": "séché",
+    "packaging": "emballage",
+    "cannery": "conserverie",
+    "store": "magasin"
+  },
   "common": {
+    "exports": "exportations",
+    "user": "utilisateur",
+    "users": "utilisateurs",
     "settings": "paramètres",
     "delete": "supprimer",
     "edit": "modifier",
@@ -73,10 +85,9 @@
     "success": "succès",
     "action": "action",
     "date": "date",
-    "user": "utilisateur",
     "product": "produit",
-    "logout": "se déconnecter",
-    "login": "se connecter",
+    "logout": "déconnexion",
+    "login": "connexion",
     "cancel": "annuler",
     "OK": "OK",
     "sell": "vendre",
@@ -84,14 +95,13 @@
     "give": "donner",
     "discard": "jeter",
     "password": "mot de passe",
-    "email": "email"
+    "email": "e-mail"
   },
   "Please confirm": "Veuillez confirmer",
   "Do you really want to log out ?": "Voulez-vous vraiment vous déconnecter ?",
   "Scan Qr code": "Scanner le code QR",
   "transfer to the shop": "transférer au magasin",
-  "welcome home !": "bienvenue chez vous !",
+  "welcome home !": "bienvenue à la maison !",
   "Finished products": "Produits finis",
-  "Raw materials": "Matières premières",
-  "View stocks": "Voir les stocks"
+  "New actions": "Nouvelles actions"
 }

@@ -1,28 +1,25 @@
 {
   "tabBar": {
     "home": "etxea",
-    "admin": "admin",
+    "admin": "administrazioa",
     "settings": "ezarpenak"
   },
   "admin": {
     "tabName": "administrazio panela",
-    "usersPanel": {
+    "users": {
       "name": "erabiltzaileak kudeatu"
     },
-    "stocksPanel": {
-      "name": "stockak kudeatu"
-    },
-    "statsPanel": {
-      "name": "estatistikak ikusi"
+    "exports": {
+      "name": "kalkulu-orrira esportatu"
     }
   },
   "settings": {
     "profile": {
-      "name": "profil",
+      "name": "profila",
       "userInfo": "erabiltzailearen informazioa",
       "deleteUser": "erabiltzailea ezabatu",
       "userRole": {
-        "admin": "admin erabiltzailea",
+        "admin": "administratzaile erabiltzailea",
         "user": "erabiltzailea"
       }
     },
@@ -32,10 +29,10 @@
     },
     "appearance": {
       "name": "itxura",
-      "tintColor": "kolore ukitua",
+      "tintColor": "tintaren kolorea",
       "theme": "gaia",
-      "lightTheme": "argizko gaia",
-      "darkTheme": "iluneko gaia",
+      "lightTheme": "argia gaia",
+      "darkTheme": "iluna gaia",
       "systemDefault": "sistemaren lehenetsia"
     }
   },
@@ -47,17 +44,32 @@
     "password": "pasahitza",
     "role": "rola",
     "addUser": "erabiltzailea gehitu",
-    "admin": "admin",
+    "admin": "administratzailea",
     "user": "erabiltzailea"
   },
   "color": {
-    "raspberry": "ahabia",
+    "raspberry": "ahabi gorria",
     "ocean": "ozeanoa",
     "sage": "salbia",
     "sunny": "eguzkitsua",
     "rust": "herdoila"
   },
+  "stocks": {
+    "finishedProducts": "produktua amaituak",
+    "rawMaterials": "lehengaia",
+    "viewStocks": "stockak ikusi",
+    "newActions": "ekintza berriak",
+    "fresh": "freskoa",
+    "frozen": "izoztua",
+    "dried": "lehortua",
+    "packaging": "ontziratzea",
+    "cannery": "kontserba-fabrika",
+    "store": "denda"
+  },
   "common": {
+    "exports": "esportazioak",
+    "user": "erabiltzailea",
+    "users": "erabiltzaileak",
     "settings": "ezarpenak",
     "delete": "ezabatu",
     "edit": "editatu",
@@ -73,7 +85,6 @@
     "success": "arrakasta",
     "action": "ekintza",
     "date": "data",
-    "user": "erabiltzailea",
     "product": "produktua",
     "logout": "irten",
     "login": "sartu",
@@ -86,12 +97,11 @@
     "password": "pasahitza",
     "email": "posta"
   },
-  "Please confirm": "Mesedez baieztatu",
+  "Please confirm": "Mesedez, baieztatu",
   "Do you really want to log out ?": "Benetan irten nahi duzu?",
-  "Scan Qr code": "Eskaneatu QR kodea",
+  "Scan Qr code": "QR kodea eskaneatu",
   "transfer to the shop": "dendara transferitu",
   "welcome home !": "ongi etorri etxera!",
   "Finished products": "Amaitutako produktuak",
-  "Raw materials": "Lehengaiak",
-  "View stocks": "Ikusi stockak"
+  "New actions": "Ekintza berriak"
 }

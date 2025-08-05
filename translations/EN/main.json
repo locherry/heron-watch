@@ -54,6 +54,18 @@
     "sunny": "sunny",
     "rust": "rust"
   },
+  "stocks" : {
+    "finishedProducts": "finished products",
+    "rawMaterials": "raw materials",
+    "viewStocks": "view stocks",
+    "newActions": "new actions",
+    "fresh" :"fresh",
+    "frozen": "frozen",
+    "dried": "dried",
+    "packaging": "packaging",
+    "cannery": "cannery",
+    "store": "store"
+  },
   "common": {
     "exports": "exports",
     "user": "user",
@@ -91,7 +103,5 @@
   "transfer to the shop": "transfer to the shop",
   "welcome home !": "welcome home !",
   "Finished products": "Finished products",
-  "Raw Materials": "Raw materials",
-  "View stocks": "View stocks",
   "New actions": "New actions"
 }

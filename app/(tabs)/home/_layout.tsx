@@ -11,6 +11,7 @@ import {
 import { withLayoutContext } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { capitalizeFirst } from "~/lib/utils";
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -48,13 +49,13 @@ export default function MaterialTopTabsLayout() {
         <MaterialTopTabs.Screen
           name="raw_materials"
           options={{
-            title: t("Raw materials"),
+            title: capitalizeFirst(t("stocks.rawMaterials")),
           }}
         />
         <MaterialTopTabs.Screen
           name="finished_products"
           options={{
-            title: t("Finished products"),
+            title: capitalizeFirst(t("stocks.finishedProducts")),
           }}
         />
       </MaterialTopTabs>
