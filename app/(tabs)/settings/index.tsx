@@ -37,7 +37,7 @@ export default function SettingsScreen() {
       <SettingsEntry
         onPress={confirmLogout} // Trigger alert dialog on press
         icon={LogOut}
-        title={capitalizeFirst(t("common.logout"))}
+        title={capitalizeFirst(t("user.logout"))}
       />
     </RootView>
   );

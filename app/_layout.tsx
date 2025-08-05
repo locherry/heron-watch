@@ -7,17 +7,34 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as React from "react";
 import { Platform } from "react-native";
 import { NAV_THEME } from "~/lib/constants";
+import { SecureStorage } from "~/lib/SecureStorage";
 import { useColorScheme } from "~/lib/useColorScheme";
 
-// import i18n (needs to be bundled ;))
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+/* -------------------------------------------------------------------------- */
+/*                      Import translations and i18n configuration            */
+/*                      import i18n (needs to be bundled ;))                  */
+/* -------------------------------------------------------------------------- */
 import { useTranslation } from "react-i18next";
-import { SecureStorage } from "~/lib/SecureStorage";
 import "../translations/i18n";
+
+/* -------------------------------------------------------------------------- */
+/*             Ignore deprecation warnings caused by dependancies             */
+/* -------------------------------------------------------------------------- */
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs([
+  "shadow* style props are deprecated. Use boxShadow", // Ignore shadow* deprecation warnings
+  "props.pointerEvents is deprecated. Use style.pointerEvents", // Ignore pointerEvents deprecation warnings
+]);
+
+/* -------------------------------------------------------------------------- */
+/*                      Theme declaration (with tailwind)                     */
+/* -------------------------------------------------------------------------- */
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -32,6 +49,10 @@ export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary
 } from "expo-router";
+
+/* -------------------------------------------------------------------------- */
+/*                               Tanstack query                               */
+/* -------------------------------------------------------------------------- */
 
 const queryClient = new QueryClient();
 

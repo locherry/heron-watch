@@ -45,7 +45,9 @@
     "role": "role",
     "addUser": "add user",
     "admin": "admin",
-    "user": "user"
+    "user": "user",
+    "logout": "logout",
+    "login": "login"
   },
   "color": {
     "raspberry": "raspberry",
@@ -86,17 +88,14 @@
     "action": "action",
     "date": "date",
     "product": "product",
-    "logout": "logout",
-    "login": "login",
     "cancel": "cancel",
     "OK": "OK",
     "sell": "sell",
     "stock": "stock",
     "give": "give",
-    "discard": "discard",
-    "password": "password",
-    "email": "email"
+    "discard": "discard"
   },
+  "Total users:": "Total users: ",
   "Please confirm": "Please confirm",
   "Do you really want to log out ?": "Do you really want to log out?",
   "Scan Qr code": "Scan Qr code",

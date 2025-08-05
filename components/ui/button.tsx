@@ -78,8 +78,9 @@ function Button({
   ...props
 }: ButtonProps) {
   const renderChildren = (state: PressableStateCallbackType) => {
-    const childContent = typeof children === 'function' ? children(state) : children;
-    if (typeof childContent === 'string') {
+    const childContent =
+      typeof children === "function" ? children(state) : children;
+    if (typeof childContent === "string") {
       return <P>{childContent}</P>;
     }
     return childContent;

@@ -42,19 +42,24 @@ export const useFetchQuery = <P extends Path, M extends PathMethod<P>>(
 
   const full_url = endpoint + url + queryString;
 
-  const jwt = SecureStorage.get("userSession").then(
-    userSession => userSession?.jwt
-  )
-
   const fetchData = async (): Promise<ResponseType<P, M>> => {
+    // Wait for the JWT token to be resolved before proceeding
+    const jwt = await SecureStorage.get("userSession").then(
+      (userSession) => userSession?.jwt
+    );
+
+    if (!jwt) {
+      throw new Error("JWT token is missing");
+    }
+
     const response = await fetch(full_url, {
       method: httpMethod,
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization" : "Bearer " + jwt
+        "Authorization": "Bearer " + jwt, // Use the resolved JWT here
       },
-      body: httpMethod !== "GET" && body ? JSON.stringify(body) : undefined
+      body: httpMethod !== "GET" && body ? JSON.stringify(body) : undefined,
     });
 
     if (!response.ok) {
