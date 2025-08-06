@@ -65,7 +65,7 @@ const buttonTextVariants = cva(
 type ButtonProps = React.ComponentProps<typeof Pressable> &
   VariantProps<typeof buttonVariants> & {
     icon?: LucideIcon;
-    children: ReactNode | ((state: PressableStateCallbackType) => ReactNode);
+    children?: ReactNode | ((state: PressableStateCallbackType) => ReactNode);
   };
 
 function Button({
@@ -107,7 +107,10 @@ function Button({
         {(state: PressableStateCallbackType) =>
           Icon ? (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon className="mr-2 text-foreground" strokeWidth={1.5} />
+              <Icon
+                className={`text-foreground ${children ? "mr-2" : ""}`}
+                strokeWidth={1.5}
+              />
               {renderChildren(state)}
             </View>
           ) : (
@@ -118,6 +121,7 @@ function Button({
     </TextClassContext.Provider>
   );
 }
+
 
 export { Button, buttonTextVariants, buttonVariants };
 export type { ButtonProps };
