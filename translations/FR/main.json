@@ -1,7 +1,7 @@
 {
   "tabBar": {
     "home": "accueil",
-    "admin": "admin",
+    "admin": "administration",
     "settings": "paramètres"
   },
   "admin": {
@@ -10,7 +10,7 @@
       "name": "gérer les utilisateurs"
     },
     "exports": {
-      "name": "exporter vers tableur"
+      "name": "Exporter vers une feuille de calcul"
     }
   },
   "settings": {
@@ -29,7 +29,7 @@
     },
     "appearance": {
       "name": "apparence",
-      "tintColor": "couleur d’accent",
+      "tintColor": "couleur d'accent",
       "theme": "thème",
       "lightTheme": "thème clair",
       "darkTheme": "thème sombre",
@@ -40,12 +40,14 @@
     "firstName": "prénom",
     "lastName": "nom",
     "username": "nom d'utilisateur",
-    "email": "e-mail",
+    "email": "email",
     "password": "mot de passe",
     "role": "rôle",
     "addUser": "ajouter un utilisateur",
     "admin": "administrateur",
-    "user": "utilisateur"
+    "user": "utilisateur",
+    "logout": "déconnexion",
+    "login": "connexion"
   },
   "color": {
     "raspberry": "framboise",
@@ -63,7 +65,7 @@
     "frozen": "congelé",
     "dried": "séché",
     "packaging": "emballage",
-    "cannery": "conserverie",
+    "cannery": "usine de conserve",
     "store": "magasin"
   },
   "common": {
@@ -72,8 +74,8 @@
     "users": "utilisateurs",
     "settings": "paramètres",
     "delete": "supprimer",
-    "edit": "modifier",
-    "save": "enregistrer",
+    "edit": "éditer",
+    "save": "sauvegarder",
     "add": "ajouter",
     "back": "retour",
     "next": "suivant",
@@ -86,22 +88,27 @@
     "action": "action",
     "date": "date",
     "product": "produit",
-    "logout": "déconnexion",
-    "login": "connexion",
     "cancel": "annuler",
     "OK": "OK",
     "sell": "vendre",
     "stock": "stock",
     "give": "donner",
-    "discard": "jeter",
-    "password": "mot de passe",
-    "email": "e-mail"
+    "discard": "jeter"
   },
+  "Toggle editing mode": "Basculer en mode édition",
+  "Total users:": "Nombre total d'utilisateurs :",
   "Please confirm": "Veuillez confirmer",
+  "Do you really want to discard the unsaved changes?": "Voulez-vous vraiment ignorer les modifications non enregistrées ?",
   "Do you really want to log out ?": "Voulez-vous vraiment vous déconnecter ?",
   "Scan Qr code": "Scanner le code QR",
   "transfer to the shop": "transférer au magasin",
   "welcome home !": "bienvenue à la maison !",
   "Finished products": "Produits finis",
-  "New actions": "Nouvelles actions"
+  "New actions": "Nouvelles actions",
+  "Your all in one solution for:": "Votre solution tout-en-un pour :",
+  "Real-Time Tracking": "Suivi en temps réel",
+  "Error management": "Gestion des erreurs",
+  "Inventory Alerts": "Alertes de stock",
+  "Get right where your left :": "Reprenez là où vous vous êtes arrêtés :",
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Fait avec ❤️ par Ellande & Aloys || Tous droits réservés"
 }

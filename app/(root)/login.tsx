@@ -93,7 +93,7 @@ export default function LoginScreen() {
   return (
     <View className="flex-1 justify-center items-center p-6">
       <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
-        <Text className="text-2xl font-semibold mb-4 text-center">Login</Text>
+        <Text className="text-2xl font-semibold mb-4 text-center">{capitalizeFirst(t("user.login"))}</Text>
 
         {error && (
           <Text className="text-red-500 text-sm text-center mb-4">{error}</Text>

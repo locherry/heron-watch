@@ -59,13 +59,14 @@ const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
-  const { colorScheme, isDarkColorScheme } = useColorScheme();
+  const { colorScheme, isDarkColorScheme, setColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation();  
 
   useIsomorphicLayoutEffect(() => {
     SecureStorage.get("userPreferences").then((prefs) => {
       prefs ? i18n.changeLanguage(prefs.language) : null;
+      prefs ? setColorScheme(prefs.theme) : null;
     });
 
     if (hasMounted.current) {
@@ -86,7 +87,8 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+      {/* <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}> */}
+      <ThemeProvider value={colorScheme=="dark" ? DARK_THEME : LIGHT_THEME}>
         <Stack screenOptions={{ headerShown: false }} />
         <PortalHost />
       </ThemeProvider>

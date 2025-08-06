@@ -1,19 +1,18 @@
 import { useRouter } from "expo-router"; // For navigation
+import { t } from "i18next";
 import * as React from "react";
 import { Image, View } from "react-native";
-import { SvgUri } from "react-native-svg";
 import Banner from "~/components/Banner";
-import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
-import { Text } from "~/components/ui/text";
-import { H1, H3, H4, P } from "~/components/ui/typography";
-import { RefreshCcw } from "~/lib/icons/RefreshCcw"; // Assuming you have a RefreshCcw icon
-import { ServerCrash } from "~/lib/icons/ServerCrash"; // Assuming you have a RefreshCcw icon
-import { Megaphone } from "~/lib/icons/Megaphone"; // Assuming you have a RefreshCcw icon
-import { Separator } from "@rn-primitives/select";
-import { Label } from "~/components/ui/label";
 import Column from "~/components/layout/Column";
 import Row from "~/components/layout/Row";
+import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
+import { Label } from "~/components/ui/label";
+import { H4, P } from "~/components/ui/typography";
+import { Megaphone } from "~/lib/icons/Megaphone"; // Assuming you have a RefreshCcw icon
+import { RefreshCcw } from "~/lib/icons/RefreshCcw"; // Assuming you have a RefreshCcw icon
+import { ServerCrash } from "~/lib/icons/ServerCrash"; // Assuming you have a RefreshCcw icon
+import { capitalizeFirst } from "~/lib/utils";
 export default function App() {
   const router = useRouter(); // Initialize the router
 
@@ -28,31 +27,31 @@ export default function App() {
         {/* Features Section */}
         <Card className="w-full max-w-[400px] mb-6 p-4">
           <H4 className="text-xl font-semibold mb-3">
-            Your all in one solution for:
+            {t("Your all in one solution for:")}
           </H4>
           <Row className="">
             <Column className="h-full items-center w-1/3">
               <RefreshCcw />
-              <P className="mt-2 text-center">Real-Time Tracking</P>
+              <P className="mt-2 text-center">{t("Real-Time Tracking")}</P>
             </Column>
             <Column className="h-full items-center w-1/3">
               <Megaphone />
-              <P className="mt-2 text-center">Inventory Alerts</P>
+              <P className="mt-2 text-center">{t("Inventory Alerts")}</P>
             </Column>
             <Column className="h-full items-center w-1/3">
               <ServerCrash />
-              <P className="mt-2 text-center">Error management</P>
+              <P className="mt-2 text-center">{t("Error management")}</P>
             </Column>
           </Row>
         </Card>
         <Row className="flex-none" gap={16}>
-          <Label>Get right where your left :</Label>
-          <Button onPress={handleLoginPress}>
-            <Text>Login</Text>
+          <Label>{t("Get right where your left :")}</Label>
+          <Button onPress={handleLoginPress} variant={"outline"}>
+            {capitalizeFirst(t("user.login"))}
           </Button>
         </Row>
         <P className="text-muted-foreground">
-          Made with ❤️ by Ellande & Aloys || All rights reserved
+          {t("Made with ❤️ by Ellande & Aloys || All rights reserved")}
         </P>
         {/* <Image
         className="w-full h-100 absolute"

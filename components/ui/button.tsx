@@ -3,9 +3,8 @@ import { LucideIcon } from "lucide-react-native";
 import * as React from "react";
 import { ReactNode } from "react";
 import { Pressable, PressableStateCallbackType, View } from "react-native";
-import { TextClassContext } from "~/components/ui/text";
+import { Text, TextClassContext } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
-import { P } from "./typography";
 
 const buttonVariants = cva(
   "group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
@@ -65,7 +64,7 @@ const buttonTextVariants = cva(
 type ButtonProps = React.ComponentProps<typeof Pressable> &
   VariantProps<typeof buttonVariants> & {
     icon?: LucideIcon;
-    children?: ReactNode | ((state: PressableStateCallbackType) => ReactNode);
+    children?: ReactNode;
   };
 
 function Button({
@@ -81,7 +80,7 @@ function Button({
     const childContent =
       typeof children === "function" ? children(state) : children;
     if (typeof childContent === "string") {
-      return <P>{childContent}</P>;
+      return <Text>{childContent}</Text>;
     }
     return childContent;
   };
@@ -121,7 +120,6 @@ function Button({
     </TextClassContext.Provider>
   );
 }
-
 
 export { Button, buttonTextVariants, buttonVariants };
 export type { ButtonProps };

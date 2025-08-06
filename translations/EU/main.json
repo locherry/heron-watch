@@ -1,7 +1,7 @@
 {
   "tabBar": {
     "home": "etxea",
-    "admin": "administrazioa",
+    "admin": "administazioa",
     "settings": "ezarpenak"
   },
   "admin": {
@@ -10,16 +10,16 @@
       "name": "erabiltzaileak kudeatu"
     },
     "exports": {
-      "name": "kalkulu-orrira esportatu"
+      "name": "Excel fitxategira esportatu"
     }
   },
   "settings": {
     "profile": {
-      "name": "profila",
+      "name": "profil",
       "userInfo": "erabiltzailearen informazioa",
       "deleteUser": "erabiltzailea ezabatu",
       "userRole": {
-        "admin": "administratzaile erabiltzailea",
+        "admin": "admin erabiltzailea",
         "user": "erabiltzailea"
       }
     },
@@ -29,10 +29,10 @@
     },
     "appearance": {
       "name": "itxura",
-      "tintColor": "tintaren kolorea",
+      "tintColor": "tintazko kolorea",
       "theme": "gaia",
-      "lightTheme": "argia gaia",
-      "darkTheme": "iluna gaia",
+      "lightTheme": "argi gaia",
+      "darkTheme": "ilun gaia",
       "systemDefault": "sistemaren lehenetsia"
     }
   },
@@ -43,31 +43,33 @@
     "email": "posta elektronikoa",
     "password": "pasahitza",
     "role": "rola",
-    "addUser": "erabiltzailea gehitu",
+    "addUser": "erabiltzaile bat gehitu",
     "admin": "administratzailea",
-    "user": "erabiltzailea"
+    "user": "erabiltzailea",
+    "logout": "irteera",
+    "login": "sartu"
   },
   "color": {
-    "raspberry": "ahabi gorria",
+    "raspberry": "framboesa",
     "ocean": "ozeanoa",
-    "sage": "salbia",
+    "sage": "saukea",
     "sunny": "eguzkitsua",
-    "rust": "herdoila"
+    "rust": "arroz"
   },
   "stocks": {
-    "finishedProducts": "produktua amaituak",
+    "finishedProducts": "produktuak amaituak",
     "rawMaterials": "lehengaia",
-    "viewStocks": "stockak ikusi",
+    "viewStocks": "ikuska ezarpenak",
     "newActions": "ekintza berriak",
     "fresh": "freskoa",
-    "frozen": "izoztua",
-    "dried": "lehortua",
-    "packaging": "ontziratzea",
-    "cannery": "kontserba-fabrika",
+    "frozen": "hozkaitua",
+    "dried": "lehorra",
+    "packaging": "paketazioa",
+    "cannery": "kontserba lantegia",
     "store": "denda"
   },
   "common": {
-    "exports": "esportazioak",
+    "exports": "esportazioa",
     "user": "erabiltzailea",
     "users": "erabiltzaileak",
     "settings": "ezarpenak",
@@ -79,29 +81,34 @@
     "next": "hurrengoa",
     "done": "eginda",
     "close": "itxi",
-    "history": "historia",
+    "history": "historiala",
     "loading": "kargatzen",
     "error": "errorea",
     "success": "arrakasta",
     "action": "ekintza",
     "date": "data",
     "product": "produktua",
-    "logout": "irten",
-    "login": "sartu",
     "cancel": "ezeztatu",
-    "OK": "ADOS",
+    "OK": "ON",
     "sell": "saldu",
     "stock": "stocka",
     "give": "eman",
-    "discard": "baztertu",
-    "password": "pasahitza",
-    "email": "posta"
+    "discard": "baztertu"
   },
+  "Toggle editing mode": "Editatze modua aldatu",
+  "Total users:": "Erabiltzaile guztira:",
   "Please confirm": "Mesedez, baieztatu",
-  "Do you really want to log out ?": "Benetan irten nahi duzu?",
+  "Do you really want to discard the unsaved changes?": "Benetan nahi al duzu aldaketak gordetu gabe baztertu?",
+  "Do you really want to log out ?": "Benetan nahi al duzu saioa itxi?",
   "Scan Qr code": "QR kodea eskaneatu",
-  "transfer to the shop": "dendara transferitu",
+  "transfer to the shop": "dendan transferitu",
   "welcome home !": "ongi etorri etxera!",
   "Finished products": "Amaitutako produktuak",
-  "New actions": "Ekintza berriak"
+  "New actions": "Ekintza berriak",
+  "Your all in one solution for:": "Zure dena-batean irtenbidea:",
+  "Real-Time Tracking": "Denbora erreko jarraipena",
+  "Error management": "Erroreen kudeaketa",
+  "Inventory Alerts": "Inbentarioaren abisuak",
+  "Get right where your left :": "Hasi hemen utzi zenuen lekutik:",
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "❤️z egina Ellande & Aloys-ek || Eskubide guztiak erreserbatuta"
 }
