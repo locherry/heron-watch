@@ -51,7 +51,7 @@ export default function TabsScreen() {
       </Tabs>
       <View className="flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
         <Button icon={Package} variant="outline">
-          {t("View stocks")}
+          {capitalizeFirst(t("stocks.viewStocks"))}
         </Button>
         <Button icon={Plus} variant="outline">
           {t("New actions")}

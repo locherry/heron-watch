@@ -3,6 +3,7 @@ import React from "react";
 import { ScrollView, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import RootView from "~/components/layout/RootView";
+import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import {
   Table,
@@ -15,6 +16,7 @@ import {
 } from "~/components/ui/table";
 import { Text } from "~/components/ui/text";
 import { H2 } from "~/components/ui/typography";
+import { Plus } from "~/lib/icons/Plus";
 import { useFetchQuery } from "~/lib/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -42,8 +44,21 @@ export default function App() {
 
   return (
     <RootView>
-      <H2>{capitalizeFirst(t("common.users"))}</H2>
-      <ScrollView horizontal bounces={false} showsHorizontalScrollIndicator={false}>
+      <Row className="flex-none">
+        <H2 className="flex-1">{capitalizeFirst(t("common.users"))}</H2>
+        <Button
+          className="ml-auto"
+          variant="outline"
+          icon={Plus}
+          onPress={() => console.log("Add User")}
+          disabled
+        />
+      </Row>
+      <ScrollView
+        horizontal
+        bounces={false}
+        showsHorizontalScrollIndicator={false}
+      >
         <Table aria-labelledby="user-table">
           <TableHeader>
             <TableRow>
@@ -65,7 +80,10 @@ export default function App() {
           <TableBody>
             {/* Using map to render each user row */}
             {data?.data?.map((user, index) => (
-              <TableRow key={user.id} className={index % 2 ? "bg-muted/40" : ""}>
+              <TableRow
+                key={user.id}
+                className={index % 2 ? "bg-muted/40" : ""}
+              >
                 <TableCell style={{ width: columnWidths[0] }}>
                   <Text>{user.first_name}</Text>
                 </TableCell>

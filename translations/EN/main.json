@@ -56,12 +56,12 @@
     "sunny": "sunny",
     "rust": "rust"
   },
-  "stocks" : {
+  "stocks": {
     "finishedProducts": "finished products",
     "rawMaterials": "raw materials",
     "viewStocks": "view stocks",
     "newActions": "new actions",
-    "fresh" :"fresh",
+    "fresh": "fresh",
     "frozen": "frozen",
     "dried": "dried",
     "packaging": "packaging",
@@ -95,8 +95,10 @@
     "give": "give",
     "discard": "discard"
   },
+  "Toggle editing mode":"Toggle editing mode",
   "Total users:": "Total users: ",
   "Please confirm": "Please confirm",
+  "Do you really want to discard the unsaved changes?": "Do you really want to discard the unsaved changes?",
   "Do you really want to log out ?": "Do you really want to log out?",
   "Scan Qr code": "Scan Qr code",
   "transfer to the shop": "transfer to the shop",
