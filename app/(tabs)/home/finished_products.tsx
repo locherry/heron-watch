@@ -40,7 +40,7 @@ export default function TabsScreen() {
                       : "text-muted-foreground"
                   }`,
                 })}
-                <Text>{capitalizeFirst(t("stocks."+ tab.name))}</Text>
+                <Text>{capitalizeFirst(t("stocks."+ tab.name as ["stocks.cannery", "stocks.store"][number]))}</Text>
               </Row>
             </TabsTrigger>
           ))}

@@ -1,12 +1,14 @@
-import mainEn from '../translations/EN/main.json'
-// import errorMsgEn from '../translations/EN/errorMsg.json'
+// Import your translation files
+import mainEN from '../translations/EN/main.json';
 
+// Declare module and extend types
 declare module 'i18next' {
-    interface CustomTypeOptions {
-        defaultNS : 'main',
-        ressources : {
-            main : typeof mainEN,
-            // errorMsg : typeof errorMsgEn,
-        }
-    }
+  interface CustomTypeOptions {
+    // Set the default namespace if necessary
+    defaultNS: 'main';
+    // Define the resources object with type inference
+    resources: {
+      main: typeof mainEN;  // Type the 'main' namespace based on your JSON file
+    };
+  }
 }
