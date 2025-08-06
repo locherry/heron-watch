@@ -85,7 +85,6 @@ export default function LoginScreen() {
       setError("Please fill in both fields.");
       return;
     }
-
     setIsLoading(true);
     setError(null);
     setIsLoginTriggered(true); // Trigger the login request when the button is pressed
@@ -104,7 +103,7 @@ export default function LoginScreen() {
         <Input
           value={email}
           onChangeText={setEmail}
-          placeholder={capitalizeFirst(t("common.email"))}
+          placeholder={capitalizeFirst(t("user.email"))}
           className="mb-4"
           keyboardType="email-address"
         />
@@ -113,7 +112,7 @@ export default function LoginScreen() {
         <Input
           value={password}
           onChangeText={setPassword}
-          placeholder={capitalizeFirst(t("common.password"))}
+          placeholder={capitalizeFirst(t("user.password"))}
           secureTextEntry
           className="mb-6"
         />
@@ -126,7 +125,7 @@ export default function LoginScreen() {
         >
           {isLoading || loginIsLoading
             ? capitalizeFirst(t("common.loading"))
-            : capitalizeFirst(t("common.login"))}
+            : capitalizeFirst(t("user.login"))}
         </Button>
       </Card>
     </View>

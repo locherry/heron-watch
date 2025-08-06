@@ -28,8 +28,9 @@ import "../translations/i18n";
 import { LogBox } from "react-native";
 
 LogBox.ignoreLogs([
-  "shadow* style props are deprecated. Use boxShadow", // Ignore shadow* deprecation warnings
+  '"shadow*" style props are deprecated. Use "boxShadow".', // Ignore shadow* deprecation warnings
   "props.pointerEvents is deprecated. Use style.pointerEvents", // Ignore pointerEvents deprecation warnings
+  "Image: style.tintColor is deprecated. Please use props.tintColor."
 ]);
 
 /* -------------------------------------------------------------------------- */
