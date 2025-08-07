@@ -56,6 +56,17 @@
     "sunny": "sunny",
     "rust": "rust"
   },
+  "actions": {
+    "id" : "id",
+    "quantity": "quantity",
+    "comment" : "comment",
+    "product_code" : "product code",
+    "lot_number" : "lot number",
+    "created_by_id" : "created by",
+    "created_at" : "created at",
+    "action_id" : "action",
+    "transaction" : "transaction"
+  },
   "stocks": {
     "finishedProducts": "finished products",
     "rawMaterials": "raw materials",
@@ -63,7 +74,7 @@
     "newActions": "new actions",
     "fresh": "fresh",
     "frozen": "frozen",
-    "dried": "dried",
+    "dry": "dry",
     "packaging": "packaging",
     "cannery": "cannery",
     "store": "store"
@@ -108,6 +119,7 @@
   "Your all in one solution for:":"Your all in one solution for:",
   "Real-Time Tracking" : "Real-Time Tracking",
   "Error management":"Error management",
+  "Manage Errors":"Manage Errors",
   "Inventory Alerts":"Inventory Alerts",
   "Get right where your left :":"Get right where your left :",
   "Made with ❤️ by Ellande & Aloys || All rights reserved":"Made with ❤️ by Ellande & Aloys || All rights reserved"

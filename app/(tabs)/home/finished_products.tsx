@@ -10,6 +10,7 @@ import { H3, P } from "~/components/ui/typography";
 import { Factory } from "~/lib/icons/Factory";
 import { Package } from "~/lib/icons/Package";
 import { Plus } from "~/lib/icons/Plus";
+import { ServerCrash } from "~/lib/icons/ServerCrash"; // Assuming you have a RefreshCcw icon
 import { Store } from "~/lib/icons/Store";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -52,6 +53,9 @@ export default function TabsScreen() {
         </Button>
         <Button icon={Plus} variant="outline">
           {t("New actions")}
+        </Button>
+        <Button icon={ServerCrash} variant="outline">
+          {t("Manage Errors")}
         </Button>
       </View>
       <H3>{capitalizeFirst(t("common.history"))}</H3>

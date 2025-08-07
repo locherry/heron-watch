@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/actions": {
+    "/actions/{categoryIdentifier}": {
         parameters: {
             query?: never;
             header?: never;
@@ -12,17 +12,16 @@ export interface paths {
             cookie?: never;
         };
         /** Get all actions */
-        get: operations["6f82559b9776be88a74fd5f3ad8a0658"];
+        get: operations["2148ce22d3983d091abc0299fa99fbec"];
         put?: never;
-        /** Insert new actions in database */
-        post: operations["10571052c35713c859529c41cf47b0e0"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/actions/{actionID}": {
+    "/actions/{actionID}/{categoryIdentifier}": {
         parameters: {
             query?: never;
             header?: never;
@@ -30,9 +29,26 @@ export interface paths {
             cookie?: never;
         };
         /** Get an action by id */
-        get: operations["93bd0e1b484f05d6c25078a9b84d13c1"];
+        get: operations["acdc36d37f06d94872d53e2b9104e9d3"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/actions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Insert new actions in database */
+        post: operations["10571052c35713c859529c41cf47b0e0"];
         delete?: never;
         options?: never;
         head?: never;
@@ -56,18 +72,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/stock": {
+    "/dataManager/{categoryIdentifier}/{aimDate}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get stock data for a specific date */
-        get: operations["681bf296e3c8a5b5ab800916afba2cc0"];
+        /** Visualise a stock at a specific date */
+        get: operations["c3be90ae6777d13865c0170acbcaa02b"];
         put?: never;
-        /** Save stock data for a specific date */
-        post: operations["ba8c834cbe81068aa3553b10ae0adc9e"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/dataManager": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Save a stock in database, which is the stock at a precize date. */
+        post: operations["c355b3e501d3d4da26f882af81764419"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/errorManager/actionCorrection": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Correct errors in actions, so in stocks too */
+        patch: operations["e5f16ff03874128b661cef364eeba239"];
+        trace?: never;
+    };
+    "/errorManager": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add corrupted data to known_errors table */
+        post: operations["07609dc1ec22a79f370eddcb36113e5b"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/errorManager/correctExpDate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Correct wrong expiration_date */
+        patch: operations["6b389861e4e22deea654b0956b0581ef"];
+        trace?: never;
+    };
+    "/stock/{categoryIdentifier}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get actual stock data */
+        get: operations["709d868ede18dd43ddeedf83024a8aa3"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -150,6 +250,7 @@ export interface components {
             /** Format: date-time */
             created_at: string;
             action_id: number;
+            transaction: string;
         };
         Stock: {
             /** @example 144 */
@@ -162,7 +263,7 @@ export interface components {
              * Format: date
              * @example 2025-05-05
              */
-            DLC: string;
+            expiration_date: string;
         };
         newActions: (components["schemas"]["Action"] | components["schemas"]["Action"] | components["schemas"]["Action"])[];
         Wrong_actions: {
@@ -177,6 +278,59 @@ export interface components {
             aimdate: string;
         };
         Stock_content: (components["schemas"]["Stock"] | components["schemas"]["Stock"])[];
+        Error_manager_informations_to_modify_array: {
+            /** @example 309 */
+            product_code?: string;
+            /** @example GDE050528 */
+            lot_number?: string;
+            /** @example 45 */
+            quantity?: number;
+            /** @example 2 */
+            action_id?: number;
+            /** @example 34009 */
+            transaction?: string;
+        };
+        Error_manager_corrupted_data: {
+            /** @example 309 */
+            product_code?: string;
+            /** @example GDE050528 */
+            lot_number?: string;
+        };
+        Error_manager_add_corrupted_data: (components["schemas"]["Error_manager_corrupted_data"] | components["schemas"]["Error_manager_corrupted_data"])[];
+        Error_manager_expiration_date: {
+            /** @example 309 */
+            product_code?: string;
+            /** @example GDE050528 */
+            lot_number?: string;
+            /**
+             * Format: date
+             * @example 2028-05-05
+             */
+            expiration_date?: string;
+        };
+        Error_manager_correct_expiration_date: (components["schemas"]["Error_manager_expiration_date"] | components["schemas"]["Error_manager_expiration_date"])[];
+        /**
+         * @description Objet associatif dont les clés sont des identifiants uniques de lignes SQL (ex : 3, 6, 42). Les valeurs respectent le schéma Error_manager_informations_to_modify_array.
+         * @example {
+         *       "4": {
+         *         "product_code": "207IGP",
+         *         "lot_number": "CC130529",
+         *         "quantity": 39,
+         *         "action_id": 1,
+         *         "transaction": "25009"
+         *       },
+         *       "9": {
+         *         "product_code": "309",
+         *         "lot_number": "GDE130529",
+         *         "quantity": 43,
+         *         "action_id": 2,
+         *         "transaction": "43898"
+         *       }
+         *     }
+         */
+        Error_manager_informations_to_modify: {
+            [key: string]: components["schemas"]["Error_manager_informations_to_modify_array"];
+        };
     };
     responses: never;
     parameters: never;
@@ -186,11 +340,13 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    "6f82559b9776be88a74fd5f3ad8a0658": {
+    "2148ce22d3983d091abc0299fa99fbec": {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                categoryIdentifier: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -231,6 +387,54 @@ export interface operations {
             };
         };
     };
+    acdc36d37f06d94872d53e2b9104e9d3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                actionID: number;
+                categoryIdentifier: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Action fetched successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Action fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Action"];
+                    };
+                    "application/xml": {
+                        /** @example Action fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Action"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
     "10571052c35713c859529c41cf47b0e0": {
         parameters: {
             query?: never;
@@ -240,7 +444,11 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["newActions"][];
+                "application/json": {
+                    /** @example PF */
+                    category_identifier: string;
+                    informations_to_insert: components["schemas"]["newActions"];
+                };
             };
         };
         responses: {
@@ -268,53 +476,6 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Wrong_actions"][];
                     "application/xml": components["schemas"]["Wrong_actions"][];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "93bd0e1b484f05d6c25078a9b84d13c1": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                actionID: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Action fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Action fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"];
-                    };
-                    "application/xml": {
-                        /** @example Action fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"];
-                    };
                 };
             };
             /** @description Unauthorized */
@@ -425,14 +586,263 @@ export interface operations {
             };
         };
     };
-    "681bf296e3c8a5b5ab800916afba2cc0": {
+    c3be90ae6777d13865c0170acbcaa02b: {
         parameters: {
-            query: {
-                /** @description Date for the stock data */
-                date: string;
+            query?: never;
+            header?: never;
+            path: {
+                categoryIdentifier: string;
+                aimDate: string;
             };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Stock created successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Stock created successfully */
+                        message?: string;
+                        data?: components["schemas"]["Stock_content"];
+                    };
+                    "application/xml": {
+                        /** @example Stock created successfully */
+                        message?: string;
+                        data?: components["schemas"]["Stock_content"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    c355b3e501d3d4da26f882af81764419: {
+        parameters: {
+            query?: never;
             header?: never;
             path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @example PF */
+                    category_identifier: string;
+                    /**
+                     * Format: date
+                     * @example 2024-09-08 16:34:48
+                     */
+                    stock_save_date: string;
+                };
+            };
+        };
+        responses: {
+            /** @description New actions have been inserted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example New stock has been successfully saved in database */
+                        message?: string;
+                    };
+                    "application/xml": {
+                        /** @example New stock has been successfully saved in database */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    e5f16ff03874128b661cef364eeba239: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Error_manager_informations_to_modify"];
+            };
+        };
+        responses: {
+            /** @description Stocks updated without detected new errors */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Stocks updated without detected new errors */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Stocks updated with potential new errors */
+            207: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Wrong_actions"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "07609dc1ec22a79f370eddcb36113e5b": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Error_manager_add_corrupted_data"];
+            };
+        };
+        responses: {
+            /** @description New corrupted products have been referenced successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example New corrupted products have been referenced successfully */
+                        message?: string;
+                    };
+                    "application/xml": {
+                        /** @example New corrupted products have been referenced successfully */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "6b389861e4e22deea654b0956b0581ef": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @example PF */
+                    category_identifier: string;
+                    to_correct_products: components["schemas"]["Error_manager_correct_expiration_date"];
+                };
+            };
+        };
+        responses: {
+            /** @description Expiration date updated successfuly */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Expiration date updated successfuly */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "709d868ede18dd43ddeedf83024a8aa3": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Identifier to select corresponding stock */
+                categoryIdentifier: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -462,57 +872,8 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Stock not found for the given date */
+            /** @description Stock not found */
             404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    ba8c834cbe81068aa3553b10ae0adc9e: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    /**
-                     * Format: date
-                     * @example 2025-07-14
-                     */
-                    date?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Stock saved successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad Request - Missing or invalid data */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -779,15 +1140,17 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    first_name?: string;
-                    last_name?: string;
-                    username?: string;
-                    email?: string;
-                    role?: string;
                     user_preferences?: {
                         theme?: string | null;
                         tint_color?: string | null;
                         language?: string | null;
+                    };
+                    user_info?: {
+                        first_name?: string;
+                        last_name?: string;
+                        username?: string;
+                        email?: string;
+                        role?: string;
                     };
                 };
             };

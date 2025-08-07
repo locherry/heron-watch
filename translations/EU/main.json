@@ -57,13 +57,13 @@
     "rust": "arroz"
   },
   "stocks": {
-    "finishedProducts": "produktuak amaituak",
-    "rawMaterials": "lehengaia",
+    "finishedProducts": "Amaitutako Produktuak",
+    "rawMaterials": "lehengaiak",
     "viewStocks": "ikuska ezarpenak",
     "newActions": "ekintza berriak",
     "fresh": "freskoa",
     "frozen": "hozkaitua",
-    "dried": "lehorra",
+    "dry": "idorra",
     "packaging": "paketazioa",
     "cannery": "kontserba lantegia",
     "store": "denda"
