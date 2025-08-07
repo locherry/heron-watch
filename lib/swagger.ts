@@ -4,51 +4,35 @@
  */
 
 export interface paths {
-    "/actions/{categoryIdentifier}": {
+    "/actions/{stock_category}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get all actions */
-        get: operations["2148ce22d3983d091abc0299fa99fbec"];
+        /** Get all actions, specific to a stock category */
+        get: operations["331b62c6cfe39ae53eb55c4b5f423c9c"];
         put?: never;
-        post?: never;
+        /** Insert new actions in the specified stock category */
+        post: operations["460f76563da78d49cac27d90f6280ff4"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/actions/{actionID}/{categoryIdentifier}": {
+    "/actions/{stock_category}/{action_ID}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get an action by id */
-        get: operations["acdc36d37f06d94872d53e2b9104e9d3"];
+        /** Get an action by id in the specified stock category */
+        get: operations["0860d0739a5643134ee5b943ccf40bd3"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/actions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Insert new actions in database */
-        post: operations["10571052c35713c859529c41cf47b0e0"];
         delete?: never;
         options?: never;
         head?: never;
@@ -66,40 +50,6 @@ export interface paths {
         put?: never;
         /** Authenticate user and return JWT */
         post: operations["fe6544959270bd59edaecbc87ce09a4c"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/dataManager/{categoryIdentifier}/{aimDate}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Visualise a stock at a specific date */
-        get: operations["c3be90ae6777d13865c0170acbcaa02b"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/dataManager": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Save a stock in database, which is the stock at a precize date. */
-        post: operations["c355b3e501d3d4da26f882af81764419"];
         delete?: never;
         options?: never;
         head?: never;
@@ -157,7 +107,7 @@ export interface paths {
         patch: operations["6b389861e4e22deea654b0956b0581ef"];
         trace?: never;
     };
-    "/stock/{categoryIdentifier}": {
+    "/stocks/{stock_category}": {
         parameters: {
             query?: never;
             header?: never;
@@ -165,9 +115,10 @@ export interface paths {
             cookie?: never;
         };
         /** Get actual stock data */
-        get: operations["709d868ede18dd43ddeedf83024a8aa3"];
+        get: operations["3affd2f60f651f8329274f7b8d06c203"];
         put?: never;
-        post?: never;
+        /** Save a stock in database, which is the stock at a precize date. */
+        post: operations["1988dd14be8f06b9096f02e3b5ad82a6"];
         delete?: never;
         options?: never;
         head?: never;
@@ -192,7 +143,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/users/{userID}": {
+    "/users/{user_ID}": {
         parameters: {
             query?: never;
             header?: never;
@@ -200,15 +151,15 @@ export interface paths {
             cookie?: never;
         };
         /** Get an user by ID */
-        get: operations["f54c6efbff4bec0e08c9a4bdfbf6ec08"];
+        get: operations["cd7cf90bd70793032e47d1fee7bc665a"];
         put?: never;
         post?: never;
         /** Delete a user */
-        delete: operations["56929103075f7718c31ecaf541b79b0f"];
+        delete: operations["97fd6c75f1cdb47d086d2fa8a7063640"];
         options?: never;
         head?: never;
         /** Modify a user */
-        patch: operations["8a69c183af85db99b68b8906cefe7e91"];
+        patch: operations["d34c02a1e3276e417eb75f2b6e91cf26"];
         trace?: never;
     };
 }
@@ -340,12 +291,19 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    "2148ce22d3983d091abc0299fa99fbec": {
+    "331b62c6cfe39ae53eb55c4b5f423c9c": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+            };
             header?: never;
             path: {
-                categoryIdentifier: string;
+                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             };
             cookie?: never;
         };
@@ -387,59 +345,13 @@ export interface operations {
             };
         };
     };
-    acdc36d37f06d94872d53e2b9104e9d3: {
+    "460f76563da78d49cac27d90f6280ff4": {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                actionID: number;
-                categoryIdentifier: string;
+                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Action fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Action fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"];
-                    };
-                    "application/xml": {
-                        /** @example Action fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "10571052c35713c859529c41cf47b0e0": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -476,6 +388,54 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Wrong_actions"][];
                     "application/xml": components["schemas"]["Wrong_actions"][];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "0860d0739a5643134ee5b943ccf40bd3": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                actionID: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Action fetched successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Action fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Action"];
+                    };
+                    "application/xml": {
+                        /** @example Action fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Action"];
+                    };
                 };
             };
             /** @description Unauthorized */
@@ -583,109 +543,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-        };
-    };
-    c3be90ae6777d13865c0170acbcaa02b: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                categoryIdentifier: string;
-                aimDate: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Stock created successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Stock created successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock_content"];
-                    };
-                    "application/xml": {
-                        /** @example Stock created successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock_content"];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    c355b3e501d3d4da26f882af81764419: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @example PF */
-                    category_identifier: string;
-                    /**
-                     * Format: date
-                     * @example 2024-09-08 16:34:48
-                     */
-                    stock_save_date: string;
-                };
-            };
-        };
-        responses: {
-            /** @description New actions have been inserted successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example New stock has been successfully saved in database */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        /** @example New stock has been successfully saved in database */
-                        message?: string;
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
             };
         };
     };
@@ -835,13 +692,12 @@ export interface operations {
             };
         };
     };
-    "709d868ede18dd43ddeedf83024a8aa3": {
+    "3affd2f60f651f8329274f7b8d06c203": {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Identifier to select corresponding stock */
-                categoryIdentifier: string;
+                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             };
             cookie?: never;
         };
@@ -885,6 +741,51 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    "1988dd14be8f06b9096f02e3b5ad82a6": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description New actions have been inserted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example New stock has been successfully saved in database */
+                        message?: string;
+                    };
+                    "application/xml": {
+                        /** @example New stock has been successfully saved in database */
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
             };
         };
     };
@@ -1006,12 +907,12 @@ export interface operations {
             };
         };
     };
-    f54c6efbff4bec0e08c9a4bdfbf6ec08: {
+    cd7cf90bd70793032e47d1fee7bc665a: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                userID: number;
+                user_ID: number;
             };
             cookie?: never;
         };
@@ -1060,12 +961,12 @@ export interface operations {
             };
         };
     };
-    "56929103075f7718c31ecaf541b79b0f": {
+    "97fd6c75f1cdb47d086d2fa8a7063640": {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                userID: number;
+                user_ID: number;
             };
             cookie?: never;
         };
@@ -1128,12 +1029,12 @@ export interface operations {
             };
         };
     };
-    "8a69c183af85db99b68b8906cefe7e91": {
+    d34c02a1e3276e417eb75f2b6e91cf26: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                userID: number;
+                user_ID: number;
             };
             cookie?: never;
         };

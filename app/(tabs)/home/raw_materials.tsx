@@ -48,13 +48,13 @@ export default function TabsScreen() {
   const [currentTabName, setCurrentTabName] = React.useState(
     stocksTabs[0].name
   );
-  let categoryIdentifierVar = stocksTabs.find(
+  let stockIdentifier = stocksTabs.find(
     (tab) => tab.name === currentTabName
   )?.data;
   const { data, error, isLoading, isError } = useFetchQuery(
-    "/actions/{categoryIdentifier}",
+    "/actions/{stock_category}",
     "get",
-    { path: { categoryIdentifier: "MP_F" } }
+    { path: { stock_category: stockIdentifier } }
   );
   if (isError) {
     console.log(error.message);
