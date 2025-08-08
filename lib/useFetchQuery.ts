@@ -46,12 +46,32 @@ export const useFetchQuery = <P extends Path, M extends PathMethod<P>>(
 ) => {
   const httpMethod = String(method).toUpperCase();
 
-  const queryString =
-    httpMethod === "GET" && params
-      ? "?" + new URLSearchParams(params as Record<string, string>).toString()
-      : "";
+  // 1️⃣ Copie mutable pour manipuler l'URL
+  let full_url = endpoint + url;
 
-  const full_url = endpoint + url + queryString;
+  // 2️⃣ Remplace les paramètres de chemin {param}
+  if (params && "path" in params && params.path) {
+    for (const [key, value] of Object.entries(params.path)) {
+      full_url = full_url.replace(`{${key}}`, encodeURIComponent(String(value)));
+    }
+  }
+
+  // 3️⃣ Construit les query params
+  if (httpMethod === "GET" && params && "query" in params && params.query) {
+    const queryString = new URLSearchParams(
+      Object.entries(params.query).reduce<Record<string, string>>(
+        (acc, [k, v]) => {
+          if (v !== undefined && v !== null) acc[k] = String(v);
+          return acc;
+        },
+        {}
+      )
+    ).toString();
+
+    if (queryString) {
+      full_url += `?${queryString}`;
+    }
+  }
 
   const fetchData = async (): Promise<ResponseType<P, M>> => {
     let headers: HeadersInit = {
