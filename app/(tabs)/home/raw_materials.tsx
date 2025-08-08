@@ -44,13 +44,17 @@ export default function TabsScreen() {
     { name: "dry", icon: Sun, data: "MP_S" },
     { name: "frozen", icon: Snowflake, data: "MP_C" },
     { name: "packaging", icon: Package, data: "EMB" },
-  ];
+  ] satisfies {
+    name: string;
+    icon: React.ComponentType<{ className?: string }>;
+    data: ["MP_F", "MP_S", "MP_C", "EMB"][number];
+  }[];
   const [currentTabName, setCurrentTabName] = React.useState(
     stocksTabs[0].name
   );
-  let stockIdentifier = stocksTabs.find(
-    (tab) => tab.name === currentTabName
-  )?.data;
+  let stockIdentifier =
+    (stocksTabs.find((tab) => tab.name === currentTabName)
+      ?.data as (typeof stocksTabs)[number]["data"]) ?? "MP_F";
   const { data, error, isLoading, isError } = useFetchQuery(
     "/actions/{stock_category}",
     "get",

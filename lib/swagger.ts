@@ -56,7 +56,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/errorManager/actionCorrection": {
+    "/errors/{stock_category}": {
         parameters: {
             query?: never;
             header?: never;
@@ -70,10 +70,10 @@ export interface paths {
         options?: never;
         head?: never;
         /** Correct errors in actions, so in stocks too */
-        patch: operations["e5f16ff03874128b661cef364eeba239"];
+        patch: operations["ad26345d7319f72aa2ba8872e27fc3c7"];
         trace?: never;
     };
-    "/errorManager": {
+    "/errors": {
         parameters: {
             query?: never;
             header?: never;
@@ -83,14 +83,14 @@ export interface paths {
         get?: never;
         put?: never;
         /** Add corrupted data to known_errors table */
-        post: operations["07609dc1ec22a79f370eddcb36113e5b"];
+        post: operations["67cf18badd8d1e56bcc93ea516184d4f"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/errorManager/correctExpDate": {
+    "/errors/{stock_category}/correctExpDate": {
         parameters: {
             query?: never;
             header?: never;
@@ -104,7 +104,7 @@ export interface paths {
         options?: never;
         head?: never;
         /** Correct wrong expiration_date */
-        patch: operations["6b389861e4e22deea654b0956b0581ef"];
+        patch: operations["f3767d2b95e3d9782fd7d64dae6a3cb7"];
         trace?: never;
     };
     "/stocks/{stock_category}": {
@@ -303,7 +303,7 @@ export interface operations {
             };
             header?: never;
             path: {
-                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             };
             cookie?: never;
         };
@@ -350,14 +350,14 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             };
             cookie?: never;
         };
         requestBody: {
             content: {
                 "application/json": {
-                    /** @example PF */
+                    /** @example PF_G */
                     category_identifier: string;
                     informations_to_insert: components["schemas"]["newActions"];
                 };
@@ -413,7 +413,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 actionID: number;
             };
             cookie?: never;
@@ -546,11 +546,13 @@ export interface operations {
             };
         };
     };
-    e5f16ff03874128b661cef364eeba239: {
+    ad26345d7319f72aa2ba8872e27fc3c7: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
             cookie?: never;
         };
         requestBody: {
@@ -598,7 +600,7 @@ export interface operations {
             };
         };
     };
-    "07609dc1ec22a79f370eddcb36113e5b": {
+    "67cf18badd8d1e56bcc93ea516184d4f": {
         parameters: {
             query?: never;
             header?: never;
@@ -645,18 +647,18 @@ export interface operations {
             };
         };
     };
-    "6b389861e4e22deea654b0956b0581ef": {
+    f3767d2b95e3d9782fd7d64dae6a3cb7: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
             cookie?: never;
         };
         requestBody: {
             content: {
                 "application/json": {
-                    /** @example PF */
-                    category_identifier: string;
                     to_correct_products: components["schemas"]["Error_manager_correct_expiration_date"];
                 };
             };
@@ -697,7 +699,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             };
             cookie?: never;
         };
@@ -749,7 +751,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                stock_category: "PF_M" | "PF_G" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             };
             cookie?: never;
         };
