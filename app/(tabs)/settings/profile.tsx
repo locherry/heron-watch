@@ -27,12 +27,16 @@ import { useApiMutation } from "~/lib/useApiMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function ProfileSettings() {
-  const [userSession, setUserSession] = useState<SecureStorageData["userSession"] | null>(null);
-  const [originalUserSession, setOriginalUserSession] = useState<SecureStorageData["userSession"] | null>(null); // Store the original user session data
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const [userSession, setUserSession] = useState<
+    SecureStorageData["userSession"] | null
+  >(null);
+  const [originalUserSession, setOriginalUserSession] = useState<
+    SecureStorageData["userSession"] | null
+  >(null); // Store the original user session data
+  const [lastName, setLastName] = useState(userSession?.lastName || "");
+  const [firstName, setFirstName] = useState(userSession?.firstName || "");
+  const [email, setEmail] = useState(userSession?.email || "");
+  const [role, setRole] = useState(userSession?.role || "user");
   const [isEditing, setIsEditing] = useState(false);
   const { mutate: updateUser } = useApiMutation("/users/{userID}", "patch");
 
@@ -42,18 +46,20 @@ export default function ProfileSettings() {
         {
           pathParams: { userID: userSession.id },
           body: {
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            role: role,
+            user_info: {
+              first_name: firstName,
+              last_name: lastName,
+              email: email,
+              role: role,
+            },
           },
         },
         {
           onSuccess: () => {
-            console.log("success")
+            console.log("success");
           },
           onError: () => {
-            console.log("error")
+            console.log("error");
           },
         }
       );
@@ -73,12 +79,12 @@ export default function ProfileSettings() {
         t("Do you really want to discard the unsaved changes?"),
         [
           {
-            text: t("cancel"),
+            text: t("common.cancel"),
             onPress: () => console.info("Cancel Pressed"),
             style: "cancel",
           },
           {
-            text: t("OK"),
+            text: t("common.OK"),
             onPress: () => {
               // Reset form fields to original user session data and exit edit mode
               if (originalUserSession) {
@@ -175,10 +181,8 @@ export default function ProfileSettings() {
       <Label>{capitalizeFirst(t("user.role"))}</Label>
       <Select
         className="mb-4"
-        onValueChange={(option) => setRole(option?.value ?? "")}
-        value={ROLE_OPTIONS.find(
-          (option) => option.value === role
-        )}
+        onValueChange={(option) => setRole(option?.value as SecureStorageData["userSession"]["role"]|undefined ?? "user")}
+        value={ROLE_OPTIONS.find((option) => option.value === role)}
         defaultValue={ROLE_OPTIONS.find(
           (option) => option.value === userSession?.role
         )}
@@ -204,7 +208,7 @@ export default function ProfileSettings() {
 
       {/* Submit Button */}
       {isEditing && (
-        <Button onPress={handleSubmit} className="mb-4">
+        <Button onPress={handleSubmit} className="mb-4" variant={"outline"}>
           <Text>{capitalizeFirst(t("common.save"))}</Text>
         </Button>
       )}
