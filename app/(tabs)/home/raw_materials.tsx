@@ -39,26 +39,28 @@ export default function TabsScreen() {
     });
   }, [width]);
 
+  type StockName = ["fresh" | "dry" | "frozen" | "packaging"][number]
+
   const stocksTabs = [
     { name: "fresh", icon: Leaf, data: "MP_F" },
     { name: "dry", icon: Sun, data: "MP_S" },
     { name: "frozen", icon: Snowflake, data: "MP_C" },
     { name: "packaging", icon: Package, data: "EMB" },
   ] satisfies {
-    name: string;
+    name: StockName;
     icon: React.ComponentType<{ className?: string }>;
     data: ["MP_F", "MP_S", "MP_C", "EMB"][number];
   }[];
   const [currentTabName, setCurrentTabName] = React.useState(
     stocksTabs[0].name
   );
-  let stockIdentifier =
+  let stockCategory =
     (stocksTabs.find((tab) => tab.name === currentTabName)
       ?.data as (typeof stocksTabs)[number]["data"]) ?? "MP_F";
   const { data, error, isLoading, isError } = useFetchQuery(
     "/actions/{stock_category}",
     "get",
-    { path: { stock_category: stockIdentifier } }
+    { path: { stock_category: stockCategory } }
   );
   if (isError) {
     console.log(error.message);
@@ -69,7 +71,7 @@ export default function TabsScreen() {
         <H3>{capitalizeFirst(t("stocks.rawMaterials"))}</H3>
         <Tabs
           value={currentTabName}
-          onValueChange={setCurrentTabName}
+          onValueChange={(value)=>setCurrentTabName(value as StockName)}
           className="w-full max-w-[400px] flex-col gap-1.5 mb-2"
         >
           <TabsList className="flex-row w-full">
@@ -83,7 +85,7 @@ export default function TabsScreen() {
                         : "text-muted-foreground"
                     }`,
                   })}
-                  <Text>{capitalizeFirst(t("stocks." + tab.name))}</Text>
+                  <Text>{capitalizeFirst(t("stocks." + tab.name as "stocks.fresh"))}</Text>
                 </Row>
               </TabsTrigger>
             ))}
@@ -143,7 +145,7 @@ export default function TabsScreen() {
               </TableHeader>
 
               <TableBody>
-                {/* Using map to render each user row */}
+                {/* Using map to render each action row */}
                 {data?.data?.map((actions, index) => (
                   <TableRow
                     key={actions.id}
@@ -183,13 +185,13 @@ export default function TabsScreen() {
               <TableFooter>
                 <TableRow>
                   <TableCell className="flex-1 justify-center">
-                    <Text className="text-foreground">Total Users</Text>
+                    <Text className="text-foreground">{t('Total actions')}</Text>
                   </TableCell>
                   <TableCell className="items-end pr-8">
                     <Button
                       size="sm"
                       variant="ghost"
-                      onPress={() => t(`Total actions: ${data?.data?.length}`)}
+                      onPress={() => t('Total actions') + data?.data?.length}
                     >
                       <Text>{data?.data?.length}</Text>
                     </Button>

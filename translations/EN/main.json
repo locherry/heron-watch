@@ -107,7 +107,8 @@
     "discard": "discard"
   },
   "Toggle editing mode":"Toggle editing mode",
-  "Total users:": "Total users: ",
+  "Total users": "Total users",
+  "Total actions": "Total actions",
   "Please confirm": "Please confirm",
   "Do you really want to discard the unsaved changes?": "Do you really want to discard the unsaved changes?",
   "Do you really want to log out ?": "Do you really want to log out?",

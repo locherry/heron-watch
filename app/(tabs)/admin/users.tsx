@@ -94,7 +94,7 @@ export default function App() {
                   <Text>{user.email}</Text>
                 </TableCell>
                 <TableCell style={{ width: columnWidths[3] }}>
-                  <Text>{t("user." + user.role)}</Text>
+                  <Text>{t("user." + user.role as ["user.admin", "user.user"][number])}</Text>
                 </TableCell>
               </TableRow>
             ))}
@@ -103,13 +103,13 @@ export default function App() {
           <TableFooter>
             <TableRow>
               <TableCell className="flex-1 justify-center">
-                <Text className="text-foreground">Total Users</Text>
+                <Text className="text-foreground">{t('Total users')}</Text>
               </TableCell>
               <TableCell className="items-end pr-8">
                 <Button
                   size="sm"
                   variant="ghost"
-                  onPress={() => t(`Total users: ${data?.data?.length}`)}
+                  onPress={() => t('Total users') + data?.data?.length}
                 >
                   <Text>{data?.data?.length}</Text>
                 </Button>
