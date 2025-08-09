@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { Alert } from "~/components/Alert/Alert";
+import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";

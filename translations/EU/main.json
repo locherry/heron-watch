@@ -56,6 +56,17 @@
     "sunny": "eguzkitsua",
     "rust": "arroz"
   },
+  "actions": {
+    "id": "ID",
+    "quantity": "kantitatea",
+    "comment": "iruzkina",
+    "product_code": "produktuen kodea",
+    "lot_number": "lote zenbakia",
+    "created_by_id": "egilea",
+    "created_at": "sortze data",
+    "action_id": "ekintza",
+    "transaction": "transakzioa"
+  },
   "stocks": {
     "finishedProducts": "Amaitutako Produktuak",
     "rawMaterials": "lehengaiak",
@@ -97,6 +108,8 @@
   },
   "Toggle editing mode": "Editatze modua aldatu",
   "Total users": "Erabiltzaile guztira",
+  "Total actions": "Ekintza guztira",
+  "Manage Errors": "Kudeatu erroreak",
   "Please confirm": "Mesedez, baieztatu",
   "Do you really want to discard the unsaved changes?": "Benetan nahi al duzu aldaketak gordetu gabe baztertu?",
   "Do you really want to log out ?": "Benetan nahi al duzu saioa itxi?",

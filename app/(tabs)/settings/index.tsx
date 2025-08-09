@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { t } from "i18next";
 import React from "react";
-import { Alert } from "~/components/Alert/Alert";
+import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
 import { H2 } from "~/components/ui/typography";

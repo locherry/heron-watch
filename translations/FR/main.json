@@ -56,6 +56,17 @@
     "sunny": "ensoleillé",
     "rust": "rouille"
   },
+  "actions": {
+    "id": "ID",
+    "quantity": "quantité",
+    "comment": "commentaire",
+    "product_code": "code produit",
+    "lot_number": "numéro de lot",
+    "created_by_id": "créé par",
+    "created_at": "date de création",
+    "action_id": "action",
+    "transaction": "transaction"
+  },
   "stocks": {
     "finishedProducts": "produits finis",
     "rawMaterials": "matières premières",
@@ -96,7 +107,9 @@
     "discard": "jeter"
   },
   "Toggle editing mode": "Basculer en mode édition",
-  "Total users:": "Nombre total d'utilisateurs :",
+  "Total users": "Nombre total d'utilisateurs",
+  "Total actions": "Nombre total d'actions",
+  "Manage Errors": "Gérer les erreurs",
   "Please confirm": "Veuillez confirmer",
   "Do you really want to discard the unsaved changes?": "Voulez-vous vraiment ignorer les modifications non enregistrées ?",
   "Do you really want to log out ?": "Voulez-vous vraiment vous déconnecter ?",
