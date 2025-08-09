@@ -1,7 +1,7 @@
 export const devEnvConfig = {
     //ip: '192.168.0.22', //VLS
     // ip: '192.168.55.191',
-    ip : 'localhost',
+    ip : '192.168.1.144',
     // ip : "10.245.47.69", //CROUS
     // ip : "10.56.68.25" //INSA
     // ip : "10.186.47.69" //VPN INSA

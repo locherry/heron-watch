@@ -2,6 +2,7 @@ import { t } from "i18next";
 import * as React from "react";
 import { useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ActionHistoryTable } from "~/components/actions/ActionHistoryTable";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
@@ -14,16 +15,15 @@ import { Plus } from "~/lib/icons/Plus";
 import { ServerCrash } from "~/lib/icons/ServerCrash";
 import { Snowflake } from "~/lib/icons/Snowflake";
 import { Sun } from "~/lib/icons/Sun";
-import { useFetchQuery } from "~/lib/useFetchQuery";
+import { useInfiniteFetchQuery } from "~/lib/useInfiniteFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
-import { ActionHistoryTable } from "~/components/actions/ActionHistoryTable";
 
 export default function RawMaterialsTabsScreen() {
-  const { width } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
 
   const columnWidths = React.useMemo(() => {
-    const minColumnWidths = [120, 120, 180, 180, 180, 180, 180, 180, 180];
+    const minColumnWidths = [60, 60, 180, 180, 180, 180, 180, 180, 180];
     return minColumnWidths.map((minWidth) => {
       const evenWidth = width / minColumnWidths.length;
       return evenWidth > minWidth ? evenWidth : minWidth;
@@ -44,10 +44,10 @@ export default function RawMaterialsTabsScreen() {
   const stockCategory =
     stocksTabs.find((tab) => tab.name === currentTabName)?.data ?? "MP_F";
 
-  const { data, error, isLoading, isError } = useFetchQuery(
+  const { data, error, isLoading, fetchNextPage,  isError } = useInfiniteFetchQuery(
     "/actions/{stock_category}",
     "get",
-    { path: { stock_category: stockCategory } }
+    { path: { stock_category: stockCategory }, query : {limit : 10} }
   );
 
   if (isError) {
@@ -104,8 +104,9 @@ export default function RawMaterialsTabsScreen() {
           <H3>{capitalizeFirst(t("common.history"))}</H3>
         </Row>
         <ActionHistoryTable
-          data={data?.data ?? []}
+          data={data?.pages.flatMap(page => page?.data ?? []) ?? []}
           columnWidths={columnWidths}
+          fetchNextPage = {fetchNextPage}
         />
       </View>
     </RootView>
