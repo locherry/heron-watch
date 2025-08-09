@@ -74,3 +74,37 @@ NativeWind enables Tailwind CSS style utilities in React Native. This project in
 - Keep hooks and utilities in `/lib` for centralized reuse.
 - Use separate files for platform-specific code (`Alert.ts` + `Alert.web.ts`).
 - Group icons and SVG assets in `/lib/icons` or `/assets`.
+
+## Commit Message Conventions
+
+To maintain clear, consistent, and informative commit history, follow these guidelines for commit messages:
+
+### Structure
+
+- **type**: Indicates the category or scope of the change.
+- **short summary**: Brief description of the change.
+
+### Common Types
+
+- **UX:** Changes related to user experience or UI improvements.
+- **UI:** Visual or interface updates, such as adding buttons, icons, or layout fixes.
+- **API:** Backend API changes, including fetching, data handling, or integration updates.
+- **TS:** Fixes or updates related to TypeScript types or errors.
+- **DOC:** Documentation updates or comments.
+- **TEST:** Adding or updating tests.
+
+### Guidelines
+
+- Prefix the subject with the type followed by a colon and a space, e.g., `API: Fix UseFetchQuery`.
+- Use **imperative mood** in the subject line (e.g., “Fix translation errors” not “Fixed…” or “Fixes…”).
+- Keep the subject line concise.
+
+### Examples
+
+- `UX: Move history in separate component`
+- `TS: Fix translations errors`
+- `API: Fix UseFetchQuery`
+
+---
+
+Following this convention ensures the commit history is easy to scan, understand, and trace, improving collaboration and code review efficiency.
