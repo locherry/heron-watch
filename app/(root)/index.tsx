@@ -45,7 +45,7 @@ export default function App() {
           </Row>
         </Card>
         <Row className="flex-none" gap={16}>
-          <Label>{t("Get right where your left :")}</Label>
+          <Label>{t("Get right where you left :")}</Label>
           <Button onPress={handleLoginPress} variant={"outline"}>
             {capitalizeFirst(t("user.login"))}
           </Button>

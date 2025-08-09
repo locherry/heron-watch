@@ -1,4 +1,4 @@
-// Import your translation files
+// Import translation files
 import mainEN from '../translations/EN/main.json';
 
 // Declare module and extend types
@@ -8,7 +8,7 @@ declare module 'i18next' {
     defaultNS: 'main';
     // Define the resources object with type inference
     resources: {
-      main: typeof mainEN;  // Type the 'main' namespace based on your JSON file
+      main: typeof mainEN;  // Type the 'main' namespace based on JSON file
     };
   }
 }

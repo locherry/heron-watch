@@ -1,50 +1,76 @@
-# Welcome to your Expo app 👋
+# Heron Watch - Stock Management Solutions
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Heron Watch is a React Native / Expo Router based application focused on providing a clean, customizable stock management interface. It supports cross-platform usage (iOS, Android, Web).
 
-## Get started
+---
 
-1. Install dependencies
+## Features
 
+- **Multi-platform support:** Works on iOS, Android, and Web.
+- **Theming:** Supports light and dark themes with React Navigation.
+- **Localization:** Built-in i18n support with `react-i18next`.
+- **API integration:** Typed API mutation hooks using `@tanstack/react-query` and OpenAPI-generated types.
+- **Navigation:** Uses `expo-router` with tab-based navigation.
+- **Authentication:** Custom auth flow that redirects unauthenticated users.
+
+---
+
+## Installation
+
+1. Clone the repo:
    ```bash
-   npm install
-   ```
+   git clone https://github.com/locherry/heron-watch.git
+   cd heron-watch
 
-2. Start the app
+## Project Structure
 
-   ```bash
-   npx expo start
-   ```
+- **[/app](./app):** Contains routing and layout files following [Expo Router](https://expo.github.io/router/docs) conventions.
+  
+- **[/components](./components):** Reusable UI and layout components structured by function.
+  - **[ui](./components/ui):** UI building blocks added via [react-native-reusables (rnr)](https://reactnativereusables.com/getting-started/introduction/) like `Button`, `Typography` (`H2`, `H4`, `P`), and `Table` components.
+  - **[layout](./components/layout):** Components related to item placement and disposition such as `Row` and `Column`.
+  - Other custom folders for feature-specific or grouped components.
+  
+- **[/lib](./lib):** Utility functions (e.g., `capitalizeFirst`, `cn`), custom hooks (`useAuth`, `useColorScheme`), icons (e.g., `House`, `Settings`), secure storage utilities, and app constants like theme colors.
 
-In the output, you'll find options to open the app in a
+- **[/translations](./translations):** i18n localization setup and resource files, using [i18next](https://www.i18next.com/).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **[/assets](./assets):** Static media files including images and SVGs like the app icon.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **[global.css](./global.css):** Global CSS for web platform styling, primarily used to set base styles and background colors, integrating Tailwind CSS.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+### NativeWind Files Explanation
 
-```bash
-npm run reset-project
-```
+NativeWind enables Tailwind CSS style utilities in React Native. This project includes:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- **Tailwind config (`tailwind.config.js`):** Defines the design system (colors, spacing, fonts) and custom utilities for both web and native platforms.
 
-## Learn more
+- **Style usage in components:** Many components use `className` props with Tailwind classes (e.g., `flex-row`, `items-center`, `bg-muted/40`) supported by NativeWind to unify styling across platforms.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Best Practices and Conventions
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 1. **Component Structure and Naming**
+- Use **functional components** with React.FC or explicit function declarations.
+- Keep component props fully typed with TypeScript interfaces or types for clarity and safety.
+- Separate components into **UI primitives** (`/components/ui`) and **layout components** (`/components/layout`), maintaining clear responsibility.
+- Use meaningful and descriptive component names (`Row`, `Column`, `SettingsEntry`, `ActionHistoryTable`, etc.).
 
-## Join the community
+### 2. **Styling**
+- Prefer **NativeWind** (`className`) for styling to leverage Tailwind CSS utilities across native and web.
+- Follow consistent Tailwind class naming conventions (`flex-row`, `items-center`, `bg-muted/40`).
+- Use utility functions like `cn` (classNames) to conditionally join classes.
 
-Join our community of developers creating universal apps.
+### 3. **Localization**
+- Wrap all user-visible strings in `t()` for translation via `react-i18next`.
+- Use helper functions like `capitalizeFirst` to maintain consistent UI text formatting.
+- Organize translation keys by feature or screen for maintainability (e.g., `tabBar.settings`).
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 4. **Navigation and Routing**
+- Use **Expo Router** conventions: folder-based routing, `<Tabs>` for tab navigation, and screen components named after their route.
+
+### 5. **Code Organization**
+- Keep hooks and utilities in `/lib` for centralized reuse.
+- Use separate files for platform-specific code (`Alert.ts` + `Alert.web.ts`).
+- Group icons and SVG assets in `/lib/icons` or `/assets`.

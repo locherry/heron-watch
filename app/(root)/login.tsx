@@ -7,7 +7,7 @@ import { Card } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { SecureStorage } from "~/lib/SecureStorage";
-import { useFetchQuery } from "~/lib/useFetchQuery"; // Import your custom hook
+import { useFetchQuery } from "~/lib/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function LoginScreen() {

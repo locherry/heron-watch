@@ -11,44 +11,56 @@ import { capitalizeFirst } from "~/lib/utils";
 export default function TabLayout() {
   const { t } = useTranslation();
 
+  // State to track if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // Async function to check authentication status
     const checkAuth = async () => {
-      const authStatus = await useAuth(); // Call your useAuth function
+      // Call useAuth, which is assumed to be an async function returning boolean
+      const authStatus = await useAuth();
+
+      // If user is not authenticated, redirect to login page
       if (!authStatus) {
-        router.replace('/login'); // Redirect to login if not authenticated
+        router.replace('/login');
       }
+
+      // Update the state with authentication status
       setIsAuthenticated(authStatus);
     };
 
+    // Run the authentication check on component mount
     checkAuth();
   }, []);
 
+  // While authentication status is unknown, render nothing
   if (isAuthenticated === null) {
-    return null; // Render nothing while the authentication check is in progress
+    return null;
   }
 
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        headerShown: false, // Hide header for all tabs
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
+            // Use absolute position on iOS for transparent background / blur effect
             position: "absolute",
           },
           default: {},
         }),
       }}
     >
+      {/* Settings Tab */}
       <Tabs.Screen
         name="settings"
         options={{
-          title: capitalizeFirst(t("tabBar.settings")),
-          tabBarIcon: ({ color }) => <Settings color={color} />,
+          title: capitalizeFirst(t("tabBar.settings")), // Translate and capitalize tab title
+          tabBarIcon: ({ color }) => <Settings color={color} />, // Icon component with color
         }}
       />
+
+      {/* Home Tab */}
       <Tabs.Screen
         name="home"
         options={{
@@ -56,6 +68,8 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <House color={color} />,
         }}
       />
+
+      {/* Admin Tab */}
       <Tabs.Screen
         name="admin"
         options={{
