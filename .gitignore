@@ -39,4 +39,4 @@ yarn-error.*
 app-example
 
 # environment files
-# *.env.ts
+*.env.ts
