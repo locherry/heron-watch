@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { devEnvConfig } from "~/devEnvConfig";
+import { devEnvConfig } from "~/devEnvConfig.env";
 import { SecureStorage } from "./SecureStorage";
 import { paths } from "./swagger";
 

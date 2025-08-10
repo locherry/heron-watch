@@ -120,7 +120,6 @@ export default function LoginScreen() {
         {/* Login Button */}
         <Button
           onPress={handleLogin}
-          variant={"outline"}
           disabled={isLoading || loginIsLoading} // Disable button while loading
         >
           {isLoading || loginIsLoading

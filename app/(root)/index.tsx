@@ -31,22 +31,22 @@ export default function App() {
           </H4>
           <Row className="">
             <Column className="h-full items-center w-1/3">
-              <RefreshCcw />
+              <RefreshCcw className="text-foreground" />
               <P className="mt-2 text-center">{t("Real-Time Tracking")}</P>
             </Column>
             <Column className="h-full items-center w-1/3">
-              <Megaphone />
+              <Megaphone className="text-foreground" />
               <P className="mt-2 text-center">{t("Inventory Alerts")}</P>
             </Column>
             <Column className="h-full items-center w-1/3">
-              <ServerCrash />
+              <ServerCrash className="text-foreground" />
               <P className="mt-2 text-center">{t("Error management")}</P>
             </Column>
           </Row>
         </Card>
         <Row className="flex-none" gap={16}>
           <Label>{t("Get right where you left :")}</Label>
-          <Button onPress={handleLoginPress} variant={"outline"}>
+          <Button onPress={handleLoginPress}>
             {capitalizeFirst(t("user.login"))}
           </Button>
         </Row>

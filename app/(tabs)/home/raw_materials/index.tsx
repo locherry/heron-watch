@@ -1,7 +1,6 @@
 import { t } from "i18next";
 import * as React from "react";
-import { useWindowDimensions, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View } from "react-native";
 import { ActionHistoryTable } from "~/components/actions/ActionHistoryTable";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -19,17 +18,6 @@ import { useInfiniteFetchQuery } from "~/lib/useInfiniteFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function RawMaterialsTabsScreen() {
-  const { height, width } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
-
-  const columnWidths = React.useMemo(() => {
-    const minColumnWidths = [60, 60, 180, 180, 180, 180, 180, 180, 180];
-    return minColumnWidths.map((minWidth) => {
-      const evenWidth = width / minColumnWidths.length;
-      return evenWidth > minWidth ? evenWidth : minWidth;
-    });
-  }, [width]);
-
   type StockName = ["fresh" | "dry" | "frozen" | "packaging"][number];
 
   const stocksTabs = [
@@ -92,7 +80,7 @@ export default function RawMaterialsTabsScreen() {
           {capitalizeFirst(t("stocks.viewStocks"))}
         </Button>
         <Button icon={Plus} variant="outline">
-          {t("New actions")}
+          {t("actions.newActions")}
         </Button>
         <Button icon={ServerCrash} variant="outline">
           {t("Manage Errors")}
@@ -105,8 +93,7 @@ export default function RawMaterialsTabsScreen() {
         </Row>
         <ActionHistoryTable
           data={data?.pages.flatMap(page => page?.data ?? []) ?? []}
-          columnWidths={columnWidths}
-          fetchNextPage = {fetchNextPage}
+          // fetchNextPage = {fetchNextPage}
         />
       </View>
     </RootView>

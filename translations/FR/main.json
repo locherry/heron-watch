@@ -57,15 +57,23 @@
     "rust": "rouille"
   },
   "actions": {
-    "id": "ID",
+    "id": "id",
     "quantity": "quantité",
     "comment": "commentaire",
     "product_code": "code produit",
     "lot_number": "numéro de lot",
     "created_by_id": "créé par",
-    "created_at": "date de création",
+    "created_at": "créé le",
     "action_id": "action",
-    "transaction": "transaction"
+    "transaction": "transaction",
+    "selectActionType": "Sélectionner le type d'action",
+    "newAction": "Nouvelle action",
+    "newActions": "Nouvelles actions",
+    "expirationDate": "date d'expiration",
+    "1": "J'entre en stock",
+    "2": "Je vends",
+    "3": "Je donne",
+    "4": "Je transfère au magasin"
   },
   "stocks": {
     "finishedProducts": "produits finis",

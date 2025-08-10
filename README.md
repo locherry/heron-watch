@@ -75,16 +75,16 @@ NativeWind enables Tailwind CSS style utilities in React Native. This project in
 - Use separate files for platform-specific code (`Alert.ts` + `Alert.web.ts`).
 - Group icons and SVG assets in `/lib/icons` or `/assets`.
 
-## Commit Message Conventions
+### 6. **Commit Message Conventions**
 
 To maintain clear, consistent, and informative commit history, follow these guidelines for commit messages:
 
-### Structure
+#### Structure
 
 - **type**: Indicates the category or scope of the change.
 - **short summary**: Brief description of the change.
 
-### Common Types
+#### Common Types
 
 - **UX:** Changes related to user experience or UI improvements.
 - **UI:** Visual or interface updates, such as adding buttons, icons, or layout fixes.

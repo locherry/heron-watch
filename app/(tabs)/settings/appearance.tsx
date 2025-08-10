@@ -35,7 +35,7 @@ type SelectOption =
 
 export default function AppearanceSettings() {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const { mutate: updateTheme } = useApiMutation("/users/{userID}", "patch");
+  const { mutate: updateTheme } = useApiMutation("/users/{user_ID}", "patch");
 
   const options: Option[] = [
     { value: "light", label: "Light", icon: Sun },

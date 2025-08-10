@@ -35,7 +35,7 @@ const buttonVariants = cva(
 );
 
 const buttonTextVariants = cva(
-  "web:whitespace-nowrap text-sm native:text-base font-medium web:transition-colors dark:text-gray-200",
+  "web:whitespace-nowrap text-sm native:text-base font-medium web:transition-colors",
   {
     variants: {
       variant: {

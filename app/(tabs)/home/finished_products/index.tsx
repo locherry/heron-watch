@@ -1,6 +1,8 @@
+import { Link } from "expo-router";
 import { t } from "i18next";
 import * as React from "react";
-import { useWindowDimensions, View } from "react-native";
+import { View } from "react-native";
+import { ActionHistoryTable } from "~/components/actions/ActionHistoryTable";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
@@ -12,28 +14,16 @@ import { Package } from "~/lib/icons/Package";
 import { Plus } from "~/lib/icons/Plus";
 import { ServerCrash } from "~/lib/icons/ServerCrash";
 import { Store } from "~/lib/icons/Store";
-import { capitalizeFirst } from "~/lib/utils";
-import { ActionHistoryTable } from "~/components/actions/ActionHistoryTable";
 import { useFetchQuery } from "~/lib/useFetchQuery";
+import { capitalizeFirst } from "~/lib/utils";
 
 export default function FinishedProductsTabsScreen() {
-  const { width } = useWindowDimensions();
-
-  // Column widths logic (same as in TabsScreen)
-  const columnWidths = React.useMemo(() => {
-    const minColumnWidths = [120, 120, 180, 180, 180, 180, 180, 180, 180];
-    return minColumnWidths.map((minWidth) => {
-      const evenWidth = width / minColumnWidths.length;
-      return evenWidth > minWidth ? evenWidth : minWidth;
-    });
-  }, [width]);
-
   const stocksTabs = [
     { name: "cannery", icon: Factory, category: "PF_G" },
     { name: "store", icon: Store, category: "PF_M" },
   ] as const;
 
-  type StockName = typeof stocksTabs[number]["name"];
+  type StockName = (typeof stocksTabs)[number]["name"];
 
   const [currentTabName, setCurrentTabName] = React.useState<StockName>(
     stocksTabs[0].name
@@ -79,7 +69,11 @@ export default function FinishedProductsTabsScreen() {
                 })}
                 <Text>
                   {capitalizeFirst(
-                    t("stocks." + tab.name as "stocks.cannery" | "stocks.store")
+                    t(
+                      ("stocks." + tab.name) as
+                        | "stocks.cannery"
+                        | "stocks.store"
+                    )
                   )}
                 </Text>
               </Row>
@@ -93,9 +87,11 @@ export default function FinishedProductsTabsScreen() {
         <Button icon={Package} variant="outline">
           {capitalizeFirst(t("stocks.viewStocks"))}
         </Button>
-        <Button icon={Plus} variant="outline">
-          {t("New actions")}
-        </Button>
+        <Link href="/home/finished_products/new_actions" asChild>
+          <Button icon={Plus} variant="outline">
+            {t("actions.newActions")}
+          </Button>
+        </Link>
         <Button icon={ServerCrash} variant="outline">
           {t("Manage Errors")}
         </Button>
@@ -106,10 +102,7 @@ export default function FinishedProductsTabsScreen() {
         <Row className="flex-none">
           <H3>{capitalizeFirst(t("common.history"))}</H3>
         </Row>
-        <ActionHistoryTable
-          data={data?.data ?? []}
-          columnWidths={columnWidths}
-        />
+        <ActionHistoryTable data={data?.data ?? []} />
       </View>
     </RootView>
   );

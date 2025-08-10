@@ -65,7 +65,15 @@
     "created_by_id" : "created by",
     "created_at" : "created at",
     "action_id" : "action",
-    "transaction" : "transaction"
+    "transaction" : "transaction",
+    "selectActionType": "Select action type",
+    "newAction": "New action",
+    "newActions": "New actions",
+    "expirationDate": "expiration date",
+    "1": "I stock",
+    "2" : "I sell",
+    "3" : "I Give",
+    "4" : "I Transfer to the shop"
   },
   "stocks": {
     "finishedProducts": "finished products",
@@ -116,7 +124,6 @@
   "transfer to the shop": "transfer to the shop",
   "welcome home !": "welcome home !",
   "Finished products": "Finished products",
-  "New actions": "New actions",
   "Your all in one solution for:":"Your all in one solution for:",
   "Real-Time Tracking" : "Real-Time Tracking",
   "Error management":"Error management",

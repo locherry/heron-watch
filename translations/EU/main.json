@@ -57,15 +57,23 @@
     "rust": "arroz"
   },
   "actions": {
-    "id": "ID",
+    "id": "id",
     "quantity": "kantitatea",
     "comment": "iruzkina",
     "product_code": "produktuen kodea",
     "lot_number": "lote zenbakia",
-    "created_by_id": "egilea",
-    "created_at": "sortze data",
+    "created_by_id": "nork sortua",
+    "created_at": "noiz sortua",
     "action_id": "ekintza",
-    "transaction": "transakzioa"
+    "transaction": "transakzioa",
+    "selectActionType": "Aukeratu ekintza mota",
+    "newAction": "Ekintza berria",
+    "newActions": "Ekintza berriak",
+    "expirationDate": "iraungitze data",
+    "1": "Stockean sartzen dut",
+    "2": "Saltzen dut",
+    "3": "Ematen dut",
+    "4": "Dendara transferitzen dut"
   },
   "stocks": {
     "finishedProducts": "Amaitutako Produktuak",
