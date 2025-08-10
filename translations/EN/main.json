@@ -85,7 +85,12 @@
     "dry": "dry",
     "packaging": "packaging",
     "cannery": "cannery",
-    "store": "store"
+    "store": "store",
+    "PF_G" : "general",
+    "PF_M" : "store",
+    "MP_F" : "fresh",
+    "MP_S" : "dry",
+    "MP_C" : "frozen"
   },
   "common": {
     "exports": "exports",

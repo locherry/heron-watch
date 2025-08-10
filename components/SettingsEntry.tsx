@@ -30,7 +30,7 @@ const SettingsEntry = ({
       <View className="flex-row items-center">
         {/* Render the icon with size, margin, and stroke width */}
         <Icon size={24} className="mr-3 text-foreground" strokeWidth={1.5} />
-        <P>{title}</P> {/* Render the title text */}
+        <P>{title}</P>
       </View>
       {/* Right arrow icon to indicate it's a navigable item */}
       <ChevronRight size={24} className="text-muted-foreground" />

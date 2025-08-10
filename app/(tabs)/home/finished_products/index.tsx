@@ -87,7 +87,10 @@ export default function FinishedProductsTabsScreen() {
         <Button icon={Package} variant="outline">
           {capitalizeFirst(t("stocks.viewStocks"))}
         </Button>
-        <Link href="/home/finished_products/new_actions" asChild>
+        <Link
+          href={{ pathname: "/home/finished_products/new_actions", params: {stockCategory : stockCategory} }}
+          asChild
+        >
           <Button icon={Plus} variant="outline">
             {t("actions.newActions")}
           </Button>

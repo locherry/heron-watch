@@ -31,13 +31,11 @@ export default function NewActions() {
     { value: "3", label: t("actions.3"), icon: Gift },
     { value: "4", label: t("actions.4"), icon: Store },
   ] as const;
-  const [actionType, setActionType] = React.useState<
+
+  const [actionId, setactionId] = React.useState<
     (typeof ACTION_TYPES)[number]["value"]
   >(ACTION_TYPES[0].value);
-  const handleSaveNewAction = () => {};
-  const handleCancel = () => {
-    router.back();
-  };
+
   const INPUT_FIELDS = [
     { label: t("actions.product_code"), value: "product_code" },
     { label: t("actions.quantity"), value: "quantity" },
@@ -45,44 +43,75 @@ export default function NewActions() {
     { label: t("actions.expirationDate"), value: "expiration_date" },
     { label: t("actions.comment"), value: "comment" },
   ] as const;
+
+  // Store input values in state
+  const [formData, setFormData] = React.useState<
+    Record<string, string | number>
+  >({
+    ...INPUT_FIELDS.reduce(
+      (acc, field) => {
+        acc[field.value] = "";
+        return acc;
+      },
+      {} as Record<string, string>
+    ),
+    action_id: actionId,
+    id: 0, // set id to 0 because the action isnt yet registered to the db, cant choose a valid id
+  });
+
+  const handleChange = (key: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSaveNewAction = () => {
+    const newAction = {
+      ...formData,
+      action_type: actionId,
+    };
+
+    router.push({
+      pathname: "/home/finished_products/new_actions",
+      params: { newActionJsonEncoded: JSON.stringify(newAction) },
+    });
+  };
+
+  const handleCancel = () => {
+    router.back();
+  };
+
   return (
     <RootView>
       <Row className="flex-none w-full" gap={8}>
         <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
-        <QrScannerButton/>
+        <QrScannerButton />
       </Row>
       <Column gap={16}>
         <Select
           defaultValue={ACTION_TYPES[0]}
-          value={ACTION_TYPES.find((option) => option.value == actionType)}
+          value={ACTION_TYPES.find((option) => option.value == actionId)}
           onValueChange={(option) =>
-            setActionType(
+            setactionId(
               option?.value as (typeof ACTION_TYPES)[number]["value"]
             )
           }
         >
-          {/* <SelectTrigger className="w-full mb-4">
-          <Text>{capitalizeFirst(t("actions.selectActionType"))}</Text>
-        </SelectTrigger> */}
-
           <SelectTrigger>
             <SelectValue
-              // className="text-foreground text-sm native:text-lg flex flex-row items-center"
               placeholder={capitalizeFirst(t("actions.selectActionType"))}
             >
               <View className="mr-2 flex flex-row items-center">
                 {(() => {
                   const selectedOption = ACTION_TYPES.find(
-                    (option) => option.value === actionType
+                    (option) => option.value === actionId
                   );
                   if (selectedOption?.icon) {
                     return <selectedOption.icon className="mr-2" size={16} />;
                   }
-                  return null; // If there's no icon, render nothing
+                  return null;
                 })()}
                 <P className="capitalize">
                   {
-                    ACTION_TYPES.find((option) => option.value == actionType)
+                    ACTION_TYPES.find((option) => option.value == actionId)
                       ?.label
                   }
                 </P>
@@ -100,10 +129,15 @@ export default function NewActions() {
             ))}
           </SelectContent>
         </Select>
+
         {INPUT_FIELDS.map((field) => (
           <Label key={field.value} className="mb-2">
             {capitalizeFirst(field.label)}
-            <Input className="w-full" />
+            <Input
+              className="w-full"
+              value={formData[field.value].toString()}
+              onChangeText={(text) => handleChange(field.value, text)}
+            />
           </Label>
         ))}
       </Column>
@@ -112,10 +146,7 @@ export default function NewActions() {
         <Button className="flex-1" variant={"outline"} onPress={handleCancel}>
           <Text>{capitalizeFirst(t("common.cancel"))}</Text>
         </Button>
-        <Button
-          className="flex-1"
-          onPress={handleSaveNewAction}
-        >
+        <Button className="flex-1" onPress={handleSaveNewAction}>
           <Text>{capitalizeFirst(t("common.save"))}</Text>
         </Button>
       </Row>

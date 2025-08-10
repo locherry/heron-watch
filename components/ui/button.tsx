@@ -68,7 +68,7 @@ type ButtonProps = React.ComponentProps<typeof Pressable> &
   };
 
 function Button({
-  ref,
+  // ref,
   className,
   variant,
   size,
@@ -77,9 +77,12 @@ function Button({
   ...props
 }: ButtonProps) {
   const renderChildren = (state: PressableStateCallbackType) => {
+    const hasStringChild = React.Children.toArray(children).some(
+      (child) => typeof child === "string"
+    );
     const childContent =
       typeof children === "function" ? children(state) : children;
-    if (typeof childContent === "string") {
+    if (typeof childContent === "string" || hasStringChild) {
       return <Text>{childContent}</Text>;
     }
     return childContent;
@@ -99,7 +102,7 @@ function Button({
           buttonVariants({ variant, size, className }),
           variant == "outline" && "dark:text-foreground"
         )}
-        ref={ref}
+        // ref={ref}
         role="button"
         {...props}
       >
@@ -107,7 +110,10 @@ function Button({
           Icon ? (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Icon
-                className={`${children ? "mr-2" : ""}`}
+                className={cn(
+                  variant == "outline" && "text-foreground",
+                  children && "mr-2"
+                )}
                 strokeWidth={1.5}
               />
               {renderChildren(state)}

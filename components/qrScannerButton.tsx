@@ -1,4 +1,3 @@
-// components/ui/QrScannerButton.tsx
 import { CameraView, useCameraPermissions } from "expo-camera";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Modal, Platform, View } from "react-native";
@@ -39,13 +38,13 @@ export default function QrScannerButton({
             toValue: 1.2,
             duration: 800,
             easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
+            useNativeDriver: Platform.OS=="web" ? false : true,
           }),
           Animated.timing(pulseAnim, {
             toValue: 1,
             duration: 800,
             easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
+            useNativeDriver: Platform.OS=="web" ? false : true,
           }),
         ])
       ).start();
