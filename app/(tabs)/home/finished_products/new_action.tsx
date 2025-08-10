@@ -5,6 +5,7 @@ import { View } from "react-native";
 import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
+import QrScannerButton from "~/components/qrScannerButton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -19,7 +20,6 @@ import { Text } from "~/components/ui/text";
 import { H2, P } from "~/components/ui/typography";
 import { Gift } from "~/lib/icons/Gift";
 import { Package } from "~/lib/icons/Package";
-import { QrCode } from "~/lib/icons/QrCode";
 import { Store } from "~/lib/icons/Store";
 import { Tag } from "~/lib/icons/Tag";
 import { capitalizeFirst } from "~/lib/utils";
@@ -49,7 +49,7 @@ export default function NewActions() {
     <RootView>
       <Row className="flex-none w-full" gap={8}>
         <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
-        <Button icon={QrCode} variant={"outline"} />
+        <QrScannerButton/>
       </Row>
       <Column gap={16}>
         <Select

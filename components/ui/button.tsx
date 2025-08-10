@@ -107,7 +107,7 @@ function Button({
           Icon ? (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Icon
-                className={`text-foreground ${children ? "mr-2" : ""}`}
+                className={`${children ? "mr-2" : ""}`}
                 strokeWidth={1.5}
               />
               {renderChildren(state)}
