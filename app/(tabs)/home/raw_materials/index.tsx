@@ -93,7 +93,7 @@ export default function RawMaterialsTabsScreen() {
         </Row>
         <ActionHistoryTable
           data={data?.pages.flatMap(page => page?.data ?? []) ?? []}
-          // fetchNextPage = {fetchNextPage}
+          fetchNextPage = {fetchNextPage}
         />
       </View>
     </RootView>

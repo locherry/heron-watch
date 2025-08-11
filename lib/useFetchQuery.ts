@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"; // React Query for data fetching & caching
-import { devEnvConfig } from "~/devEnvConfig.env"; // Local dev environment config (e.g., IP address)
+import { devEnvConfig } from "~/devEnvConfig"; // Local dev environment config (e.g., IP address)
 import { SecureStorage } from "./SecureStorage"; // Secure storage helper (JWT token access)
 import { paths } from "./swagger"; // OpenAPI-generated type-safe API paths and methods
 

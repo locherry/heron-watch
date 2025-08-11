@@ -23,6 +23,7 @@ type GenericFetchNextPage = (options?: {
 
 interface ActionHistoryTableProps {
   data: Action[];
+  fetchNextPage? : GenericFetchNextPage
 }
 
 /**
@@ -31,7 +32,7 @@ interface ActionHistoryTableProps {
  *
  * @param data - Array of action objects to display
  */
-export function ActionHistoryTable({ data }: ActionHistoryTableProps) {
+export function ActionHistoryTable({ data, fetchNextPage}: ActionHistoryTableProps) {
   const { width } = useWindowDimensions();
 
   const columnWidths = React.useMemo(() => {
@@ -127,7 +128,8 @@ export function ActionHistoryTable({ data }: ActionHistoryTableProps) {
             keyExtractor={(item) => item.id.toString()}
             bounces={false} // Disable bounce effect on scroll
             showsVerticalScrollIndicator={false} // Hide horizontal scrollbar for cleaner UI
-            // onEndReached={() => fetchNextPage}
+            onEndReached={() => {(fetchNextPage ?? (()=>Promise.resolve()))()}}
+            //onEndReachedThreshold={0.5} // make the folowing data charge before end rerached
           />
         </ScrollView>
       </TableBody>

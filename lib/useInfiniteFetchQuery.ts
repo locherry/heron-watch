@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { devEnvConfig } from "~/devEnvConfig.env";
+import { devEnvConfig } from "~/devEnvConfig";
 import { SecureStorage } from "./SecureStorage";
 import { paths } from "./swagger";
 
@@ -49,10 +49,9 @@ export const useInfiniteFetchQuery = <P extends Path, M extends PathMethod<P>>(
   // 1️⃣ Copie mutable pour manipuler l'URL
   let full_url = endpoint + url;
   let limit : number = params?.limit;
-  let offset : number = 0;
   
   //use a function that allows 
-  full_url = adaptURL(full_url, httpMethod, offset, params);
+  full_url = adaptURL(full_url, httpMethod, 0, params);
 
   const queryKey = [full_url, httpMethod, params, body] as const;
 
@@ -88,14 +87,13 @@ export const useInfiniteFetchQuery = <P extends Path, M extends PathMethod<P>>(
       return response.json();
     },
     enabled: enabled && (httpMethod === "GET" || body !== undefined),
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage, allPages) => {
       //We transform full_url changing offset and limit
-      if (Array.isArray(lastPage) ? lastPage.length : 0 < limit) {
+      if ((Array.isArray(lastPage) ? lastPage.length : 0) < limit || typeof lastPage === null) {
         return null
       }
       let base_url = endpoint + url;
-      offset = offset + limit ;
-      let new_full_url = adaptURL(base_url, httpMethod, offset, params);
+      let new_full_url = adaptURL(base_url, httpMethod, allPages.length * limit + limit, params);
 
       return new_full_url;
     }
