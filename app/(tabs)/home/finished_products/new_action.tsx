@@ -5,7 +5,7 @@ import { View } from "react-native";
 import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
-import QrScannerButton from "~/components/qrScannerButton";
+import QrScannerButton from "~/components/QrScannerButton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -24,7 +24,7 @@ import { Store } from "~/lib/icons/Store";
 import { Tag } from "~/lib/icons/Tag";
 import { capitalizeFirst } from "~/lib/utils";
 
-export default function NewActions() {
+export default function NewAction() {
   const ACTION_TYPES = [
     { value: "1", label: t("actions.1"), icon: Tag },
     { value: "2", label: t("actions.2"), icon: Package },
@@ -81,7 +81,7 @@ export default function NewActions() {
 
   return (
     <RootView>
-      <Row className="flex-none w-full" gap={8}>
+      <Row gap={8} className="flex-0">
         <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
         <QrScannerButton />
       </Row>
@@ -90,9 +90,7 @@ export default function NewActions() {
           defaultValue={ACTION_TYPES[0]}
           value={ACTION_TYPES.find((option) => option.value == actionId)}
           onValueChange={(option) =>
-            setactionId(
-              option?.value as (typeof ACTION_TYPES)[number]["value"]
-            )
+            setactionId(option?.value as (typeof ACTION_TYPES)[number]["value"])
           }
         >
           <SelectTrigger>
@@ -131,14 +129,14 @@ export default function NewActions() {
         </Select>
 
         {INPUT_FIELDS.map((field) => (
-          <Label key={field.value} className="mb-2">
-            {capitalizeFirst(field.label)}
+          <View key={field.value} className="mb-2">
+            <Label>{capitalizeFirst(field.label)}</Label>
             <Input
               className="w-full"
               value={formData[field.value].toString()}
               onChangeText={(text) => handleChange(field.value, text)}
             />
-          </Label>
+          </View>
         ))}
       </Column>
 

@@ -8,6 +8,7 @@ import { FlashlightOff } from "~/lib/icons/FlashlightOff";
 import { QrCode } from "~/lib/icons/QrCode";
 import { Scan } from "~/lib/icons/Scan";
 import { X } from "~/lib/icons/X";
+import Row from "./layout/Row";
 
 interface QrScannerButtonProps extends React.ComponentProps<typeof Button> {
   onScan?: (data: string) => void;
@@ -24,12 +25,7 @@ export default function QrScannerButton({
 
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
-  useEffect(() => {
-    if (scannerOpen && !permission?.granted) {
-      requestPermission();
-    }
-  }, [scannerOpen]);
-
+  // Handle pulse animation only when scanner is open
   useEffect(() => {
     if (scannerOpen) {
       Animated.loop(
@@ -38,13 +34,13 @@ export default function QrScannerButton({
             toValue: 1.2,
             duration: 800,
             easing: Easing.inOut(Easing.ease),
-            useNativeDriver: Platform.OS=="web" ? false : true,
+            useNativeDriver: Platform.OS !== "web",
           }),
           Animated.timing(pulseAnim, {
             toValue: 1,
             duration: 800,
             easing: Easing.inOut(Easing.ease),
-            useNativeDriver: Platform.OS=="web" ? false : true,
+            useNativeDriver: Platform.OS !== "web",
           }),
         ])
       ).start();
@@ -52,8 +48,18 @@ export default function QrScannerButton({
   }, [scannerOpen]);
 
   if (!permission) {
-    return null; // Still loading
+    return null; // Still loading permission object
   }
+
+  const openScanner = async () => {
+    if (!permission.granted) {
+      const res = await requestPermission();
+      if (!res.granted) {
+        return; // Don't open if still not granted
+      }
+    }
+    setScannerOpen(true);
+  };
 
   const handleBarCodeScanned = ({ data }: { data: string }) => {
     setScannerOpen(false);
@@ -65,52 +71,65 @@ export default function QrScannerButton({
       <Button
         icon={QrCode}
         className={className}
-        onPress={() => setScannerOpen(true)}
+        onPress={openScanner}
         {...buttonProps}
       />
 
       <Modal visible={scannerOpen} animationType="slide">
         {permission.granted ? (
           <View className="flex-1 bg-black">
+            {/* Camera feed */}
             <CameraView
-              className="flex-1"
+              style={{ flex: 1 }} // No className, it doesn't work here
               facing="back"
               enableTorch={torchOn}
               onBarcodeScanned={handleBarCodeScanned}
-            >
-              {/* Pulsing Scan Target */}
-              <View className="flex-1 items-center justify-center">
-                <Animated.View
-                  style={{
-                    width: "100%",
-                    height: "40%",
-                    transform: [{ scale: pulseAnim }],
-                  }}
-                >
-                  <Scan className="flex-1 w-full text-white" strokeWidth={.5}/>
-                </Animated.View>
-              </View>
+            />
 
-              {/* Bottom Controls */}
-              <View className="absolute bottom-8 w-full flex-row justify-center space-x-8">
-                <Button
-                  icon={torchOn ? FlashlightOff : Flashlight}
-                  variant="outline"
-                  disabled={Platform.OS == "web" ? true : false}
-                  className=""
-                  onPress={() => setTorchOn((prev) => !prev)}
+            {/* Pulsing Scan Target */}
+            <View className="absolute inset-0 items-center justify-center">
+              <Animated.View
+                style={[
+                  {
+                    width: "80%", // take most of the screen width
+                    aspectRatio: 1, // keep square
+                    transform: [{ scale: pulseAnim }],
+                    alignItems: "center",
+                    justifyContent: "center",
+                  },
+                  Platform.OS === "web" ? { height: "80%" } : {}, // Adjust height not to overflow on web
+                ]}
+              >
+                <Scan
+                  width="100%"
+                  height="100%"
+                  preserveAspectRatio="xMidYMid meet"
+                  className="flex-1 w-full h-full text-white"
+                  strokeWidth={0.5}
                 />
-                <Button
-                  icon={X}
-                  variant="outline"
-                  className=""
-                  onPress={() => setScannerOpen(false)}
-                />
-              </View>
-            </CameraView>
+              </Animated.View>
+            </View>
+
+            {/* Bottom Controls */}
+            <Row
+              gap={16}
+              className="absolute bottom-8 w-full flex-row justify-center space-x-8"
+            >
+              <Button
+                icon={torchOn ? FlashlightOff : Flashlight}
+                // variant="outline"
+                disabled={Platform.OS === "web"}
+                onPress={() => setTorchOn((prev) => !prev)}
+              />
+              <Button
+                icon={X}
+                // variant="outline"
+                onPress={() => setScannerOpen(false)}
+              />
+            </Row>
           </View>
         ) : (
-          <View className="flex-1 items-center justify-center p-4">
+          <View className="flex-1 items-center justify-center p-4 bg-black">
             <Text className="text-center text-white mb-4">
               Camera permission is required to scan QR codes.
             </Text>

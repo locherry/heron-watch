@@ -100,7 +100,7 @@ function Button({
         className={cn(
           props.disabled && "opacity-50 web:pointer-events-none",
           buttonVariants({ variant, size, className }),
-          variant == "outline" && "dark:text-foreground"
+          // variant == "outline" && "dark:text-foreground"
         )}
         // ref={ref}
         role="button"
@@ -112,7 +112,8 @@ function Button({
               <Icon
                 className={cn(
                   variant == "outline" && "text-foreground",
-                  children && "mr-2"
+                  variant !== "outline" && "text-background",
+                  children && "mr-2",
                 )}
                 strokeWidth={1.5}
               />
