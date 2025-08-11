@@ -14,7 +14,7 @@ import { Package } from "~/lib/icons/Package";
 import { Plus } from "~/lib/icons/Plus";
 import { ServerCrash } from "~/lib/icons/ServerCrash";
 import { Store } from "~/lib/icons/Store";
-import { useFetchQuery } from "~/lib/useFetchQuery";
+import { useInfiniteFetchQuery } from "~/lib/useInfiniteFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function FinishedProductsTabsScreen() {
@@ -32,10 +32,10 @@ export default function FinishedProductsTabsScreen() {
   const stockCategory =
     stocksTabs.find((tab) => tab.name === currentTabName)?.category ?? "PF_G";
 
-  const { data, error, isLoading, isError } = useFetchQuery(
+  const { data, error, isLoading, isError, fetchNextPage } = useInfiniteFetchQuery(
     "/actions/{stock_category}",
     "get",
-    { path: { stock_category: stockCategory } }
+    { path: { stock_category: stockCategory }, query : {limit : 10} }
   );
 
   if (isError) {
@@ -105,7 +105,7 @@ export default function FinishedProductsTabsScreen() {
         <Row className="flex-none">
           <H3>{capitalizeFirst(t("common.history"))}</H3>
         </Row>
-        <ActionHistoryTable data={data?.data ?? []} />
+        <ActionHistoryTable data={data?.pages.flatMap(page => page.data ?? []) ?? []} fetchNextPage={fetchNextPage} />
       </View>
     </RootView>
   );

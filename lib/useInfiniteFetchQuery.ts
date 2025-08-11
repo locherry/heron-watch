@@ -102,6 +102,8 @@ export const useInfiniteFetchQuery = <P extends Path, M extends PathMethod<P>>(
 
 export function adaptURL<P extends Path, M extends PathMethod<P>>(full_url : string, httpMethod : string, offset: number, params: RequestParams<P,M>) {
   //Add offset to url parametters
+
+  //Create a copy to make params mutable
   const queryParams = {
     ...params.query, 
     offset
