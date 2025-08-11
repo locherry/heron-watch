@@ -1,33 +1,6 @@
 import { useMutation } from "@tanstack/react-query"; // React Query hook for mutations (POST/PUT/DELETE)
-import { devEnvConfig } from "~/devEnvConfig"; // Local dev environment config (e.g., IP address)
+import { devEnvConfig } from "~/devEnvConfig.env"; // Local dev environment config (e.g., IP address)
 import { SecureStorage } from "./SecureStorage"; // Secure storage helper (to get JWT)
-import { paths } from "./swagger"; // OpenAPI-generated types for API endpoints
-
-// Extract API endpoint paths (e.g., "/users", "/login")
-type Path = keyof paths;
-
-// Extract HTTP methods ('get', 'post', etc.) allowed on a given path
-type PathMethod<T extends Path> = keyof paths[T];
-
-// Extract request body type (JSON content) for a given endpoint & method
-type RequestBody<
-  P extends Path,
-  M extends PathMethod<P>,
-> = paths[P][M] extends {
-  requestBody: { content: { "application/json": infer R } };
-}
-  ? R
-  : undefined;
-
-// Extract successful response JSON type for a given endpoint & method
-type ResponseType<
-  P extends Path,
-  M extends PathMethod<P>,
-> = paths[P][M] extends {
-  responses: { 200: { content: { "application/json": infer R } } };
-}
-  ? R
-  : undefined;
 
 /**
  * Custom hook to perform mutations (POST, PUT, DELETE, PATCH) with type safety.
@@ -41,8 +14,8 @@ type ResponseType<
  * @returns Object with `mutate` function to trigger the mutation
  */
 export const useApiMutation = <
-  P extends Path,
-  M extends PathMethod<P>
+  P extends ApiPath,
+  M extends ApiPathMethod<P>
 >(
   url: P,
   method: M
@@ -52,9 +25,9 @@ export const useApiMutation = <
 
   // React Query mutation hook for performing the HTTP request
   const { mutate } = useMutation<
-    ResponseType<P, M>, // Data type returned by the mutation
+    ApiResponse<P, M>, // Data type returned by the mutation
     Error,              // Error type
-    { pathParams?: Record<string, string | number>; body?: RequestBody<P, M> } // Variables accepted by mutate()
+    { pathParams?: Record<string, string | number>; body?: ApiRequestBody<P, M> } // Variables accepted by mutate()
   >({
     // Mutation function that executes the API call
     mutationFn: async ({ pathParams, body }) => {

@@ -1,48 +1,13 @@
 import { useQuery } from "@tanstack/react-query"; // React Query for data fetching & caching
-import { devEnvConfig } from "~/devEnvConfig"; // Local dev environment config (e.g., IP address)
+import { devEnvConfig } from "~/devEnvConfig.env"; // Local dev environment config (e.g., IP address)
 import { SecureStorage } from "./SecureStorage"; // Secure storage helper (JWT token access)
-import { paths } from "./swagger"; // OpenAPI-generated type-safe API paths and methods
-
-// Extract path keys (endpoint URLs) from swagger paths type
-type Path = keyof paths;
-
-// Extract HTTP method keys ('get', 'post', etc.) for a given path
-type PathMethod<T extends Path> = keyof paths[T];
-
-// Extract parameters type (path, query, etc.) for a specific endpoint & method
-type RequestParams<
-  P extends Path,
-  M extends PathMethod<P>,
-> = paths[P][M] extends { parameters: any }
-  ? paths[P][M]["parameters"]
-  : undefined;
-
-// Extract request body type (JSON content) for a specific endpoint & method
-type RequestBody<
-  P extends Path,
-  M extends PathMethod<P>,
-> = paths[P][M] extends {
-  requestBody: { content: { "application/json": infer R } };
-}
-  ? R
-  : undefined;
-
-// Extract response type (JSON content) from 200 response of endpoint & method
-type ResponseType<
-  P extends Path,
-  M extends PathMethod<P>,
-> = paths[P][M] extends {
-  responses: { 200: { content: { "application/json": infer R } } };
-}
-  ? R
-  : undefined;
 
 // Compose base URL from local dev config IP address
 const endpoint = "http://" + devEnvConfig["ip"];
 
 // List of API routes that do not require JWT authentication
 // Due to limitation in openapi-typescript (security schemes not typed)
-const guestRoutes: Path[] = ["/login"];
+const guestRoutes: ApiPath[] = ["/login"];
 
 /**
  * Generic hook to fetch data from an API endpoint using React Query.
@@ -60,11 +25,11 @@ const guestRoutes: Path[] = ["/login"];
  * @param enabled - Enable or disable the query (default: true)
  * @returns React Query result with typed data and error
  */
-export const useFetchQuery = <P extends Path, M extends PathMethod<P>>(
+export const useFetchQuery = <P extends ApiPath, M extends ApiPathMethod<P>>(
   url: P,
   method: M,
-  params?: RequestParams<P, M>,
-  body?: RequestBody<P, M>,
+  params?: ApiRequestParams<P, M>,
+  body?: ApiRequestBody<P, M>,
   enabled: boolean = true
 ) => {
   // Normalize method to uppercase string (e.g., 'GET', 'POST')
@@ -99,7 +64,7 @@ export const useFetchQuery = <P extends Path, M extends PathMethod<P>>(
   }
 
   // Function that performs the actual data fetching
-  const fetchData = async (): Promise<ResponseType<P, M>> => {
+  const fetchData = async (): Promise<ApiResponse<P, M>> => {
     // Set default headers for JSON content
     let headers: HeadersInit = {
       "Content-Type": "application/json",
@@ -140,7 +105,7 @@ export const useFetchQuery = <P extends Path, M extends PathMethod<P>>(
   const queryKey = [full_url, httpMethod, params, body] as const;
 
   // Return a React Query hook for this fetch operation
-  return useQuery<ResponseType<P, M>, Error>({
+  return useQuery<ApiResponse<P, M>, Error>({
     queryKey,
     queryFn: fetchData,
     // Enable query only if 'enabled' is true and either method is GET or body is provided
