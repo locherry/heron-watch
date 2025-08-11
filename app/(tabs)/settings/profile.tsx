@@ -38,13 +38,13 @@ export default function ProfileSettings() {
   const [email, setEmail] = useState(userSession?.email || "");
   const [role, setRole] = useState(userSession?.role || "user");
   const [isEditing, setIsEditing] = useState(false);
-  const { mutate: updateUser } = useApiMutation("/users/{userID}", "patch");
+  const { mutate: updateUser } = useApiMutation("/users/{user_ID}", "patch");
 
   const handleSubmit = () => {
     if (userSession) {
       updateUser(
         {
-          pathParams: { userID: userSession.id },
+          pathParams: { user_ID: userSession.id },
           body: {
             user_info: {
               first_name: firstName,

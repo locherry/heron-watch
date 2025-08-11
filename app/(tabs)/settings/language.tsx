@@ -38,7 +38,7 @@ export default function LanguageSettings() {
     (typeof LANGUAGES)[number]["value"]
   >(DefaultSecureStorageData["userPreferences"]["language"]);
 
-  const { mutate: updateLanguage } = useApiMutation("/users/{userID}", "patch");
+  const { mutate: updateLanguage } = useApiMutation("/users/{user_ID}", "patch");
 
   useEffect(() => {
     SecureStorage.get("userPreferences").then(
@@ -57,14 +57,13 @@ export default function LanguageSettings() {
     SecureStorage.get("userSession").then((userSession) => {
       if (userSession) {
         updateLanguage({
-          pathParams: { userID: userSession.id },
+          pathParams: { user_ID: userSession.id },
           body: {
             user_preferences: {
               language: languageValue,
             },
           },
         });
-        console.debug("patch")
       }
     });
   };
@@ -77,7 +76,10 @@ export default function LanguageSettings() {
         defaultValue={LANGUAGES.find(
           (value) => value.value == selectedLanguage
         )}
-        onValueChange={applyLanguageToApp}
+        value={LANGUAGES.find(
+          (value) => value.value == selectedLanguage
+        )}
+        onValueChange={option => option && applyLanguageToApp(option as Option)}
       >
         <SelectTrigger className="w-[250px]">
           <SelectValue

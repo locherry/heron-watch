@@ -62,7 +62,7 @@ export default function AppearanceSettings() {
     SecureStorage.get("userSession").then((userSession) => {
       if (userSession) {
         updateTheme({
-          pathParams: { userID: userSession.id },
+          pathParams: { user_ID: userSession.id },
           body: {
             user_preferences: {
               theme: newThemeValue,
