@@ -56,7 +56,7 @@ export const useInfiniteFetchQuery = <P extends Path, M extends PathMethod<P>>(
 
   const queryKey = [full_url, httpMethod, params, body] as const;
 
-  return useInfiniteQuery<ResponseType<P, M>, Error>({
+  return useInfiniteQuery<ResponseType<P, M>, Error, ResponseType<P, M>, typeof queryKey, string>({
     queryKey,
     initialPageParam: full_url,
     queryFn: async ({pageParam}): Promise<ResponseType<P, M>> => {
@@ -97,7 +97,6 @@ export const useInfiniteFetchQuery = <P extends Path, M extends PathMethod<P>>(
       offset = offset + limit ;
       let new_full_url = adaptURL(base_url, httpMethod, offset, params);
 
-      console.log(offset.toString());
       return new_full_url;
     }
   });
