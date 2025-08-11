@@ -10,8 +10,8 @@ type RequestParams<
   P extends Path,
   M extends PathMethod<P>,
 > = paths[P][M] extends { parameters: any }
-  ? paths[P][M]["parameters"] & {query : {limit : number}}
-  : {query : {limit : number}};
+  ? paths[P][M]["parameters"] & {query : {limit : number ; offset? : number}}
+  : {query : {limit : number; offset? : number}};
 
 type RequestBody<
   P extends Path,
@@ -48,7 +48,7 @@ export const useInfiniteFetchQuery = <P extends Path, M extends PathMethod<P>>(
 
   // 1️⃣ Copie mutable pour manipuler l'URL
   let full_url = endpoint + url;
-  let limit : number = params?.limit;
+  let limit : number = params?.query.limit ?? 0;
   
   //use a function that allows 
   full_url = adaptURL(full_url, httpMethod, 0, params);
@@ -88,13 +88,13 @@ export const useInfiniteFetchQuery = <P extends Path, M extends PathMethod<P>>(
     },
     enabled: enabled && (httpMethod === "GET" || body !== undefined),
     getNextPageParam: (lastPage, allPages) => {
+      const page: any = lastPage; // Need to define type precizely
       //We transform full_url changing offset and limit
-      if ((Array.isArray(lastPage) ? lastPage.length : 0) < limit || typeof lastPage === null) {
+      if ((Array.isArray(page.data) ? page.data.length : 0) < limit) {
         return null
       }
       let base_url = endpoint + url;
-      let new_full_url = adaptURL(base_url, httpMethod, allPages.length * limit + limit, params);
-
+      let new_full_url = adaptURL(base_url, httpMethod, allPages.length * limit , params);
       return new_full_url;
     }
   });
@@ -102,7 +102,10 @@ export const useInfiniteFetchQuery = <P extends Path, M extends PathMethod<P>>(
 
 export function adaptURL<P extends Path, M extends PathMethod<P>>(full_url : string, httpMethod : string, offset: number, params: RequestParams<P,M>) {
   //Add offset to url parametters
-  params.query.offset = offset ; 
+  const queryParams = {
+    ...params.query, 
+    offset
+  };
 
   // 2️⃣ Remplace les paramètres de chemin {param}
   if (params && "path" in params && params.path) {
@@ -112,9 +115,9 @@ export function adaptURL<P extends Path, M extends PathMethod<P>>(full_url : str
   }
 
   // 3️⃣ Construit les query params
-  if (httpMethod === "GET" && params && "query" in params && params.query) {
+  if (httpMethod === "GET") {
     const queryString = new URLSearchParams(
-      Object.entries(params.query).reduce<Record<string, string>>(
+      Object.entries(queryParams).reduce<Record<string, string>>(
         (acc, [k, v]) => {
           if (v !== undefined && v !== null) acc[k] = String(v);
           return acc;
