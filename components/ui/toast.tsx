@@ -1,5 +1,5 @@
 /**
- * Component not from rnr (react native reusables)
+ * /!\ Component not from rnr (react native reusables)
  * See react-native-toast-message doc for usage
  * 
  * Basic usage :

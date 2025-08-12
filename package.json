@@ -69,7 +69,8 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "expo-screen-orientation": "~8.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

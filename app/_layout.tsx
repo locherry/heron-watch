@@ -1,5 +1,3 @@
-import "~/global.css";
-
 import {
   DarkTheme,
   DefaultTheme,
@@ -9,8 +7,10 @@ import {
 import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
+import * as ScreenOrientation from "expo-screen-orientation";
 import * as React from "react";
 import { Platform } from "react-native";
+import "~/global.css";
 import { NAV_THEME } from "~/lib/constants";
 import { SecureStorage } from "~/lib/SecureStorage";
 import { useColorScheme } from "~/lib/useColorScheme";
@@ -94,6 +94,19 @@ export default function RootLayout() {
     // Mark color scheme as loaded and component as mounted
     setIsColorSchemeLoaded(true);
     hasMounted.current = true;
+
+    // This pattern ensures that the screen orientation is unlocked when the component mounts,
+    // allowing it to respond dynamically to the device’s orientation.
+    if (Platform.OS !== "web") {
+      const unlockScreenOrientation = async () => {
+        try {
+          await ScreenOrientation.unlockAsync();
+        } catch (err) {
+          console.warn("Could not unlock screen orientation:", err);
+        }
+      };
+      unlockScreenOrientation();
+    }
   }, []);
 
   // Prevent rendering UI until color scheme is loaded to avoid flicker

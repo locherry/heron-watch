@@ -61,7 +61,11 @@ export default function TabLayout() {
     <Drawer
       screenOptions={{
         drawerType: "permanent",
-        drawerStyle: { width: collapsed ? 64 : 240 },
+        drawerStyle: {
+          width: collapsed ? 64 : 240,
+          paddingTop:10,
+          marginTop: Platform.OS == "web" ? 0 : 20,
+        },
         headerShown: false,
       }}
       drawerContent={(props) => (
@@ -124,27 +128,6 @@ export default function TabLayout() {
           }}
         />
       ))}
-      {/* <Drawer.Screen
-        name="settings"
-        options={{
-          drawerLabel: capitalizeFirst(t("tabBar.settings")),
-          drawerIcon: ({ color }) => <Settings color={color} />,
-        }}
-      />
-      <Drawer.Screen
-        name="home"
-        options={{
-          drawerLabel: capitalizeFirst(t("tabBar.home")),
-          drawerIcon: ({ color }) => <House color={color} />,
-        }}
-      />
-      <Drawer.Screen
-        name="admin"
-        options={{
-          drawerLabel: capitalizeFirst(t("tabBar.admin")),
-          drawerIcon: ({ color }) => <Shield color={color} />,
-        }}
-      /> */}
     </Drawer>
   ) : (
     <Tabs
@@ -158,6 +141,7 @@ export default function TabLayout() {
     >
       {NavigationOptions.map((option) => (
         <Tabs.Screen
+          key={option.path}
           name={option.path}
           options={{
             title: option.title,
