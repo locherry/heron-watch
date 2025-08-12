@@ -52,10 +52,10 @@ export default function AppearanceSettings() {
     setThemeValue(newThemeValue);
     if (newValue?.value === "light" || newValue?.value === "dark") {
       setColorScheme(newValue.value); // Update the color scheme based on user selection
-      SecureStorage.modify("userPreferences", "theme", newValue.value)
+      SecureStorage.modify("userPreferences", "theme", newValue.value);
     } else {
       setColorScheme("system"); // Set to system's theme when "system" is selected
-      SecureStorage.modify("userPreferences", "theme", "system")
+      SecureStorage.modify("userPreferences", "theme", "system");
     }
 
     // Update the theme preference in the database

@@ -26,11 +26,12 @@ import "../translations/i18n";
 /*                Ignore specific deprecation warnings from dependencies      */
 /* -------------------------------------------------------------------------- */
 import { LogBox } from "react-native";
+import { ToastProvider } from "~/components/ui/toast";
 
 LogBox.ignoreLogs([
   '"shadow*" style props are deprecated. Use "boxShadow".', // Ignore shadow* style deprecations
   "props.pointerEvents is deprecated. Use style.pointerEvents", // Ignore pointerEvents deprecations
-  "Image: style.tintColor is deprecated. Please use props.tintColor."
+  "Image: style.tintColor is deprecated. Please use props.tintColor.",
 ]);
 
 /* -------------------------------------------------------------------------- */
@@ -50,9 +51,7 @@ const DARK_THEME: Theme = {
 };
 
 /* Export ErrorBoundary for catching runtime errors in the navigation layout */
-export {
-  ErrorBoundary
-} from "expo-router";
+export { ErrorBoundary } from "expo-router";
 
 /* -------------------------------------------------------------------------- */
 /*                            Setup React Query                               */
@@ -105,11 +104,13 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Provide navigation theme based on current color scheme */}
-      <ThemeProvider value={colorScheme=="dark" ? DARK_THEME : LIGHT_THEME}>
+      <ThemeProvider value={colorScheme == "dark" ? DARK_THEME : LIGHT_THEME}>
         {/* Render the navigation stack with header hidden */}
         <Stack screenOptions={{ headerShown: false }} />
         {/* PortalHost allows modals, tooltips, and other portals to render above */}
         <PortalHost />
+        {/* Portal for react-native-toast-message */}
+        <ToastProvider />
       </ThemeProvider>
     </QueryClientProvider>
   );
