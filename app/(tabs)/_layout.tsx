@@ -1,8 +1,14 @@
 import { router, Tabs } from "expo-router";
 import { Drawer } from "expo-router/drawer";
+import { LucideIcon } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import {
+  Platform,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { Text } from "~/components/ui/text";
 import { House } from "~/lib/icons/House";
 import { Menu } from "~/lib/icons/Menu";
@@ -29,11 +35,33 @@ export default function TabLayout() {
 
   if (isAuthenticated === null) return null;
 
+  const NavigationOptions = [
+    {
+      title: capitalizeFirst(t("tabBar.settings")),
+      path: "settings",
+      icon: Settings,
+    },
+    {
+      title: capitalizeFirst(t("tabBar.home")),
+      path: "home",
+      icon: House,
+    },
+    {
+      title: capitalizeFirst(t("tabBar.admin")),
+      path: "admin",
+      icon: Shield,
+    },
+  ] satisfies {
+    title: string;
+    path: string;
+    icon: LucideIcon;
+  }[];
+
   return isLargeScreen ? (
     <Drawer
       screenOptions={{
         drawerType: "permanent",
-        drawerStyle: { width: collapsed ? 72 : 240 },
+        drawerStyle: { width: collapsed ? 64 : 240 },
         headerShown: false,
       }}
       drawerContent={(props) => (
@@ -45,38 +73,39 @@ export default function TabLayout() {
           >
             <Menu className="text-foreground" />
             {!collapsed && (
-              <Text className="ml-3 text-base font-medium">
-                {capitalizeFirst(t("tabBar.menu"))}
-              </Text>
+              <Text className="ml-3">{capitalizeFirst(t("tabBar.menu"))}</Text>
             )}
           </TouchableOpacity>
 
           {/* Drawer Items */}
           {props.state.routes.map((route, index) => {
             const focused = index === props.state.index;
-            const Icon =
-              route.name === "home"
-                ? House
-                : route.name === "settings"
-                ? Settings
-                : Shield;
+            const Icon = NavigationOptions.find(
+              (option) => route.name == option.path
+            )?.icon as LucideIcon;
 
             return (
               <TouchableOpacity
                 key={route.key}
                 onPress={() => props.navigation.navigate(route.name)}
-                className={`flex-row items-center rounded-md m-1 py-2 px-3 ${collapsed ? "justify-center" : ""} ${
-                  focused ? "bg-[#e4e6eb]" : ""
-                }`}
+                className={`flex-row items-center rounded-md m-1 py-2 px-3 ${
+                  collapsed ? "justify-center" : ""
+                } ${focused ? "bg-muted" : ""}`} // ✅ Tailwind bg variable
               >
-                <Icon color={focused ? "#000" : "#555"} />
+                <Icon
+                  className={
+                    focused ? "text-foreground" : "text-muted-foreground"
+                  }
+                />
                 {!collapsed && (
                   <Text
                     className={`ml-3 text-base font-medium ${
-                      focused ? "text-black" : "text-[#555]"
+                      focused ? "text-foreground" : "text-muted-foreground"
                     }`}
                   >
-                    {capitalizeFirst(t(`tabBar.${route.name}` as "tabBar.settings"))}
+                    {capitalizeFirst(
+                      t(`tabBar.${route.name}` as "tabBar.settings")
+                    )}
                   </Text>
                 )}
               </TouchableOpacity>
@@ -85,7 +114,17 @@ export default function TabLayout() {
         </View>
       )}
     >
-      <Drawer.Screen
+      {NavigationOptions.map((option) => (
+        <Drawer.Screen
+          key={option.path}
+          name={option.path}
+          options={{
+            drawerLabel: option.title,
+            drawerIcon: ({ color }) => <option.icon color={color} />,
+          }}
+        />
+      ))}
+      {/* <Drawer.Screen
         name="settings"
         options={{
           drawerLabel: capitalizeFirst(t("tabBar.settings")),
@@ -105,7 +144,7 @@ export default function TabLayout() {
           drawerLabel: capitalizeFirst(t("tabBar.admin")),
           drawerIcon: ({ color }) => <Shield color={color} />,
         }}
-      />
+      /> */}
     </Drawer>
   ) : (
     <Tabs
@@ -117,27 +156,15 @@ export default function TabLayout() {
         }),
       }}
     >
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: capitalizeFirst(t("tabBar.settings")),
-          tabBarIcon: ({ color }) => <Settings color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="home"
-        options={{
-          title: capitalizeFirst(t("tabBar.home")),
-          tabBarIcon: ({ color }) => <House color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="admin"
-        options={{
-          title: capitalizeFirst(t("tabBar.admin")),
-          tabBarIcon: ({ color }) => <Shield color={color} />,
-        }}
-      />
+      {NavigationOptions.map((option) => (
+        <Tabs.Screen
+          name={option.path}
+          options={{
+            title: option.title,
+            tabBarIcon: ({ color }) => <option.icon color={color} />,
+          }}
+        />
+      ))}
     </Tabs>
   );
 }
