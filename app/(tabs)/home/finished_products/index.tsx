@@ -37,6 +37,7 @@ export default function FinishedProductsTabsScreen() {
     "get",
     { path: { stock_category: stockCategory }, query : {limit : 10} }
   );
+  
 
   if (isError) {
     console.log(error.message);

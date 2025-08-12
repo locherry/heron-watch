@@ -36,10 +36,10 @@ declare global {
     ? R
     : undefined;
 
-  type PaginatedApiResponse<P extends Path, M extends PathMethod<P>> = Extract<
-    ApiResponse<P, M>,
-    { data: unknown[] }
-  >;
+  type PaginatedApiResponse<
+    P extends ApiPath,
+    M extends ApiPathMethod<P>,
+  > = Extract<ApiResponse<P, M>, { data?: unknown[] }>;
 }
 
 export { };

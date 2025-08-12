@@ -1,45 +1,39 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 import { devEnvConfig } from "~/devEnvConfig.env";
 import { SecureStorage } from "./SecureStorage";
 
-const endpoint = "http://" + devEnvConfig["ip"];
 
-// Routes that do not require authentication
+const endpoint = "http://" + devEnvConfig["ip"];
 const guestRoutes: ApiPath[] = ["/login"];
 
-export const useInfiniteFetchQuery = <
+export function useInfiniteFetchQuery<
   P extends ApiPath,
   M extends ApiPathMethod<P>
 >(
-  
-  // Constrain P so only endpoints with data: [] are allowed
-  url: P & (ApiResponse<P, M> extends { data: unknown[] } ? unknown : never),
+  url: P & (PaginatedApiResponse<P, M> extends { data?: unknown[] } ? unknown : never),
   method: M,
   params: ApiRequestParams<P, M>,
   body?: ApiRequestBody<P, M>,
   enabled: boolean = true
-) => {
+) {
   const httpMethod = String(method).toUpperCase();
+  const limit: number = params?.query.limit ?? 0;
 
-  // 1️⃣ Copie mutable pour manipuler l'URL
-  let full_url = endpoint + url;
-  let limit : number = params?.query.limit ?? 0;
-  
-  //use a function that allows 
-  full_url = adaptURL(full_url, httpMethod, 0, params);
+  // Prepare URL for first page
+  const firstPageUrl = adaptURL(endpoint + url, httpMethod, 0, params);
 
-  const queryKey = [full_url, httpMethod, params, body] as const;
+  const queryKey = [url, method, params, body] as const;
 
   return useInfiniteQuery<
-    ApiResponse<P, M>,
-    Error,
-    ApiResponse<P, M>,
-    typeof queryKey,
-    string
+    PaginatedApiResponse<P, M>,                        // TQueryFnData: one page's data
+    Error,                                             // TError
+    InfiniteData<PaginatedApiResponse<P, M>>,          // TData: all pages
+    typeof queryKey,                                   // TQueryKey
+    string                                             // TPageParam
   >({
     queryKey,
-    initialPageParam: full_url,
-    queryFn: async ({ pageParam }): Promise<ApiResponse<P, M>> => {
+    initialPageParam: firstPageUrl,
+    queryFn: async ({ pageParam }): Promise<PaginatedApiResponse<P, M>> => {
       let headers: HeadersInit = {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -69,24 +63,15 @@ export const useInfiniteFetchQuery = <
     },
     enabled: enabled && (httpMethod === "GET" || body !== undefined),
     getNextPageParam: (lastPage, allPages) => {
-      type PageType = PaginatedApiResponse<P, M>;
-      const page = lastPage as PageType;
-
-      if (page.data.length < limit) {
+      if ((lastPage.data?.length ?? 0) < limit) {
         return null;
       }
-
-      let base_url = endpoint + url;
-      return adaptURL(
-        base_url,
-        httpMethod,
-        allPages.length * limit,
-        params
-      );
+      return adaptURL(endpoint + url, httpMethod, allPages.length * limit, params);
     },
   });
-};
+}
 
+// Helper to insert params into URL
 export function adaptURL<P extends ApiPath, M extends ApiPathMethod<P>>(
   full_url: string,
   httpMethod: string,

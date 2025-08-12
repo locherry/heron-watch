@@ -6,6 +6,7 @@
     "strict": true,
     "module": "esnext",
     "baseUrl": ".",
+    "noUncheckedIndexedAccess": true,
     "paths": {
       "~/*": ["*"],
       "@/*": ["./*"]
