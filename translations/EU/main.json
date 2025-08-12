@@ -2,7 +2,8 @@
   "tabBar": {
     "home": "etxea",
     "admin": "administazioa",
-    "settings": "ezarpenak"
+    "settings": "ezarpenak",
+    "menu" : "menua"
   },
   "admin": {
     "tabName": "administrazio panela",

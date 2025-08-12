@@ -180,15 +180,18 @@ export interface components {
              * @example john@example.com
              */
             email: string;
-            /** @example user */
-            role: string;
+            /** @enum {unknown} */
+            role: "admin" | "user";
             user_preferences?: {
-                /** @example dark */
-                theme?: string | null;
+                /**
+                 * @example dark
+                 * @enum {unknown|null}
+                 */
+                theme?: "light" | "dark" | "system" | null;
                 /** @example #ff0000 */
                 tint_color?: string | null;
-                /** @example en */
-                language?: string | null;
+                /** @enum {unknown|null} */
+                language?: "EN" | "EU" | "FR" | null;
             };
         };
         Action: {
@@ -298,6 +301,8 @@ export interface operations {
                 limit?: number;
                 /** @description Number of items to skip (for pagination) */
                 offset?: number;
+                /** @description Order by column */
+                order_by?: "created_at" | "created_by_id" | "id" | "lot_number";
                 /** @description Sort order: asc or desc */
                 sort?: "asc" | "desc";
             };
@@ -356,11 +361,8 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** @example PF_G */
-                    category_identifier: string;
-                    informations_to_insert: components["schemas"]["newActions"];
-                };
+                "application/json": components["schemas"]["Action"][];
+                "application/xml": components["schemas"]["Action"][];
             };
         };
         responses: {
@@ -477,6 +479,18 @@ export interface operations {
                      */
                     password: string;
                 };
+                "application/xml": {
+                    /**
+                     * Format: email
+                     * @example user@example.com
+                     */
+                    email: string;
+                    /**
+                     * Format: password
+                     * @example yourPassword
+                     */
+                    password: string;
+                };
             };
         };
         responses: {
@@ -495,15 +509,18 @@ export interface operations {
                             user_info?: {
                                 id?: number;
                                 email?: string;
-                                role?: string;
+                                /** @enum {unknown} */
+                                role?: "admin" | "user";
                                 username?: string;
                                 first_name?: string;
                                 last_name?: string;
                             };
                             user_preferences?: {
-                                theme?: string | null;
+                                /** @enum {unknown|null} */
+                                theme?: "light" | "dark" | "system" | null;
                                 tint_color?: string | null;
-                                language?: string | null;
+                                /** @enum {unknown|null} */
+                                language?: "EN" | "EU" | "FR" | null;
                             };
                         };
                     };
@@ -696,7 +713,16 @@ export interface operations {
     };
     "3affd2f60f651f8329274f7b8d06c203": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Order by column */
+                order_by?: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+            };
             header?: never;
             path: {
                 stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";

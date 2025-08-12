@@ -2,7 +2,8 @@
   "tabBar": {
     "home": "accueil",
     "admin": "administration",
-    "settings": "paramètres"
+    "settings": "paramètres",
+    "menu" : "menu"
   },
   "admin": {
     "tabName": "panneau d'administration",
