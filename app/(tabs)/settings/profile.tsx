@@ -1,8 +1,8 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { Alert } from "~/components/alert/Alert";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
-import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -20,7 +20,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { H3 } from "~/components/ui/typography";
 import { Pencil } from "~/lib/icons/Pencil";
 import { SecureStorage, SecureStorageData } from "~/lib/SecureStorage";
 import { useApiMutation } from "~/lib/useApiMutation";
@@ -135,9 +134,8 @@ export default function ProfileSettings() {
 
   return (
     <RootView>
-      <Row className="flex-none justify-between items-center">
-        <H3>Profile Settings</H3>
-        <Tooltip delayDuration={150}>
+      <Header title={capitalizeFirst(t("settings.profile.name"))}>
+        <Tooltip delayDuration={150} className="ml-auto">
           <TooltipTrigger asChild>
             <Toggle
               pressed={isEditing}
@@ -152,7 +150,7 @@ export default function ProfileSettings() {
             <Text className="native:text-lg">{t("Toggle editing mode")}</Text>
           </TooltipContent>
         </Tooltip>
-      </Row>
+      </Header>
 
       <Label>{capitalizeFirst(t("user.lastName"))}</Label>
       <Input

@@ -2,8 +2,8 @@ import { t } from "i18next";
 import React from "react";
 import { ScrollView, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
-import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import {
   Table,
@@ -15,7 +15,6 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { Text } from "~/components/ui/text";
-import { H2 } from "~/components/ui/typography";
 import { Plus } from "~/lib/icons/Plus";
 import { useFetchQuery } from "~/lib/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
@@ -44,8 +43,7 @@ export default function App() {
 
   return (
     <RootView>
-      <Row className="flex-none">
-        <H2 className="flex-1">{capitalizeFirst(t("common.users"))}</H2>
+      <Header title={capitalizeFirst(t("common.users"))}>
         <Button
           className="ml-auto"
           variant="outline"
@@ -53,7 +51,8 @@ export default function App() {
           onPress={() => console.log("Add User")}
           disabled
         />
-      </Row>
+      </Header>
+      
       <ScrollView
         horizontal
         bounces={false}

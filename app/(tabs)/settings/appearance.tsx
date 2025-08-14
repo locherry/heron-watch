@@ -6,6 +6,7 @@ import { useColorScheme } from "lib/useColorScheme";
 import { LucideIcon } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Label } from "~/components/ui/label";
 import {
@@ -16,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { H3, P } from "~/components/ui/typography";
+import { P } from "~/components/ui/typography";
 import { SecureStorage } from "~/lib/SecureStorage";
 import { useApiMutation } from "~/lib/useApiMutation";
 import { capitalizeFirst } from "~/lib/utils";
@@ -40,7 +41,11 @@ export default function AppearanceSettings() {
   const { mutate: updateTheme } = useApiMutation("/users/{user_ID}", "patch");
 
   const options: Option[] = [
-    { value: "light", label: capitalizeFirst(t("settings.appearance.lightTheme")), icon: Sun },
+    {
+      value: "light",
+      label: capitalizeFirst(t("settings.appearance.lightTheme")),
+      icon: Sun,
+    },
     {
       value: "dark",
       label: capitalizeFirst(t("settings.appearance.darkTheme")),
@@ -85,7 +90,7 @@ export default function AppearanceSettings() {
 
   return (
     <RootView>
-      <H3 className="mb-3">{capitalizeFirst(t("settings.appearance.name"))}</H3>
+      <Header title={capitalizeFirst(t("settings.appearance.name"))}></Header>
       <Label>{capitalizeFirst(t("settings.appearance.theme"))}</Label>
       <Select
         onValueChange={handleValueChange}

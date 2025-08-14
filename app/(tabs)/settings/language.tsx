@@ -1,5 +1,6 @@
 import { t } from "i18next";
 import React, { useEffect, useState } from "react";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Label } from "~/components/ui/label";
 import {
@@ -11,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { H3 } from "~/components/ui/typography";
 import {
   DefaultSecureStorageData,
   SecureStorage,
@@ -73,7 +73,8 @@ export default function LanguageSettings() {
 
   return (
     <RootView>
-      <H3 className="mb-3">{capitalizeFirst(t("settings.language.name"))}</H3>
+      <Header title={capitalizeFirst(t("settings.language.name"))}></Header>
+
       <Label>{capitalizeFirst(t("settings.language.appLanguage"))}</Label>
       <Select
         defaultValue={LANGUAGES.find(
