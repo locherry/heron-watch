@@ -29,7 +29,7 @@ const guestRoutes: ApiPath[] = ["/login"];
 export const useFetchQuery = <P extends ApiPath, M extends ApiPathMethod<P>>(
   url: P,
   method: M,
-  params: ApiRequestParams<P, M>, // always object
+  params?: ApiRequestParams<P, M>, // always object
   body?: ApiRequestBody<P, M>,
   enabled: boolean = true
 ) => {
@@ -40,7 +40,7 @@ export const useFetchQuery = <P extends ApiPath, M extends ApiPathMethod<P>>(
   let full_url = endpoint + url;
 
   // 2️⃣ Substitute path parameters in URL (e.g., /users/{id} → /users/123)
-  if (params.path) {
+  if (params?.path) {
     for (const [key, value] of Object.entries(params.path)) {
       full_url = full_url.replace(
         `{${key}}`,
@@ -50,7 +50,7 @@ export const useFetchQuery = <P extends ApiPath, M extends ApiPathMethod<P>>(
   }
 
   // 3️⃣ Append query parameters for GET requests, if provided
-  if (httpMethod === "GET" && params.query) {
+  if (httpMethod === "GET" && params?.query) {
     const queryString = new URLSearchParams(
       Object.entries(params.query).reduce<Record<string, string>>(
         (acc, [k, v]) => {
