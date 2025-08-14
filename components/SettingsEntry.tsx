@@ -2,7 +2,7 @@ import { Link, LinkProps } from "expo-router"; // Import Link for navigation and
 import type { LucideIcon } from "lucide-react-native"; // Import icon type from lucide-react-native
 import React from "react";
 import { View } from "react-native";
-import { ChevronRight } from "~/lib/icons/ChevronRight"; // Chevron icon to indicate navigation
+import { ChevronRight } from "~/assets/images/icons/ChevronRight"; // Chevron icon to indicate navigation
 import { cn } from "~/lib/utils"; // Utility to concatenate class names conditionally
 import { Button } from "./ui/button"; // Custom Button component
 import { P } from "./ui/typography"; // Custom Paragraph/Text component

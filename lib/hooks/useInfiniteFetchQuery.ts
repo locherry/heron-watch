@@ -1,6 +1,6 @@
 import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 import { devEnvConfig } from "~/devEnvConfig.env";
-import { SecureStorage } from "./SecureStorage";
+import { SecureStorage } from "../classes/SecureStorage";
 
 
 const endpoint = "http://" + devEnvConfig["ip"];
@@ -17,7 +17,10 @@ export function useInfiniteFetchQuery<
   enabled: boolean = true
 ) {
   const httpMethod = String(method).toUpperCase();
-  const limit: number = params?.query.limit ?? 0;
+  if (typeof params?.query?.limit !== "number"){
+    throw new Error("limit should be a number");
+  }
+  const limit:number = params?.query?.limit ?? 0;
 
   // Prepare URL for first page
   const firstPageUrl = adaptURL(endpoint + url, httpMethod, 0, params);

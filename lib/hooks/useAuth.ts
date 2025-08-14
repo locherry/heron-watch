@@ -1,5 +1,5 @@
 import { router } from "expo-router"; // Navigation handling for Expo
-import { SecureStorage } from "./SecureStorage"; // Our custom secure storage utility
+import { SecureStorage } from "../classes/SecureStorage"; // Our custom secure storage utility
 
 // Checks if the user is authenticated
 export async function useAuth() {

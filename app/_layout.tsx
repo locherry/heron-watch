@@ -11,9 +11,9 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import * as React from "react";
 import { Platform } from "react-native";
 import "~/global.css";
+import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { NAV_THEME } from "~/lib/constants";
-import { SecureStorage } from "~/lib/SecureStorage";
-import { useColorScheme } from "~/lib/useColorScheme";
+import { useColorScheme } from "~/lib/hooks/useColorScheme";
 
 /* -------------------------------------------------------------------------- */
 /*              Import translations and i18n configuration                   */

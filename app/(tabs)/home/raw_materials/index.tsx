@@ -1,6 +1,12 @@
 import { t } from "i18next";
 import * as React from "react";
 import { ActivityIndicator, View } from "react-native";
+import { Leaf } from "~/assets/images/icons/Leaf";
+import { Package } from "~/assets/images/icons/Package";
+import { Plus } from "~/assets/images/icons/Plus";
+import { ServerCrash } from "~/assets/images/icons/ServerCrash";
+import { Snowflake } from "~/assets/images/icons/Snowflake";
+import { Sun } from "~/assets/images/icons/Sun";
 import { ActionHistoryTable } from "~/components/actions/ActionHistoryTable";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -8,13 +14,7 @@ import { Button } from "~/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Text } from "~/components/ui/text";
 import { H3 } from "~/components/ui/typography";
-import { Leaf } from "~/lib/icons/Leaf";
-import { Package } from "~/lib/icons/Package";
-import { Plus } from "~/lib/icons/Plus";
-import { ServerCrash } from "~/lib/icons/ServerCrash";
-import { Snowflake } from "~/lib/icons/Snowflake";
-import { Sun } from "~/lib/icons/Sun";
-import { useInfiniteFetchQuery } from "~/lib/useInfiniteFetchQuery";
+import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
 export default function RawMaterialsTabsScreen() {

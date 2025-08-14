@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"; // React Query hook for mutations (POST/PUT/DELETE)
 import { devEnvConfig } from "~/devEnvConfig.env"; // Local dev environment config (e.g., IP address)
-import { SecureStorage } from "./SecureStorage"; // Secure storage helper (to get JWT)
+import { SecureStorage } from "../classes/SecureStorage"; // Secure storage helper (to get JWT)
 
 /**
  * Custom hook to perform mutations (POST, PUT, DELETE, PATCH) with type safety.

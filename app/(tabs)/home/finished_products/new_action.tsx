@@ -3,6 +3,10 @@ import { t } from "i18next";
 import React from "react";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
+import { Gift } from "~/assets/images/icons/Gift";
+import { Package } from "~/assets/images/icons/Package";
+import { Store } from "~/assets/images/icons/Store";
+import { Tag } from "~/assets/images/icons/Tag";
 import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -19,11 +23,7 @@ import {
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { H2, P } from "~/components/ui/typography";
-import { Gift } from "~/lib/icons/Gift";
-import { Package } from "~/lib/icons/Package";
-import { Store } from "~/lib/icons/Store";
-import { Tag } from "~/lib/icons/Tag";
-import { useFetchQuery } from "~/lib/useFetchQuery";
+import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function NewAction() {

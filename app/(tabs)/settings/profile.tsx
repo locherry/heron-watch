@@ -1,5 +1,6 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
+import { Pencil } from "~/assets/images/icons/Pencil";
 import { Alert } from "~/components/alert/Alert";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -20,9 +21,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { Pencil } from "~/lib/icons/Pencil";
-import { SecureStorage, SecureStorageData } from "~/lib/SecureStorage";
-import { useApiMutation } from "~/lib/useApiMutation";
+import { SecureStorage, SecureStorageData } from "~/lib/classes/SecureStorage";
+import { useApiMutation } from "~/lib/hooks/useApiMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function ProfileSettings() {

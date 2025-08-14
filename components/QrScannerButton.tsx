@@ -1,13 +1,13 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Modal, Platform, View } from "react-native";
+import { Flashlight } from "~/assets/images/icons/Flashlight";
+import { FlashlightOff } from "~/assets/images/icons/FlashlightOff";
+import { QrCode } from "~/assets/images/icons/QrCode";
+import { Scan } from "~/assets/images/icons/Scan";
+import { X } from "~/assets/images/icons/X";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
-import { Flashlight } from "~/lib/icons/Flashlight";
-import { FlashlightOff } from "~/lib/icons/FlashlightOff";
-import { QrCode } from "~/lib/icons/QrCode";
-import { Scan } from "~/lib/icons/Scan";
-import { X } from "~/lib/icons/X";
 import Row from "./layout/Row";
 
 interface QrScannerButtonProps extends React.ComponentProps<typeof Button> {

@@ -2,6 +2,9 @@ import { useRouter } from "expo-router"; // For navigation
 import { t } from "i18next";
 import * as React from "react";
 import { Image, View } from "react-native";
+import { Megaphone } from "~/assets/images/icons/Megaphone"; // Assuming you have a RefreshCcw icon
+import { RefreshCcw } from "~/assets/images/icons/RefreshCcw"; // Assuming you have a RefreshCcw icon
+import { ServerCrash } from "~/assets/images/icons/ServerCrash"; // Assuming you have a RefreshCcw icon
 import Banner from "~/components/Banner";
 import Column from "~/components/layout/Column";
 import Row from "~/components/layout/Row";
@@ -9,9 +12,6 @@ import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { H4, P } from "~/components/ui/typography";
-import { Megaphone } from "~/lib/icons/Megaphone"; // Assuming you have a RefreshCcw icon
-import { RefreshCcw } from "~/lib/icons/RefreshCcw"; // Assuming you have a RefreshCcw icon
-import { ServerCrash } from "~/lib/icons/ServerCrash"; // Assuming you have a RefreshCcw icon
 import { capitalizeFirst } from "~/lib/utils";
 export default function App() {
   const router = useRouter(); // Initialize the router
@@ -44,7 +44,7 @@ export default function App() {
             </Column>
           </Row>
         </Card>
-        <Row className="flex-none" gap={16}>
+        <Row className="w-auto" gap={16}>
           <Label>{t("Get right where you left :")}</Label>
           <Button onPress={handleLoginPress}>
             {capitalizeFirst(t("user.login"))}

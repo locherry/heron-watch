@@ -1,9 +1,9 @@
 import { t } from "i18next";
+import { Table2 } from "~/assets/images/icons/Table2";
+import { User } from "~/assets/images/icons/User";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
 import { H2 } from "~/components/ui/typography";
-import { Table2 } from "~/lib/icons/Table2";
-import { User } from "~/lib/icons/User";
 import { capitalizeFirst } from "~/lib/utils";
 export default function App() {
   return (

@@ -9,12 +9,12 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import { House } from "~/assets/images/icons/House";
+import { Menu } from "~/assets/images/icons/Menu";
+import { Settings } from "~/assets/images/icons/Settings";
+import { Shield } from "~/assets/images/icons/Shield";
 import { Text } from "~/components/ui/text";
-import { House } from "~/lib/icons/House";
-import { Menu } from "~/lib/icons/Menu";
-import { Settings } from "~/lib/icons/Settings";
-import { Shield } from "~/lib/icons/Shield";
-import { useAuth } from "~/lib/useAuth";
+import { useAuth } from "~/lib/hooks/useAuth";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function TabLayout() {

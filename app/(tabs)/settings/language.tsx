@@ -16,8 +16,8 @@ import {
   DefaultSecureStorageData,
   SecureStorage,
   SecureStorageData,
-} from "~/lib/SecureStorage";
-import { useApiMutation } from "~/lib/useApiMutation";
+} from "~/lib/classes/SecureStorage";
+import { useApiMutation } from "~/lib/hooks/useApiMutation";
 import { capitalizeFirst } from "~/lib/utils";
 import i18n from "~/translations/i18n";
 

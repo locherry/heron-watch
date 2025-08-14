@@ -1,11 +1,10 @@
 import { t } from "i18next";
-import { Laptop } from "lib/icons/Laptop";
-import { MoonStar } from "lib/icons/MoonStar";
-import { Sun } from "lib/icons/Sun";
-import { useColorScheme } from "lib/useColorScheme";
 import { LucideIcon } from "lucide-react-native";
 import React from "react";
 import { View } from "react-native";
+import { Laptop } from "~/assets/images/icons/Laptop";
+import { MoonStar } from "~/assets/images/icons/MoonStar";
+import { Sun } from "~/assets/images/icons/Sun";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Label } from "~/components/ui/label";
@@ -18,8 +17,9 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { P } from "~/components/ui/typography";
-import { SecureStorage } from "~/lib/SecureStorage";
-import { useApiMutation } from "~/lib/useApiMutation";
+import { SecureStorage } from "~/lib/classes/SecureStorage";
+import { useApiMutation } from "~/lib/hooks/useApiMutation";
+import { useColorScheme } from "~/lib/hooks/useColorScheme";
 import { capitalizeFirst } from "~/lib/utils";
 
 // Define Option type

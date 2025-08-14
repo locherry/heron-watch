@@ -2,6 +2,7 @@ import { t } from "i18next";
 import React from "react";
 import { ScrollView, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Plus } from "~/assets/images/icons/Plus";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Button } from "~/components/ui/button";
@@ -15,8 +16,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { Text } from "~/components/ui/text";
-import { Plus } from "~/lib/icons/Plus";
-import { useFetchQuery } from "~/lib/useFetchQuery";
+import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function App() {

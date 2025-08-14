@@ -1,15 +1,15 @@
 import { router } from "expo-router";
 import { t } from "i18next";
 import React from "react";
+import { Globe } from "~/assets/images/icons/Globe";
+import { LogOut } from "~/assets/images/icons/LogOut";
+import { Paintbrush } from "~/assets/images/icons/Paintbrush";
+import { User } from "~/assets/images/icons/User";
 import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
 import { H2 } from "~/components/ui/typography";
-import { Globe } from "~/lib/icons/Globe";
-import { LogOut } from "~/lib/icons/LogOut";
-import { Paintbrush } from "~/lib/icons/Paintbrush";
-import { User } from "~/lib/icons/User";
-import { SecureStorage } from "~/lib/SecureStorage";
+import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function SettingsScreen() {

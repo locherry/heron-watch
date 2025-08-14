@@ -2,6 +2,9 @@ import { router, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import { ScrollView } from "react-native";
 import { Action } from "~/@types/action";
+import { Factory } from "~/assets/images/icons/Factory";
+import { Plus } from "~/assets/images/icons/Plus";
+import { Store } from "~/assets/images/icons/Store";
 import { ActionCreationTable } from "~/components/actions/ActionCreationTable";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -13,10 +16,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { H2 } from "~/components/ui/typography";
-import { Factory } from "~/lib/icons/Factory";
-import { Plus } from "~/lib/icons/Plus";
-import { Store } from "~/lib/icons/Store";
-import { useApiMutation } from "~/lib/useApiMutation";
+import { useApiMutation } from "~/lib/hooks/useApiMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 let actions: Action[] = [];
