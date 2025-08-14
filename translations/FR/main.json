@@ -89,6 +89,7 @@
     "store": "magasin"
   },
   "common": {
+    "goBack" : "retour",
     "exports": "exportations",
     "user": "utilisateur",
     "users": "utilisateurs",

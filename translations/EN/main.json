@@ -94,6 +94,7 @@
     "MP_C" : "frozen"
   },
   "common": {
+    "goBack" : "go back",
     "exports": "exports",
     "user": "user",
     "users": "users",

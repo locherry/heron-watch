@@ -3,7 +3,7 @@
     "home": "etxea",
     "admin": "administazioa",
     "settings": "ezarpenak",
-    "menu" : "menua"
+    "menu": "menua"
   },
   "admin": {
     "tabName": "administrazio panela",
@@ -89,6 +89,7 @@
     "store": "denda"
   },
   "common": {
+    "goBack": "itzuli",
     "exports": "esportazioa",
     "user": "erabiltzailea",
     "users": "erabiltzaileak",
