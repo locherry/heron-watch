@@ -3,7 +3,7 @@
     "home": "home",
     "admin": "admin",
     "settings": "settings",
-    "menu" : "menu"
+    "menu": "menu"
   },
   "admin": {
     "tabName": "admin panel",
@@ -58,23 +58,23 @@
     "rust": "rust"
   },
   "actions": {
-    "id" : "id",
+    "id": "id",
     "quantity": "quantity",
-    "comment" : "comment",
-    "product_code" : "product code",
-    "lot_number" : "lot number",
-    "created_by_id" : "created by",
-    "created_at" : "created at",
-    "action_id" : "action",
-    "transaction" : "transaction",
+    "comment": "comment",
+    "product_code": "product code",
+    "lot_number": "lot number",
+    "created_by_id": "created by",
+    "created_at": "created at",
+    "action_id": "action",
+    "transaction": "transaction",
     "selectActionType": "Select action type",
     "newAction": "New action",
     "newActions": "New actions",
     "expirationDate": "expiration date",
     "1": "I stock",
-    "2" : "I sell",
-    "3" : "I Give",
-    "4" : "I Transfer to the shop"
+    "2": "I sell",
+    "3": "I Give",
+    "4": "I Transfer to the shop"
   },
   "stocks": {
     "finishedProducts": "finished products",
@@ -87,14 +87,14 @@
     "packaging": "packaging",
     "cannery": "cannery",
     "store": "store",
-    "PF_G" : "general",
-    "PF_M" : "store",
-    "MP_F" : "fresh",
-    "MP_S" : "dry",
-    "MP_C" : "frozen"
+    "PF_G": "general",
+    "PF_M": "store",
+    "MP_F": "fresh",
+    "MP_S": "dry",
+    "MP_C": "frozen"
   },
   "common": {
-    "goBack" : "go back",
+    "goBack": "go back",
     "exports": "exports",
     "user": "user",
     "users": "users",
@@ -121,7 +121,8 @@
     "give": "give",
     "discard": "discard"
   },
-  "Toggle editing mode":"Toggle editing mode",
+  "QR Code loaded": "QR Code loaded",
+  "Toggle editing mode": "Toggle editing mode",
   "Total users": "Total users",
   "Total actions": "Total actions",
   "Please confirm": "Please confirm",
@@ -131,11 +132,11 @@
   "transfer to the shop": "transfer to the shop",
   "welcome home !": "welcome home !",
   "Finished products": "Finished products",
-  "Your all in one solution for:":"Your all in one solution for:",
-  "Real-Time Tracking" : "Real-Time Tracking",
-  "Error management":"Error management",
-  "Manage Errors":"Manage Errors",
-  "Inventory Alerts":"Inventory Alerts",
-  "Get right where you left :":"Get right where you left :",
-  "Made with ❤️ by Ellande & Aloys || All rights reserved":"Made with ❤️ by Ellande & Aloys || All rights reserved"
+  "Your all in one solution for:": "Your all in one solution for:",
+  "Real-Time Tracking": "Real-Time Tracking",
+  "Error management": "Error management",
+  "Manage Errors": "Manage Errors",
+  "Inventory Alerts": "Inventory Alerts",
+  "Get right where you left :": "Get right where you left :",
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Made with ❤️ by Ellande & Aloys || All rights reserved"
 }

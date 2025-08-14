@@ -15,7 +15,7 @@ import { Plus } from "~/lib/icons/Plus";
 import { ServerCrash } from "~/lib/icons/ServerCrash";
 import { Store } from "~/lib/icons/Store";
 import { useInfiniteFetchQuery } from "~/lib/useInfiniteFetchQuery";
-import { capitalizeFirst } from "~/lib/utils";
+import { capitalizeFirst, cn } from "~/lib/utils";
 
 export default function FinishedProductsTabsScreen() {
   const stocksTabs = [
@@ -32,12 +32,11 @@ export default function FinishedProductsTabsScreen() {
   const stockCategory =
     stocksTabs.find((tab) => tab.name === currentTabName)?.category ?? "PF_G";
 
-  const { data, error, isLoading, isError, fetchNextPage } = useInfiniteFetchQuery(
-    "/actions/{stock_category}",
-    "get",
-    { path: { stock_category: stockCategory }, query : {limit : 10} }
-  );
-  
+  const { data, error, isLoading, isError, fetchNextPage } =
+    useInfiniteFetchQuery("/actions/{stock_category}", "get", {
+      path: { stock_category: stockCategory },
+      query: { limit: 10 },
+    });
 
   if (isError) {
     console.log(error.message);
@@ -55,19 +54,20 @@ export default function FinishedProductsTabsScreen() {
       <Tabs
         value={currentTabName}
         onValueChange={(value) => setCurrentTabName(value as StockName)}
-        className="w-full max-w-[400px] flex-col gap-1.5 mb-2"
+        className="w-full max-w-[500px] flex-col gap-1.5 mb-2"
       >
         <TabsList className="flex-row w-full">
           {stocksTabs.map((tab) => (
             <TabsTrigger value={tab.name} className="flex-1" key={tab.name}>
-              <Row>
-                {React.createElement(tab.icon, {
-                  className: `h-4 w-4 mr-2 ${
+              <Row className="flex-1 justify-center">
+                <tab.icon
+                  className={cn(
+                    "h-4 w-4 mr-2",
                     tab.name === currentTabName
                       ? "text-foreground"
                       : "text-muted-foreground"
-                  }`,
-                })}
+                  )}
+                />
                 <Text>
                   {capitalizeFirst(
                     t(
@@ -89,7 +89,10 @@ export default function FinishedProductsTabsScreen() {
           {capitalizeFirst(t("stocks.viewStocks"))}
         </Button>
         <Link
-          href={{ pathname: "/home/finished_products/new_actions", params: {stockCategory : stockCategory} }}
+          href={{
+            pathname: "/home/finished_products/new_actions",
+            params: { stockCategory: stockCategory },
+          }}
           asChild
         >
           <Button icon={Plus} variant="outline">
@@ -106,7 +109,10 @@ export default function FinishedProductsTabsScreen() {
         <Row className="flex-none">
           <H3>{capitalizeFirst(t("common.history"))}</H3>
         </Row>
-        <ActionHistoryTable data={data?.pages.flatMap(page => page.data ?? []) ?? []} fetchNextPage={fetchNextPage} />
+        <ActionHistoryTable
+          data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
+          fetchNextPage={fetchNextPage}
+        />
       </View>
     </RootView>
   );

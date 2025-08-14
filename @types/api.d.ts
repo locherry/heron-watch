@@ -12,9 +12,19 @@ declare global {
   type ApiRequestParams<
     P extends Path,
     M extends PathMethod<P>,
-  > = paths[P][M] extends { parameters: any }
-    ? paths[P][M]["parameters"] & { query: { limit: number; offset?: number } }
-    : { query: { limit: number; offset?: number } };
+  > = paths[P][M] extends { parameters: infer Params }
+    ? Params & {
+        path?: Record<string, string | number>;
+        query?: Record<string, string | number | boolean | null | undefined>;
+        header?: never;
+        cookie?: never;
+      }
+    : {
+        path?: Record<string, string | number>;
+        query?: Record<string, string | number | boolean | null | undefined>;
+        header?: never;
+        cookie?: never;
+      };
 
   // Extract request body type (JSON content) for a specific endpoint & method
   type ApiRequestBody<

@@ -28,7 +28,7 @@ export default function LoginScreen() {
   } = useFetchQuery(
     "/login",
     "post",
-    undefined,
+    {},
     { email, password },
     isLoginTriggered // Only enable this when login is triggered
   );

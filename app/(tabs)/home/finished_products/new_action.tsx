@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import { t } from "i18next";
 import React from "react";
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
 import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -22,6 +23,7 @@ import { Gift } from "~/lib/icons/Gift";
 import { Package } from "~/lib/icons/Package";
 import { Store } from "~/lib/icons/Store";
 import { Tag } from "~/lib/icons/Tag";
+import { useFetchQuery } from "~/lib/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function NewAction() {
@@ -39,14 +41,14 @@ export default function NewAction() {
   const INPUT_FIELDS = [
     { label: t("actions.product_code"), value: "product_code" },
     { label: t("actions.quantity"), value: "quantity" },
-    { label: t("actions.transaction"), value: "transaction" },
     { label: t("actions.expirationDate"), value: "expiration_date" },
+    { label: t("actions.transaction"), value: "transaction" },
     { label: t("actions.comment"), value: "comment" },
   ] as const;
 
   // Store input values in state
   const [formData, setFormData] = React.useState<
-    Record<string, string | number>
+    Record<string, string | number | undefined>
   >({
     ...INPUT_FIELDS.reduce(
       (acc, field) => {
@@ -79,11 +81,57 @@ export default function NewAction() {
     router.back();
   };
 
+  const onScan = (data: string) => {
+    const int = parseInt(data);
+    if (isNaN(int)) {
+      Toast.show({
+        type: "error",
+        text1: "Invalid data",
+        text2: data + "is not a number.",
+      });
+    } else {
+      setQrCodeId(int);
+    }
+  };
+  const [qrCodeId, setQrCodeId] = React.useState<number | null>(null);
+
+  const qrCodeResults = useFetchQuery(
+    "/qr-code/{qr_code_id}",
+    "get",
+    {
+      path: {
+        qr_code_id: qrCodeId ?? 0,
+      },
+    },
+    undefined,
+    !!qrCodeId
+  );
+
+  React.useEffect(() => {
+    if (qrCodeResults.data) {
+      const qrData = qrCodeResults.data.data;
+      Toast.show({
+        type: "success",
+        text1: t("QR Code loaded"),
+      });
+
+      // Prefill form fields if they exist in API data
+      setFormData((prev) => ({
+        ...prev,
+        id: qrData?.id ?? prev.id,
+        product_code: qrData?.product_code ?? prev.product_code,
+        quantity: qrData?.quantity ?? prev.quantity,
+        expiration_date: qrData?.expiration_date ?? prev.expiration_date,
+        transaction: qrData?.transaction ?? prev.transaction,
+      }));
+    }
+  }, [qrCodeResults.data]);
+
   return (
     <RootView>
-      <Row gap={8} className="flex-0">
+      <Row gap={8} className="mb-4">
         <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
-        <QrScannerButton />
+        <QrScannerButton onScan={onScan} />
       </Row>
       <Column gap={16}>
         <Select
@@ -133,7 +181,7 @@ export default function NewAction() {
             <Label>{capitalizeFirst(field.label)}</Label>
             <Input
               className="w-full"
-              value={formData[field.value].toString()}
+              value={(formData[field.value] ?? "").toString()}
               onChangeText={(text) => handleChange(field.value, text)}
             />
           </View>

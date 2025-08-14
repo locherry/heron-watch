@@ -107,6 +107,41 @@ export interface paths {
         patch: operations["f3767d2b95e3d9782fd7d64dae6a3cb7"];
         trace?: never;
     };
+    "/qr-code/{qr_code_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the requested qr code data matching the qr_code_id */
+        get: operations["5168e82022c69e25a348f7ecc7e247ab"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Modify an existing QR code entry */
+        patch: operations["d5fa65765afc3a631ff09683aa2bbbe2"];
+        trace?: never;
+    };
+    "/qr-code/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create a new QR code entry */
+        post: operations["4ae82b7f26f68e5309842f3688a9e599"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/stocks/{stock_category}": {
         parameters: {
             query?: never;
@@ -705,6 +740,224 @@ export interface operations {
                     };
                     "application/xml": {
                         /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "5168e82022c69e25a348f7ecc7e247ab": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                qr_code_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Qr code fetched successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Actions fetched successfully */
+                        message?: string;
+                        data?: {
+                            id?: number;
+                            product_code?: string;
+                            lot_number?: string;
+                            quantity?: number;
+                            /** Format: date */
+                            expiration_date?: string;
+                            transaction?: string;
+                            origin?: string;
+                        };
+                    };
+                    "application/xml": {
+                        /** @example Actions fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Action"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    d5fa65765afc3a631ff09683aa2bbbe2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the QR code to modify */
+                qr_code_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @example 993 */
+                    product_code?: string;
+                    /** @example GDE050525 */
+                    lot_number?: string;
+                    /** @example 150 */
+                    quantity?: number;
+                    /** Format: date */
+                    expiration_date?: string;
+                    transaction?: string;
+                    origin?: string;
+                };
+                "application/xml": {
+                    /** @example 993 */
+                    product_code?: string;
+                    /** @example GDE050525 */
+                    lot_number?: string;
+                    /** @example 150 */
+                    quantity?: number;
+                    /** Format: date */
+                    expiration_date?: string;
+                    transaction?: string;
+                    origin?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description QR code updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example QR code updated successfully */
+                        message?: string;
+                    };
+                    "application/xml": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Invalid request data */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Invalid request data */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        error?: string;
+                    };
+                };
+            };
+            /** @description QR code not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example QR code not found */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "4ae82b7f26f68e5309842f3688a9e599": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @example PRD12345 */
+                    product_code?: string;
+                    /** @example LOT98765 */
+                    lot_number?: string;
+                    /** @example 100 */
+                    quantity?: number;
+                    /**
+                     * Format: date-time
+                     * @example 2025-12-31T00:00:00Z
+                     */
+                    expiration_date?: string;
+                    /** @example SALE */
+                    transaction?: string;
+                    /** @example Factory A */
+                    origin?: string;
+                };
+                "application/xml": {
+                    product_code?: string;
+                    lot_number?: string;
+                    quantity?: number;
+                    /** Format: date-time */
+                    expiration_date?: string;
+                    transaction?: string;
+                    origin?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description QR code created successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example QR code created successfully */
+                        message?: string;
+                        data?: {
+                            id?: number;
+                        };
+                    };
+                    "application/xml": {
+                        message?: string;
+                        data?: {
+                            id?: number;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid request data */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Invalid request data */
+                        error?: string;
+                    };
+                    "application/xml": {
                         error?: string;
                     };
                 };
