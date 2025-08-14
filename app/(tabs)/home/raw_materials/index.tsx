@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import * as React from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { ActionHistoryTable } from "~/components/actions/ActionHistoryTable";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -42,10 +42,6 @@ export default function RawMaterialsTabsScreen() {
 
   if (isError) {
     console.log(error.message);
-  }
-
-  if (isLoading) {
-    return null; // or loader
   }
 
   return (
@@ -94,10 +90,14 @@ export default function RawMaterialsTabsScreen() {
         <Row className="flex-none">
           <H3>{capitalizeFirst(t("common.history"))}</H3>
         </Row>
-        <ActionHistoryTable
-          data={data?.pages.flatMap((page) => page?.data ?? []) ?? []}
-          fetchNextPage={fetchNextPage}
-        />
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <ActionHistoryTable
+            data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
+            fetchNextPage={fetchNextPage}
+          />
+        )}
       </View>
     </RootView>
   );
