@@ -73,7 +73,7 @@ export default function TabLayout() {
           {/* Toggle Button */}
           <TouchableOpacity
             onPress={() => setCollapsed(!collapsed)}
-            className={`flex-row items-center rounded-md m-1 py-2 px-3 ${collapsed ? "justify-center" : ""}`}
+            className={`flex-row items-center rounded-md m-1 py-2 px-3  hover:bg-muted  ${collapsed ? "justify-center" : ""}`}
           >
             <Menu className="text-foreground" />
             {!collapsed && (
@@ -92,7 +92,7 @@ export default function TabLayout() {
               <TouchableOpacity
                 key={route.key}
                 onPress={() => props.navigation.navigate(route.name)}
-                className={`flex-row items-center rounded-md m-1 py-2 px-3 ${
+                className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
                   collapsed ? "justify-center" : ""
                 } ${focused ? "bg-muted" : ""}`} // ✅ Tailwind bg variable
               >
