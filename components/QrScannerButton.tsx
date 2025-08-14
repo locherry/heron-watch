@@ -83,6 +83,7 @@ export default function QrScannerButton({
               style={{ flex: 1 }} // No className, it doesn't work here
               facing="back"
               enableTorch={torchOn}
+              barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
               onBarcodeScanned={handleBarCodeScanned}
             />
 
