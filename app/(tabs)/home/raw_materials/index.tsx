@@ -27,16 +27,18 @@ export default function RawMaterialsTabsScreen() {
     { name: "packaging", icon: Package, data: "EMB" },
   ] as const;
 
-  const [currentTabName, setCurrentTabName] = React.useState<StockName>(stocksTabs[0].name);
+  const [currentTabName, setCurrentTabName] = React.useState<StockName>(
+    stocksTabs[0].name
+  );
 
   const stockCategory =
     stocksTabs.find((tab) => tab.name === currentTabName)?.data ?? "MP_F";
 
-  const { data, error, isLoading, fetchNextPage,  isError } = useInfiniteFetchQuery(
-    "/actions/{stock_category}",
-    "get",
-    { path: { stock_category: stockCategory }, query : {limit : 10} }
-  );
+  const { data, error, isLoading, fetchNextPage, isError } =
+    useInfiniteFetchQuery("/actions/{stock_category}", "get", {
+      path: { stock_category: stockCategory },
+      query: { limit: 10 },
+    });
 
   if (isError) {
     console.log(error.message);
@@ -67,7 +69,7 @@ export default function RawMaterialsTabsScreen() {
                   }`,
                 })}
                 <Text>
-                  {capitalizeFirst(t("stocks." + tab.name as "stocks.fresh"))}
+                  {capitalizeFirst(t(("stocks." + tab.name) as "stocks.fresh"))}
                 </Text>
               </Row>
             </TabsTrigger>
@@ -92,8 +94,8 @@ export default function RawMaterialsTabsScreen() {
           <H3>{capitalizeFirst(t("common.history"))}</H3>
         </Row>
         <ActionHistoryTable
-          data={data?.pages.flatMap(page => page?.data ?? []) ?? []}
-          fetchNextPage = {fetchNextPage}
+          data={data?.pages.flatMap((page) => page?.data ?? []) ?? []}
+          fetchNextPage={fetchNextPage}
         />
       </View>
     </RootView>

@@ -22,21 +22,22 @@ export default function SettingsScreen() {
   };
 
   const confirmLogout = () => {
-    Alert.alert(t('Please confirm'), t('Do you really want to log out ?'), [
+    Alert.alert(t("Please confirm"), t("Do you really want to log out ?"), [
       {
-        text: t('cancel'),
-        onPress: () => console.info('Cancel Pressed'),
-        style: 'cancel',
+        text: t("common.cancel"),
+        onPress: () => console.info("Cancel Pressed"),
+        style: "cancel",
       },
       {
-        text: t('OK'), onPress: () => {
-          SecureStorage.remove("userSession")
-          SecureStorage.remove("userPreferences")
-          router.push('/login')
-        }
+        text: t("common.OK"),
+        onPress: () => {
+          SecureStorage.remove("userSession");
+          SecureStorage.remove("userPreferences");
+          router.push("/login");
+        },
       },
     ]);
-  }
+  };
 
   return (
     <RootView>

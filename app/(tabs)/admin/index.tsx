@@ -5,7 +5,6 @@ import { H2 } from "~/components/ui/typography";
 import { Table2 } from "~/lib/icons/Table2";
 import { User } from "~/lib/icons/User";
 import { capitalizeFirst } from "~/lib/utils";
-
 export default function App() {
   return (
     <RootView>

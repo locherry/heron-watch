@@ -113,7 +113,6 @@ export default function RootLayout() {
   if (!isColorSchemeLoaded) {
     return null;
   }
-
   return (
     <QueryClientProvider client={queryClient}>
       {/* Provide navigation theme based on current color scheme */}

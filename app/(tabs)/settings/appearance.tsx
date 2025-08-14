@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { Laptop } from "lib/icons/Laptop";
 import { MoonStar } from "lib/icons/MoonStar";
 import { Sun } from "lib/icons/Sun";
@@ -18,6 +19,7 @@ import {
 import { H3, P } from "~/components/ui/typography";
 import { SecureStorage } from "~/lib/SecureStorage";
 import { useApiMutation } from "~/lib/useApiMutation";
+import { capitalizeFirst } from "~/lib/utils";
 
 // Define Option type
 type Option = {
@@ -38,9 +40,17 @@ export default function AppearanceSettings() {
   const { mutate: updateTheme } = useApiMutation("/users/{user_ID}", "patch");
 
   const options: Option[] = [
-    { value: "light", label: "Light", icon: Sun },
-    { value: "dark", label: "Dark", icon: MoonStar },
-    { value: "system", label: "System", icon: Laptop },
+    { value: "light", label: capitalizeFirst(t("settings.appearance.lightTheme")), icon: Sun },
+    {
+      value: "dark",
+      label: capitalizeFirst(t("settings.appearance.darkTheme")),
+      icon: MoonStar,
+    },
+    {
+      value: "system",
+      label: capitalizeFirst(t("settings.appearance.systemDefault")),
+      icon: Laptop,
+    },
   ];
 
   const [themeValue, setThemeValue] = React.useState<string>(
@@ -75,8 +85,8 @@ export default function AppearanceSettings() {
 
   return (
     <RootView>
-      <H3 className="mb-3">Appearance menu</H3>
-      <Label>Theme</Label>
+      <H3 className="mb-3">{capitalizeFirst(t("settings.appearance.name"))}</H3>
+      <Label>{capitalizeFirst(t("settings.appearance.theme"))}</Label>
       <Select
         onValueChange={handleValueChange}
         defaultValue={options.find((value) => value.value == themeValue)}
@@ -96,7 +106,9 @@ export default function AppearanceSettings() {
                 }
                 return null; // If there's no icon, render nothing
               })()}
-              <P className="capitalize">{themeValue}</P>
+              <P>
+                {options.find((option) => option.value === themeValue)?.label}
+              </P>
             </View>
           </SelectValue>
         </SelectTrigger>

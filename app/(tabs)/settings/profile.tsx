@@ -181,7 +181,13 @@ export default function ProfileSettings() {
       <Label>{capitalizeFirst(t("user.role"))}</Label>
       <Select
         className="mb-4"
-        onValueChange={(option) => setRole(option?.value as SecureStorageData["userSession"]["role"]|undefined ?? "user")}
+        onValueChange={(option) =>
+          setRole(
+            (option?.value as
+              | SecureStorageData["userSession"]["role"]
+              | undefined) ?? "user"
+          )
+        }
         value={ROLE_OPTIONS.find((option) => option.value === role)}
         defaultValue={ROLE_OPTIONS.find(
           (option) => option.value === userSession?.role
