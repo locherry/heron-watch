@@ -89,6 +89,7 @@ export default function RootLayout() {
     // On web, add a background color class to the html element to prevent white flicker on overscroll
     if (Platform.OS === "web") {
       document.documentElement.classList.add("bg-background");
+      document.title="Heron Watch"
     }
 
     // Mark color scheme as loaded and component as mounted
