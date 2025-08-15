@@ -2,6 +2,7 @@ import { t } from "i18next";
 import { LucideIcon } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { Appearance, View } from "react-native";
+import { userThemeValue } from "~/@types/user";
 import { Laptop } from "~/assets/images/icons/Laptop";
 import { MoonStar } from "~/assets/images/icons/MoonStar";
 import { Sun } from "~/assets/images/icons/Sun";
@@ -58,12 +59,12 @@ export default function AppearanceSettings() {
     },
   ];
 
-  const [themeValue, setThemeValue] = React.useState<string>(
+  const [themeValue, setThemeValue] = React.useState<userThemeValue>(
     colorScheme ?? "system"
   ); // Default to current system theme
 
   const handleValueChange = (newValue: SelectOption) => {
-    const newThemeValue = newValue?.value ?? "system";
+    const newThemeValue = (newValue?.value ?? "system") as userThemeValue;
     setThemeValue(newThemeValue);
     
     if (newValue?.value === "light" || newValue?.value === "dark") {
@@ -102,9 +103,9 @@ export default function AppearanceSettings() {
       <Label>{capitalizeFirst(t("settings.appearance.theme"))}</Label>
       <Select
         onValueChange={handleValueChange}
-        defaultValue={options.find((value) => value.value == themeValue)}
+        defaultValue={options.find((option) => option.value == themeValue)}
       >
-        <SelectTrigger className="w-[250px]">
+        <SelectTrigger className="w-[250px]">option
           <SelectValue
             className="text-foreground text-sm native:text-lg flex flex-row items-center"
             placeholder="Select Appearance Mode"
