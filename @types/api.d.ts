@@ -5,7 +5,16 @@ import { paths } from "~/lib/swagger";
 export type ApiPath = keyof paths;
 
 // Extract HTTP method keys ('get', 'post', etc.) for a given path
-export type ApiPathMethod<T extends Path> = keyof paths[T];
+type HttpMethod =
+  | "get"
+  | "post"
+  | "put"
+  | "patch"
+  | "delete"
+  | "option"
+  | "trace"
+  | "head";
+export type ApiPathMethod<T extends Path> = Extract<keyof paths[T], HttpMethod>;
 
 // Extract parameters type (path, query, etc.) for a specific endpoint & method
 export type ApiRequestParams<
@@ -13,7 +22,7 @@ export type ApiRequestParams<
   M extends PathMethod<P>,
 > = paths[P][M] extends { parameters: infer Params }
   ? Params & {
-      path?: Record<string, string | number>;
+      path?: RequiredIfExists<Params, "path">;
       query?: Record<string, string | number | boolean | null | undefined>;
       header?: never;
       cookie?: never;
