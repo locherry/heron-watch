@@ -105,7 +105,7 @@ export default function AppearanceSettings() {
         onValueChange={handleValueChange}
         defaultValue={options.find((option) => option.value == themeValue)}
       >
-        <SelectTrigger className="w-[250px]">option
+        <SelectTrigger className="w-[250px]">
           <SelectValue
             className="text-foreground text-sm native:text-lg flex flex-row items-center"
             placeholder="Select Appearance Mode"
