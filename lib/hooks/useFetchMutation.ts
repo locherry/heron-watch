@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query"; // React Query hook for mutations (POST/PUT/DELETE)
+import { ApiPath, ApiPathMethod, ApiRequestBody, ApiResponse } from "~/@types/api";
 import { devEnvConfig } from "~/devEnvConfig.env"; // Local dev environment config (e.g., IP address)
 import { SecureStorage } from "../classes/SecureStorage"; // Secure storage helper (to get JWT)
 
@@ -13,7 +14,7 @@ import { SecureStorage } from "../classes/SecureStorage"; // Secure storage help
  * @param method - HTTP method (e.g., "post", "put")
  * @returns Object with `mutate` function to trigger the mutation
  */
-export const useApiMutation = <
+export const useFetchMutation = <
   P extends ApiPath,
   M extends ApiPathMethod<P>
 >(

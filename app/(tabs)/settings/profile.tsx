@@ -22,7 +22,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { SecureStorage, SecureStorageData } from "~/lib/classes/SecureStorage";
-import { useApiMutation } from "~/lib/hooks/useApiMutation";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function ProfileSettings() {
@@ -37,7 +37,7 @@ export default function ProfileSettings() {
   const [email, setEmail] = useState(userSession?.email || "");
   const [role, setRole] = useState(userSession?.role || "user");
   const [isEditing, setIsEditing] = useState(false);
-  const { mutate: updateUser } = useApiMutation("/users/{user_ID}", "patch");
+  const { mutate: updateUser } = useFetchMutation("/users/{user_ID}", "patch");
 
   const handleSubmit = () => {
     if (userSession) {

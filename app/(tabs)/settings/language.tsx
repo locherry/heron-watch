@@ -17,7 +17,7 @@ import {
   SecureStorage,
   SecureStorageData,
 } from "~/lib/classes/SecureStorage";
-import { useApiMutation } from "~/lib/hooks/useApiMutation";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 import i18n from "~/translations/i18n";
 
@@ -38,7 +38,7 @@ export default function LanguageSettings() {
     (typeof LANGUAGES)[number]["value"]
   >(DefaultSecureStorageData["userPreferences"]["language"]);
 
-  const { mutate: updateLanguage } = useApiMutation(
+  const { mutate: updateLanguage } = useFetchMutation(
     "/users/{user_ID}",
     "patch"
   );

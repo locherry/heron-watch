@@ -16,13 +16,13 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { H2 } from "~/components/ui/typography";
-import { useApiMutation } from "~/lib/hooks/useApiMutation";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 let actions: Action[] = [];
 
 export default function NewActions() {
-  const { mutate: createNewActions } = useApiMutation(
+  const { mutate: createNewActions } = useFetchMutation(
     "/actions/{stock_category}",
     "post"
   );

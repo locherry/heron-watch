@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "heron-watch-4",
-    "slug": "heron-watch-4",
+    "name": "heron-watch",
+    "slug": "heron-watch",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "heronwatch4",
+    "scheme": "heronwatch",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

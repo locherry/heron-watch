@@ -19,8 +19,8 @@ import {
 } from "~/components/ui/select";
 import { P } from "~/components/ui/typography";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
-import { useApiMutation } from "~/lib/hooks/useApiMutation";
 import { useColorScheme } from "~/lib/hooks/useColorScheme";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 // Define Option type
@@ -39,7 +39,7 @@ type SelectOption =
 
 export default function AppearanceSettings() {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const { mutate: updateTheme } = useApiMutation("/users/{user_ID}", "patch");
+  const { mutate: updateTheme } = useFetchMutation("/users/{user_ID}", "patch");
 
   const options: Option[] = [
     {
