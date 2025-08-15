@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { LucideIcon } from "lucide-react-native";
-import React from "react";
-import { View } from "react-native";
+import React, { useEffect } from "react";
+import { Appearance, View } from "react-native";
 import { Laptop } from "~/assets/images/icons/Laptop";
 import { MoonStar } from "~/assets/images/icons/MoonStar";
 import { Sun } from "~/assets/images/icons/Sun";
@@ -65,11 +65,13 @@ export default function AppearanceSettings() {
   const handleValueChange = (newValue: SelectOption) => {
     const newThemeValue = newValue?.value ?? "system";
     setThemeValue(newThemeValue);
+    
     if (newValue?.value === "light" || newValue?.value === "dark") {
       setColorScheme(newValue.value); // Update the color scheme based on user selection
       SecureStorage.modify("userPreferences", "theme", newValue.value);
     } else {
-      setColorScheme("system"); // Set to system's theme when "system" is selected
+      const resolvedSystemTheme = Appearance.getColorScheme()
+      setColorScheme(resolvedSystemTheme ?? "system"); // Set to system's theme when "system" is selected
       SecureStorage.modify("userPreferences", "theme", "system");
     }
 
@@ -87,6 +89,12 @@ export default function AppearanceSettings() {
       }
     });
   };
+
+  useEffect(()=>{
+    SecureStorage.get("userPreferences").then((userPreferences) => {
+      userPreferences?.theme && setThemeValue(userPreferences?.theme)
+    })
+  })
 
   return (
     <RootView>

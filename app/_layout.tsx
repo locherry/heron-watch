@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import * as React from "react";
-import { Platform } from "react-native";
+import { Appearance, Platform } from "react-native";
 import "~/global.css";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { NAV_THEME } from "~/lib/constants";
@@ -77,8 +77,10 @@ export default function RootLayout() {
     // Load user preferences (language, theme) from secure storage asynchronously
     SecureStorage.get("userPreferences").then((prefs) => {
       // If preferences exist, change language and set theme accordingly
-      prefs ? i18n.changeLanguage(prefs.language) : null;
-      prefs ? setColorScheme(prefs.theme) : null;
+      prefs && i18n.changeLanguage(prefs.language);
+      const resolvedSystemTheme = Appearance.getColorScheme();
+      const actualTheme = (prefs?.theme !== undefined && prefs.theme !== "system") ? prefs.theme : resolvedSystemTheme ?? "system"
+      prefs && setColorScheme(actualTheme);
     });
 
     // Avoid running the rest of the effect on subsequent renders
@@ -89,7 +91,7 @@ export default function RootLayout() {
     // On web, add a background color class to the html element to prevent white flicker on overscroll
     if (Platform.OS === "web") {
       document.documentElement.classList.add("bg-background");
-      document.title="Heron Watch"
+      document.title = "Heron Watch";
     }
 
     // Mark color scheme as loaded and component as mounted
