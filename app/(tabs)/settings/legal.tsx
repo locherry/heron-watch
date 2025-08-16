@@ -46,7 +46,7 @@ export default function LegalSettings() {
         {!uri ? (
           <ActivityIndicator className="flex-1" />
         ) : (
-          <RootView className="flex-1 bg-current">
+          <RootView className="flex-1 bg-background">
             <Header
               title={capitalizeFirst(t("settings.legal.termsOfService"))}
               onBack={() => setShowModal(false)}
