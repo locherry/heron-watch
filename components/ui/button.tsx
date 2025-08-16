@@ -88,6 +88,8 @@ function Button({
     return childContent;
   };
 
+  const isIconOnlyBtn = Icon && !children
+
   return (
     <TextClassContext.Provider
       value={buttonTextVariants({
@@ -100,20 +102,19 @@ function Button({
         className={cn(
           props.disabled && "opacity-50 web:pointer-events-none",
           buttonVariants({ variant, size, className }),
-          // variant == "outline" && "dark:text-foreground"
+          isIconOnlyBtn && "p-2"
         )}
-        // ref={ref}
         role="button"
         {...props}
       >
         {(state: PressableStateCallbackType) =>
           Icon ? (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View className="flex-row align-middle">
               <Icon
                 className={cn(
                   variant == "outline" && "text-foreground",
                   variant !== "outline" && "text-background",
-                  children && "mr-2",
+                  !isIconOnlyBtn && "mr-2",
                 )}
                 strokeWidth={1.5}
               />
