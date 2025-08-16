@@ -19,7 +19,7 @@ export default function Header({ className, children, title, onBack }: HeaderPro
   return (
     <Row className={cn("align-end mb-4", className)} gap={16}>
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <Button
             icon={ChevronLeft}
             onPress={onBack ?? router.back} // 👈 use custom handler if provided
