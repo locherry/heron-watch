@@ -1,4 +1,4 @@
-import { router, Tabs } from "expo-router";
+import { router, Tabs, usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { LucideIcon } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
@@ -19,23 +19,12 @@ import { useAuth } from "~/lib/hooks/useAuth";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function TabLayout() {
-  const insets = useSafeAreaInsets(); // get safe area insets
+  const insets = useSafeAreaInsets();
   const { t } = useTranslation();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const { width } = useWindowDimensions();
-  const isLargeScreen = width >= 768; // breakpoint
+  const isLargeScreen = width >= 768;
   const [collapsed, setCollapsed] = useState(false);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const authStatus = await useAuth();
-      if (!authStatus) router.replace("/login");
-      setIsAuthenticated(authStatus);
-    };
-    checkAuth();
-  }, []);
-
-  if (isAuthenticated === null) return null;
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   const NavigationOptions = [
     {
@@ -43,24 +32,31 @@ export default function TabLayout() {
       path: "settings",
       icon: Settings,
     },
-    {
-      title: capitalizeFirst(t("tabBar.home")),
-      path: "home",
-      icon: House,
-    },
-    {
-      title: capitalizeFirst(t("tabBar.admin")),
-      path: "admin",
-      icon: Shield,
-    },
-  ] satisfies {
-    title: string;
-    path: string;
-    icon: LucideIcon;
-  }[];
+    { title: capitalizeFirst(t("tabBar.home")), path: "home", icon: House },
+    { title: capitalizeFirst(t("tabBar.admin")), path: "admin", icon: Shield },
+  ] satisfies { title: string; path: string; icon: LucideIcon }[];
+
+  // Check authentication
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authStatus = await useAuth();
+      if (!authStatus) router.push("/login");
+      setIsAuthenticated(authStatus);
+    };
+    checkAuth();
+  }, []);
+
+  const pathname = usePathname(); // get current path
+  const pathSegment = pathname?.split("/").pop(); // get last segment
+  const currentRoute = NavigationOptions.some((opt) => opt.path === pathSegment)
+    ? pathSegment
+    : "home"; // fallback if path invalid
+
+  if (isAuthenticated === null) return null;
 
   return isLargeScreen ? (
     <Drawer
+      initialRouteName={currentRoute}
       screenOptions={{
         drawerType: "permanent",
         drawerStyle: {
@@ -71,69 +67,61 @@ export default function TabLayout() {
               ? 64
               : 100
             : Platform.OS === "web"
-              ? 240 // max expanded width for web
-              : undefined, // let mobile flex handle expansion          maxWidth: 400, // optional: max width
-          flexShrink: 0, // prevent shrinking below content size
+              ? 240
+              : undefined,
+          flexShrink: 0,
         },
         headerShown: false,
       }}
-      drawerContent={(props) => {
-        return (
-          <SafeAreaView
-          // className={cn("flex-1")}
+      drawerContent={(props) => (
+        <SafeAreaView>
+          <TouchableOpacity
+            onPress={() => setCollapsed(!collapsed)}
+            className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
+              collapsed ? "justify-center" : ""
+            }`}
           >
-            {/* Toggle Button */}
-            <TouchableOpacity
-              onPress={() => setCollapsed(!collapsed)}
-              className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
-                collapsed ? "justify-center" : ""
-              }`}
-            >
-              <Menu className="text-foreground" />
-              {!collapsed && (
-                <Text className="ml-3">
-                  {capitalizeFirst(t("tabBar.menu"))}
-                </Text>
-              )}
-            </TouchableOpacity>
+            <Menu className="text-foreground" />
+            {!collapsed && (
+              <Text className="ml-3">{capitalizeFirst(t("tabBar.menu"))}</Text>
+            )}
+          </TouchableOpacity>
 
-            {/* Drawer Items */}
-            {props.state.routes.map((route, index) => {
-              const focused = index === props.state.index;
-              const Icon = NavigationOptions.find(
-                (option) => route.name == option.path
-              )?.icon as LucideIcon;
+          {props.state.routes.map((route, index) => {
+            const focused = index === props.state.index;
+            const Icon = NavigationOptions.find(
+              (opt) => opt.path === route.name
+            )?.icon as LucideIcon;
 
-              return (
-                <TouchableOpacity
-                  key={route.key}
-                  onPress={() => props.navigation.navigate(route.name)}
-                  className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
-                    collapsed ? "justify-center" : ""
-                  } ${focused ? "bg-muted" : ""}`}
-                >
-                  <Icon
-                    className={
+            return (
+              <TouchableOpacity
+                key={route.key}
+                onPress={() => props.navigation.navigate(route.name)}
+                className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
+                  collapsed ? "justify-center" : ""
+                } ${focused ? "bg-muted" : ""}`}
+              >
+                <Icon
+                  className={
+                    focused ? "text-foreground" : "text-muted-foreground"
+                  }
+                />
+                {!collapsed && (
+                  <Text
+                    className={`ml-3 text-base font-medium ${
                       focused ? "text-foreground" : "text-muted-foreground"
-                    }
-                  />
-                  {!collapsed && (
-                    <Text
-                      className={`ml-3 text-base font-medium ${
-                        focused ? "text-foreground" : "text-muted-foreground"
-                      }`}
-                    >
-                      {capitalizeFirst(
-                        t(`tabBar.${route.name}` as "tabBar.settings")
-                      )}
-                    </Text>
-                  )}
-                </TouchableOpacity>
-              );
-            })}
-          </SafeAreaView>
-        );
-      }}
+                    }`}
+                  >
+                    {capitalizeFirst(
+                      t(`tabBar.${route.name}` as "tabBar.settings")
+                    )}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            );
+          })}
+        </SafeAreaView>
+      )}
     >
       {NavigationOptions.map((option) => (
         <Drawer.Screen
@@ -148,6 +136,7 @@ export default function TabLayout() {
     </Drawer>
   ) : (
     <Tabs
+      initialRouteName={currentRoute}
       screenOptions={{
         headerShown: false,
         tabBarStyle: Platform.select({
