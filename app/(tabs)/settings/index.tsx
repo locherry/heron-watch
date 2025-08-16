@@ -4,6 +4,7 @@ import React from "react";
 import { Globe } from "~/assets/images/icons/Globe";
 import { LogOut } from "~/assets/images/icons/LogOut";
 import { Paintbrush } from "~/assets/images/icons/Paintbrush";
+import { Scale } from "~/assets/images/icons/Scale";
 import { User } from "~/assets/images/icons/User";
 import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
@@ -56,6 +57,11 @@ export default function SettingsScreen() {
         href="/settings/language"
         icon={Globe}
         title={capitalizeFirst(t("settings.language.name"))}
+      />
+      <SettingsEntry
+        href="/settings/legal"
+        icon={Scale}
+        title={capitalizeFirst(t("settings.legal.name"))}
       />
       <SettingsEntry
         onPress={confirmLogout} // Trigger alert dialog on press

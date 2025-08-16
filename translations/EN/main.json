@@ -28,6 +28,11 @@
       "appLanguage": "app Language",
       "name": "language"
     },
+    "legal": {
+      "name": "Legal notices",
+      "termsOfService" : "terms of service",
+      "license" : "license"
+    },
     "appearance": {
       "name": "appearance",
       "tintColor": "tint color",
@@ -94,6 +99,7 @@
     "MP_C": "frozen"
   },
   "common": {
+    "open": "open",
     "goBack": "go back",
     "exports": "exports",
     "user": "user",
