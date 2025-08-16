@@ -5,10 +5,11 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Platform,
+  SafeAreaView,
   TouchableOpacity,
   useWindowDimensions,
-  View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { House } from "~/assets/images/icons/House";
 import { Menu } from "~/assets/images/icons/Menu";
 import { Settings } from "~/assets/images/icons/Settings";
@@ -18,6 +19,7 @@ import { useAuth } from "~/lib/hooks/useAuth";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets(); // get safe area insets
   const { t } = useTranslation();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const { width } = useWindowDimensions();
@@ -62,61 +64,76 @@ export default function TabLayout() {
       screenOptions={{
         drawerType: "permanent",
         drawerStyle: {
-          width: collapsed ? 64 : 240,
-          paddingTop:10,
-          marginTop: Platform.OS == "web" ? 0 : 20,
+          paddingLeft: insets.left,
+          marginTop: insets.top,
+          width: collapsed
+            ? Platform.OS === "web"
+              ? 64
+              : 100
+            : Platform.OS === "web"
+              ? 240 // max expanded width for web
+              : undefined, // let mobile flex handle expansion          maxWidth: 400, // optional: max width
+          flexShrink: 0, // prevent shrinking below content size
         },
         headerShown: false,
       }}
-      drawerContent={(props) => (
-        <View className="flex-1">
-          {/* Toggle Button */}
-          <TouchableOpacity
-            onPress={() => setCollapsed(!collapsed)}
-            className={`flex-row items-center rounded-md m-1 py-2 px-3  hover:bg-muted  ${collapsed ? "justify-center" : ""}`}
+      drawerContent={(props) => {
+        return (
+          <SafeAreaView
+          // className={cn("flex-1")}
           >
-            <Menu className="text-foreground" />
-            {!collapsed && (
-              <Text className="ml-3">{capitalizeFirst(t("tabBar.menu"))}</Text>
-            )}
-          </TouchableOpacity>
+            {/* Toggle Button */}
+            <TouchableOpacity
+              onPress={() => setCollapsed(!collapsed)}
+              className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
+                collapsed ? "justify-center" : ""
+              }`}
+            >
+              <Menu className="text-foreground" />
+              {!collapsed && (
+                <Text className="ml-3">
+                  {capitalizeFirst(t("tabBar.menu"))}
+                </Text>
+              )}
+            </TouchableOpacity>
 
-          {/* Drawer Items */}
-          {props.state.routes.map((route, index) => {
-            const focused = index === props.state.index;
-            const Icon = NavigationOptions.find(
-              (option) => route.name == option.path
-            )?.icon as LucideIcon;
+            {/* Drawer Items */}
+            {props.state.routes.map((route, index) => {
+              const focused = index === props.state.index;
+              const Icon = NavigationOptions.find(
+                (option) => route.name == option.path
+              )?.icon as LucideIcon;
 
-            return (
-              <TouchableOpacity
-                key={route.key}
-                onPress={() => props.navigation.navigate(route.name)}
-                className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
-                  collapsed ? "justify-center" : ""
-                } ${focused ? "bg-muted" : ""}`} // ✅ Tailwind bg variable
-              >
-                <Icon
-                  className={
-                    focused ? "text-foreground" : "text-muted-foreground"
-                  }
-                />
-                {!collapsed && (
-                  <Text
-                    className={`ml-3 text-base font-medium ${
+              return (
+                <TouchableOpacity
+                  key={route.key}
+                  onPress={() => props.navigation.navigate(route.name)}
+                  className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
+                    collapsed ? "justify-center" : ""
+                  } ${focused ? "bg-muted" : ""}`}
+                >
+                  <Icon
+                    className={
                       focused ? "text-foreground" : "text-muted-foreground"
-                    }`}
-                  >
-                    {capitalizeFirst(
-                      t(`tabBar.${route.name}` as "tabBar.settings")
-                    )}
-                  </Text>
-                )}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      )}
+                    }
+                  />
+                  {!collapsed && (
+                    <Text
+                      className={`ml-3 text-base font-medium ${
+                        focused ? "text-foreground" : "text-muted-foreground"
+                      }`}
+                    >
+                      {capitalizeFirst(
+                        t(`tabBar.${route.name}` as "tabBar.settings")
+                      )}
+                    </Text>
+                  )}
+                </TouchableOpacity>
+              );
+            })}
+          </SafeAreaView>
+        );
+      }}
     >
       {NavigationOptions.map((option) => (
         <Drawer.Screen

@@ -1,8 +1,11 @@
 /**
- * /!\ Do not use this alone, this is meant to be used 
+ * /!\ Do not use this alone, this is meant to be used
  * only with tanstack query hooks (eg. useQuery)
  */
 
+import { router } from "expo-router";
+import { t } from "i18next";
+import Toast from "react-native-toast-message";
 import {
   ApiPath,
   ApiPathMethod,
@@ -12,6 +15,7 @@ import {
 } from "~/@types/api";
 import { devEnvConfig } from "~/devEnvConfig.env";
 import { SecureStorage } from "./classes/SecureStorage";
+import { capitalizeFirst } from "./utils";
 
 // Base URL for API requests
 const endpoint = `http://${devEnvConfig.ip}`;
@@ -92,9 +96,25 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
   // attempt to parse JSON error if request fails
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
-    throw new Error(
-      errorData?.message || `HTTP error! status: ${response.status}`
-    );
+    switch (response.status) {
+      case 401:
+        Toast.show({
+          type: "error",
+          text1: capitalizeFirst(t("errors.loginExpired")),
+          text2: capitalizeFirst(t("errors.redirectToLogin")),
+        });
+
+        // Redirect to login with redirect param
+        router.push({
+          pathname: "/login",
+        });
+        break;
+
+      default:
+        throw new Error(
+          errorData?.message || `HTTP error! status: ${response.status}`
+        );
+    }
   }
 
   return response.json();

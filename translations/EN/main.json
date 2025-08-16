@@ -30,8 +30,8 @@
     },
     "legal": {
       "name": "Legal notices",
-      "termsOfService" : "terms of service",
-      "license" : "license"
+      "termsOfService": "terms of service",
+      "license": "license"
     },
     "appearance": {
       "name": "appearance",
@@ -126,6 +126,10 @@
     "stock": "stock",
     "give": "give",
     "discard": "discard"
+  },
+  "errors": {
+    "loginExpired": "login expired",
+    "redirectToLogin" : "redirect to login"
   },
   "QR Code loaded": "QR Code loaded",
   "Toggle editing mode": "Toggle editing mode",
