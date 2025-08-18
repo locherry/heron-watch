@@ -24,7 +24,6 @@ type GenericFetchNextPage = (options?: {
   pageParam?: unknown;
 }) => Promise<InfiniteQueryObserverResult<unknown, unknown>>;
 
-
 type ActionTableProps = ViewProps & {
   data: Action[];
   fetchNextPage?: GenericFetchNextPage;
@@ -49,14 +48,38 @@ export function ActionTable({
 
   const baseColumns = React.useMemo<ColumnDef<Action>[]>(
     () => [
-      { accessorKey: "product_code", header: () => capitalizeFirst(t("actions.product_code")) },
-      { accessorKey: "quantity", header: () => capitalizeFirst(t("actions.quantity")) },
-      { accessorKey: "lot_number", header: () => capitalizeFirst(t("actions.lot_number")) },
-      { accessorKey: "created_at", header: () => capitalizeFirst(t("actions.created_at")) },
-      { accessorKey: "comment", header: () => capitalizeFirst(t("actions.comment")) },
-      { accessorKey: "created_by_id", header: () => capitalizeFirst(t("actions.created_by_id")) },
-      { accessorKey: "action_id", header: () => capitalizeFirst(t("actions.action_id")) },
-      { accessorKey: "transaction", header: () => capitalizeFirst(t("actions.transaction")) },
+      {
+        accessorKey: "product_code",
+        header: () => capitalizeFirst(t("actions.product_code")),
+      },
+      {
+        accessorKey: "quantity",
+        header: () => capitalizeFirst(t("actions.quantity")),
+      },
+      {
+        accessorKey: "lot_number",
+        header: () => capitalizeFirst(t("actions.lot_number")),
+      },
+      {
+        accessorKey: "created_at",
+        header: () => capitalizeFirst(t("actions.created_at")),
+      },
+      {
+        accessorKey: "comment",
+        header: () => capitalizeFirst(t("actions.comment")),
+      },
+      {
+        accessorKey: "created_by_id",
+        header: () => capitalizeFirst(t("actions.created_by_id")),
+      },
+      {
+        accessorKey: "action_id",
+        header: () => capitalizeFirst(t("actions.action_id")),
+      },
+      {
+        accessorKey: "transaction",
+        header: () => capitalizeFirst(t("actions.transaction")),
+      },
     ],
     []
   );
@@ -109,10 +132,17 @@ export function ActionTable({
     <View className="flex-row border-b border-border bg-background">
       {table.getHeaderGroups().map((hg) =>
         hg.headers.map((header, i) => (
-          <View key={header.id} style={{ width: columnWidths[i] }} className="p-2">
+          <View
+            key={header.id}
+            style={{ width: columnWidths[i] }}
+            className="p-2"
+          >
             {!header.isPlaceholder && (
               <Text className="font-bold text-foreground">
-                {flexRender(header.column.columnDef.header, header.getContext())}
+                {flexRender(
+                  header.column.columnDef.header,
+                  header.getContext()
+                )}
               </Text>
             )}
           </View>
@@ -145,10 +175,13 @@ export function ActionTable({
 
   return (
     <View className={cn("flex-1", className)}>
-      {/* Horizontal scroll wraps BOTH header + body */}
+      {/* Horizontal scroll wraps BOTH header + body together */}
       <ScrollView horizontal>
         <View>
+          {/* Header inside same scroll context */}
           {renderHeader()}
+
+          {/* Body scrolls vertically only */}
           <FlatList
             data={rows}
             keyExtractor={(row) => row.id}

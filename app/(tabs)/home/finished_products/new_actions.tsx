@@ -48,7 +48,7 @@ export default function NewActions() {
       <H2 className="mb-2">
         <Row className="w-full justify-between">
           <Text className="text-4xl">
-            {capitalizeFirst(t("actions.newAction"))}
+            {capitalizeFirst(t("actions.newActions"))}
           </Text>
           <Tooltip>
             <TooltipTrigger>
