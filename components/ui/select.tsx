@@ -1,8 +1,9 @@
 import * as SelectPrimitive from "@rn-primitives/select";
-import { Check, LucideIcon } from "lucide-react-native";
+import { LucideIcon } from "lucide-react-native";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { Check } from "~/assets/images/icons/Check";
 import { ChevronDown } from "~/assets/images/icons/ChevronDown";
 import { cn } from "~/lib/utils";
 
@@ -169,15 +170,15 @@ function SelectSeparator({
 }
 
 export {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    // SelectScrollDownButton,
-    // SelectScrollUpButton,
-    SelectSeparator,
-    SelectTrigger,
-    SelectValue
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  // SelectScrollDownButton,
+  // SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue
 };
 
