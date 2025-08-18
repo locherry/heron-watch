@@ -45,8 +45,6 @@ export default function RawMaterialsTabsScreen() {
 
   return (
     <RootView disableInsets={{ top: true, left: true }}>
-      <H3>{capitalizeFirst(t("stocks.rawMaterials"))}</H3>
-
       <Tabs
         value={currentTabName}
         onValueChange={(value) => setCurrentTabName(value as StockName)}

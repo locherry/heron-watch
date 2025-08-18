@@ -36,7 +36,7 @@ export default function MaterialTopTabsLayout() {
           tabBarActiveTintColor: colors.text,
           tabBarInactiveTintColor: "grey",
           tabBarLabelStyle: {
-            fontSize: 14,
+            fontSize: 18,
             fontWeight: "bold",
           },
           tabBarIndicatorStyle: {
