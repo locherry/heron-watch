@@ -1,42 +1,46 @@
 import React from "react";
 import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { cn } from "~/lib/utils";
 
 interface RootViewProps {
-  children: React.ReactNode;  // Content/components to render inside RootView
-  className?: string;         // Optional className for styling (e.g. nativewind/tailwind classes)
+  children: React.ReactNode;
+  className?: string;
+  /**
+   * Disable safe area insets selectively.
+   * Example: { top: true, bottom: true } will remove top & bottom padding.
+   */
+  disableInsets?: Partial<Record<"top" | "bottom" | "left" | "right", boolean>>;
 }
 
-/**
- * RootView component that provides a safe area container and base layout styling.
- * 
- * - Uses SafeAreaView from react-native-safe-area-context to avoid notches, status bars, and other screen insets.
- * - Applies full width and height, flex layout, padding, and center alignment by default.
- * - Accepts additional styling via className.
- * - Wraps children inside a padded View with horizontal margin.
- * - Spreads any extra props to SafeAreaView (e.g. accessibility props).
- *
- * @param children - React nodes to render inside the view
- * @param className - Additional styling classes
- * @param rest - Additional props forwarded to SafeAreaView
- */
 const RootView: React.FC<RootViewProps> = ({
   children,
   className,
+  disableInsets = {},
   ...rest
 }) => {
+  const insets = useSafeAreaInsets();
+
+  const paddingStyle = {
+    paddingTop: disableInsets.top ? 0 : insets.top,
+    paddingBottom: disableInsets.bottom ? 0 : insets.bottom,
+    paddingLeft: disableInsets.left ? 0 : insets.left,
+    paddingRight: disableInsets.right ? 0 : insets.right,
+  };
+
   return (
-    <SafeAreaView
-      // Optionally you could enable flex: 1 inline style if needed
-      // style={{ flex: 1 }}
-      className={`w-full h-full flex-1 justify-start items-center p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 ${className}`}
+    <View
+      style={paddingStyle}
+      className={cn(
+        "flex-1 items-center",
+        className
+      )}
       {...rest}
     >
-      {/* Inner container with full width/height and padding, with horizontal margin */}
-      <View className="w-full h-full p-4 mx-4">
+      <View className={cn("flex-1 w-full h-full p-4 mx-4")}>
         {children}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

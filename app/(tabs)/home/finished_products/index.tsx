@@ -43,7 +43,7 @@ export default function FinishedProductsTabsScreen() {
   }
 
   return (
-    <RootView>
+    <RootView disableInsets={{"top":true, "left":true}}>
       <H3>{capitalizeFirst(t("stocks.finishedProducts"))}</H3>
 
       {/* Tabs */}

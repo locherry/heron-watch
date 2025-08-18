@@ -45,7 +45,7 @@ export default function RawMaterialsTabsScreen() {
   }
 
   return (
-    <RootView>
+    <RootView disableInsets={{ top: true, left: true }}>
       <H3>{capitalizeFirst(t("stocks.rawMaterials"))}</H3>
 
       <Tabs
