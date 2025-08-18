@@ -7,9 +7,9 @@ import { Package } from "~/assets/images/icons/Package";
 import { Plus } from "~/assets/images/icons/Plus";
 import { ServerCrash } from "~/assets/images/icons/ServerCrash";
 import { Store } from "~/assets/images/icons/Store";
-import { ActionHistoryTable } from "~/components/actions/ActionHistoryTable";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
+import { ActionTable } from "~/components/table/ActionTable";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Text } from "~/components/ui/text";
@@ -101,14 +101,20 @@ export default function FinishedProductsTabsScreen() {
       </View>
 
       {/* Action History */}
-      <View>
+      <View className="flex-1">
         <Row className="flex-none">
           <H3>{capitalizeFirst(t("common.history"))}</H3>
         </Row>
         {isLoading ? (
           <ActivityIndicator />
         ) : (
-          <ActionHistoryTable
+          // <ActionTable
+          //   data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
+          //   fetchNextPage={fetchNextPage}
+          // />
+
+          <ActionTable
+            // className="flex-1 h-full border-red-500 border-4"
             data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
             fetchNextPage={fetchNextPage}
           />

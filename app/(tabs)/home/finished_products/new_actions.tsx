@@ -5,9 +5,9 @@ import { Action } from "~/@types/action";
 import { Factory } from "~/assets/images/icons/Factory";
 import { Plus } from "~/assets/images/icons/Plus";
 import { Store } from "~/assets/images/icons/Store";
-import { ActionCreationTable } from "~/components/actions/ActionCreationTable";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
+import { ActionTable } from "~/components/table/ActionTable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import {
@@ -66,7 +66,7 @@ export default function NewActions() {
         </Row>
       </H2>
       <ScrollView>
-        <ActionCreationTable data={actions} />
+        <ActionTable data={actions} totalRow={true} editionMode={true}/>
         <Button
           className="mb-4"
           variant={"outline"}

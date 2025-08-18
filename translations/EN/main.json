@@ -118,6 +118,7 @@
     "error": "error",
     "success": "success",
     "action": "action",
+    "actions": "actions",
     "date": "date",
     "product": "product",
     "cancel": "cancel",
