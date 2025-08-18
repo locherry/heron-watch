@@ -78,7 +78,7 @@ export default function FinishedProductsTabsScreen() {
       </Tabs>
 
       {/* Buttons */}
-      <View className="flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
+      <View className="flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 mb-4">
         <Button icon={Package} variant="outline">
           {capitalizeFirst(t("stocks.viewStocks"))}
         </Button>

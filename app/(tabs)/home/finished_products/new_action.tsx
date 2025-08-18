@@ -128,7 +128,7 @@ export default function NewAction() {
   }, [qrCodeResults.data]);
 
   return (
-    <RootView>
+    <RootView disableInsets={{ left: true, top: true }}>
       <Row gap={8} className="mb-4">
         <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
         <QrScannerButton onScan={onScan} />

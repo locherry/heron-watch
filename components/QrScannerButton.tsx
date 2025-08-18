@@ -92,13 +92,13 @@ export default function QrScannerButton({
               <Animated.View
                 style={[
                   {
-                    width: "80%", // take most of the screen width
+                    width: "70%", // take most of the screen width
+                    maxHeight:'70%', // do not overflow on height (useful on landscape mode)
                     aspectRatio: 1, // keep square
                     transform: [{ scale: pulseAnim }],
                     alignItems: "center",
                     justifyContent: "center",
                   },
-                  Platform.OS === "web" ? { height: "80%" } : {}, // Adjust height not to overflow on web
                 ]}
               >
                 <Scan

@@ -44,7 +44,7 @@ export default function NewActions() {
     console.log(newAction);
   }
   return (
-    <RootView>
+    <RootView disableInsets={{ left: true, top: true }}>
       <H2 className="mb-2">
         <Row className="w-full justify-between">
           <Text className="text-4xl">
