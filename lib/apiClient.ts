@@ -104,12 +104,12 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
           text2: capitalizeFirst(t("errors.redirectToLogin")),
         });
 
-        // Redirect to login with redirect param
-        router.push({
-          pathname: "/login",
-        });
-        break;
+        // Clear JWT so we don’t loop on bad token
+        await SecureStorage.remove("userSession");
 
+        // Just force redirect, expo-router won’t stack it badly
+        router.replace("/login");
+        break;
       default:
         throw new Error(
           errorData?.message || `HTTP error! status: ${response.status}`
