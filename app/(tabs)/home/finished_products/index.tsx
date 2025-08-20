@@ -1,5 +1,6 @@
 import { Link } from "expo-router";
 import { t } from "i18next";
+import { Forklift } from "lucide-react-native";
 import * as React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { Factory } from "~/assets/images/icons/Factory";
@@ -95,6 +96,9 @@ export default function FinishedProductsTabsScreen() {
         </Link>
         <Button icon={ServerCrash} variant="outline">
           {t("Manage Errors")}
+        </Button>
+        <Button icon={Forklift} variant="outline">
+          {t("Generate a new pallet sheet")}
         </Button>
       </View>
 

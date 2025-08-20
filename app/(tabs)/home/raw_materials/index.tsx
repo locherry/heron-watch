@@ -1,4 +1,5 @@
 import { t } from "i18next";
+import { Forklift } from "lucide-react-native";
 import * as React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { Leaf } from "~/assets/images/icons/Leaf";
@@ -80,6 +81,9 @@ export default function RawMaterialsTabsScreen() {
         </Button>
         <Button icon={ServerCrash} variant="outline">
           {t("Manage Errors")}
+        </Button>
+        <Button icon={Forklift} variant="outline">
+          {t("Generate a new pallet sheet")}
         </Button>
       </View>
 
