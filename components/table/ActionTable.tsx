@@ -19,10 +19,13 @@ import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
+// --- Types ---
 type GenericFetchNextPage = (options?: {
   cancelRefetch?: boolean;
   pageParam?: unknown;
 }) => Promise<InfiniteQueryObserverResult<unknown, unknown>>;
+
+type ActionTableHiddenKeys = keyof Action | "actions";
 
 type ActionTableProps = ViewProps & {
   data: Action[];
@@ -31,6 +34,7 @@ type ActionTableProps = ViewProps & {
   editionMode?: boolean;
   onEdit?: (action: Action) => void;
   onDelete?: (action: Action) => void;
+  hiddenColumns?: ActionTableHiddenKeys[]; // 👈 fully typed
 };
 
 export function ActionTable({
@@ -41,42 +45,51 @@ export function ActionTable({
   editionMode,
   onEdit,
   onDelete,
+  hiddenColumns,
 }: ActionTableProps) {
   const { width, height } = useWindowDimensions();
-
   const tableHeight = Math.min(height * 0.6, 400);
 
+  // --- Base columns ---
   const baseColumns = React.useMemo<ColumnDef<Action>[]>(
     () => [
       {
+        id: "product_code",
         accessorKey: "product_code",
         header: () => capitalizeFirst(t("actions.product_code")),
       },
       {
+        id: "quantity",
         accessorKey: "quantity",
         header: () => capitalizeFirst(t("actions.quantity")),
       },
       {
+        id: "lot_number",
         accessorKey: "lot_number",
         header: () => capitalizeFirst(t("actions.lot_number")),
       },
       {
+        id: "created_at",
         accessorKey: "created_at",
         header: () => capitalizeFirst(t("actions.created_at")),
       },
       {
+        id: "comment",
         accessorKey: "comment",
         header: () => capitalizeFirst(t("actions.comment")),
       },
       {
+        id: "created_by_id",
         accessorKey: "created_by_id",
         header: () => capitalizeFirst(t("actions.created_by_id")),
       },
       {
+        id: "action_id",
         accessorKey: "action_id",
         header: () => capitalizeFirst(t("actions.action_id")),
       },
       {
+        id: "transaction",
         accessorKey: "transaction",
         header: () => capitalizeFirst(t("actions.transaction")),
       },
@@ -84,35 +97,45 @@ export function ActionTable({
     []
   );
 
+  // --- Columns (filtered + optional edition actions) ---
   const columns = React.useMemo<ColumnDef<Action>[]>(() => {
-    if (!editionMode) return baseColumns;
-    return [
-      ...baseColumns,
-      {
-        id: "actions",
-        header: () => capitalizeFirst(t("common.actions")),
-        cell: ({ row }) => (
-          <View className="flex-row gap-2">
-            <Button
-              size="sm"
-              variant="outline"
-              onPress={() => onEdit?.(row.original)}
-            >
-              <Text>Edit</Text>
-            </Button>
-            <Button
-              size="sm"
-              variant="destructive"
-              onPress={() => onDelete?.(row.original)}
-            >
-              <Text>Delete</Text>
-            </Button>
-          </View>
-        ),
-      },
-    ];
-  }, [editionMode, baseColumns, onEdit, onDelete]);
+    const filteredBase = baseColumns.filter(
+      (col) => !hiddenColumns?.includes(col.id as ActionTableHiddenKeys)
+    );
+    if (!editionMode) return filteredBase;
 
+    return [
+      ...filteredBase,
+      ...(!hiddenColumns?.includes("actions")
+        ? [
+            {
+              id: "actions",
+              header: () => capitalizeFirst(t("common.actions")),
+              cell: ({ row }) => (
+                <View className="flex-row gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onPress={() => onEdit?.(row.original)}
+                  >
+                    <Text>Edit</Text>
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onPress={() => onDelete?.(row.original)}
+                  >
+                    <Text>Delete</Text>
+                  </Button>
+                </View>
+              ),
+            } as ColumnDef<Action>,
+          ]
+        : []),
+    ];
+  }, [editionMode, baseColumns, hiddenColumns, onEdit, onDelete]);
+
+  // --- React Table ---
   const table = useReactTable({
     data,
     columns,
@@ -121,13 +144,13 @@ export function ActionTable({
 
   const rows = table.getRowModel().rows;
 
+  // --- Dynamic column widths ---
   const columnWidths = React.useMemo(() => {
-    const minWidths = editionMode
-      ? [120, 120, 180, 180, 180, 180, 180, 180, 180, 160]
-      : [120, 120, 180, 180, 180, 180, 180, 180, 180];
-    return minWidths.map((min) => Math.max(min, width / minWidths.length));
-  }, [width, editionMode]);
+    const count = columns.length;
+    return new Array(count).fill(0).map(() => Math.max(140, width / count));
+  }, [width, columns]);
 
+  // --- Render header ---
   const renderHeader = () => (
     <View className="flex-row border-b border-border bg-background">
       {table.getHeaderGroups().map((hg) =>
@@ -151,6 +174,7 @@ export function ActionTable({
     </View>
   );
 
+  // --- Render row ---
   const renderRow = ({
     item,
     index,
@@ -178,10 +202,7 @@ export function ActionTable({
       {/* Horizontal scroll wraps BOTH header + body together */}
       <ScrollView horizontal>
         <View>
-          {/* Header inside same scroll context */}
           {renderHeader()}
-
-          {/* Body scrolls vertically only */}
           <FlatList
             data={rows}
             keyExtractor={(row) => row.id}

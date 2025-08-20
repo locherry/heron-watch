@@ -66,7 +66,12 @@ export default function NewActions() {
         </Row>
       </H2>
       <ScrollView>
-        <ActionTable data={actions} totalRow={true} editionMode={true}/>
+        <ActionTable
+          data={actions}
+          totalRow={true}
+          editionMode={true}
+          hiddenColumns={["created_by_id", "created_at"]}
+        />
         <Button
           className="mb-4"
           variant={"outline"}

@@ -129,6 +129,10 @@
     "discard": "discard"
   },
   "errors": {
+    "required" : "This field is required",
+    "invalidExpirationDate" : "invalidExpirationDate",
+    "invalidQuantity" : "invalidQuantity",
+    "invalidProductCode" : "invalidProductCode",
     "loginExpired": "login expired",
     "redirectToLogin" : "redirect to login"
   },
