@@ -2,13 +2,11 @@ import { Label } from "@react-navigation/elements";
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import { QrCode } from "lucide-react-native";
-import Autocomplete from "react-native-autocomplete-input";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { Text } from "~/components/ui/text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { H2 } from "~/components/ui/typography";
-import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 export default function add_pallet_sheet() {
     const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
@@ -20,9 +18,9 @@ export default function add_pallet_sheet() {
         product_code_value : null|string, lot_number_value : null|string
     };
 
-    const {data, error, isLoading, isError} = useFetchQuery(
-        url: "/stocks/"
-    )
+    // const {data, error, isLoading, isError} = useFetchQuery(
+    //     url: "/stocks/"
+    // )
 
     return (
         <RootView disableInsets={{left:true, top:true}}>
@@ -47,11 +45,11 @@ export default function add_pallet_sheet() {
                 <Label className="text-base">
                     {capitalizeFirst(t("actions.product_code"))}
                 </Label>
-                <Autocomplete
+                {/* <Autocomplete
 
                 
                 
-                />
+                /> */}
             </Row>
         </RootView>
     )
