@@ -73,7 +73,7 @@ NativeWind enables Tailwind CSS style utilities in React Native. This project in
 ### 5. **Code Organization**
 - Keep hooks and utilities in `/lib` for centralized reuse.
 - Use separate files for platform-specific code (`Alert.ts` + `Alert.web.ts`).
-- Group icons and SVG assets in `/lib/icons` or `/assets`.
+- Group icons and SVG assets in `/assets/images/icons` or `/assets/images`.
 
 ### 6. **Commit Message Conventions**
 
