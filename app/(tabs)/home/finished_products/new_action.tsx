@@ -1,8 +1,9 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
+import { Action } from "~/@types/action";
 import { Gift } from "~/assets/images/icons/Gift";
 import { Package } from "~/assets/images/icons/Package";
 import { Store } from "~/assets/images/icons/Store";
@@ -14,19 +15,28 @@ import QrScannerButton from "~/components/QrScannerButton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
-import { H2, P } from "~/components/ui/typography";
+import { H2 } from "~/components/ui/typography";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function NewAction() {
+  const rawParams = useLocalSearchParams();
+  const { actionsJsonEncoded, stockCategory = "PF_G" } = rawParams as {
+    actionsJsonEncoded?: string;
+    stockCategory?: "PF_G" | "PF_M";
+  };
+
+  const existingActions: Action[] = React.useMemo(() => {
+    if (!actionsJsonEncoded) return [];
+    try {
+      return JSON.parse(actionsJsonEncoded) as Action[];
+    } catch (err) {
+      console.error("Invalid actionsJsonEncoded:", err);
+      return [];
+    }
+  }, [actionsJsonEncoded]);
+
   const ACTION_TYPES = [
     { value: "1", label: t("actions.1"), icon: Tag },
     { value: "2", label: t("actions.2"), icon: Package },
@@ -34,52 +44,49 @@ export default function NewAction() {
     { value: "4", label: t("actions.4"), icon: Store },
   ] as const;
 
-  const [actionId, setactionId] = React.useState<
-    (typeof ACTION_TYPES)[number]["value"]
-  >(ACTION_TYPES[0].value);
-
+  const [actionId, setActionId] = React.useState(ACTION_TYPES[0].value);
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
   const INPUT_FIELDS = [
     {
       label: t("actions.product_code"),
       value: "product_code",
-      regex: /^[A-Z]{3}\d{6}$/, // 3 letters + ddmmyy
+      regex: /^[A-Z]{3}\d{6}$/,
       required: true,
       errorMessage: t("errors.invalidProductCode"),
     },
     {
       label: t("actions.lot_number"),
       value: "lot_number",
-      regex: /^\d{3}/, // 3 digits
+      regex: /^\d{3}/,
       required: true,
       errorMessage: t("errors.invalidProductCode"),
     },
     {
       label: t("actions.quantity"),
       value: "quantity",
-      regex: /^\d+$/, // integer
+      regex: /^\d+$/,
       required: true,
       errorMessage: t("errors.invalidQuantity"),
     },
     {
       label: t("actions.expirationDate"),
       value: "expiration_date",
-      regex: /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/, // dd/mm/yyyy
+      regex: /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
       required: true,
       errorMessage: t("errors.invalidExpirationDate"),
     },
     {
       label: t("actions.transaction"),
       value: "transaction",
-      regex: /^.*$/, // any string
+      regex: /^.*$/,
       required: false,
-      errorMessage: "", // no error if empty
+      errorMessage: "",
     },
     {
       label: t("actions.comment"),
       value: "comment",
-      regex: /^.*$/, // any string
+      regex: /^.*$/,
       required: false,
       errorMessage: "",
     },
@@ -88,19 +95,12 @@ export default function NewAction() {
   const validateField = (key: string, value: string) => {
     const field = INPUT_FIELDS.find((f) => f.value === key);
     if (!field) return "";
-
-    if (field.required && !value) {
-      return t("errors.required"); // e.g. "This field is required"
-    }
-
-    if (value && field.regex && !field.regex.test(value)) {
+    if (field.required && !value) return t("errors.required");
+    if (value && field.regex && !field.regex.test(value))
       return field.errorMessage;
-    }
-
     return "";
   };
 
-  // Store input values in state
   const [formData, setFormData] = React.useState<
     Record<string, string | number | undefined>
   >({
@@ -112,7 +112,7 @@ export default function NewAction() {
       {} as Record<string, string>
     ),
     action_id: actionId,
-    id: 0, // set id to 0 because the action isnt yet registered to the db, cant choose a valid id
+    id: 0,
   });
 
   const handleChange = (key: string, value: string) => {
@@ -128,14 +128,26 @@ export default function NewAction() {
   }, [formData]);
 
   const handleSaveNewAction = () => {
+    // Find max ID among existing actions
+    const maxId =
+      existingActions.length > 0
+        ? Math.max(...existingActions.map((a) => a.id ?? 0))
+        : 0;
+
     const newAction = {
       ...formData,
       action_type: actionId,
+      id: maxId + 1, // ✅ always unique: max + 1
     };
+
+    const updatedActions = [...existingActions, newAction];
 
     router.push({
       pathname: "/home/finished_products/new_actions",
-      params: { newActionJsonEncoded: JSON.stringify(newAction) },
+      params: {
+        actionsJsonEncoded: JSON.stringify(updatedActions),
+        stockCategory,
+      },
     });
   };
 
@@ -194,53 +206,10 @@ export default function NewAction() {
       <ScrollView showsVerticalScrollIndicator>
         <Row gap={8} className="mb-4">
           <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
-          <QrScannerButton onScan={onScan} />
+          <QrScannerButton onScan={(data) => console.log(data)} />
         </Row>
         <Column gap={16}>
-          <Select
-            defaultValue={ACTION_TYPES[0]}
-            value={ACTION_TYPES.find((option) => option.value == actionId)}
-            onValueChange={(option) =>
-              setactionId(
-                option?.value as (typeof ACTION_TYPES)[number]["value"]
-              )
-            }
-          >
-            <SelectTrigger>
-              <SelectValue
-                placeholder={capitalizeFirst(t("actions.selectActionType"))}
-              >
-                <View className="mr-2 flex flex-row items-center">
-                  {(() => {
-                    const selectedOption = ACTION_TYPES.find(
-                      (option) => option.value === actionId
-                    );
-                    if (selectedOption?.icon) {
-                      return <selectedOption.icon className="mr-2" size={16} />;
-                    }
-                    return null;
-                  })()}
-                  <P className="capitalize">
-                    {
-                      ACTION_TYPES.find((option) => option.value == actionId)
-                        ?.label
-                    }
-                  </P>
-                </View>
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {ACTION_TYPES.map((action) => (
-                <SelectItem
-                  key={action.value}
-                  value={String(action.value)}
-                  label={capitalizeFirst(action.label)}
-                  icon={action.icon}
-                />
-              ))}
-            </SelectContent>
-          </Select>
-
+          {/* action type select... */}
           {INPUT_FIELDS.map((field) => {
             const error = errors[field.value];
             return (

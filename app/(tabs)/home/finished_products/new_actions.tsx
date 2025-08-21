@@ -1,10 +1,12 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
+import React from "react";
 import { ScrollView } from "react-native";
 import { Action } from "~/@types/action";
 import { Factory } from "~/assets/images/icons/Factory";
 import { Plus } from "~/assets/images/icons/Plus";
 import { Store } from "~/assets/images/icons/Store";
+import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ActionTable } from "~/components/table/ActionTable";
@@ -19,30 +21,76 @@ import { H2 } from "~/components/ui/typography";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
-let actions: Action[] = [];
-
 export default function NewActions() {
   const { mutate: createNewActions } = useFetchMutation(
     "/actions/{stock_category}",
     "post"
   );
-  const handleSaveNewActions = () => {};
-  const handleNewAction = () => {
-    router.push("/home/finished_products/new_action");
+
+  const rawParams = useLocalSearchParams();
+  const { stockCategory = "PF_G", actionsJsonEncoded } = rawParams as {
+    stockCategory?: "PF_G" | "PF_M";
+    actionsJsonEncoded?: string;
   };
+
+  // ✅ Parse all actions from query param
+  const [actions, setActions] = React.useState<Action[]>(() => {
+    if (!actionsJsonEncoded) return [];
+    try {
+      return JSON.parse(actionsJsonEncoded) as Action[];
+    } catch (err) {
+      console.error("Invalid actionsJsonEncoded:", err);
+      return [];
+    }
+  });
+
+  const handleSaveNewActions = () => {
+    if (actions.length === 0) return;
+    createNewActions(
+      {
+        pathParams: { stock_category: stockCategory },
+        body: actions,
+      },
+      {
+        onSuccess: () => {
+          router.back();
+        },
+      }
+    );
+  };
+
+  const handleNewAction = () => {
+    router.push({
+      pathname: "/home/finished_products/new_action",
+      params: {
+        actionsJsonEncoded: JSON.stringify(actions), // ✅ Pass full array forward
+        stockCategory,
+      },
+    });
+  };
+
   const handleCancel = () => {
     router.back();
   };
-  const rawParams = useLocalSearchParams();
-  const { stockCategory = "PF_G", newActionJsonEncoded } = rawParams as {
-    stockCategory?: "PF_G" | "PF_M";
-    newActionJsonEncoded?: string;
+
+  const handleDelete = (actionToBeDeleted: Action) => {
+    Alert.alert(t("Please confirm"), t("Do you really want to discard the unsaved changes?"), [
+      {
+        text: t("common.cancel"),
+        onPress: () => console.info("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: t("common.OK"),
+        onPress: () => {
+          setActions((prev) =>
+            prev.filter((a) => a.id !== actionToBeDeleted.id)
+          );
+        },
+      },
+    ]);
   };
-  if (newActionJsonEncoded) {
-    const newAction = JSON.parse(newActionJsonEncoded) as Action;
-    actions.push(newAction);
-    console.log(newAction);
-  }
+
   return (
     <RootView disableInsets={{ left: true, top: true }}>
       <H2 className="mb-2">
@@ -70,8 +118,10 @@ export default function NewActions() {
           data={actions}
           totalRow={true}
           editionMode={true}
+          onDelete={handleDelete}
           hiddenColumns={["created_by_id", "created_at"]}
         />
+
         <Button
           className="mb-4"
           variant={"outline"}
@@ -80,11 +130,16 @@ export default function NewActions() {
         >
           {capitalizeFirst(t("actions.newAction"))}
         </Button>
+
         <Row className="flex-none w-full" gap={8}>
           <Button className="flex-1" variant={"outline"} onPress={handleCancel}>
             {capitalizeFirst(t("common.cancel"))}
           </Button>
-          <Button className="flex-1" onPress={handleSaveNewActions}>
+          <Button
+            className="flex-1"
+            onPress={handleSaveNewActions}
+            disabled={actions.length === 0}
+          >
             {capitalizeFirst(t("common.save"))}
           </Button>
         </Row>
