@@ -22,9 +22,14 @@ import { capitalizeFirst } from "~/lib/utils";
 
 export default function NewAction() {
   const rawParams = useLocalSearchParams();
-  const { actionsJsonEncoded, stockCategory = "PF_G" } = rawParams as {
+  const {
+    actionsJsonEncoded,
+    stockCategory = "PF_G",
+    editActionId,
+  } = rawParams as {
     actionsJsonEncoded?: string;
     stockCategory?: "PF_G" | "PF_M";
+    editActionId?: string;
   };
 
   const existingActions: Action[] = React.useMemo(() => {
@@ -37,6 +42,23 @@ export default function NewAction() {
     }
   }, [actionsJsonEncoded]);
 
+  // Prefill form if editing
+  React.useEffect(() => {
+    if (!editActionId) return;
+
+    const actionToEdit = existingActions.find(
+      (a) => String(a.id) === editActionId
+    );
+    if (actionToEdit) {
+      setFormData((prev) => ({
+        ...prev,
+        ...actionToEdit,
+        action_id: actionToEdit.id,
+      }));
+      setActionId(actionToEdit.id);
+    }
+  }, [editActionId, existingActions]);
+
   const ACTION_TYPES = [
     { value: "1", label: t("actions.1"), icon: Tag },
     { value: "2", label: t("actions.2"), icon: Package },
@@ -44,7 +66,9 @@ export default function NewAction() {
     { value: "4", label: t("actions.4"), icon: Store },
   ] as const;
 
-  const [actionId, setActionId] = React.useState(ACTION_TYPES[0].value);
+  const [actionId, setActionId] = React.useState<string | number>(
+    ACTION_TYPES[0].value
+  );
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
   const INPUT_FIELDS = [
@@ -128,19 +152,41 @@ export default function NewAction() {
   }, [formData]);
 
   const handleSaveNewAction = () => {
-    // Find max ID among existing actions
-    const maxId =
-      existingActions.length > 0
-        ? Math.max(...existingActions.map((a) => a.id ?? 0))
-        : 0;
+    let updatedActions: Action[];
 
-    const newAction = {
-      ...formData,
-      action_type: actionId,
-      id: maxId + 1, // ✅ always unique: max + 1
-    };
+    if (editActionId) {
+      // Edit mode: replace the action in the array
+      updatedActions = existingActions.map((a) =>
+        String(a.id) === editActionId
+          ? ({
+              ...a, // keep all original fields
+              ...formData,
+              action_id: actionId,
+              id: a.id,
+            } as Action)
+          : a
+      );
+    } else {
+      // Add new action
+      const maxId =
+        existingActions.length > 0
+          ? Math.max(...existingActions.map((a) => a.id ?? 0))
+          : 0;
 
-    const updatedActions = [...existingActions, newAction];
+      const newAction: Action = {
+        id: maxId + 1,
+        quantity: Number(formData.quantity) || 0,
+        comment: (formData.comment as string) || "",
+        product_code: Number(formData.product_code) || 0,
+        lot_number: (formData.lot_number as string) || "",
+        created_by_id: 0,
+        created_at: new Date().toISOString(),
+        action_id: Number(actionId),
+        transaction: (formData.transaction as string) || "",
+      };
+
+      updatedActions = [...existingActions, newAction];
+    }
 
     router.push({
       pathname: "/home/finished_products/new_actions",

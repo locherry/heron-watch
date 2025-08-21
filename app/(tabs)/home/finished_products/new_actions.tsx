@@ -63,7 +63,7 @@ export default function NewActions() {
     router.push({
       pathname: "/home/finished_products/new_action",
       params: {
-        actionsJsonEncoded: JSON.stringify(actions), // ✅ Pass full array forward
+        actionsJsonEncoded: JSON.stringify(actions),
         stockCategory,
       },
     });
@@ -72,6 +72,16 @@ export default function NewActions() {
   const handleCancel = () => {
     router.back();
   };
+  const handleEdit = (actionToBeEdited: Action) => {
+    router.push({
+      pathname: "/home/finished_products/new_action",
+      params: {
+        actionsJsonEncoded: JSON.stringify(actions),
+        editActionId : actionToBeEdited.id,
+        stockCategory,
+      },
+    });
+  }
 
   const handleDelete = (actionToBeDeleted: Action) => {
     Alert.alert(t("Please confirm"), t("Do you really want to discard the unsaved changes?"), [
@@ -119,6 +129,7 @@ export default function NewActions() {
           totalRow={true}
           editionMode={true}
           onDelete={handleDelete}
+          onEdit={handleEdit}
           hiddenColumns={["created_by_id", "created_at"]}
         />
 
