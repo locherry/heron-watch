@@ -136,6 +136,10 @@
     "loginExpired": "login expired",
     "redirectToLogin" : "redirect to login"
   },
+  "add_pallet_sheet" : {
+    "add_pallet_sheet" : "add pallet sheet",
+    "modify_existing_pallet_sheet" : "modify existing pallet sheet"
+  },
   "QR Code loaded": "QR Code loaded",
   "Toggle editing mode": "Toggle editing mode",
   "Total users": "Total users",
