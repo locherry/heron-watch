@@ -97,9 +97,16 @@ export default function FinishedProductsTabsScreen() {
         <Button icon={ServerCrash} variant="outline">
           {t("Manage Errors")}
         </Button>
-        <Button icon={Forklift} variant="outline">
-          {t("Generate a new pallet sheet")}
-        </Button>
+        <Link 
+          href = {{
+            pathname: "/home/finished_products/add_pallet_sheet",
+            params: {stockCategory : stockCategory}
+          }}
+          asChild>
+          <Button icon={Forklift} variant="outline">
+            {t("Generate a new pallet sheet")}
+          </Button>
+        </Link>
       </View>
 
       {/* Action History */}
