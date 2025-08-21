@@ -75,14 +75,14 @@ export default function NewAction() {
     {
       label: t("actions.product_code"),
       value: "product_code",
-      regex: /^[A-Z]{3}\d{6}$/,
+      regex: /^\d{3}.*$/,
       required: true,
       errorMessage: t("errors.invalidProductCode"),
     },
     {
       label: t("actions.lot_number"),
       value: "lot_number",
-      regex: /^\d{3}/,
+      regex: /^[A-Z]{3}\d{6}$/,
       required: true,
       errorMessage: t("errors.invalidProductCode"),
     },
@@ -96,7 +96,7 @@ export default function NewAction() {
     {
       label: t("actions.expirationDate"),
       value: "expiration_date",
-      regex: /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+      regex: /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
       required: true,
       errorMessage: t("errors.invalidExpirationDate"),
     },

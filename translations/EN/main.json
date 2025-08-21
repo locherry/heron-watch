@@ -130,9 +130,9 @@
   },
   "errors": {
     "required" : "This field is required",
-    "invalidExpirationDate" : "invalidExpirationDate",
-    "invalidQuantity" : "invalidQuantity",
-    "invalidProductCode" : "invalidProductCode",
+    "invalidExpirationDate" : "invalid expiration date, date format is : dd-mm-yyyy eg : 31-12-2025",
+    "invalidQuantity" : "invalid quantity, quantity sould be an integer",
+    "invalidProductCode" : "invalid product code, should begin with three digits",
     "loginExpired": "login expired",
     "redirectToLogin" : "redirect to login"
   },
