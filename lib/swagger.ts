@@ -233,7 +233,7 @@ export interface components {
             id: number;
             quantity: number;
             comment: string;
-            product_code: number;
+            product_code: string;
             lot_number: string;
             created_by_id: number;
             /** Format: date-time */
@@ -242,8 +242,10 @@ export interface components {
             transaction: string;
         };
         Stock: {
+            /** @example 1 */
+            id: number;
             /** @example 144 */
-            product_code: number;
+            product_code: string;
             /** @example DSC050525 */
             lot_number: string;
             /** @example 100 */
@@ -254,10 +256,114 @@ export interface components {
              */
             expiration_date: string;
         };
+        /** @example [
+         *       "id",
+         *       "product_code",
+         *       "lot_number",
+         *       "quantity",
+         *       "expiration_date"
+         *     ] */
+        stock_selected_elts: string[];
+        filter_params: {
+            /**
+             * @description Code produit
+             * @example 309
+             */
+            product_code?: string;
+            /**
+             * @description Numéro de lot
+             * @example GDE050528
+             */
+            lot_number?: string;
+            /**
+             * @description Quantité
+             * @example 43
+             */
+            quantity?: number;
+            /**
+             * Format: date
+             * @description Date d'expiration
+             * @example 2028-05-05
+             */
+            expiration_date?: string;
+        };
+        /** @example {
+         *       "errors_in_stocks": {
+         *         "309": {
+         *           "GDE040428": {
+         *             "react_ids": [
+         *               1,
+         *               8
+         *             ],
+         *             "error_message": "Incorrect quantity value : -45"
+         *           }
+         *         },
+         *         "993": {
+         *           "ADR020228": {
+         *             "react_ids": [
+         *               3,
+         *               45,
+         *               5
+         *             ],
+         *             "error_message": "Incorrect quantity value : -49"
+         *           },
+         *           "ADR050529": {
+         *             "react_ids": [
+         *               4
+         *             ],
+         *             "error_message": "Incorrect quantity value : -2"
+         *           }
+         *         }
+         *       },
+         *       "blocking_errors": {
+         *         "127": {
+         *           "FDC020222": {
+         *             "react_ids": [
+         *               35,
+         *               36,
+         *               38
+         *             ],
+         *             "error_message": "Errors..."
+         *           }
+         *         },
+         *         "001": {
+         *           "CDA030230": {
+         *             "react_ids": [
+         *               11,
+         *               14
+         *             ],
+         *             "error_message": "Unable to find an expiration date for actual product"
+         *           }
+         *         }
+         *       }
+         *     } */
+        ErrorResponse: {
+            /** @description Code produit */
+            errors_in_stocks?: {
+                [key: string]: components["schemas"]["LotNumberAssociateErrors"];
+            };
+            /** @description Code produits */
+            blocking_errors?: {
+                [key: string]: components["schemas"]["LotNumberAssociateErrors"];
+            };
+        };
+        /** @description Numéro de lot */
+        LotNumberAssociateErrors: {
+            [key: string]: components["schemas"]["ErrorDetail"];
+        };
+        ErrorDetail: {
+            /** @example [
+             *       5,
+             *       6
+             *     ] */
+            react_ids?: number[];
+            /** @example Incorrect quantity value : -85 */
+            error_message?: string;
+        };
         newActions: (components["schemas"]["Action"] | components["schemas"]["Action"] | components["schemas"]["Action"])[];
         Wrong_actions: {
-            error_in_stock: components["schemas"]["Action"][];
-            error_in_insert: components["schemas"]["Action"][];
+            error_in_stock?: components["schemas"]["Action"][];
+            error_in_insert?: components["schemas"]["Action"][];
         };
         AimDate: {
             /**
@@ -423,8 +529,8 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Wrong_actions"][];
-                    "application/xml": components["schemas"]["Wrong_actions"][];
+                    "application/json": components["schemas"]["ErrorResponse"][];
+                    "application/xml": components["schemas"]["ErrorResponse"][];
                 };
             };
             /** @description Unauthorized */
@@ -975,6 +1081,12 @@ export interface operations {
                 order_by?: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
                 /** @description Sort order: asc or desc */
                 sort?: "asc" | "desc";
+                /** @description Filter value that appeared multiple times */
+                distinct?: boolean;
+                /** @description Select which data we want to fetch */
+                required_elts?: components["schemas"]["stock_selected_elts"];
+                /** @description Add conditions in where clause to filter data */
+                filter_params?: components["schemas"]["filter_params"];
             };
             header?: never;
             path: {

@@ -63,8 +63,15 @@ function buildQueryString(queryParams?: Record<string, any>) {
   const qs = new URLSearchParams(
     Object.entries(queryParams)
       .filter(([, v]) => v !== undefined && v !== null)
-      .map(([k, v]) => [k, String(v)])
-  ).toString();
+      .flatMap(([k, v]) => {
+        if (Array.isArray(v)) {
+         return  v.map(item => [`${k}[]`, String(item)]);
+        } else if (typeof v === 'object') {
+          return Object.entries(v).map(([attr,val]) => [`${k}[${attr}]`, String(val)]);
+        } else {
+          return [[k, String(v)]];
+        }
+      })).toString();
   return qs ? `?${qs}` : "";
 }
 /**

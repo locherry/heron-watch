@@ -23,13 +23,13 @@ export type ApiRequestParams<
 > = paths[P][M] extends { parameters: infer Params }
   ? Params & {
       path?: RequiredIfExists<Params, "path">;
-      query?: Record<string, string | number | boolean | null | undefined>;
+      query?: Record<string, string | number | boolean | array | object | null | undefined>;
       header?: never;
       cookie?: never;
     }
   : {
       path?: Record<string, string | number>;
-      query?: Record<string, string | number | boolean | null | undefined>;
+      query?: Record<string, string | number | boolean | array | object | null | undefined>;
       header?: never;
       cookie?: never;
     };
