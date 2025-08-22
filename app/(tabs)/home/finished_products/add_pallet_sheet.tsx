@@ -20,29 +20,33 @@ export default function add_pallet_sheet() {
     }
 
     //Variable that stocks user selected value on droplists
-    let {product_code_value, lot_number_value} = {product_code_value : null, lot_number_value : null} as {
-        product_code_value : null|string, lot_number_value : null|string
-    };
-    
+    const [product_code_value, setProductCodeValue] = useState("");
+    const [lot_number_value, setLotNumberValue] = useState("");
+
     //variable that allowed other droplists to be used
-    let {isProductCodeSelected, isLotNumberSelected} = {isProductCodeSelected : false, isLotNumberSelected : false} as {isProductCodeSelected : boolean,isLotNumberSelected : boolean};
     let { data, error, isLoading, isError } = useFetchQuery(
         "/stocks/{stock_category}",
         "get",
         {
             path: { stock_category: stockCategory },
             query:
-            product_code_value === null && lot_number_value === null
-                ? { distinct : true, required_elts: ['id', "product_code"] }
-                : product_code_value !== null && lot_number_value === null
-                ? { distinct : true, required_elts: ['id', "lot_number"], filter_params: { product_code: product_code_value } }
+            product_code_value === "" && lot_number_value === ""
+                ? { distinct : true, required_elts: ["product_code"] }
+                : product_code_value !== "" && lot_number_value === ""
+                ? { distinct : true, required_elts: ["lot_number"], filter_params: { product_code: product_code_value } }
                 : { distinct : true, filter_params: { product_code: product_code_value!, lot_number: lot_number_value! } }
         }
     );
-    
     const [filteredData, setFilteredData] = useState(data?.data ?? [])
+    const [dynamic_product_code_value, setDynamicProductCodeValue] = useState("");
+    const [dynamic_lot_number_value, setDynamicLotNumberValue] = useState("");
+    const [isProductCodeSelected,setIsProductCodeSelected] = useState(false);
+    const [isLotNumberSelected,setIsLotNumberSelected] = useState(false);
+    const [isProductCodeFocus, setIsProductCodeFocus] = useState(false);
+    const [isLotNumberFocus, setIsLotNumberFocus] = useState(false);
 
-    console.log(data?.data);
+    
+
     return (
         <RootView disableInsets={{left:true, top:true}}>
             <H2 className="mb-2">
@@ -62,41 +66,88 @@ export default function add_pallet_sheet() {
                     </Tooltip>
                 </Row>
             </H2>
-            <Row className="w-full justify-between">
+            <Row className="w-full justify-between mb-2 z-20"> 
                 <Label className="text-base">
                     {capitalizeFirst(t("actions.product_code"))}
                 </Label>
                 <Autocomplete
+                    className="w-full"
+                    hideResults={isProductCodeFocus}
+                    onBlur={() => {setTimeout(() => {!isProductCodeFocus ? setIsProductCodeFocus(true) : undefined},100)}}
+                    onFocus={() => {isProductCodeFocus ? setIsProductCodeFocus(false) : undefined}}
                     data={filteredData}
                     defaultValue ={""}
+                    value={dynamic_product_code_value}
                     onChangeText={(text) => {
-                        product_code_value = null;
-                        isProductCodeSelected = false;
+                        setProductCodeValue("");
+                        setDynamicProductCodeValue(text) ;
+                        isProductCodeSelected ? setIsProductCodeSelected(false) : undefined ;
                         if (data !== undefined && data.data !== undefined) {
                             let filteredResult = data?.data?.filter((line) => line.product_code.includes(text))
                             setFilteredData(filteredResult)
                         }
                     }}
                     flatListProps={{
-                        keyExtractor : (item) => item.id.toString(),
+                        keyExtractor : (item) => item.product_code,
                         renderItem : ({item}) => (
                             <ScrollView>
                                 <TouchableOpacity
                                     className= {item.id % 2 ? "flex-row bg-muted" : "flex-row bg-background" }
                                     onPress={() => {
-                                        product_code_value = item.product_code;
-                                        isProductCodeSelected = true;
-                                        
-                                    }}>
+                                        setProductCodeValue(item.product_code);
+                                        setIsProductCodeSelected(true);
+                                        setDynamicProductCodeValue(item.product_code);
+                                        setIsProductCodeFocus(true);
+                                    }}
+                                    >
                                     <Text>
                                         {item.product_code}
                                     </Text>
                                 </TouchableOpacity>
                            </ScrollView>
+                        ),
+                    }}
+                />
+            </Row>
+            <Row className="w-full justify-between mb-2 z-10">
+                <Label className="text-base">
+                    {capitalizeFirst(t("actions.lot_number"))}
+                </Label>
+                <Autocomplete
+                    hideResults={isLotNumberFocus}
+                    onBlur={() => {setTimeout(() => {!isLotNumberFocus ? setIsLotNumberFocus(true) : undefined},100)}}
+                    onFocus={() => {isLotNumberFocus ? setIsLotNumberFocus(false) : undefined}}
+                    editable={isProductCodeSelected}
+                    data={filteredData}
+                    defaultValue ={""}
+                    value={dynamic_lot_number_value}
+                    onChangeText={(text) => {
+                        setLotNumberValue("");
+                        setDynamicLotNumberValue(text) ;
+                        setIsLotNumberSelected(false);
+                        if (data !== undefined && data.data !== undefined) {
+                            let filteredResult = data?.data?.filter((line) => line.lot_number.includes(text))
+                            setFilteredData(filteredResult)
+                        }
+                    }}
+                    flatListProps={{
+                        keyExtractor : (item) => item.lot_number,
+                        renderItem : ({item}) => (
+                            <ScrollView>
+                                <TouchableOpacity
+                                    className= {item.id % 2 ? "flex-row bg-muted" : "flex-row bg-background" }
+                                    onPress={() => {
+                                        setLotNumberValue(item.lot_number);
+                                        setIsLotNumberSelected(true);
+                                        setDynamicLotNumberValue(item.lot_number);
+                                    }}>
+                                    <Text>
+                                        {item.lot_number}
+                                    </Text>
+                                </TouchableOpacity>
+                           </ScrollView>
                         )
                     }}
- 
-                
                 />
             </Row>
         </RootView>
