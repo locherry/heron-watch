@@ -138,7 +138,14 @@
   },
   "add_pallet_sheet" : {
     "add_pallet_sheet" : "add pallet sheet",
-    "modify_existing_pallet_sheet" : "modify existing pallet sheet"
+    "modify_existing_pallet_sheet" : "modify existing pallet sheet",
+    "product_code" : "code",
+    "origin" : "origin",
+    "client" : "client",
+    "product" : "product",
+    "lot_number" : "lot number",
+    "expiration_date" : "Limit date of consumption",
+    "quantity" : "quantity"
   },
   "QR Code loaded": "QR Code loaded",
   "Toggle editing mode": "Toggle editing mode",

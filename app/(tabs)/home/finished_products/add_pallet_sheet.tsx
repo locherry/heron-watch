@@ -2,10 +2,10 @@ import { Label } from "@react-navigation/elements";
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import { QrCode } from "lucide-react-native";
-import { useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import { Keyboard, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
-import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { Text } from "~/components/ui/text";
@@ -18,11 +18,11 @@ export default function add_pallet_sheet() {
     const {stockCategory = "PF_G"} = rawParams as {
         stockCategory? : "PF_G" | "PF_M"
     }
-
+    const {height, width} = useWindowDimensions();
     //Variable that stocks user selected value on droplists
     const [product_code_value, setProductCodeValue] = useState("");
     const [lot_number_value, setLotNumberValue] = useState("");
-
+    
     //variable that allowed other droplists to be used
     let { data, error, isLoading, isError } = useFetchQuery(
         "/stocks/{stock_category}",
@@ -45,54 +45,89 @@ export default function add_pallet_sheet() {
     const [isProductCodeFocus, setIsProductCodeFocus] = useState(false);
     const [isLotNumberFocus, setIsLotNumberFocus] = useState(false);
 
-    
+    useEffect(() => {
+        if (!isProductCodeSelected && !isLotNumberSelected) {
+            if (data !== undefined && data.data !== undefined) {
+                let filteredResult = data?.data?.filter((line) => line.product_code.includes(dynamic_product_code_value))
+                setFilteredData(filteredResult)
+            }
+        }
+    }, [dynamic_product_code_value]);
+
+    useEffect(() => {
+        if (!isLotNumberSelected && isProductCodeSelected) {
+            if (data !== undefined && data.data !== undefined) {
+                let filteredResult = data?.data?.filter((line) => line.lot_number.includes(dynamic_lot_number_value));
+                setFilteredData(filteredResult);
+            } 
+        } 
+    }, [dynamic_lot_number_value]);
+
+    let isSelectingPC = false ; 
+    let isSelectingLN = false ; 
 
     return (
         <RootView disableInsets={{left:true, top:true}}>
-            <H2 className="mb-2">
-                <Row className="w-full justify-between">
-                    <Text className="text-4xl">
-                        {capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
-                    </Text>
-                    <Tooltip>
-                        <TooltipTrigger>
-                            {<QrCode />}
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <Text>
-                                {capitalizeFirst(t("add_pallet_sheet.modify_existing_pallet_sheet"))}
-                            </Text>
-                        </TooltipContent>
-                    </Tooltip>
-                </Row>
-            </H2>
-            <Row className="w-full justify-between mb-2 z-20"> 
-                <Label className="text-base">
-                    {capitalizeFirst(t("actions.product_code"))}
-                </Label>
-                <Autocomplete
-                    className="w-full"
-                    hideResults={isProductCodeFocus}
-                    onBlur={() => {setTimeout(() => {!isProductCodeFocus ? setIsProductCodeFocus(true) : undefined},100)}}
-                    onFocus={() => {isProductCodeFocus ? setIsProductCodeFocus(false) : undefined}}
-                    data={filteredData}
-                    defaultValue ={""}
-                    value={dynamic_product_code_value}
-                    onChangeText={(text) => {
-                        setProductCodeValue("");
-                        setDynamicProductCodeValue(text) ;
-                        isProductCodeSelected ? setIsProductCodeSelected(false) : undefined ;
-                        if (data !== undefined && data.data !== undefined) {
-                            let filteredResult = data?.data?.filter((line) => line.product_code.includes(text))
-                            setFilteredData(filteredResult)
+            <SafeAreaView>
+                <H2 className="mb-2">
+                    <Row className="w-full justify-between">
+                        <Text className="text-4xl">
+                            {capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
+                        </Text>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                {<QrCode />}
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <Text>
+                                    {capitalizeFirst(t("add_pallet_sheet.modify_existing_pallet_sheet"))}
+                                </Text>
+                            </TooltipContent>
+                        </Tooltip>
+                    </Row>
+                </H2>
+                <Row className="w-full justify-between mb-2 z-20"> 
+                    <Label className="text-base">
+                        {capitalizeFirst(t("actions.product_code"))}
+                    </Label>
+                    <Autocomplete
+                        containerStyle ={{width : width / 5}}
+                        hideResults={isProductCodeFocus}
+                        onBlur={() => {
+                                Keyboard.dismiss();
+                                setTimeout( () => {
+                                    if (!isProductCodeFocus && !isSelectingPC) {
+                                        setIsProductCodeFocus(true);
+                                    } else {
+                                        isSelectingPC = false;
+                                    }},
+                                    100
+                                ) ; 
+                            }
                         }
-                    }}
-                    flatListProps={{
-                        keyExtractor : (item) => item.product_code,
-                        renderItem : ({item}) => (
-                            <ScrollView>
+                        onFocus={() => {
+                            setIsProductCodeFocus(false)
+                        }}
+                        data={!isProductCodeFocus ? filteredData : []}
+                        value={dynamic_product_code_value}
+                        onChangeText={(text) => {
+                            if (product_code_value !== "") {
+                                if (lot_number_value !== "") {
+                                    setLotNumberValue("");
+                                    setIsLotNumberSelected(false);
+                                }
+                                setProductCodeValue("");
+                                setDynamicLotNumberValue('');
+                            }
+                            setDynamicProductCodeValue(text) ;
+                            setIsProductCodeSelected(false);
+                        }}
+                        flatListProps={{
+                            keyExtractor : (item) => item.product_code,
+                            renderItem : ({item}) => (
                                 <TouchableOpacity
-                                    className= {item.id % 2 ? "flex-row bg-muted" : "flex-row bg-background" }
+                                    className= {"flex-row bg-muted justify-center"}
+                                    onPressIn={() => isSelectingPC = true}
                                     onPress={() => {
                                         setProductCodeValue(item.product_code);
                                         setIsProductCodeSelected(true);
@@ -104,52 +139,125 @@ export default function add_pallet_sheet() {
                                         {item.product_code}
                                     </Text>
                                 </TouchableOpacity>
-                           </ScrollView>
-                        ),
-                    }}
-                />
-            </Row>
-            <Row className="w-full justify-between mb-2 z-10">
-                <Label className="text-base">
-                    {capitalizeFirst(t("actions.lot_number"))}
-                </Label>
-                <Autocomplete
-                    hideResults={isLotNumberFocus}
-                    onBlur={() => {setTimeout(() => {!isLotNumberFocus ? setIsLotNumberFocus(true) : undefined},100)}}
-                    onFocus={() => {isLotNumberFocus ? setIsLotNumberFocus(false) : undefined}}
-                    editable={isProductCodeSelected}
-                    data={filteredData}
-                    defaultValue ={""}
-                    value={dynamic_lot_number_value}
-                    onChangeText={(text) => {
-                        setLotNumberValue("");
-                        setDynamicLotNumberValue(text) ;
-                        setIsLotNumberSelected(false);
-                        if (data !== undefined && data.data !== undefined) {
-                            let filteredResult = data?.data?.filter((line) => line.lot_number.includes(text))
-                            setFilteredData(filteredResult)
+                            ),
+                            
+                        }}
+                    />
+                </Row>
+                <Row className="w-full justify-between mb-2 z-10">
+                    <Label className="text-base">
+                        {capitalizeFirst(t("actions.lot_number"))}
+                    </Label>
+                    <Autocomplete
+                        containerStyle={{width : width / 5}}
+                        hideResults={isLotNumberFocus}
+                        onBlur={() => {
+                                Keyboard.dismiss();
+                                setTimeout( () => {
+                                    if (!isLotNumberFocus && !isSelectingLN) {
+                                        setIsLotNumberFocus(true);
+                                    } else {
+                                        isSelectingLN = false;
+                                    }},
+                                    100
+                                ) ; 
+                            }
                         }
-                    }}
-                    flatListProps={{
-                        keyExtractor : (item) => item.lot_number,
-                        renderItem : ({item}) => (
-                            <ScrollView>
+                        onFocus={() => {
+                            if(isLotNumberFocus) {
+                                setIsLotNumberFocus(false) 
+                            }}
+                        }
+                        editable={isProductCodeSelected}
+                        data={!isLotNumberFocus ? filteredData : []}
+                        value={dynamic_lot_number_value}
+                        onChangeText={(text) => {
+                            if (lot_number_value !== "") {
+                                setLotNumberValue("");
+                                setIsLotNumberSelected(false);
+                            }
+                            setDynamicLotNumberValue(text);
+                        }}
+                        flatListProps={{
+                            keyExtractor : (item) => item.lot_number,
+                            renderItem : ({item}) => (
                                 <TouchableOpacity
-                                    className= {item.id % 2 ? "flex-row bg-muted" : "flex-row bg-background" }
+                                    className= {"flex-row bg-muted justify-center"}
+                                    onPressIn={() => isSelectingLN = true}
                                     onPress={() => {
                                         setLotNumberValue(item.lot_number);
                                         setIsLotNumberSelected(true);
                                         setDynamicLotNumberValue(item.lot_number);
-                                    }}>
+                                        setIsLotNumberFocus(true);
+                                    }}
+                                    >    
                                     <Text>
                                         {item.lot_number}
                                     </Text>
                                 </TouchableOpacity>
-                           </ScrollView>
-                        )
-                    }}
-                />
-            </Row>
+                            )
+                        }}
+                    />
+                </Row>
+                <View className="grid border-[3px] border-radius">
+                    <Row gap={10}>
+                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1]">
+                            {t("actions.product_code").toUpperCase()}
+                        </Text>
+                        <Text className="grid-rows-[1] grid-columns-[2] justify-center ">
+                            Data
+                        </Text>
+                    </Row>
+                    <Row gap={10}>
+                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                            {t("add_pallet_sheet.origin").toUpperCase()}
+                        </Text>
+                        <Text className="grid-rows-[1] grid-columns-[2]">
+                            Data
+                        </Text>
+                    </Row>
+                    <Row gap={10}>
+                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                            {t("add_pallet_sheet.client").toUpperCase()}
+                        </Text>
+                        <Text className="grid-rows-[1] grid-columns-[2]">
+                            Data
+                        </Text>
+                    </Row>
+                    <Row gap={10}>
+                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                            {t("add_pallet_sheet.product").toUpperCase()}
+                        </Text>
+                        <Text className="grid-rows-[1] grid-columns-[2]">
+                            Data
+                        </Text>
+                    </Row>
+                    <Row gap={10}>
+                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                            {t("add_pallet_sheet.lot_number").toUpperCase()}
+                        </Text>
+                        <Text className="grid-rows-[1] grid-columns-[2]">
+                            Data
+                        </Text>
+                    </Row>
+                    <Row gap={10}>
+                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                            {t("add_pallet_sheet.expiration_date").toUpperCase()}
+                        </Text>
+                        <Text className="grid-rows-[1] grid-columns-[2]">
+                            Data
+                        </Text>
+                    </Row>
+                    <Row gap={10}>
+                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                            {t("add_pallet_sheet.quantity").toUpperCase()}
+                        </Text>
+                        <Text className="grid-rows-[1] grid-columns-[2]">
+                            Data
+                        </Text>
+                    </Row>
+                </View>
+            </SafeAreaView>
         </RootView>
     )
 }
