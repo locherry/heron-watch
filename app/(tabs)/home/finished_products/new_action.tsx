@@ -177,7 +177,7 @@ export default function NewAction() {
         id: maxId + 1,
         quantity: Number(formData.quantity) || 0,
         comment: (formData.comment as string) || "",
-        product_code: Number(formData.product_code) || 0,
+        product_code: (formData.product_code as string) || "000",
         lot_number: (formData.lot_number as string) || "",
         created_by_id: 0,
         created_at: new Date().toISOString(),

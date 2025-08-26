@@ -123,6 +123,5 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
         );
     }
   }
-
   return response.json();
 }

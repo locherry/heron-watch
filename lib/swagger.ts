@@ -160,6 +160,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/stocks_join_product_category/{stock_category}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get actual stock data, joined to product's informations */
+        get: operations["270886d50fc8c945e01a672f4a1eadd3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/users": {
         parameters: {
             query?: never;
@@ -256,6 +273,29 @@ export interface components {
              */
             expiration_date: string;
         };
+        Stock_join_product_category: {
+            /** @example 1 */
+            id: number;
+            /** @example 144 */
+            product_code: string;
+            /** @example DSC050525 */
+            lot_number: string;
+            /** @example 100 */
+            quantity: number;
+            /**
+             * Format: date
+             * @example 2025-05-05
+             */
+            expiration_date: string;
+            /** @example Gésiers de dinde */
+            product_name: string;
+            /** @example F */
+            stock_category: string;
+            /** @example DSC */
+            product_lot_code: string;
+            /** @example Couvercle */
+            emb_type: string;
+        };
         /** @example [
          *       "id",
          *       "product_code",
@@ -264,6 +304,14 @@ export interface components {
          *       "expiration_date"
          *     ] */
         stock_selected_elts: string[];
+        /** @example [
+         *       "id",
+         *       "product_code",
+         *       "lot_number",
+         *       "quantity",
+         *       "expiration_date"
+         *     ] */
+        stock_selected_elts_join_product_category_table: string[];
         filter_params: {
             /**
              * @description Code produit
@@ -286,6 +334,49 @@ export interface components {
              * @example 2028-05-05
              */
             expiration_date?: string;
+        };
+        filter_params_join_product_category: {
+            /**
+             * @description Code produit
+             * @example 309
+             */
+            product_code?: string;
+            /**
+             * @description Numéro de lot
+             * @example GDE050528
+             */
+            lot_number?: string;
+            /**
+             * @description Quantité
+             * @example 43
+             */
+            quantity?: number;
+            /**
+             * Format: date
+             * @description Date d'expiration
+             * @example 2028-05-05
+             */
+            expiration_date?: string;
+            /**
+             * @description Product real name
+             * @example Gésiers de dinde
+             */
+            product_name?: string;
+            /**
+             * @description WARNING / MP TYPE ONLY : mp stock type
+             * @example F
+             */
+            stock_category?: string;
+            /**
+             * @description WARNING / EMB TYPE ONLY : emb type
+             * @example Boite
+             */
+            emb_type?: string;
+            /**
+             * @description WARNING / PF TYPE ONLY : letter code for PF lot-numbers
+             * @example GDE
+             */
+            product_lot_code?: string;
         };
         /** @example {
          *       "errors_in_stocks": {
@@ -1179,6 +1270,73 @@ export interface operations {
                         error?: string;
                     };
                 };
+            };
+        };
+    };
+    "270886d50fc8c945e01a672f4a1eadd3": {
+        parameters: {
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Order by column */
+                order_by?: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+                /** @description Filter value that appeared multiple times */
+                distinct?: boolean;
+                /** @description Select which data we want to fetch */
+                required_elts?: components["schemas"]["stock_selected_elts_join_product_category_table"];
+                /** @description Add conditions in where clause to filter data */
+                filter_params?: components["schemas"]["filter_params_join_product_category"];
+            };
+            header?: never;
+            path: {
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Stock and product_category data retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Stock and product_category data retrieved successfully */
+                        message?: string;
+                        data?: components["schemas"]["Stock_join_product_category"][];
+                    };
+                    "application/xml": {
+                        /** @example Stock and product_category data retrieved successfully */
+                        message?: string;
+                        data?: components["schemas"]["Stock_join_product_category"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Stock not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

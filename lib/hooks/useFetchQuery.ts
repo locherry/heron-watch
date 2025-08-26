@@ -34,7 +34,11 @@ export const useFetchQuery = <P extends ApiPath, M extends ApiPathMethod<P>>(
   return useQuery<ApiResponse<P, M>, Error>({
     queryKey: [url, method, params, body] as const,
     // Call the centralized apiFetch function
-    queryFn: () => apiFetch<P, M>(url, method, params, body),
+    queryFn: () => {
+      let data = apiFetch<P, M>(url, method, params, body)
+      console.log(data);
+      return data;
+    },
     enabled: enabled && isFetchable,
   });
 };

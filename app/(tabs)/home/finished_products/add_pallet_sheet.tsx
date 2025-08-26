@@ -5,6 +5,7 @@ import { QrCode } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Keyboard, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
+import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -37,6 +38,8 @@ export default function add_pallet_sheet() {
                 : { distinct : true, filter_params: { product_code: product_code_value!, lot_number: lot_number_value! } }
         }
     );
+
+
     const [filteredData, setFilteredData] = useState(data?.data ?? [])
     const [dynamic_product_code_value, setDynamicProductCodeValue] = useState("");
     const [dynamic_lot_number_value, setDynamicLotNumberValue] = useState("");
@@ -44,6 +47,18 @@ export default function add_pallet_sheet() {
     const [isLotNumberSelected,setIsLotNumberSelected] = useState(false);
     const [isProductCodeFocus, setIsProductCodeFocus] = useState(false);
     const [isLotNumberFocus, setIsLotNumberFocus] = useState(false);
+    const [completeData, setCompleteData] = useState<any>([]);
+
+    let {data : productCompleteData = [], isLoading : newDataLoading = false, error : newDataError} = useFetchQuery(
+        "/stocks_join_product_category/{stock_category}",
+        "get",
+        {
+            path : {stock_category : stockCategory},
+            query : {filter_params : {product_code : product_code_value, lot_number : lot_number_value}} 
+        },
+        undefined, 
+        isProductCodeSelected && isLotNumberSelected,
+    );
 
     useEffect(() => {
         if (!isProductCodeSelected && !isLotNumberSelected) {
@@ -63,8 +78,21 @@ export default function add_pallet_sheet() {
         } 
     }, [dynamic_lot_number_value]);
 
+    useEffect(() => {
+        if (productCompleteData && !Array.isArray(productCompleteData)) {
+            setCompleteData(productCompleteData?.data?.[0]);
+        }
+    }, [productCompleteData]);
+
+
     let isSelectingPC = false ; 
     let isSelectingLN = false ; 
+
+    console.log(product_code_value);
+    console.log(lot_number_value);
+
+    console.log(newDataError);
+    console.log(completeData);
 
     return (
         <RootView disableInsets={{left:true, top:true}}>
@@ -201,60 +229,60 @@ export default function add_pallet_sheet() {
                 </Row>
                 <View className="grid border-[3px] border-radius">
                     <Row gap={10}>
-                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1]">
+                        <Text className="border-r-[2px] border-b-[2px] text-[30px]">
                             {t("actions.product_code").toUpperCase()}
                         </Text>
-                        <Text className="grid-rows-[1] grid-columns-[2] justify-center ">
-                            Data
+                        <Text className=" justify-center ">
+                            {completeData?.product_code ?? ""}
                         </Text>
                     </Row>
                     <Row gap={10}>
-                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
                             {t("add_pallet_sheet.origin").toUpperCase()}
                         </Text>
-                        <Text className="grid-rows-[1] grid-columns-[2]">
-                            Data
-                        </Text>
+                        <TextInput className="" placeholder="Origin (Ex : IGP)">
+
+                        </TextInput>
                     </Row>
                     <Row gap={10}>
-                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
                             {t("add_pallet_sheet.client").toUpperCase()}
                         </Text>
-                        <Text className="grid-rows-[1] grid-columns-[2]">
-                            Data
-                        </Text>
+                        <TextInput className="" placeholder="Client (Ex : AGRO)">
+                        
+                        </TextInput>
                     </Row>
                     <Row gap={10}>
-                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
                             {t("add_pallet_sheet.product").toUpperCase()}
                         </Text>
-                        <Text className="grid-rows-[1] grid-columns-[2]">
-                            Data
+                        <Text className="">
+                            {completeData?.product_name ?? ""}
                         </Text>
                     </Row>
                     <Row gap={10}>
-                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
                             {t("add_pallet_sheet.lot_number").toUpperCase()}
                         </Text>
-                        <Text className="grid-rows-[1] grid-columns-[2]">
-                            Data
+                        <Text className="">
+                            {completeData.lot_number ?? ""}
                         </Text>
                     </Row>
                     <Row gap={10}>
-                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
                             {t("add_pallet_sheet.expiration_date").toUpperCase()}
                         </Text>
-                        <Text className="grid-rows-[1] grid-columns-[2]">
-                            Data
+                        <Text className="">
+                            {completeData.expiration_date ?? ""}
                         </Text>
                     </Row>
                     <Row gap={10}>
-                        <Text className="border-r-[1px] grid-rows-[1] grid-columns-[1] justify-center">
+                        <Text className="border-r-[2px] text-[30px] justify-center">
                             {t("add_pallet_sheet.quantity").toUpperCase()}
                         </Text>
-                        <Text className="grid-rows-[1] grid-columns-[2]">
-                            Data
-                        </Text>
+                        <TextInput className="" placeholder="Ex : 40">
+                            
+                        </TextInput>
                     </Row>
                 </View>
             </SafeAreaView>
