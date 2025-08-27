@@ -36,7 +36,6 @@ export const useFetchQuery = <P extends ApiPath, M extends ApiPathMethod<P>>(
     // Call the centralized apiFetch function
     queryFn: () => {
       let data = apiFetch<P, M>(url, method, params, body)
-      console.log(data);
       return data;
     },
     enabled: enabled && isFetchable,

@@ -1,16 +1,17 @@
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
-import { QrCode } from "lucide-react-native";
+import { QrCodeIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Keyboard, ScrollView, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
-import { Button } from "~/components/ui/button";
+import { CreatePalletSheet } from "~/components/ui/create-pallet-sheet";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { H2 } from "~/components/ui/typography";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -22,10 +23,14 @@ export default function add_pallet_sheet() {
     }
     const {height, width} = useWindowDimensions();
     const {rowNameWidth, rowsHeight} = {rowNameWidth : Math.round(width / 5) ,rowsHeight: Math.round(height / 12)};
+    
     //Variable that stocks user selected value on droplists
     const [product_code_value, setProductCodeValue] = useState("");
     const [lot_number_value, setLotNumberValue] = useState("");
     
+    let [newQRData, setNewQRData] = useState<number|undefined>(undefined);
+    //Variable that stocks user's inputs in pallet sheet
+    let {originInput, clientInput, quantityInput} = {originInput : "" as string, clientInput : "" as string, quantityInput : "" as string};
     //variable that allowed other droplists to be used
     let { data, error, isLoading, isError } = useFetchQuery(
         "/stocks/{stock_category}",
@@ -41,7 +46,7 @@ export default function add_pallet_sheet() {
         }
     );
 
-
+    //State depending constants
     const [filteredData, setFilteredData] = useState(data?.data ?? [])
     const [dynamic_product_code_value, setDynamicProductCodeValue] = useState("");
     const [dynamic_lot_number_value, setDynamicLotNumberValue] = useState("");
@@ -61,6 +66,36 @@ export default function add_pallet_sheet() {
         undefined, 
         isProductCodeSelected && isLotNumberSelected,
     );
+
+    const {mutate : createNewQR } = useFetchMutation(
+        "/qr-code/",
+        "post"
+    );
+
+    const handleNewQRCreation = () => {
+        console.log("I'm pressed");
+        createNewQR(
+            {
+                pathParams : {stock_category : stockCategory},
+                body : {
+                    product_code : completeData.product_code,
+                    lot_number : completeData.lot_number,
+                    quantity : Number(quantityInput),
+                    expiration_date : completeData.expiration_date,
+                }
+            },
+            {
+                onSuccess : (data) => {
+                    setNewQRData(data?.data?.id);
+                },
+
+                onError : (error) => {
+                    console.log(error.message);
+                } 
+            }
+        );
+        //New qr_code creation  
+    }
 
     useEffect(() => {
         if (!isProductCodeSelected && !isLotNumberSelected) {
@@ -93,7 +128,7 @@ export default function add_pallet_sheet() {
     let isSelectingPC = false ; 
     let isSelectingLN = false ; 
 
-    console.log(rowNameWidth);
+    console.log(newQRData);
 
     return (
         <RootView disableInsets={{left:true, top:true}}>
@@ -111,7 +146,7 @@ export default function add_pallet_sheet() {
                         </Label>
                         <Tooltip>
                             <TooltipTrigger>
-                                {<QrCode />}
+                                {<QrCodeIcon />}
                             </TooltipTrigger>
                             <TooltipContent>
                                 <Text>
@@ -247,7 +282,7 @@ export default function add_pallet_sheet() {
                         <Text className={"text-[30px] border-r-[2px] text-center"} style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.origin").toUpperCase()}
                         </Text>
-                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Origin (Ex : IGP)" style={{height: rowsHeight}}>
+                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Origin (Ex : IGP)" style={{height: rowsHeight}} onChangeText={(text) => {originInput = text}}>
 
                         </TextInput>
                     </Row>
@@ -255,7 +290,7 @@ export default function add_pallet_sheet() {
                         <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.client").toUpperCase()}
                         </Text>
-                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Client (Ex : AGRO)">
+                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Client (Ex : AGRO)" onChangeText={(text) => {clientInput = text}}>
                         
                         </TextInput>
                     </Row>
@@ -287,19 +322,13 @@ export default function add_pallet_sheet() {
                         <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.quantity").toUpperCase()}
                         </Text>
-                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Ex : 40">
+                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Ex : 40" onChangeText={(text) => {quantityInput = text;}}>
                             
                         </TextInput>
                     </Row>
                 </View>
-                <Button>
-
-                </Button>
+                <CreatePalletSheet stockCategory={stockCategory} data={!Array.isArray(completeData) ? completeData + {quantity : quantityInput, client : clientInput, origin : originInput} : undefined}/>
             </ScrollView>
         </RootView>
     )
-}
-
-function createQRCodeFromData () {
-    
 }

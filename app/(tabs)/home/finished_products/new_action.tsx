@@ -242,7 +242,6 @@ export default function NewAction() {
         product_code: qrData?.product_code ?? prev.product_code,
         quantity: qrData?.quantity ?? prev.quantity,
         expiration_date: qrData?.expiration_date ?? prev.expiration_date,
-        transaction: qrData?.transaction ?? prev.transaction,
       }));
     }
   }, [qrCodeResults.data]);

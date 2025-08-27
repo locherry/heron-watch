@@ -970,8 +970,6 @@ export interface operations {
                             quantity?: number;
                             /** Format: date */
                             expiration_date?: string;
-                            transaction?: string;
-                            origin?: string;
                         };
                     };
                     "application/xml": {
@@ -1020,8 +1018,6 @@ export interface operations {
                     quantity?: number;
                     /** Format: date */
                     expiration_date?: string;
-                    transaction?: string;
-                    origin?: string;
                 };
                 "application/xml": {
                     /** @example 993 */
@@ -1032,8 +1028,6 @@ export interface operations {
                     quantity?: number;
                     /** Format: date */
                     expiration_date?: string;
-                    transaction?: string;
-                    origin?: string;
                 };
             };
         };
@@ -1106,10 +1100,6 @@ export interface operations {
                      * @example 2025-12-31T00:00:00Z
                      */
                     expiration_date?: string;
-                    /** @example SALE */
-                    transaction?: string;
-                    /** @example Factory A */
-                    origin?: string;
                 };
                 "application/xml": {
                     product_code?: string;
@@ -1117,8 +1107,6 @@ export interface operations {
                     quantity?: number;
                     /** Format: date-time */
                     expiration_date?: string;
-                    transaction?: string;
-                    origin?: string;
                 };
             };
         };

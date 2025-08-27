@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Modal, Platform, View } from "react-native";
 import { Flashlight } from "~/assets/images/icons/Flashlight";
 import { FlashlightOff } from "~/assets/images/icons/FlashlightOff";
-import { QrCode } from "~/assets/images/icons/QrCode";
+import { QrCode } from "~/assets/images/icons/QrCodeIcon";
 import { Scan } from "~/assets/images/icons/Scan";
 import { X } from "~/assets/images/icons/X";
 import { Button } from "~/components/ui/button";

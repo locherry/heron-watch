@@ -146,8 +146,9 @@
     "client" : "client",
     "product" : "product",
     "lot_number" : "lot number",
-    "expiration_date" : "Limit date of consumption",
-    "quantity" : "quantity"
+    "expiration_date" : "expiration date",
+    "quantity" : "quantity",
+    "create_sheet" : "create sheet"
   },
   "QR Code loaded": "QR Code loaded",
   "Toggle editing mode": "Toggle editing mode",
