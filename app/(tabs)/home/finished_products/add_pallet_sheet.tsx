@@ -1,25 +1,27 @@
-import { Label } from "@react-navigation/elements";
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import { QrCode } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Keyboard, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { Keyboard, ScrollView, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
-import { TextInput } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
+import { Button } from "~/components/ui/button";
+import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { H2 } from "~/components/ui/typography";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
+
 export default function add_pallet_sheet() {
+    
     const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
     const {stockCategory = "PF_G"} = rawParams as {
         stockCategory? : "PF_G" | "PF_M"
     }
     const {height, width} = useWindowDimensions();
+    const {rowNameWidth, rowsHeight} = {rowNameWidth : Math.round(width / 5) ,rowsHeight: Math.round(height / 12)};
     //Variable that stocks user selected value on droplists
     const [product_code_value, setProductCodeValue] = useState("");
     const [lot_number_value, setLotNumberValue] = useState("");
@@ -79,8 +81,11 @@ export default function add_pallet_sheet() {
     }, [dynamic_lot_number_value]);
 
     useEffect(() => {
+
         if (productCompleteData && !Array.isArray(productCompleteData)) {
             setCompleteData(productCompleteData?.data?.[0]);
+        } else if (!Array.isArray(completeData) && (!isLotNumberSelected || !isProductCodeSelected)) {
+            setCompleteData([]);
         }
     }, [productCompleteData]);
 
@@ -88,20 +93,22 @@ export default function add_pallet_sheet() {
     let isSelectingPC = false ; 
     let isSelectingLN = false ; 
 
-    console.log(product_code_value);
-    console.log(lot_number_value);
-
-    console.log(newDataError);
-    console.log(completeData);
+    console.log(rowNameWidth);
 
     return (
         <RootView disableInsets={{left:true, top:true}}>
-            <SafeAreaView>
+            <ScrollView>
                 <H2 className="mb-2">
                     <Row className="w-full justify-between">
                         <Text className="text-4xl">
                             {capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
                         </Text>
+                        <Label className="text-2xl font-mono">
+                            {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) + " : "}
+                            <Text className="ml-[10] border-radius border">
+                                {!Array.isArray(completeData) ? completeData.quantity : capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                            </Text>
+                        </Label>
                         <Tooltip>
                             <TooltipTrigger>
                                 {<QrCode />}
@@ -227,65 +234,72 @@ export default function add_pallet_sheet() {
                         }}
                     />
                 </Row>
-                <View className="grid border-[3px] border-radius">
-                    <Row gap={10}>
-                        <Text className="border-r-[2px] border-b-[2px] text-[30px]">
+                <View className="border-[3px] border-radius" >
+                    <Row gap={10} className="border-b-[2px]">
+                        <Text className={"text-[30px] border-r-[2px] text-center"} style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("actions.product_code").toUpperCase()}
                         </Text>
-                        <Text className=" justify-center ">
+                        <Text className="font-extrabold text-[30px] text-center flex-1" style={{height: rowsHeight}}>
                             {completeData?.product_code ?? ""}
                         </Text>
                     </Row>
-                    <Row gap={10}>
-                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
+                    <Row gap={10} className="border-b-[2px]">
+                        <Text className={"text-[30px] border-r-[2px] text-center"} style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.origin").toUpperCase()}
                         </Text>
-                        <TextInput className="" placeholder="Origin (Ex : IGP)">
+                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Origin (Ex : IGP)" style={{height: rowsHeight}}>
 
                         </TextInput>
                     </Row>
-                    <Row gap={10}>
-                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
+                    <Row gap={10} className="border-b-[2px]">
+                        <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.client").toUpperCase()}
                         </Text>
-                        <TextInput className="" placeholder="Client (Ex : AGRO)">
+                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Client (Ex : AGRO)">
                         
                         </TextInput>
                     </Row>
-                    <Row gap={10}>
-                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
+                    <Row gap={10} className="border-b-[2px]">
+                        <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.product").toUpperCase()}
                         </Text>
-                        <Text className="">
+                        <Text className="font-extrabold text-[30px] text-center flex-1">
                             {completeData?.product_name ?? ""}
                         </Text>
                     </Row>
-                    <Row gap={10}>
-                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
+                    <Row gap={10} className="border-b-[2px]">
+                        <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.lot_number").toUpperCase()}
                         </Text>
-                        <Text className="">
+                        <Text className="font-extrabold text-[30px] text-center flex-1">
                             {completeData.lot_number ?? ""}
                         </Text>
                     </Row>
-                    <Row gap={10}>
-                        <Text className="border-r-[2px] border-b-[2px] text-[30px] justify-center">
+                    <Row gap={10} className="border-b-[2px]">
+                        <Text className="border-r-[2px] text-[20px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.expiration_date").toUpperCase()}
                         </Text>
-                        <Text className="">
+                        <Text className="font-extrabold text-[30px] text-center flex-1">
                             {completeData.expiration_date ?? ""}
                         </Text>
                     </Row>
                     <Row gap={10}>
-                        <Text className="border-r-[2px] text-[30px] justify-center">
+                        <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.quantity").toUpperCase()}
                         </Text>
-                        <TextInput className="" placeholder="Ex : 40">
+                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Ex : 40">
                             
                         </TextInput>
                     </Row>
                 </View>
-            </SafeAreaView>
+                <Button>
+
+                </Button>
+            </ScrollView>
         </RootView>
     )
+}
+
+function createQRCodeFromData () {
+    
 }

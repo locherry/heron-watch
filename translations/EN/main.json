@@ -138,6 +138,8 @@
   },
   "add_pallet_sheet" : {
     "add_pallet_sheet" : "add pallet sheet",
+    "remains_to_be_placed" : "remains to be placed",
+    "select_a_product" : "select a product",
     "modify_existing_pallet_sheet" : "modify existing pallet sheet",
     "product_code" : "code",
     "origin" : "origin",
