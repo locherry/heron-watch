@@ -29,8 +29,13 @@ export default function add_pallet_sheet() {
     const [lot_number_value, setLotNumberValue] = useState("");
     
     let [newQRData, setNewQRData] = useState<number|undefined>(undefined);
+
     //Variable that stocks user's inputs in pallet sheet
-    let {originInput, clientInput, quantityInput} = {originInput : "" as string, clientInput : "" as string, quantityInput : "" as string};
+    const [originInput, setOriginInput] = useState<string | undefined>(undefined);
+    const [clientInput, setClientInput] = useState<string | undefined>(undefined);
+    const [quantityInput, setQuantityInput] = useState<string | undefined>(undefined);
+
+
     //variable that allowed other droplists to be used
     let { data, error, isLoading, isError } = useFetchQuery(
         "/stocks/{stock_category}",
@@ -128,8 +133,6 @@ export default function add_pallet_sheet() {
     let isSelectingPC = false ; 
     let isSelectingLN = false ; 
 
-    console.log(newQRData);
-
     return (
         <RootView disableInsets={{left:true, top:true}}>
             <ScrollView>
@@ -141,7 +144,7 @@ export default function add_pallet_sheet() {
                         <Label className="text-2xl font-mono">
                             {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) + " : "}
                             <Text className="ml-[10] border-radius border">
-                                {!Array.isArray(completeData) ? completeData.quantity : capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                                {!Array.isArray(completeData) ? completeData?.quantity : capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
                             </Text>
                         </Label>
                         <Tooltip>
@@ -282,7 +285,7 @@ export default function add_pallet_sheet() {
                         <Text className={"text-[30px] border-r-[2px] text-center"} style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.origin").toUpperCase()}
                         </Text>
-                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Origin (Ex : IGP)" style={{height: rowsHeight}} onChangeText={(text) => {originInput = text}}>
+                        <TextInput editable={isLotNumberSelected} className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Origin (Ex : IGP)" style={{height: rowsHeight}} onChangeText={(text) => {text === "" ? setOriginInput(undefined) : setOriginInput(text);}}>
 
                         </TextInput>
                     </Row>
@@ -290,7 +293,7 @@ export default function add_pallet_sheet() {
                         <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.client").toUpperCase()}
                         </Text>
-                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Client (Ex : AGRO)" onChangeText={(text) => {clientInput = text}}>
+                        <TextInput editable={isLotNumberSelected} className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Client (Ex : AGRO)" onChangeText={(text) => {text === "" ? setClientInput(undefined) : setClientInput(text);}}>
                         
                         </TextInput>
                     </Row>
@@ -311,7 +314,7 @@ export default function add_pallet_sheet() {
                         </Text>
                     </Row>
                     <Row gap={10} className="border-b-[2px]">
-                        <Text className="border-r-[2px] text-[20px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
+                        <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.expiration_date").toUpperCase()}
                         </Text>
                         <Text className="font-extrabold text-[30px] text-center flex-1">
@@ -322,12 +325,12 @@ export default function add_pallet_sheet() {
                         <Text className="border-r-[2px] text-[30px] text-center" style={{width : rowNameWidth, height : rowsHeight}}>
                             {t("add_pallet_sheet.quantity").toUpperCase()}
                         </Text>
-                        <TextInput className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Ex : 40" onChangeText={(text) => {quantityInput = text;}}>
+                        <TextInput editable={isLotNumberSelected} className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1" placeholder="Ex : 40" onChangeText={(text) => {text === "" ? setQuantityInput(undefined) : setQuantityInput(text);}}>
                             
                         </TextInput>
                     </Row>
                 </View>
-                <CreatePalletSheet stockCategory={stockCategory} data={!Array.isArray(completeData) ? completeData + {quantity : quantityInput, client : clientInput, origin : originInput} : undefined}/>
+                <CreatePalletSheet stockCategory={stockCategory} data={!Array.isArray(completeData) ? {...completeData,quantity : quantityInput ? Number(quantityInput) : undefined, client : clientInput, origin : originInput} : undefined}/>
             </ScrollView>
         </RootView>
     )

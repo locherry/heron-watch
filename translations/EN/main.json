@@ -148,7 +148,10 @@
     "lot_number" : "lot number",
     "expiration_date" : "expiration date",
     "quantity" : "quantity",
-    "create_sheet" : "create sheet"
+    "create_sheet" : "create sheet",
+    "create_qr_code" : "create QR Code",
+    "alert_unable_to_create_qr" : "unable to create qr code",
+    "alert_field_missing" : "some fileds are empty"
   },
   "QR Code loaded": "QR Code loaded",
   "Toggle editing mode": "Toggle editing mode",
