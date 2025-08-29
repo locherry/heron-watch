@@ -330,7 +330,7 @@ export default function add_pallet_sheet() {
                         </TextInput>
                     </Row>
                 </View>
-                <CreatePalletSheet stockCategory={stockCategory} data={!Array.isArray(completeData) ? {...completeData,quantity : quantityInput ? Number(quantityInput) : undefined, client : clientInput, origin : originInput} : undefined}/>
+                <CreatePalletSheet className="mt-3" stockCategory={stockCategory} data={!Array.isArray(completeData) ? {...completeData,quantity : quantityInput ? Number(quantityInput) : undefined, client : clientInput, origin : originInput} : undefined}/>
             </ScrollView>
         </RootView>
     )

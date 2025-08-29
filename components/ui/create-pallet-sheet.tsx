@@ -5,11 +5,11 @@ import { useRef, useState } from "react";
 import { View } from "react-native";
 import QrCode from "react-native-qrcode-svg";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
+import Row from "~/components/layout/Row";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst, cn } from "~/lib/utils";
-import Row from "../layout/Row";
 
 type PalletSheetData = {
     product_code : string, 
@@ -75,8 +75,13 @@ function CreatePalletSheet({
         
     const makePdf = async () => {
         const qrBase64 = await getQRBase64();
-
-
+    
+    //Adapt font size with lentgh of the product name
+    const maxLenght = 22;
+    let fontSizeContent = 40;
+    if (data?.product_name.length ?? 0 > maxLenght ) {
+      fontSizeContent -= Math.floor(data?.product_name.length ?? 0 / 2) - maxLenght ;
+    }
     const html = `
 <!DOCTYPE html>
 <html lang="fr">
@@ -87,7 +92,7 @@ function CreatePalletSheet({
     @page {size : A4 landscape; margin: 12mm 10mm;}
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
+      margin: 10px;
     }
     table {
       border-collapse: collapse;
@@ -110,8 +115,16 @@ function CreatePalletSheet({
       text-align : center;
     }
     .content {
-      font-size : 20pt;
+      font-size : 40pt;
       text-align : center;
+      overflow-wrap : break-word;
+      white-space : normal;
+    }
+    .productName {
+      font-size : ${fontSizeContent}pt;
+      text-align : center;
+      overflow-wrap : break-word;
+      white-space : normal;
     }
     .center {
       text-align: center;
@@ -148,7 +161,7 @@ function CreatePalletSheet({
     </tr>
     <tr>
       <td class="label">${t("add_pallet_sheet.product")}</td>
-      <td colspan="3" class="content">${escapeHtml(data?.product_name ?? "")}</td>
+      <td colspan="3" class="productName">${escapeHtml(data?.product_name ?? "")}</td>
     </tr>
     <tr>
       <td class="label">${t("add_pallet_sheet.lot_number")}</td>
@@ -176,37 +189,37 @@ function CreatePalletSheet({
 
     }
     return (
-        <Row className={className} gap={20}>
-          <View className={cn("items-center",isDataSet ? "hidden" : "flex")}>
-            <Button onPress={() => {
-              if (verifyDataIsCorrect(data)) {
-                setEmitAlert(false);
-                setIsDataSet(true);
-                handleNewQRCreation();
-              } else {
-                setEmitAlert(true);
-              }
-            }}>
-              {capitalizeFirst(t("add_pallet_sheet.create_qr_code"))}
-            </Button>
-            <Alert icon={AlertCircle} className={cn("text-red-500 text-xs mt-1",emitAlert ? "flex" : "hidden")}>
-              <AlertTitle className="text-red-500 text-xl mt-1">
-                {capitalizeFirst(t("add_pallet_sheet.alert_unable_to_create_qr"))}
-              </AlertTitle>
-              <AlertDescription className="text-red-500 text-xs mt-1">
-                {capitalizeFirst(t("add_pallet_sheet.alert_field_missing"))}
-              </AlertDescription>
-            </Alert>
-          </View>
-          <View className={cn("items-center", isDataSet ? "flex" : "hidden")}>
-              <QrCode getRef={(c) => (qrRef.current = c)} value={qrCodeValue?.toString()}>
-
-              </QrCode>
-              <Button onPress={makePdf} icon={Printer}>
+        <View className={cn("content-center", className)}>
+            <View className={cn("items-center",isDataSet ? "hidden" : "flex")}>
+              <Button onPress={() => {
+                if (verifyDataIsCorrect(data)) {
+                  setEmitAlert(false);
+                  setIsDataSet(true);
+                  handleNewQRCreation();
+                } else {
+                  setEmitAlert(true);
+                }
+              }}>
+                {capitalizeFirst(t("add_pallet_sheet.create_qr_code"))}
+              </Button>
+              <Alert icon={AlertCircle} className={cn("text-red-500 text-xs mt-1",emitAlert ? "flex" : "hidden")}>
+                <AlertTitle className="text-red-500 text-xl mt-1">
+                  {capitalizeFirst(t("add_pallet_sheet.alert_unable_to_create_qr"))}
+                </AlertTitle>
+                <AlertDescription className="text-red-500 text-xs mt-1">
+                  {capitalizeFirst(t("add_pallet_sheet.alert_field_missing"))}
+                </AlertDescription>
+              </Alert>
+            </View>
+            <Row className={cn("items-center", isDataSet ? "flex" : "hidden")} gap={20}>
+              <View className="items-center">
+                <QrCode getRef={(c) => (qrRef.current = c)} value={qrCodeValue?.toString()}/>
+              </View>
+              <Button  className='' onPress={makePdf} icon={Printer}>
                   {capitalizeFirst(t("add_pallet_sheet.create_sheet"))}
               </Button>
-          </View>
-        </Row>
+            </Row>
+        </View>
     )
 }
 
