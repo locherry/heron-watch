@@ -48,6 +48,7 @@
     "expo-haptics": "~14.1.4",
     "expo-image": "~2.4.0",
     "expo-linking": "~7.1.7",
+    "expo-print": "~14.1.4",
     "expo-router": "~5.1.5",
     "expo-screen-orientation": "~8.1.7",
     "expo-secure-store": "~14.2.4",
@@ -56,9 +57,11 @@
     "expo-symbols": "~0.4.5",
     "expo-system-ui": "~5.0.11",
     "expo-web-browser": "~14.2.0",
+    "html-to-pdfmake": "^2.5.31",
     "i18next": "^25.3.2",
     "lucide-react-native": "^0.525.0",
     "nativewind": "^4.1.23",
+    "pdfmake": "^0.2.20",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-i18next": "^15.6.1",
@@ -76,8 +79,7 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss-animate": "^1.0.7",
-    "expo-print": "~14.1.4"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

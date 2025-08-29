@@ -1,8 +1,10 @@
 import * as Print from "expo-print";
 import { t } from "i18next";
 import { AlertCircle, Printer } from "lucide-react-native";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 import { useRef, useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import QrCode from "react-native-qrcode-svg";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
 import Row from "~/components/layout/Row";
@@ -185,7 +187,85 @@ function CreatePalletSheet({
 </html>`;
 
     //Directly print generated PDF file.
-    await Print.printAsync({html,orientation:"landscape"});
+    if (Platform.OS !== "web") {
+      await Print.printAsync({html,orientation:"landscape"});
+    } else {
+      pdfMake.vfs = pdfFonts.vfs;
+
+      pdfMake.createPdf({content : [
+    {
+      table: {
+        widths: [150, 50, '*', 100], // colonnes : label, product code/origin, product name/origin, QR
+        body: [
+          // Ligne 1 : Code produit + product code + origin + QR
+          [
+            { text: capitalizeFirst(t("add_pallet_sheet.product_code")).toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
+            { text: escapeHtml(data?.product_code ?? "").toUpperCase(), fontSize: 40, alignment: 'center', colSpan: 2 },
+            {},
+            { image: `data:image/png;base64,${qrBase64}`, width: 100, height: 100, alignment: 'center', rowSpan: 2 }
+          ],
+          [
+            { text: t("add_pallet_sheet.origin").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' }, 
+            { text: escapeHtml(data?.origin ?? "").toUpperCase(), fontSize: 40, alignment: "center", colSpan: 2 },
+            {},
+            {}
+          ],
+          // Ligne 2 : Client
+          [
+            { text: t("add_pallet_sheet.client").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
+            { text: escapeHtml(data?.client ?? "").toUpperCase(), fontSize: 40, alignment: 'center', colSpan: 3 },
+            {}, 
+            {}
+          ],
+          // Ligne 3 : Product
+          [
+            { text: t("add_pallet_sheet.product").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
+            { text: escapeHtml(data?.product_name ?? "").toUpperCase(), fontSize: fontSizeContent, alignment: 'center', colSpan: 3 },
+            {},
+            {}
+          ],
+          // Ligne 4 : Lot Number
+          [
+            { text: t("add_pallet_sheet.lot_number").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
+            { text: escapeHtml(data?.lot_number ?? "").toUpperCase(), fontSize: 40, alignment: 'center', colSpan: 3 },
+            {},
+            {}
+          ],
+          // Ligne 5 : Expiration Date
+          [
+            { text: t("add_pallet_sheet.expiration_date").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
+            { text: escapeHtml(data?.expiration_date ?? "").toUpperCase(), fontSize: 40, alignment: 'center', colSpan: 3 },
+            {},
+            {}
+          ],
+          // Ligne 6 & 7 : Quantity UV
+          [
+            { text: t("add_pallet_sheet.quantity").toUpperCase(), fontSize: 20, bold: true, alignment: 'center', rowSpan: 2 },
+            { text: "UV", alignment: 'center', width: 20 },
+            { text: '', colSpan: 2, alignment: "center"},
+            {}
+          ],
+          [
+            {}, // cellule rowspan
+            { text: "UV", alignment: 'center', width: 20 },
+            { text: '', colSpan: 2, alignment: "center"},
+            {}
+          ]
+        ]
+      },
+      layout: {
+        hLineWidth: () => 2,
+        vLineWidth: () => 2,
+        hLineColor: () => 'black',
+        vLineColor: () => 'black',
+        paddingLeft: () => 12,
+        paddingRight: () => 12,
+        paddingTop: () => 12,
+        paddingBottom: () => 12
+      }
+    }
+  ], pageSize : "A4", pageOrientation : "landscape" }).download("Feuille_Pallette.pdf");
+    }
 
     }
     return (
