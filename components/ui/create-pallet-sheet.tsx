@@ -291,11 +291,11 @@ function CreatePalletSheet({
                 </AlertDescription>
               </Alert>
             </View>
-            <Row className={cn("items-center", isDataSet ? "flex" : "hidden")} gap={20}>
-              <View className="items-center">
+            <Row className={cn("items-center", isDataSet ? "justify-center" : "hidden")} gap={20}>
+              <View className="">
                 <QrCode getRef={(c) => (qrRef.current = c)} value={qrCodeValue?.toString()}/>
               </View>
-              <Button  className='' onPress={makePdf} icon={Printer}>
+              <Button  className="" onPress={makePdf} icon={Printer}>
                   {capitalizeFirst(t("add_pallet_sheet.create_sheet"))}
               </Button>
             </Row>
