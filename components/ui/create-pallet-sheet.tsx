@@ -77,10 +77,10 @@ function CreatePalletSheet({
         const qrBase64 = await getQRBase64();
     
     //Adapt font size with lentgh of the product name
-    const maxLenght = 22;
+    const maxLength = 22;
     let fontSizeContent = 40;
-    if (data?.product_name.length ?? 0 > maxLenght ) {
-      fontSizeContent -= Math.floor(data?.product_name.length ?? 0 / 2) - maxLenght ;
+    if (data?.product_name.length ?? 0 > maxLength ) {
+      fontSizeContent -= Math.floor(data?.product_name.length ?? 0 / 2) - maxLength ;
     }
     const html = `
 <!DOCTYPE html>
