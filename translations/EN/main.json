@@ -133,6 +133,7 @@
     "invalidExpirationDate" : "invalid expiration date, date format is : dd-mm-yyyy eg : 31-12-2025",
     "invalidQuantity" : "invalid quantity, quantity sould be an integer",
     "invalidProductCode" : "invalid product code, should begin with three digits",
+    "invalidLotNumber" : "invalid lot number, should be three capital letters + 6 digits (ddmmyy)",
     "loginExpired": "login expired",
     "redirectToLogin" : "redirect to login"
   },

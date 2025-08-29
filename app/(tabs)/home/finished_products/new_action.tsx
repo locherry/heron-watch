@@ -84,7 +84,7 @@ export default function NewAction() {
       value: "lot_number",
       regex: /^[A-Z]{3}\d{6}$/,
       required: true,
-      errorMessage: t("errors.invalidProductCode"),
+      errorMessage: t("errors.invalidLotNumber"),
     },
     {
       label: t("actions.quantity"),
