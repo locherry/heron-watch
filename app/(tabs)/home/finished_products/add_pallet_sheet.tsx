@@ -57,8 +57,8 @@ export default function add_pallet_sheet() {
     const [dynamic_lot_number_value, setDynamicLotNumberValue] = useState("");
     const [isProductCodeSelected,setIsProductCodeSelected] = useState(false);
     const [isLotNumberSelected,setIsLotNumberSelected] = useState(false);
-    const [isProductCodeFocus, setIsProductCodeFocus] = useState(false);
-    const [isLotNumberFocus, setIsLotNumberFocus] = useState(false);
+    const [isProductCodeFocus, setIsProductCodeFocus] = useState(true);
+    const [isLotNumberFocus, setIsLotNumberFocus] = useState(true);
     const [completeData, setCompleteData] = useState<any>([]);
 
     let {data : productCompleteData = [], isLoading : newDataLoading = false, error : newDataError} = useFetchQuery(
@@ -129,6 +129,10 @@ export default function add_pallet_sheet() {
         }
     }, [productCompleteData]);
 
+    useEffect(()=>{
+        setFilteredData(data?.data ?? []);
+    }, [data]);
+
 
     let isSelectingPC = false ; 
     let isSelectingLN = false ; 
@@ -167,8 +171,8 @@ export default function add_pallet_sheet() {
                         containerStyle ={{width : width / 5}}
                         hideResults={isProductCodeFocus}
                         onBlur={() => {
-                                Keyboard.dismiss();
                                 setTimeout( () => {
+                                    Keyboard.dismiss();
                                     if (!isProductCodeFocus && !isSelectingPC) {
                                         setIsProductCodeFocus(true);
                                     } else {
