@@ -1,9 +1,9 @@
 import { Link } from "expo-router";
 import { t } from "i18next";
-import { Forklift } from "lucide-react-native";
 import * as React from "react";
 import { ActivityIndicator, View } from "react-native";
 import { Factory } from "~/assets/images/icons/Factory";
+import { Forklift } from "~/assets/images/icons/Forklift";
 import { Package } from "~/assets/images/icons/Package";
 import { Plus } from "~/assets/images/icons/Plus";
 import { ServerCrash } from "~/assets/images/icons/ServerCrash";
