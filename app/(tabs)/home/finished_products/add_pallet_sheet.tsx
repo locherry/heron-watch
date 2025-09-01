@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import {
     FlatList,
     Keyboard,
-    TextInput,
     TouchableOpacity,
     useWindowDimensions,
     View,
@@ -14,6 +13,7 @@ import Autocomplete from "react-native-autocomplete-input";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { CreatePalletSheet } from "~/components/ui/create-pallet-sheet";
+import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import {
@@ -357,9 +357,9 @@ export default function add_pallet_sheet() {
                 >
                   {t("add_pallet_sheet.origin").toUpperCase()}
                 </Text>
-                <TextInput
+                <Input
                   editable={isLotNumberSelected}
-                  className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1"
+                  className="font-extrabold text-[30px] text-center flex-1"
                   placeholder="Origin (Ex : IGP)"
                   style={{ height: rowsHeight }}
                   onChangeText={(text) =>
@@ -381,9 +381,9 @@ export default function add_pallet_sheet() {
                 >
                   {t("add_pallet_sheet.client").toUpperCase()}
                 </Text>
-                <TextInput
+                <Input
                   editable={isLotNumberSelected}
-                  className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1"
+                  className="font-extrabold text-[30px] text-center flex-1"
                   placeholder="Client (Ex : AGRO)"
                   onChangeText={(text) =>
                     text === ""
@@ -449,9 +449,9 @@ export default function add_pallet_sheet() {
                 >
                   {t("add_pallet_sheet.quantity").toUpperCase()}
                 </Text>
-                <TextInput
+                <Input
                   editable={isLotNumberSelected}
-                  className="font-extrabold text-[30px] placeholder:text-gray-400 placeholder:opacity-70 text-center flex-1"
+                  className="font-extrabold text-[30px] text-center"
                   placeholder="Ex : 40"
                   onChangeText={(text) =>
                     text === ""
