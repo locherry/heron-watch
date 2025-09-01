@@ -34,7 +34,7 @@ interface SheetRowProps {
   onChangeText?: (text: string) => void;
   rowNameWidth: number;
   rowsHeight: number;
-  bordersEnabled? : boolean 
+  bordersEnabled?: boolean;
 }
 
 function SheetRow({
@@ -49,34 +49,34 @@ function SheetRow({
 }: SheetRowProps) {
   return (
     <Row
-      gap={10}
-      className={cn(
-        bordersEnabled && "border-b-2 border-[hsl(var(--border))]"
-      )}
+      className={cn(bordersEnabled && "border-b-2 border-[hsl(var(--border))]")}
     >
       <Text
-        className="border-r-[2px] border-[hsl(var(--border))] text-center text-[30px] flex justify-center items-center"
-        style={{ width: rowNameWidth, height: rowsHeight }}
+        className="p-2 border-r-[2px] border-[hsl(var(--border))] text-center text-[30px] flex justify-center items-center"
+        style={{ width: rowNameWidth }}
       >
         {label.toUpperCase()}
       </Text>
-      {editable ? (
-        <Input
-          className="font-extrabold text-[30px] text-center flex-1"
-          style={{ height: rowsHeight }}
-          placeholder={placeholder}
-          value={value?.toString()}
-          onChangeText={onChangeText}
-        />
-      ) : (
-        <Text className="font-extrabold text-[30px] text-center flex-1">
-          {value ?? ""}
-        </Text>
-      )}
+      <View className="flex-1 p-2">
+        {editable ? (
+          <Input
+            className="font-extrabold text-[30px] text-center flex-1"
+            placeholder={placeholder}
+            value={value?.toString()}
+            onChangeText={onChangeText}
+            style={[
+              { fontSize: 30, lineHeight: 36, paddingVertical: 0 }, // <- ensure text matches Text component
+            ]}
+          />
+        ) : (
+          <Text className="font-extrabold text-[30px] text-center flex-1">
+            {value ?? ""}
+          </Text>
+        )}
+      </View>
     </Row>
   );
 }
-
 
 export default function add_pallet_sheet() {
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
