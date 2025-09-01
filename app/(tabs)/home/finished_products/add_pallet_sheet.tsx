@@ -3,11 +3,11 @@ import { t } from "i18next";
 import { QrCodeIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
-    FlatList,
-    Keyboard,
-    TouchableOpacity,
-    useWindowDimensions,
-    View,
+  FlatList,
+  Keyboard,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import RootView from "~/components/layout/RootView";
@@ -17,9 +17,9 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { H2 } from "~/components/ui/typography";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
@@ -215,6 +215,7 @@ export default function add_pallet_sheet() {
                 {capitalizeFirst(t("actions.product_code"))}
               </Label>
               <Autocomplete
+                inputContainerStyle={{ borderWidth: 0 }} // remove default border
                 containerStyle={{ width: width / 5 }}
                 hideResults={isProductCodeFocus}
                 onBlur={() => {
@@ -244,6 +245,9 @@ export default function add_pallet_sheet() {
                   setDynamicProductCodeValue(text);
                   setIsProductCodeSelected(false);
                 }}
+                renderTextInput={(props) => (
+                  <Input {...props} placeholder={t("actions.product_code")} />
+                )}
                 flatListProps={{
                   keyExtractor: (item) => item.product_code,
                   renderItem: ({ item }) => (
@@ -272,6 +276,7 @@ export default function add_pallet_sheet() {
                 {capitalizeFirst(t("actions.lot_number"))}
               </Label>
               <Autocomplete
+                inputContainerStyle={{ borderWidth: 0 }} // remove default border
                 containerStyle={{ width: width / 5 }}
                 hideResults={isLotNumberFocus}
                 onBlur={() => {
@@ -284,6 +289,9 @@ export default function add_pallet_sheet() {
                     }
                   }, 100);
                 }}
+                renderTextInput={(props) => (
+                  <Input {...props} placeholder={t("actions.lot_number")} />
+                )}
                 onFocus={() => {
                   if (isLotNumberFocus) {
                     setIsLotNumberFocus(false);
