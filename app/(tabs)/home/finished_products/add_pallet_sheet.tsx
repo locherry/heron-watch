@@ -334,12 +334,10 @@ export default function add_pallet_sheet() {
               {/* product_code */}
               <Row
                 gap={10}
-                className="border-b-2 border-black dark:border-white"
+                className="border-b-2 border-black dark:border-white align-middle"
               >
                 <Text
-                  className={
-                    "text-[30px] border-r-[2px] text-center border-black dark:border-white"
-                  }
+                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
                   style={{ width: rowNameWidth, height: rowsHeight }}
                 >
                   {t("actions.product_code").toUpperCase()}
@@ -358,9 +356,7 @@ export default function add_pallet_sheet() {
                 className="border-b-2 border-black dark:border-white"
               >
                 <Text
-                  className={
-                    "text-[30px] border-r-[2px] text-center border-black dark:border-white"
-                  }
+                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
                   style={{ width: rowNameWidth, height: rowsHeight }}
                 >
                   {t("add_pallet_sheet.origin").toUpperCase()}
@@ -384,7 +380,7 @@ export default function add_pallet_sheet() {
                 className="border-b-2 border-black dark:border-white"
               >
                 <Text
-                  className="border-r-[2px] text-[30px] text-center  border-black dark:border-white"
+                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
                   style={{ width: rowNameWidth, height: rowsHeight }}
                 >
                   {t("add_pallet_sheet.client").toUpperCase()}
@@ -407,7 +403,7 @@ export default function add_pallet_sheet() {
                 className="border-b-2 border-black dark:border-white"
               >
                 <Text
-                  className="border-r-[2px] text-[30px] text-center  border-black dark:border-white"
+                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
                   style={{ width: rowNameWidth, height: rowsHeight }}
                 >
                   {t("add_pallet_sheet.product").toUpperCase()}
@@ -423,7 +419,7 @@ export default function add_pallet_sheet() {
                 className="border-b-2 border-black dark:border-white"
               >
                 <Text
-                  className="border-r-[2px] text-[30px] text-center  border-black dark:border-white"
+                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
                   style={{ width: rowNameWidth, height: rowsHeight }}
                 >
                   {t("add_pallet_sheet.lot_number").toUpperCase()}
@@ -439,7 +435,7 @@ export default function add_pallet_sheet() {
                 className="border-b-2 border-black dark:border-white"
               >
                 <Text
-                  className="border-r-[2px] text-[30px] text-center  border-black dark:border-white"
+                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
                   style={{ width: rowNameWidth, height: rowsHeight }}
                 >
                   {t("add_pallet_sheet.expiration_date").toUpperCase()}
@@ -450,16 +446,19 @@ export default function add_pallet_sheet() {
               </Row>
 
               {/* quantity */}
-              <Row gap={10}>
+              <Row
+                gap={10}
+                // className="border-b-2 border-black dark:border-white"
+              >
                 <Text
-                  className="border-r-[2px] text-[30px] text-center  border-black dark:border-white"
+                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
                   style={{ width: rowNameWidth, height: rowsHeight }}
                 >
                   {t("add_pallet_sheet.quantity").toUpperCase()}
                 </Text>
                 <Input
                   editable={isLotNumberSelected}
-                  className="font-extrabold text-[30px] text-center"
+                  className="font-extrabold text-[30px] text-center flex-1"
                   placeholder="Ex : 40"
                   onChangeText={(text) =>
                     text === ""

@@ -12,6 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst, cn } from "~/lib/utils";
+import { Card } from "./card";
 
 type PalletSheetData = {
     product_code : string, 
@@ -292,9 +293,9 @@ function CreatePalletSheet({
               </Alert>
             </View>
             <Row className={cn("items-center", isDataSet ? "justify-center" : "hidden")} gap={20}>
-              <View className="">
+              <Card className="p-2">
                 <QrCode getRef={(c) => (qrRef.current = c)} value={qrCodeValue?.toString()}/>
-              </View>
+              </Card>
               <Button  className="" onPress={makePdf} icon={Printer}>
                   {capitalizeFirst(t("add_pallet_sheet.create_sheet"))}
               </Button>
