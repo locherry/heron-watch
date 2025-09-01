@@ -92,7 +92,7 @@ export default function LoginScreen() {
           }
         );
         // Store user info and then :
-        router.push("/home/finished_products");
+        router.push("/home");
       }
     }
   }, [loginData, router]);

@@ -189,7 +189,7 @@ export default function NewAction() {
     }
 
     router.push({
-      pathname: "/home/finished_products/new_actions",
+      pathname: "/home/new_actions",
       params: {
         actionsJsonEncoded: JSON.stringify(updatedActions),
         stockCategory,

@@ -32,7 +32,7 @@ const RootView: React.FC<RootViewProps> = ({
     <View
       style={paddingStyle}
       className={cn(
-        "flex-1 items-center p-4",
+        "flex-1 items-center",
         className
       )}
       {...rest}

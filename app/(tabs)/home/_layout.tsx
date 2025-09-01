@@ -1,64 +1,11 @@
-import type {
-  MaterialTopTabNavigationEventMap,
-  MaterialTopTabNavigationOptions,
-} from "@react-navigation/material-top-tabs";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import {
-  useTheme,
-  type ParamListBase,
-  type TabNavigationState,
-} from "@react-navigation/native";
-import { withLayoutContext } from "expo-router";
-import { useTranslation } from "react-i18next";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { capitalizeFirst } from "~/lib/utils";
+import { Stack } from "expo-router";
 
-const { Navigator } = createMaterialTopTabNavigator();
+export const unstable_settings = {
+  initialRouteName: "index",
+};
 
-const MaterialTopTabs = withLayoutContext<
-  MaterialTopTabNavigationOptions,
-  typeof Navigator,
-  TabNavigationState<ParamListBase>,
-  MaterialTopTabNavigationEventMap
->(Navigator);
-
-export default function MaterialTopTabsLayout() {
-  const { colors } = useTheme();
-  const { t } = useTranslation();
-
+export default function Layout() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <MaterialTopTabs
-        initialRouteName="raw_materials"
-        screenOptions={{
-          // animationEnabled:false,
-          swipeEnabled:false,
-          tabBarActiveTintColor: colors.text,
-          tabBarInactiveTintColor: "grey",
-          tabBarLabelStyle: {
-            fontSize: 18,
-            fontWeight: "bold",
-          },
-          tabBarIndicatorStyle: {
-            backgroundColor: colors.text,
-          },
-          tabBarScrollEnabled: true,
-          tabBarItemStyle: { width: "auto", minWidth: 100 },
-        }}
-      >
-        <MaterialTopTabs.Screen
-          name="raw_materials"
-          options={{
-            title: capitalizeFirst(t("stocks.rawMaterials")),
-          }}
-        />
-        <MaterialTopTabs.Screen
-          name="finished_products"
-          options={{
-            title: capitalizeFirst(t("stocks.finishedProducts")),
-          }}
-        />
-      </MaterialTopTabs>
-    </SafeAreaView>
+      <Stack screenOptions={{ headerShown: false }} />
   );
 }

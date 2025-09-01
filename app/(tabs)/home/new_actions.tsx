@@ -61,7 +61,7 @@ export default function NewActions() {
 
   const handleNewAction = () => {
     router.push({
-      pathname: "/home/finished_products/new_action",
+      pathname: "/home/new_action",
       params: {
         actionsJsonEncoded: JSON.stringify(actions),
         stockCategory,
@@ -74,7 +74,7 @@ export default function NewActions() {
   };
   const handleEdit = (actionToBeEdited: Action) => {
     router.push({
-      pathname: "/home/finished_products/new_action",
+      pathname: "/home/new_action",
       params: {
         actionsJsonEncoded: JSON.stringify(actions),
         editActionId : actionToBeEdited.id,
