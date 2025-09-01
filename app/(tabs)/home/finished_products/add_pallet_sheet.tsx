@@ -45,12 +45,17 @@ function SheetRow({
   onChangeText,
   rowNameWidth,
   rowsHeight,
-  bordersEnabled = true
+  bordersEnabled = true,
 }: SheetRowProps) {
   return (
-    <Row gap={10} className={cn(bordersEnabled && "border-b-2 border-black dark:border-white")}>
+    <Row
+      gap={10}
+      className={cn(
+        bordersEnabled && "border-b-2 border-[hsl(var(--border))]"
+      )}
+    >
       <Text
-        className="border-r-[2px] text-center text-[30px] border-black dark:border-white flex justify-center items-center"
+        className="border-r-[2px] border-[hsl(var(--border))] text-center text-[30px] flex justify-center items-center"
         style={{ width: rowNameWidth, height: rowsHeight }}
       >
         {label.toUpperCase()}
@@ -71,6 +76,7 @@ function SheetRow({
     </Row>
   );
 }
+
 
 export default function add_pallet_sheet() {
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
@@ -376,7 +382,7 @@ export default function add_pallet_sheet() {
             </Row>
 
             {/* PALLET SHEET DETAILS */}
-            <View className="border-2 border-black dark:border-white rounded-xl">
+            <View className="border-2 border-[hsl(var(--border))] rounded-xl">
               <SheetRow
                 label={t("actions.product_code")}
                 value={completeData?.product_code}
