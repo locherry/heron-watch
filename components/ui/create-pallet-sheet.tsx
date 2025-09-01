@@ -81,7 +81,7 @@ function CreatePalletSheet({
     
     //Adapt font size with lentgh of the product name
     const maxLength = 22;
-    let fontSizeContent = 40;
+    let fontSizeContent = 35;
     if (data?.product_name.length ?? 0 > maxLength ) {
       fontSizeContent -= Math.floor(data?.product_name.length ?? 0 / 2) - maxLength ;
     }
@@ -201,20 +201,20 @@ function CreatePalletSheet({
           // Ligne 1 : Code produit + product code + origin + QR
           [
             { text: capitalizeFirst(t("add_pallet_sheet.product_code")).toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.product_code ?? "").toUpperCase(), fontSize: 40, alignment: 'center', colSpan: 2 },
+            { text: escapeHtml(data?.product_code ?? "").toUpperCase(), fontSize: 35, alignment: 'center', colSpan: 2 },
             {},
             { image: `data:image/png;base64,${qrBase64}`, width: 100, height: 100, alignment: 'center', rowSpan: 2 }
           ],
           [
             { text: t("add_pallet_sheet.origin").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' }, 
-            { text: escapeHtml(data?.origin ?? "").toUpperCase(), fontSize: 40, alignment: "center", colSpan: 2 },
+            { text: escapeHtml(data?.origin ?? "").toUpperCase(), fontSize: 35, alignment: "center", colSpan: 2 },
             {},
             {}
           ],
           // Ligne 2 : Client
           [
             { text: t("add_pallet_sheet.client").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.client ?? "").toUpperCase(), fontSize: 40, alignment: 'center', colSpan: 3 },
+            { text: escapeHtml(data?.client ?? "").toUpperCase(), fontSize: 35, alignment: 'center', colSpan: 3 },
             {}, 
             {}
           ],
@@ -228,14 +228,14 @@ function CreatePalletSheet({
           // Ligne 4 : Lot Number
           [
             { text: t("add_pallet_sheet.lot_number").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.lot_number ?? "").toUpperCase(), fontSize: 40, alignment: 'center', colSpan: 3 },
+            { text: escapeHtml(data?.lot_number ?? "").toUpperCase(), fontSize: 35, alignment: 'center', colSpan: 3 },
             {},
             {}
           ],
           // Ligne 5 : Expiration Date
           [
             { text: t("add_pallet_sheet.expiration_date").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.expiration_date ?? "").toUpperCase(), fontSize: 40, alignment: 'center', colSpan: 3 },
+            { text: escapeHtml(data?.expiration_date ?? "").toUpperCase(), fontSize: 35, alignment: 'center', colSpan: 3 },
             {},
             {}
           ],
