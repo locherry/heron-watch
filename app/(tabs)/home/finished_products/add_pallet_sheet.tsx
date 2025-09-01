@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { QrCodeIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Keyboard,
   TouchableOpacity,
@@ -35,6 +36,7 @@ interface SheetRowProps {
   rowNameWidth: number;
   rowsHeight: number;
   bordersEnabled?: boolean;
+  isLoading?: boolean;
 }
 
 function SheetRow({
@@ -46,6 +48,7 @@ function SheetRow({
   rowNameWidth,
   rowsHeight,
   bordersEnabled = true,
+  isLoading = false,
 }: SheetRowProps) {
   return (
     <Row
@@ -68,6 +71,8 @@ function SheetRow({
               { fontSize: 30, lineHeight: 36, paddingVertical: 0 }, // <- ensure text matches Text component
             ]}
           />
+        ) : isLoading ? (
+          <ActivityIndicator size="small" color="hsl(var(--primary))" />
         ) : (
           <Text className="font-extrabold text-[30px] text-center flex-1">
             {value ?? ""}
@@ -139,7 +144,7 @@ export default function add_pallet_sheet() {
 
   let {
     data: productCompleteData = [],
-    isLoading: newDataLoading = false,
+    isLoading: isNewDataLoading = false,
     error: newDataError,
   } = useFetchQuery(
     "/stocks_join_product_category/{stock_category}",
@@ -389,6 +394,7 @@ export default function add_pallet_sheet() {
                 value={completeData?.product_code}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
+                isLoading={isNewDataLoading}
               />
               <SheetRow
                 label={t("add_pallet_sheet.origin")}
@@ -417,18 +423,21 @@ export default function add_pallet_sheet() {
                 value={completeData?.product_name}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
+                isLoading={isNewDataLoading}
               />
               <SheetRow
                 label={t("add_pallet_sheet.lot_number")}
                 value={completeData?.lot_number}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
+                isLoading={isNewDataLoading}
               />
               <SheetRow
                 label={t("add_pallet_sheet.expiration_date")}
                 value={completeData?.expiration_date}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
+                isLoading={isNewDataLoading}
               />
               <SheetRow
                 label={t("add_pallet_sheet.quantity")}
