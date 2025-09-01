@@ -227,6 +227,7 @@ export default function add_pallet_sheet() {
   return (
     <RootView disableInsets={{ left: true, top: true }}>
       <FlatList
+        focusable={false}
         data={[]} // empty, we're just using it for scroll container
         keyExtractor={(_, i) => i.toString()}
         renderItem={null}
