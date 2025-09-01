@@ -161,6 +161,16 @@ export default function add_pallet_sheet() {
     isProductCodeSelected && isLotNumberSelected
   );
 
+  let {data : alreadyPlacedQuantity = null, isLoading : isLoadingPlacedQuantity = false, error : placedQuantityError = false} = useFetchQuery(
+    "/qr-code/{stock_category}/{product_code}/{lot_number}",
+    'get',
+    {
+      path : {stock_category : stockCategory, product_code : product_code_value, lot_number : lot_number_value}
+    },
+    undefined,
+    isProductCodeSelected && isLotNumberSelected
+  )
+
   useEffect(() => {
     if (!isProductCodeSelected && !isLotNumberSelected) {
       if (data !== undefined && data.data !== undefined) {
@@ -193,13 +203,14 @@ export default function add_pallet_sheet() {
       setCompleteData([]);
     }
   }, [productCompleteData]);
+
   useEffect(() => {
     setFilteredData(data?.data ?? []);
   }, [data]);
 
   let isSelectingPC = false;
   let isSelectingLN = false;
-
+  console.log(alreadyPlacedQuantity);
   return (
     <RootView disableInsets={{ left: true, top: true }}>
       <FlatList
@@ -217,11 +228,19 @@ export default function add_pallet_sheet() {
                 <Label className="text-2xl font-mono">
                   {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
                     " : "}
-                  <Text className="ml-[10] border-radius border">
                     {!Array.isArray(completeData)
-                      ? completeData?.quantity
-                      : capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
-                  </Text>
+                      ? isLoadingPlacedQuantity || isNewDataLoading ? (
+                        <ActivityIndicator size="small" color="hsl(var(--primary))"  />
+                      ) : (
+                        <Text>
+                          {completeData?.quantity - (alreadyPlacedQuantity?.data?.quantity ?? 0)}
+                        </Text>)
+                      : (
+                        <Text> 
+                          {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                        </Text>
+                        )
+                      }
                 </Label>
                 <Tooltip>
                   <TooltipTrigger>
