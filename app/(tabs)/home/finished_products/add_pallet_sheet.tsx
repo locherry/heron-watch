@@ -23,7 +23,6 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { H2 } from "~/components/ui/typography";
-import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
@@ -162,33 +161,6 @@ export default function add_pallet_sheet() {
     isProductCodeSelected && isLotNumberSelected
   );
 
-  const { mutate: createNewQR } = useFetchMutation("/qr-code/", "post");
-
-  const handleNewQRCreation = () => {
-    console.log("I'm pressed");
-    createNewQR(
-      {
-        pathParams: { stock_category: stockCategory },
-        body: {
-          product_code: completeData.product_code,
-          lot_number: completeData.lot_number,
-          quantity: Number(quantityInput),
-          expiration_date: completeData.expiration_date,
-        },
-      },
-      {
-        onSuccess: (data) => {
-          setNewQRData(data?.data?.id);
-        },
-
-        onError: (error) => {
-          console.log(error.message);
-        },
-      }
-    );
-    //New qr_code creation
-  };
-
   useEffect(() => {
     if (!isProductCodeSelected && !isLotNumberSelected) {
       if (data !== undefined && data.data !== undefined) {
@@ -221,7 +193,6 @@ export default function add_pallet_sheet() {
       setCompleteData([]);
     }
   }, [productCompleteData]);
-
   useEffect(() => {
     setFilteredData(data?.data ?? []);
   }, [data]);

@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { AlertCircle, Printer } from "lucide-react-native";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Platform, View } from "react-native";
 import QrCode from "react-native-qrcode-svg";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
@@ -40,9 +40,17 @@ function CreatePalletSheet({
     const [emitAlert, setEmitAlert] = useState(false);
 
     const {mutate : createNewQR } = useFetchMutation(
-        "/qr-code/",
+        "/qr-code/{stock_category}",
         "post"
     );
+
+    useEffect(() => {
+
+      if (!data) {
+        setIsDataSet(false);
+      }
+    }, [data]);
+
 
     const verifyDataIsCorrect = (data : any) => {
       //Type guard
