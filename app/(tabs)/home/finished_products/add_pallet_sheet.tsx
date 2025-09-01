@@ -24,7 +24,53 @@ import {
 import { H2 } from "~/components/ui/typography";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
-import { capitalizeFirst } from "~/lib/utils";
+import { capitalizeFirst, cn } from "~/lib/utils";
+
+interface SheetRowProps {
+  label: string;
+  value?: string | number;
+  editable?: boolean;
+  placeholder?: string;
+  onChangeText?: (text: string) => void;
+  rowNameWidth: number;
+  rowsHeight: number;
+  bordersEnabled? : boolean 
+}
+
+function SheetRow({
+  label,
+  value,
+  editable = false,
+  placeholder,
+  onChangeText,
+  rowNameWidth,
+  rowsHeight,
+  bordersEnabled = true
+}: SheetRowProps) {
+  return (
+    <Row gap={10} className={cn(bordersEnabled && "border-b-2 border-black dark:border-white")}>
+      <Text
+        className="border-r-[2px] text-center text-[30px] border-black dark:border-white flex justify-center items-center"
+        style={{ width: rowNameWidth, height: rowsHeight }}
+      >
+        {label.toUpperCase()}
+      </Text>
+      {editable ? (
+        <Input
+          className="font-extrabold text-[30px] text-center flex-1"
+          style={{ height: rowsHeight }}
+          placeholder={placeholder}
+          value={value?.toString()}
+          onChangeText={onChangeText}
+        />
+      ) : (
+        <Text className="font-extrabold text-[30px] text-center flex-1">
+          {value ?? ""}
+        </Text>
+      )}
+    </Row>
+  );
+}
 
 export default function add_pallet_sheet() {
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
@@ -331,142 +377,64 @@ export default function add_pallet_sheet() {
 
             {/* PALLET SHEET DETAILS */}
             <View className="border-2 border-black dark:border-white rounded-xl">
-              {/* product_code */}
-              <Row
-                gap={10}
-                className="border-b-2 border-black dark:border-white align-middle"
-              >
-                <Text
-                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
-                  style={{ width: rowNameWidth, height: rowsHeight }}
-                >
-                  {t("actions.product_code").toUpperCase()}
-                </Text>
-                <Text
-                  className="font-extrabold text-[30px] text-center flex-1"
-                  style={{ height: rowsHeight }}
-                >
-                  {completeData?.product_code ?? ""}
-                </Text>
-              </Row>
-
-              {/* origin */}
-              <Row
-                gap={10}
-                className="border-b-2 border-black dark:border-white"
-              >
-                <Text
-                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
-                  style={{ width: rowNameWidth, height: rowsHeight }}
-                >
-                  {t("add_pallet_sheet.origin").toUpperCase()}
-                </Text>
-                <Input
-                  editable={isLotNumberSelected}
-                  className="font-extrabold text-[30px] text-center flex-1"
-                  placeholder="Origin (Ex : IGP)"
-                  style={{ height: rowsHeight }}
-                  onChangeText={(text) =>
-                    text === ""
-                      ? setOriginInput(undefined)
-                      : setOriginInput(text)
-                  }
-                />
-              </Row>
-
-              {/* client */}
-              <Row
-                gap={10}
-                className="border-b-2 border-black dark:border-white"
-              >
-                <Text
-                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
-                  style={{ width: rowNameWidth, height: rowsHeight }}
-                >
-                  {t("add_pallet_sheet.client").toUpperCase()}
-                </Text>
-                <Input
-                  editable={isLotNumberSelected}
-                  className="font-extrabold text-[30px] text-center flex-1"
-                  placeholder="Client (Ex : AGRO)"
-                  onChangeText={(text) =>
-                    text === ""
-                      ? setClientInput(undefined)
-                      : setClientInput(text)
-                  }
-                />
-              </Row>
-
-              {/* product name */}
-              <Row
-                gap={10}
-                className="border-b-2 border-black dark:border-white"
-              >
-                <Text
-                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
-                  style={{ width: rowNameWidth, height: rowsHeight }}
-                >
-                  {t("add_pallet_sheet.product").toUpperCase()}
-                </Text>
-                <Text className="font-extrabold text-[30px] text-center flex-1">
-                  {completeData?.product_name ?? ""}
-                </Text>
-              </Row>
-
-              {/* lot number */}
-              <Row
-                gap={10}
-                className="border-b-2 border-black dark:border-white"
-              >
-                <Text
-                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
-                  style={{ width: rowNameWidth, height: rowsHeight }}
-                >
-                  {t("add_pallet_sheet.lot_number").toUpperCase()}
-                </Text>
-                <Text className="font-extrabold text-[30px] text-center flex-1">
-                  {completeData.lot_number ?? ""}
-                </Text>
-              </Row>
-
-              {/* expiration date */}
-              <Row
-                gap={10}
-                className="border-b-2 border-black dark:border-white"
-              >
-                <Text
-                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
-                  style={{ width: rowNameWidth, height: rowsHeight }}
-                >
-                  {t("add_pallet_sheet.expiration_date").toUpperCase()}
-                </Text>
-                <Text className="font-extrabold text-[30px] text-center flex-1">
-                  {completeData.expiration_date ?? ""}
-                </Text>
-              </Row>
-
-              {/* quantity */}
-              <Row
-                gap={10}
-                // className="border-b-2 border-black dark:border-white"
-              >
-                <Text
-                  className="border-r-[2px] text-center text-[30px]  border-black dark:border-white flex justify-center items-center"
-                  style={{ width: rowNameWidth, height: rowsHeight }}
-                >
-                  {t("add_pallet_sheet.quantity").toUpperCase()}
-                </Text>
-                <Input
-                  editable={isLotNumberSelected}
-                  className="font-extrabold text-[30px] text-center flex-1"
-                  placeholder="Ex : 40"
-                  onChangeText={(text) =>
-                    text === ""
-                      ? setQuantityInput(undefined)
-                      : setQuantityInput(text)
-                  }
-                />
-              </Row>
+              <SheetRow
+                label={t("actions.product_code")}
+                value={completeData?.product_code}
+                rowNameWidth={rowNameWidth}
+                rowsHeight={rowsHeight}
+              />
+              <SheetRow
+                label={t("add_pallet_sheet.origin")}
+                editable={isLotNumberSelected}
+                placeholder="Origin (Ex : IGP)"
+                value={originInput}
+                onChangeText={(text) =>
+                  setOriginInput(text === "" ? undefined : text)
+                }
+                rowNameWidth={rowNameWidth}
+                rowsHeight={rowsHeight}
+              />
+              <SheetRow
+                label={t("add_pallet_sheet.client")}
+                editable={isLotNumberSelected}
+                placeholder="Client (Ex : AGRO)"
+                value={clientInput}
+                onChangeText={(text) =>
+                  setClientInput(text === "" ? undefined : text)
+                }
+                rowNameWidth={rowNameWidth}
+                rowsHeight={rowsHeight}
+              />
+              <SheetRow
+                label={t("add_pallet_sheet.product")}
+                value={completeData?.product_name}
+                rowNameWidth={rowNameWidth}
+                rowsHeight={rowsHeight}
+              />
+              <SheetRow
+                label={t("add_pallet_sheet.lot_number")}
+                value={completeData?.lot_number}
+                rowNameWidth={rowNameWidth}
+                rowsHeight={rowsHeight}
+              />
+              <SheetRow
+                label={t("add_pallet_sheet.expiration_date")}
+                value={completeData?.expiration_date}
+                rowNameWidth={rowNameWidth}
+                rowsHeight={rowsHeight}
+              />
+              <SheetRow
+                label={t("add_pallet_sheet.quantity")}
+                editable={isLotNumberSelected}
+                placeholder="Ex : 40"
+                value={quantityInput?.toString()}
+                onChangeText={(text) =>
+                  setQuantityInput(text === "" ? undefined : text)
+                }
+                rowNameWidth={rowNameWidth}
+                rowsHeight={rowsHeight}
+                bordersEnabled={false} // last item so no borders
+              />
             </View>
 
             <CreatePalletSheet
