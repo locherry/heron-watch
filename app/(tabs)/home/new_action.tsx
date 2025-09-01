@@ -15,8 +15,9 @@ import QrScannerButton from "~/components/QrScannerButton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
-import { H2 } from "~/components/ui/typography";
+import { H2, P } from "~/components/ui/typography";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -255,6 +256,50 @@ export default function NewAction() {
         </Row>
         <Column gap={16}>
           {/* action type select... */}
+          <Select
+            defaultValue={ACTION_TYPES[0]}
+            value={ACTION_TYPES.find((option) => option.value == actionId)}
+            onValueChange={(option) =>
+              setActionId(
+                option?.value as (typeof ACTION_TYPES)[number]["value"]
+              )
+            }
+          >
+            <SelectTrigger>
+              <SelectValue
+                placeholder={capitalizeFirst(t("actions.selectActionType"))}
+              >
+                <View className="mr-2 flex flex-row items-center">
+                  {(() => {
+                    const selectedOption = ACTION_TYPES.find(
+                      (option) => option.value === actionId
+                    );
+                    if (selectedOption?.icon) {
+                      return <selectedOption.icon className="mr-2" size={16} />;
+                    }
+                    return null;
+                  })()}
+                  <P className="capitalize">
+                    {
+                      ACTION_TYPES.find((option) => option.value == actionId)
+                        ?.label
+                    }
+                  </P>
+                </View>
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {ACTION_TYPES.map((action) => (
+                <SelectItem
+                  key={action.value}
+                  value={String(action.value)}
+                  label={capitalizeFirst(action.label)}
+                  icon={action.icon}
+                />
+              ))}
+            </SelectContent>
+          </Select>
+
           {INPUT_FIELDS.map((field) => {
             const error = errors[field.value];
             return (
