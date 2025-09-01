@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   ApiPath,
   ApiPathMethod,
@@ -21,23 +21,29 @@ import { apiFetch } from "~/lib/apiClient";
  * @param params - Optional path/query params
  * @param body - Optional request body (typed for that path & method)
  * @param enabled - Whether to run the query
+ * @param options - Extra TanStack query options
  */
-export const useFetchQuery = <P extends ApiPath, M extends ApiPathMethod<P>>(
+export const useFetchQuery = <
+  P extends ApiPath,
+  M extends ApiPathMethod<P>
+>(
   url: P,
   method: M,
   params?: ApiRequestParams<P, M>,
   body?: ApiRequestBody<P, M>,
-  enabled: boolean = true
+  enabled: boolean = true,
+  options?: Omit<
+    UseQueryOptions<ApiResponse<P, M>, Error>,
+    "queryKey" | "queryFn"
+  >
 ) => {
   const isFetchable = String(method).toUpperCase() === "GET" || !!body;
 
   return useQuery<ApiResponse<P, M>, Error>({
     queryKey: [url, method, params, body] as const,
-    // Call the centralized apiFetch function
-    queryFn: () => {
-      let data = apiFetch<P, M>(url, method, params, body)
-      return data;
-    },
+    queryFn: () => apiFetch<P, M>(url, method, params, body),
     enabled: enabled && isFetchable,
+    retry: String(method).toUpperCase() === "GET",
+    ...options, // allow override
   });
 };

@@ -65,13 +65,17 @@ function buildQueryString(queryParams?: Record<string, any>) {
       .filter(([, v]) => v !== undefined && v !== null)
       .flatMap(([k, v]) => {
         if (Array.isArray(v)) {
-         return  v.map(item => [`${k}[]`, String(item)]);
-        } else if (typeof v === 'object') {
-          return Object.entries(v).map(([attr,val]) => [`${k}[${attr}]`, String(val)]);
+          return v.map((item) => [`${k}[]`, String(item)]);
+        } else if (typeof v === "object") {
+          return Object.entries(v).map(([attr, val]) => [
+            `${k}[${attr}]`,
+            String(val),
+          ]);
         } else {
           return [[k, String(v)]];
         }
-      })).toString();
+      })
+  ).toString();
   return qs ? `?${qs}` : "";
 }
 /**
@@ -86,8 +90,9 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
   body?: ApiRequestBody<P, M>
 ): Promise<ApiResponse<P, M>> {
   const httpMethod = method.toUpperCase() as Uppercase<M>;
-  let fullUrl = endpoint + substitutePath(url, params?.path);
 
+  // Construct full URL with path + query params
+  let fullUrl = endpoint + substitutePath(url, params?.path);
   if (httpMethod === "GET") {
     fullUrl += buildQueryString(params?.query);
   }
@@ -100,28 +105,27 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
     body: httpMethod !== "GET" && body ? JSON.stringify(body) : undefined,
   });
 
-  // attempt to parse JSON error if request fails
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => null);
-    switch (response.status) {
-      case 401:
-        Toast.show({
-          type: "error",
-          text1: capitalizeFirst(t("errors.loginExpired")),
-          text2: capitalizeFirst(t("errors.redirectToLogin")),
-        });
+  if (response.ok) {
+    return response.json();
+  }
 
-        // Clear JWT so we don’t loop on bad token
-        await SecureStorage.remove("userSession");
+  // ---- Handle errors ----
+  const errorData = await response.json().catch(() => null);
+  const errorMessage =
+    errorData?.error || `HTTP error! status: ${response.status}`;
 
-        // Just force redirect, expo-router won’t stack it badly
-        router.replace("/login");
-        break;
-      default:
-        throw new Error(
-          errorData?.message || `HTTP error! status: ${response.status}`
-        );
+  if (response.status === 401) {
+    if (errorData?.error === "Invalid or expired token") {
+      Toast.show({
+        type: "error",
+        text1: capitalizeFirst(t("errors.loginExpired")),
+        text2: capitalizeFirst(t("errors.redirectToLogin")),
+      });
+
+      await SecureStorage.remove("userSession");
+      router.replace("/login");
     }
   }
-  return response.json();
+
+  throw new Error(errorMessage);
 }

@@ -25,18 +25,35 @@ export default function LoginScreen() {
     data: loginData,
     error: loginError,
     isLoading: loginIsLoading,
+    isError: loginIsError,
   } = useFetchQuery(
     "/login",
     "post",
     {},
     { email, password },
-    isLoginTriggered // Only enable this when login is triggered
+    isLoginTriggered, // Only enable this when login is triggered
+    { retry: false } // disables retries for login
   );
+
+  if (loginError) {
+    console.log(loginError.message);
+  }
+
+  React.useEffect(() => {
+    console.log(loginError);
+    if (loginError) {
+      const message =
+        loginError?.message || "An unexpected error occurred during login.";
+      setError(message);
+      setIsLoading(false);
+      setIsLoginTriggered(false); // Reset so you can try again
+    }
+  }, [loginError]);
 
   React.useEffect(() => {
     if (loginData && loginData.data) {
       setIsLoggedIn(true); // Mark as logged in
-      console.log("login successfull")
+      console.log("login successfull");
       const userInfo = loginData.data.user_info;
       const userSession = {
         id: userInfo?.id,
@@ -93,7 +110,9 @@ export default function LoginScreen() {
   return (
     <View className="flex-1 justify-center items-center p-6">
       <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
-        <Text className="text-2xl font-semibold mb-4 text-center">{capitalizeFirst(t("user.login"))}</Text>
+        <Text className="text-2xl font-semibold mb-4 text-center">
+          {capitalizeFirst(t("user.login"))}
+        </Text>
 
         {error && (
           <Text className="text-red-500 text-sm text-center mb-4">{error}</Text>
