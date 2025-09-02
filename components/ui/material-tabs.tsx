@@ -1,6 +1,7 @@
 import * as TabsPrimitive from "@rn-primitives/tabs";
 import * as React from "react";
 import { Animated, Easing, LayoutChangeEvent, Pressable } from "react-native";
+import { useColorScheme } from "~/lib/hooks/useColorScheme";
 import { cn } from "~/lib/utils";
 import { Text } from "./text";
 
@@ -61,6 +62,8 @@ function MaterialTabsList({
     });
   });
 
+  const {colorScheme} = useColorScheme();
+
   return (
     <TabsPrimitive.List className={cn("flex-row border-muted border-b",className)} {...props}>
       {wrappedChildren}
@@ -71,7 +74,7 @@ function MaterialTabsList({
           left: underlineLeft,
           height: 2,
           width: underlineWidth,
-          backgroundColor: "black",
+          backgroundColor: colorScheme == "light" ? "black" : "white",
           borderRadius: 1,
         }}
       />
