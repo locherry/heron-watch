@@ -10,6 +10,9 @@
     "users": {
       "name": "manage users"
     },
+    "product_category" : {
+      "name" : "manage products"
+    },
     "exports": {
       "name": "Export to spreadsheet"
     }
@@ -98,6 +101,11 @@
     "MP_S": "dry",
     "MP_C": "frozen"
   },
+  "product_category" : {
+    "product_code" : "product code",
+    "product_name" : "product name",
+    "product_specificity" : "product specificity"
+  },
   "common": {
     "open": "open",
     "goBack": "go back",
@@ -126,7 +134,8 @@
     "sell": "sell",
     "stock": "stock",
     "give": "give",
-    "discard": "discard"
+    "discard": "discard",
+    "product_category" : "product category"
   },
   "errors": {
     "required" : "This field is required",
@@ -158,6 +167,7 @@
   "Toggle editing mode": "Toggle editing mode",
   "Total users": "Total users",
   "Total actions": "Total actions",
+  "Total products" : "total products",
   "Please confirm": "Please confirm",
   "Do you really want to discard the unsaved changes?": "Do you really want to discard the unsaved changes?",
   "Do you really want to log out ?": "Do you really want to log out?",

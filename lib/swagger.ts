@@ -107,6 +107,23 @@ export interface paths {
         patch: operations["f3767d2b95e3d9782fd7d64dae6a3cb7"];
         trace?: never;
     };
+    "/productCategory/{stock_global_category}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get actual stock data */
+        get: operations["ec2ea90dc22cd101d430e4e75bd71abc"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/qr-code/{qr_code_id}": {
         parameters: {
             query?: never;
@@ -322,12 +339,8 @@ export interface components {
             expiration_date: string;
             /** @example Gésiers de dinde */
             product_name: string;
-            /** @example F */
-            stock_category: string;
-            /** @example DSC */
-            product_lot_code: string;
-            /** @example Couvercle */
-            emb_type: string;
+            /** @example GDE | F | Boite */
+            product_specificity?: string;
         };
         /** @example [
          *       "id",
@@ -337,6 +350,12 @@ export interface components {
          *       "expiration_date"
          *     ] */
         stock_selected_elts: string[];
+        /** @example [
+         *       "product_code",
+         *       "product_name",
+         *       "product_specificity"
+         *     ] */
+        product_category_selected_elts: string[];
         /** @example [
          *       "id",
          *       "product_code",
@@ -368,6 +387,23 @@ export interface components {
              */
             expiration_date?: string;
         };
+        filter_params_PC: {
+            /**
+             * @description Code produit
+             * @example 309
+             */
+            product_code: string;
+            /**
+             * @description Numéro de lot
+             * @example GDE050528
+             */
+            product_name: string;
+            /**
+             * @description Spécificité du produit. En fonction de la catégorie de stock concernée, peut être un code de lot (GDE), une sous catégorie des stocks matières premières (F, C...) ou bien un type d'emballage (boite ou couvercle)
+             * @example 43
+             */
+            product_specificity: string;
+        };
         filter_params_join_product_category: {
             /**
              * @description Code produit
@@ -396,20 +432,10 @@ export interface components {
              */
             product_name?: string;
             /**
-             * @description WARNING / MP TYPE ONLY : mp stock type
-             * @example F
+             * @description Differs depending on stock category : can be a product lot code, a stock category, or a type of content
+             * @example GDE | F | Boite
              */
-            stock_category?: string;
-            /**
-             * @description WARNING / EMB TYPE ONLY : emb type
-             * @example Boite
-             */
-            emb_type?: string;
-            /**
-             * @description WARNING / PF TYPE ONLY : letter code for PF lot-numbers
-             * @example GDE
-             */
-            product_lot_code?: string;
+            product_specificity?: string;
         };
         /** @example {
          *       "errors_in_stocks": {
@@ -973,6 +999,73 @@ export interface operations {
                         error?: string;
                     };
                 };
+            };
+        };
+    };
+    ec2ea90dc22cd101d430e4e75bd71abc: {
+        parameters: {
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Order by column */
+                order_by?: "product_code" | "product_name" | "product_specificity";
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+                /** @description Filter value that appeared multiple times */
+                distinct?: boolean;
+                /** @description Select which data we want to fetch */
+                required_elts?: components["schemas"]["product_category_selected_elts"];
+                /** @description Add conditions in where clause to filter data */
+                filter_params?: components["schemas"]["filter_params_PC"];
+            };
+            header?: never;
+            path: {
+                stock_global_category: "PF" | "MP" | "EMB";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product Category data retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Stock data retrieved successfully */
+                        message?: string;
+                        data?: components["schemas"]["filter_params_PC"][];
+                    };
+                    "application/xml": {
+                        /** @example Product Category data retrieved successfully */
+                        message?: string;
+                        data?: components["schemas"]["filter_params_PC"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Stock not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
