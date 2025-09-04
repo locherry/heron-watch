@@ -1,4 +1,5 @@
 import { t } from "i18next";
+import { Apple } from "~/assets/images/icons/Apple";
 import { Table2 } from "~/assets/images/icons/Table2";
 import { User } from "~/assets/images/icons/User";
 import RootView from "~/components/layout/RootView";
@@ -13,6 +14,11 @@ export default function App() {
         href={"/admin/users"}
         icon={User}
         title={capitalizeFirst(t("admin.users.name"))}
+      />
+      <SettingsEntry
+        href={"/admin/products"}
+        icon={Apple}
+        title={capitalizeFirst(t("admin.product_category.name"))}
       />
       <SettingsEntry
         href={"/admin/exports"}

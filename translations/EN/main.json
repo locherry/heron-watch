@@ -104,7 +104,8 @@
   "product_category" : {
     "product_code" : "product code",
     "product_name" : "product name",
-    "product_specificity" : "product specificity"
+    "product_specificity" : "product specificity",
+    "selectStockGeneralCategory" : "Select a stock general category"
   },
   "common": {
     "open": "open",
@@ -129,6 +130,7 @@
     "actions": "actions",
     "date": "date",
     "product": "product",
+    "products" : "products",
     "cancel": "cancel",
     "OK": "OK",
     "sell": "sell",

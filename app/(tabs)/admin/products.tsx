@@ -6,18 +6,29 @@ import {
     View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Cylinder } from "~/assets/images/icons/Cylinder";
+import { Forklift } from "~/assets/images/icons/Forklift";
+import { Snowflake } from "~/assets/images/icons/Snowflake";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ProductCategoryTable } from "~/components/table/ProductCategoryTable";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
-import { H3 } from "~/components/ui/typography";
+import { H3, P } from "~/components/ui/typography";
 import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 type stockGlobalCategory = "PF" | "MP" | "EMB";
 
 export default function App() {
+    
     const [stockGlobalCategory, setStockGlobalCategory] = useState<stockGlobalCategory>("PF");
+    const GENERAL_STOCK_CATEGORIES = [
+    { value: "PF", label: t("stocks.finishedProducts"), icon: Forklift },
+    { value: "MP", label: t("stocks.rawMaterials"), icon: Snowflake },
+    { value: "EMB", label: t("stocks.packaging"), icon: Cylinder },
+  ] as const;
+
   const { data, isLoading, isError,fetchNextPage } = useInfiniteFetchQuery(
     "/productCategory/{stock_global_category}", 
     "get",
@@ -44,11 +55,53 @@ export default function App() {
 
   return (
     <RootView>
-    
     {/* Products */}
       <View className="flex-1">
         <Row className="flex-none">
-          <H3>{capitalizeFirst(t("common.history"))}</H3>
+          <H3 className="flex-1">{capitalizeFirst(t("common.products"))}</H3>
+          <Select
+            defaultValue={GENERAL_STOCK_CATEGORIES[0]}
+            value={GENERAL_STOCK_CATEGORIES.find((option) => option.value == stockGlobalCategory)}
+            onValueChange={(option) =>
+              setStockGlobalCategory(
+                option?.value as (typeof GENERAL_STOCK_CATEGORIES)[number]["value"]
+              )
+            }
+          >
+            <SelectTrigger>
+              <SelectValue
+                placeholder={capitalizeFirst(t("product_category.selectStockGeneralCategory"))}
+              >
+                <View className="mr-2 flex flex-row items-center">
+                  {(() => {
+                    const selectedOption = GENERAL_STOCK_CATEGORIES.find(
+                      (option) => option.value === stockGlobalCategory
+                    );
+                    if (selectedOption?.icon) {
+                      return <selectedOption.icon className="mr-2" size={16} />;
+                    }
+                    return null;
+                  })()}
+                  <P className="capitalize">
+                    {
+                      GENERAL_STOCK_CATEGORIES.find((option) => option.value == stockGlobalCategory)
+                        ?.label
+                    }
+                  </P>
+                </View>
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {GENERAL_STOCK_CATEGORIES.map((stock) => (
+                <SelectItem
+                  key={stock.value}
+                  value={String(stock.value)}
+                  label={capitalizeFirst(stock.label)}
+                  icon={stock.icon}
+                />
+              ))}
+            </SelectContent>
+          </Select>
         </Row>
         {isLoading ? (
           <ActivityIndicator />
