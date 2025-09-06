@@ -1,9 +1,10 @@
+import { Link } from "expo-router";
 import { t } from "i18next";
 import React, { useState } from "react";
 import {
-    ActivityIndicator,
-    useWindowDimensions,
-    View
+  ActivityIndicator,
+  useWindowDimensions,
+  View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Cylinder } from "~/assets/images/icons/Cylinder";
@@ -12,6 +13,7 @@ import { Snowflake } from "~/assets/images/icons/Snowflake";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ProductCategoryTable } from "~/components/table/ProductCategoryTable";
+import { Button } from "~/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { H3, P } from "~/components/ui/typography";
@@ -56,9 +58,9 @@ export default function App() {
   return (
     <RootView>
     {/* Products */}
-      <View className="flex-1">
-        <Row className="flex-none">
-          <H3 className="flex-1">{capitalizeFirst(t("common.products"))}</H3>
+      <View className="gap-y-10">
+        <Row className="justify-between">
+          <H3 className="">{capitalizeFirst(t("common.products"))}</H3>
           <Select
             defaultValue={GENERAL_STOCK_CATEGORIES[0]}
             value={GENERAL_STOCK_CATEGORIES.find((option) => option.value == stockGlobalCategory)}
@@ -67,6 +69,7 @@ export default function App() {
                 option?.value as (typeof GENERAL_STOCK_CATEGORIES)[number]["value"]
               )
             }
+            className=""
           >
             <SelectTrigger>
               <SelectValue
@@ -117,7 +120,20 @@ export default function App() {
             fetchNextPage={fetchNextPage}
           />
         )}
-      </View>
+    </View>
+    <View>
+      <Link
+        href={{
+          pathname: "/admin/add_new_product",
+          params: { stockCategory: stockGlobalCategory },
+        }}
+        asChild>
+        <Button
+          className="flex-1">
+            {capitalizeFirst(t("product_category.add_new_product"))}
+        </Button>
+      </Link>
+    </View>
     </RootView>
   );
 }

@@ -105,7 +105,8 @@
     "product_code" : "product code",
     "product_name" : "product name",
     "product_specificity" : "product specificity",
-    "selectStockGeneralCategory" : "Select a stock general category"
+    "selectStockGeneralCategory" : "Select a stock general category",
+    "add_new_product" : "add new product"
   },
   "common": {
     "open": "open",
@@ -144,6 +145,10 @@
     "invalidExpirationDate" : "invalid expiration date, date format is : dd-mm-yyyy eg : 31-12-2025",
     "invalidQuantity" : "invalid quantity, quantity sould be an integer",
     "invalidProductCode" : "invalid product code, should begin with three digits",
+    "invalidProductName" : "invalid product name, must consist of letters or numbers",
+    "invalidProductSpecificityPF" : "must be a disgnation of maximum 3 letters",
+    "invalidProductSpecificityMP" : "must be a letter between : F (frais), C (congelé), or S (sec)",
+    "invalidProductSpecificityEMB" : "must be a designation between 'Boite' or 'Couvercle'", 
     "invalidLotNumber" : "invalid lot number, should be three capital letters + 6 digits (ddmmyy)",
     "loginExpired": "login expired",
     "redirectToLogin" : "redirect to login"
