@@ -165,7 +165,7 @@ export default function MaterialTabsExample() {
         </Button>
         <Link
           href={{
-            pathname: "/home/add_pallet_sheet",
+            pathname: "/home/manage_pallet_sheet",
             params: { stockCategory: currentStockCategory[currentStockType] },
           }}
           asChild

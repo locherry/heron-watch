@@ -138,7 +138,8 @@
     "stock": "stock",
     "give": "give",
     "discard": "discard",
-    "product_category" : "product category"
+    "product_category" : "product category",
+    "submit_modifications" : "submit modifications"
   },
   "errors": {
     "required" : "This field is required",
@@ -170,6 +171,12 @@
     "alert_unable_to_create_qr" : "unable to create qr code",
     "alert_field_missing" : "some fileds are empty"
   },
+  "view_pallet_sheet" : {
+    "view_pallet_sheet" : "view pallet sheets"
+  },
+  "modify_pallet_sheet" :  {
+    "modify_existing_pallet_sheet" : "modify existing pallet sheet"
+  },
   "QR Code loaded": "QR Code loaded",
   "Toggle editing mode": "Toggle editing mode",
   "Total users": "Total users",
@@ -186,6 +193,7 @@
   "Real-Time Tracking": "Real-Time Tracking",
   "Error management": "Error management",
   "Manage Errors": "Manage Errors",
+  "manage_pallet_sheet" : "manage pallet sheet",
   "Generate a new pallet sheet" : "Generate a new pallet sheet",
   "Inventory Alerts": "Inventory Alerts",
   "Get right where you left :": "Get right where you left :",
