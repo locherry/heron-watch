@@ -15,7 +15,12 @@ import QrScannerButton from "~/components/QrScannerButton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger
+} from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { H2, P } from "~/components/ui/typography";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
@@ -247,8 +252,13 @@ export default function NewAction() {
     }
   }, [qrCodeResults.data]);
 
+  const selectedOption = ACTION_TYPES.find(
+    (option) => option.value === actionId
+  );
+  const SelectedIcon = selectedOption?.icon;
+
   return (
-    <RootView disableInsets={{ left: true}}>
+    <RootView disableInsets={{ left: true }}>
       <ScrollView showsVerticalScrollIndicator>
         <Row gap={8} className="mb-4">
           <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
@@ -266,19 +276,8 @@ export default function NewAction() {
             }
           >
             <SelectTrigger>
-              <SelectValue
-                placeholder={capitalizeFirst(t("actions.selectActionType"))}
-              >
                 <View className="mr-2 flex flex-row items-center">
-                  {(() => {
-                    const selectedOption = ACTION_TYPES.find(
-                      (option) => option.value === actionId
-                    );
-                    if (selectedOption?.icon) {
-                      return <selectedOption.icon className="mr-2" size={16} />;
-                    }
-                    return null;
-                  })()}
+                  {SelectedIcon && <SelectedIcon className="mr-2 text-foreground" size={16} />}
                   <P className="capitalize">
                     {
                       ACTION_TYPES.find((option) => option.value == actionId)
@@ -286,7 +285,6 @@ export default function NewAction() {
                     }
                   </P>
                 </View>
-              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {ACTION_TYPES.map((action) => (

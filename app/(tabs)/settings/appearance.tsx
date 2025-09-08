@@ -14,8 +14,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
+  SelectTrigger
 } from "~/components/ui/select";
 import { P } from "~/components/ui/typography";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
@@ -106,17 +105,13 @@ export default function AppearanceSettings() {
         defaultValue={options.find((option) => option.value == themeValue)}
       >
         <SelectTrigger className="w-[250px]">
-          <SelectValue
-            className="text-foreground text-sm native:text-lg flex flex-row items-center"
-            placeholder="Select Appearance Mode"
-          >
             <View className="mr-2 flex flex-row items-center">
               {(() => {
                 const selectedOption = options.find(
                   (option) => option.value === themeValue
                 );
                 if (selectedOption?.icon) {
-                  return <selectedOption.icon className="mr-2" size={16} />;
+                  return <selectedOption.icon className="mr-2 text-foreground" size={16} />;
                 }
                 return null; // If there's no icon, render nothing
               })()}
@@ -124,7 +119,6 @@ export default function AppearanceSettings() {
                 {options.find((option) => option.value === themeValue)?.label}
               </P>
             </View>
-          </SelectValue>
         </SelectTrigger>
         <SelectContent className="w-[250px]">
           <SelectGroup>

@@ -9,7 +9,7 @@ import { cn } from "~/lib/utils";
 
 type Option = SelectPrimitive.Option & {
   label: string;
-  icon?: LucideIcon;  // Optional icon for each option
+  icon?: LucideIcon; // Optional icon for each option
 };
 
 const Select = SelectPrimitive.Root;
@@ -27,9 +27,14 @@ function SelectTrigger({
   ref?: React.RefObject<SelectPrimitive.TriggerRef>;
   children?: React.ReactNode;
 }) {
+  const { setTriggerWidth } = React.useContext(SelectWidthContext);
+
   return (
     <SelectPrimitive.Trigger
       ref={ref}
+      onLayout={(e) => {
+        setTriggerWidth(e.nativeEvent.layout.width);
+      }}
       className={cn(
         "flex flex-row h-10 native:h-12 items-center text-sm justify-between rounded-md border border-input bg-background px-3 py-2 web:ring-offset-background text-muted-foreground web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1",
         props.disabled && "web:cursor-not-allowed opacity-50",
@@ -47,6 +52,26 @@ function SelectTrigger({
   );
 }
 
+const SelectWidthContext = React.createContext<{
+  triggerWidth: number | null;
+  setTriggerWidth: (width: number) => void;
+}>({
+  triggerWidth: null,
+  setTriggerWidth: () => {},
+});
+
+function SelectWrapper(
+  props: React.ComponentProps<typeof SelectPrimitive.Root>
+) {
+  const [triggerWidth, setTriggerWidth] = React.useState<number | null>(null);
+
+  return (
+    <SelectWidthContext.Provider value={{ triggerWidth, setTriggerWidth }}>
+      <SelectPrimitive.Root {...props} />
+    </SelectWidthContext.Provider>
+  );
+}
+
 function SelectContent({
   className,
   children,
@@ -59,6 +84,7 @@ function SelectContent({
   portalHost?: string;
 }) {
   const { open } = SelectPrimitive.useRootContext();
+  const { triggerWidth } = React.useContext(SelectWidthContext);
 
   return (
     <SelectPrimitive.Portal hostName={portalHost}>
@@ -77,6 +103,11 @@ function SelectContent({
               className
             )}
             position={position}
+            style={
+              Platform.OS !== "web" && triggerWidth
+                ? { width: triggerWidth }
+                : undefined
+            }
             {...props}
           >
             <SelectPrimitive.Viewport
@@ -146,7 +177,7 @@ function SelectItem({
       {/* Render the icon if available */}
       {Icon && (
         <View className="absolute left-2 native:left-3.5 flex h-3.5 native:pt-px w-3.5 items-center justify-center">
-            <Icon size={16} className="text-popover-foreground" />
+          <Icon size={16} className="text-popover-foreground" />
         </View>
       )}
 
@@ -170,13 +201,11 @@ function SelectSeparator({
 }
 
 export {
-  Select,
+  SelectWrapper as Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectLabel,
-  // SelectScrollDownButton,
-  // SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
   SelectValue
