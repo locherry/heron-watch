@@ -85,7 +85,7 @@ function SheetRow({
 export default function add_pallet_sheet() {
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
   const { stockCategory = "PF_G" } = rawParams as {
-    stockCategory?: "PF_G" | "PF_M";
+    stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_C" | "MP_S" | "EMB";
   };
   const { height, width } = useWindowDimensions();
   const { rowNameWidth, rowsHeight } = {
@@ -210,7 +210,7 @@ export default function add_pallet_sheet() {
 
   let isSelectingPC = false;
   let isSelectingLN = false;
-  console.log(alreadyPlacedQuantity);
+  console.log(isNewDataLoading);
   return (
     <RootView disableInsets={{ left: true, top: true }}>
       <FlatList

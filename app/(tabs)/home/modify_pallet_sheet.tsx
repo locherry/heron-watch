@@ -10,6 +10,7 @@ import {
 import { Pencil } from "~/assets/images/icons/Pencil";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
+import QrScannerButton from "~/components/QrScannerButton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
@@ -123,31 +124,25 @@ export default function add_pallet_sheet() {
   );
 
   //State depending constants
-  const [filteredData, setFilteredData] = useState(data?.data ?? []);
   const [dynamic_product_code_value, setDynamicProductCodeValue] = useState("");
   const [dynamic_lot_number_value, setDynamicLotNumberValue] = useState("");
   const [isProductCodeSelected, setIsProductCodeSelected] = useState(false);
   const [isLotNumberSelected, setIsLotNumberSelected] = useState(false);
   const [completeData, setCompleteData] = useState<any>([]);
+  const [qrId, setQrId] = useState<undefined | number>(undefined);
 
   let {
-    data: productCompleteData = [],
+    data: palletCompleteData = [],
     isLoading: isNewDataLoading = false,
     error: newDataError,
   } = useFetchQuery(
-    "/stocks_join_product_category/{stock_category}",
+    "/qr-code/{qr_code_id}",
     "get",
     {
-      path: { stock_category: stockCategory },
-      query: {
-        filter_params: {
-          product_code: product_code_value,
-          lot_number: lot_number_value,
-        },
-      },
+      path: { qr_code_id: qrId ?? 0},
     },
     undefined,
-    isProductCodeSelected && isLotNumberSelected
+    qrId ? true : false
   );
 
   let {data : alreadyPlacedQuantity = null, isLoading : isLoadingPlacedQuantity = false, error : placedQuantityError = false} = useFetchQuery(
@@ -161,41 +156,15 @@ export default function add_pallet_sheet() {
   )
 
   useEffect(() => {
-    if (!isProductCodeSelected && !isLotNumberSelected) {
-      if (data !== undefined && data.data !== undefined) {
-        let filteredResult = data?.data?.filter((line) =>
-          line.product_code.includes(dynamic_product_code_value)
-        );
-        setFilteredData(filteredResult);
-      }
-    }
-  }, [dynamic_product_code_value]);
-
-  useEffect(() => {
-    if (!isLotNumberSelected && isProductCodeSelected) {
-      if (data !== undefined && data.data !== undefined) {
-        let filteredResult = data?.data?.filter((line) =>
-          line.lot_number.includes(dynamic_lot_number_value)
-        );
-        setFilteredData(filteredResult);
-      }
-    }
-  }, [dynamic_lot_number_value]);
-
-  useEffect(() => {
-    if (productCompleteData && !Array.isArray(productCompleteData)) {
-      setCompleteData(productCompleteData?.data?.[0]);
+    if (palletCompleteData && !Array.isArray(palletCompleteData)) {
+      setCompleteData(palletCompleteData?.data);
     } else if (
       !Array.isArray(completeData) &&
       (!isLotNumberSelected || !isProductCodeSelected)
     ) {
       setCompleteData([]);
     }
-  }, [productCompleteData]);
-
-  useEffect(() => {
-    setFilteredData(data?.data ?? []);
-  }, [data]);
+  }, [palletCompleteData]);
 
   let isSelectingPC = false;
   let isSelectingLN = false;
@@ -227,8 +196,8 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 label={t("add_pallet_sheet.origin")}
-                editable={isLotNumberSelected}
-                placeholder="Origin (Ex : IGP)"
+                editable={false}
+                placeholder="ORIGIN"
                 value={originInput}
                 onChangeText={(text) =>
                   setOriginInput(text === "" ? undefined : text)
@@ -238,8 +207,8 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 label={t("add_pallet_sheet.client")}
-                editable={isLotNumberSelected}
-                placeholder="Client (Ex : AGRO)"
+                editable={false}
+                placeholder="CLIENT"
                 value={clientInput}
                 onChangeText={(text) =>
                   setClientInput(text === "" ? undefined : text)
@@ -272,7 +241,7 @@ export default function add_pallet_sheet() {
                 label={t("add_pallet_sheet.quantity")}
                 editable={isLotNumberSelected}
                 placeholder="Ex : 40"
-                value={quantityInput?.toString()}
+                value={completeData?.quantity}
                 onChangeText={(text) =>
                   setQuantityInput(text === "" ? undefined : text)
                 }
@@ -282,9 +251,13 @@ export default function add_pallet_sheet() {
               />
             </View>
             <View className="items-center mt-4">
+                {qrId ? 
                 <Button className="" icon={Pencil}>
                     {capitalizeFirst(t("common.submit_modifications"))}
                 </Button>
+                : <QrScannerButton onScan={(data) => {setQrId(Number(data))}}>
+                    
+                  </QrScannerButton>}
             </View>
           </>
         }
