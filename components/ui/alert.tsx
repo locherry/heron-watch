@@ -43,12 +43,12 @@ function Alert({
   // Decide icon color based on variant
   const iconColor =
     variant === 'destructive'
-      ? colors.notification
+      ? "text-red-500"
       : variant === 'success'
-      ? "text-green-500"// or 'green' from your theme
+      ? "text-green-500"
       : variant === 'info'
-      ? "text-blue-500" // can be theme.blue if available
-      : colors.text;
+      ? "text-blue-500"
+      : "text-foreground";
 
   return (
     <View role='alert' className={alertVariants({ variant, className })} {...props}>
