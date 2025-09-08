@@ -248,11 +248,11 @@ export default function NewAction() {
   }, [qrCodeResults.data]);
 
   return (
-    <RootView disableInsets={{ left: true, top: true }}>
+    <RootView disableInsets={{ left: true}}>
       <ScrollView showsVerticalScrollIndicator>
         <Row gap={8} className="mb-4">
           <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
-          <QrScannerButton onScan={(data) => console.log(data)} />
+          <QrScannerButton onScan={onScan} />
         </Row>
         <Column gap={16}>
           {/* action type select... */}

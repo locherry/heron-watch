@@ -102,7 +102,7 @@ export default function NewActions() {
   };
 
   return (
-    <RootView disableInsets={{ left: true, top: true }}>
+    <RootView disableInsets={{ left: true}}>
       <H2 className="mb-2">
         <Row className="w-full justify-between">
           <Text className="text-4xl">
