@@ -593,7 +593,7 @@ export interface operations {
                 /** @description Number of items to skip (for pagination) */
                 offset?: number;
                 /** @description Order by column */
-                order_by?: "created_at" | "created_by_id" | "id" | "lot_number";
+                order_by?: "created_at" | "created_by_id" | "id" | "lot_number" | "product_code" | "action_id";
                 /** @description Sort order: asc or desc */
                 sort?: "asc" | "desc";
             };

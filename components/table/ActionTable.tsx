@@ -9,12 +9,15 @@ import { t } from "i18next";
 import * as React from "react";
 import {
   FlatList,
+  Pressable,
   ScrollView,
   View,
   ViewProps,
-  useWindowDimensions,
+  useWindowDimensions
 } from "react-native";
-import { Action } from "~/@types/action";
+import { Action, ActionSortState } from "~/@types/action";
+import { ChevronDown } from "~/assets/images/icons/ChevronDown";
+import { ChevronUp } from "~/assets/images/icons/ChevronUp";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { capitalizeFirst, cn } from "~/lib/utils";
@@ -30,11 +33,13 @@ type ActionTableHiddenKeys = keyof Action | "actions";
 type ActionTableProps = ViewProps & {
   data: Action[];
   fetchNextPage?: GenericFetchNextPage;
-  totalRow?: boolean;
   editionMode?: boolean;
   onEdit?: (action: Action) => void;
   onDelete?: (action: Action) => void;
-  hiddenColumns?: ActionTableHiddenKeys[]; // 👈 fully typed
+  hiddenColumns?: ActionTableHiddenKeys[];
+  totalRow?: boolean;
+  sorting?: ActionSortState | null;
+  onSortingChange?: (newSorting: ActionSortState | null) => void;
 };
 
 export function ActionTable({
@@ -46,6 +51,8 @@ export function ActionTable({
   onEdit,
   onDelete,
   hiddenColumns,
+  sorting,
+  onSortingChange,
 }: ActionTableProps) {
   const { width, height } = useWindowDimensions();
   const tableHeight = Math.min(height * 0.6, 400);
@@ -96,6 +103,41 @@ export function ActionTable({
     ],
     []
   );
+
+  // --- Sort logic
+  const sortableColumns = [
+    "created_at",
+    "created_by_id",
+    "action_id",
+    "lot_number",
+    "product_code",
+    "id"    
+  ];
+
+  const toggleSort = (columnId: string) => {
+    if (!onSortingChange || !sortableColumns.includes(columnId)) return;
+
+    const isCurrentlySorted = sorting?.order_by === columnId;
+    const currentDirection = sorting?.sort;
+
+    let newSort: ActionSortState | null;
+
+    if (!isCurrentlySorted) {
+      newSort = {
+        order_by: columnId as ActionSortState["order_by"],
+        sort: "asc",
+      };
+    } else if (currentDirection === "asc") {
+      newSort = {
+        order_by: columnId as ActionSortState["order_by"],
+        sort: "desc",
+      };
+    } else {
+      newSort = null; // Reset sorting
+    }
+
+    onSortingChange(newSort);
+  };
 
   // --- Columns (filtered + optional edition actions) ---
   const columns = React.useMemo<ColumnDef<Action>[]>(() => {
@@ -158,15 +200,23 @@ export function ActionTable({
           <View
             key={header.id}
             style={{ width: columnWidths[i] }}
-            className="p-2"
+            className="py-2 px-2"
           >
             {!header.isPlaceholder && (
-              <Text className="font-bold text-foreground">
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext()
-                )}
-              </Text>
+              <Pressable onPress={() => toggleSort(header.column.id)}>
+                <View className="flex-row items-center">
+                  <Text className="font-bold text-foreground mr-1">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </Text>
+
+                  {sortableColumns.includes(header.column.id) &&
+                    sorting?.order_by === header.column.id &&
+                    (sorting.sort === "asc" ? <ChevronUp /> : <ChevronDown />)}
+                </View>
+              </Pressable>
             )}
           </View>
         ))

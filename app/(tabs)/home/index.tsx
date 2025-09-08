@@ -1,6 +1,6 @@
 /**
  * Readme please
- * 
+ *
  * Stock type refers to the type of stock, whether it is "raw_materials" or "finished_products"
  * Stock category refers to the category of stock, e.g. "PF_G" | "MP_F"
  */
@@ -9,6 +9,7 @@ import { Link } from "expo-router";
 import { t } from "i18next";
 import React, { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
+import { ActionSortState } from "~/@types/action";
 import { Factory } from "~/assets/images/icons/Factory";
 import { Forklift } from "~/assets/images/icons/Forklift";
 import { Leaf } from "~/assets/images/icons/Leaf";
@@ -81,10 +82,15 @@ export default function MaterialTabsExample() {
     }));
   }
 
+  const [sorting, setSorting] = useState<ActionSortState | null>(null);
+
   const { data, error, isLoading, isError, fetchNextPage } =
     useInfiniteFetchQuery("/actions/{stock_category}", "get", {
       path: { stock_category: currentStockCategory[currentStockType] },
-      query: { limit: 10 },
+      query: {
+        limit: 10,
+        ...(sorting ? { sort: sorting.sort, order_by: sorting.order_by } : {}),
+      },
     });
 
   if (isError) {
@@ -92,7 +98,7 @@ export default function MaterialTabsExample() {
   }
 
   return (
-    <RootView disableInsets={{left:true}}>
+    <RootView disableInsets={{ left: true }}>
       <MaterialTabs
         className="mb-2"
         value={currentStockType}
@@ -119,12 +125,17 @@ export default function MaterialTabsExample() {
       >
         <TabsList className="flex-row w-full">
           {stockCategoryTabs[currentStockType].map((tab) => (
-            <TabsTrigger value={tab.stock_category} className="flex-1" key={tab.stock_category}>
+            <TabsTrigger
+              value={tab.stock_category}
+              className="flex-1"
+              key={tab.stock_category}
+            >
               <Row className="flex-1 justify-center">
                 <tab.icon
                   className={cn(
                     "h-4 w-4 mr-2",
-                    tab.stock_category === currentStockCategory[currentStockType]
+                    tab.stock_category ===
+                      currentStockCategory[currentStockType]
                       ? "text-foreground"
                       : "text-muted-foreground"
                   )}
@@ -184,15 +195,11 @@ export default function MaterialTabsExample() {
         {isLoading ? (
           <ActivityIndicator />
         ) : (
-          // <ActionTable
-          //   data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
-          //   fetchNextPage={fetchNextPage}
-          // />
-
           <ActionTable
-            // className="flex-1 h-full border-red-500 border-4"
             data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
             fetchNextPage={fetchNextPage}
+            sorting={sorting}
+            onSortingChange={setSorting}
           />
         )}
       </View>
