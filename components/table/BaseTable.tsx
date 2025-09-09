@@ -56,12 +56,18 @@ export function BaseTable<T>({
     </View>
   );
 
-  const renderRow = ({ item }: { item: any }) => (
-    <View className="flex-row">
-      {item.getVisibleCells().map((cell: any, index: number) => (
+  const renderRow = ({ item, index }: { item: any; index: number }) => (
+    <View
+      className={cn(
+        "flex-row",
+        index % 2 === 0 ? "bg-muted" : "bg-background",
+        "dark:bg-muted-dark dark:odd:bg-background-dark"
+      )}
+    >
+      {item.getVisibleCells().map((cell: any, cellIndex: number) => (
         <View
           key={cell.id}
-          style={{ width: columnWidths[index] }}
+          style={{ width: columnWidths[cellIndex] }}
           className="p-2"
         >
           <Text>
@@ -89,7 +95,7 @@ export function BaseTable<T>({
       </ScrollView>
 
       {totalRow && (
-        <View className="flex-row justify-between p-2 border-t border-border">
+        <View className="flex-row justify-between p-2 border-t border-border bg-background dark:bg-background-dark">
           <Text>Total rows</Text>
           <Text>{data.length}</Text>
         </View>
