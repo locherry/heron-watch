@@ -8,6 +8,7 @@ import {
   View
 } from "react-native";
 import { Pencil } from "~/assets/images/icons/Pencil";
+import { Trash } from "~/assets/images/icons/Trash";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import QrScannerButton from "~/components/QrScannerButton";
@@ -19,6 +20,7 @@ import { capitalizeFirst, cn } from "~/lib/utils";
 
 interface SheetRowProps {
   label: string;
+  classNameText? : string;
   value?: string | number;
   editable?: boolean;
   placeholder?: string;
@@ -39,6 +41,7 @@ function SheetRow({
   rowsHeight,
   bordersEnabled = true,
   isLoading = false,
+  classNameText = ""
 }: SheetRowProps) {
   return (
     <Row
@@ -64,7 +67,7 @@ function SheetRow({
         ) : isLoading ? (
           <ActivityIndicator size="small" color="hsl(var(--primary))" />
         ) : (
-          <Text className="font-extrabold text-[30px] text-center flex-1">
+          <Text className={cn("font-extrabold text-[30px] text-center flex-1", classNameText)}>
             {value ?? ""}
           </Text>
         )}
@@ -189,16 +192,18 @@ export default function add_pallet_sheet() {
               <SheetRow
                 label={t("add_pallet_sheet.origin")}
                 editable={false}
-                placeholder="ORIGIN"
+                value="ORIGIN"
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
+                classNameText="text-gray-300"
               />
               <SheetRow
                 label={t("add_pallet_sheet.client")}
                 editable={false}
-                placeholder="CLIENT"
+                value="CLIENT"
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
+                classNameText="text-gray-300"
               />
               <SheetRow
                 editable={false}
@@ -238,9 +243,16 @@ export default function add_pallet_sheet() {
             </View>
             <View className="items-center mt-4">
                 {qrId ? 
-                <Button className="" icon={Pencil}>
-                    {capitalizeFirst(t("common.submit_modifications"))}
-                </Button>
+                  <>
+                    <Row className="items-center justify-center" gap={20}>
+                      <Button className="" icon={Pencil}>
+                          {capitalizeFirst(t("common.submit_modifications"))}
+                      </Button>
+                      <Button icon={Trash}>
+                        {capitalizeFirst(t("modify_pallet_sheet.delete_pallet_sheet"))}
+                      </Button>
+                    </Row>
+                  </>
                 : <QrScannerButton onScan={(data) => {setQrId(Number(data))}}>
                     {capitalizeFirst(t("modify_pallet_sheet.scan_existing_sheet"))}
                   </QrScannerButton>}
