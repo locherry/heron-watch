@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { ChevronRight } from "~/assets/images/icons/ChevronRight"; // Chevron icon to indicate navigation
 import { cn } from "~/lib/utils"; // Utility to concatenate class names conditionally
 import { Button } from "./ui/button"; // Custom Button component
-import { P } from "./ui/typography"; // Custom Paragraph/Text component
+import { Text } from "./ui/text";
 
 // SettingsEntry component props type declaration
 const SettingsEntry = ({
@@ -30,7 +30,7 @@ const SettingsEntry = ({
       <View className="flex-row items-center">
         {/* Render the icon with size, margin, and stroke width */}
         <Icon size={24} className="mr-3 text-foreground" strokeWidth={1.5} />
-        <P>{title}</P>
+        <Text>{title}</Text>
       </View>
       {/* Right arrow icon to indicate it's a navigable item */}
       <ChevronRight size={24} className="text-muted-foreground" />

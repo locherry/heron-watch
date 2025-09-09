@@ -22,7 +22,6 @@ import {
   SelectTrigger
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
-import { H2, P } from "~/components/ui/typography";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -261,7 +260,7 @@ export default function NewAction() {
     <RootView disableInsets={{ left: true }}>
       <ScrollView showsVerticalScrollIndicator>
         <Row gap={8} className="mb-4">
-          <H2 className="flex-1">{capitalizeFirst(t("actions.newAction"))}</H2>
+          <Text variant="h2" className="flex-1">{capitalizeFirst(t("actions.newAction"))}</Text>
           <QrScannerButton onScan={onScan} />
         </Row>
         <Column gap={16}>
@@ -278,12 +277,12 @@ export default function NewAction() {
             <SelectTrigger>
                 <View className="mr-2 flex flex-row items-center">
                   {SelectedIcon && <SelectedIcon className="mr-2 text-foreground" size={16} />}
-                  <P className="capitalize">
+                  <Text className="capitalize">
                     {
                       ACTION_TYPES.find((option) => option.value == actionId)
                         ?.label
                     }
-                  </P>
+                  </Text>
                 </View>
             </SelectTrigger>
             <SelectContent>

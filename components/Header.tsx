@@ -7,7 +7,6 @@ import Row from "./layout/Row";
 import { Button } from "./ui/button";
 import { Text } from "./ui/text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import { H3 } from "./ui/typography";
 
 type HeaderProps = {
   className?: string; // Optional className prop for customization
@@ -30,7 +29,7 @@ export default function Header({ className, children, title, onBack }: HeaderPro
           <Text>{capitalizeFirst(t("common.goBack"))}</Text>
         </TooltipContent>
       </Tooltip>
-      <H3>{title}</H3>
+      <Text variant="h3">{title}</Text>
       {children}
     </Row>
   );

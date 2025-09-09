@@ -13,7 +13,7 @@ import { StockSortState } from "~/@types/stock";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { StockTable } from "~/components/table/StockTable";
-import { H3 } from "~/components/ui/typography";
+import { Text } from "~/components/ui/text";
 import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -43,7 +43,7 @@ export default function ViewStocks() {
       {/* Action History */}
       <View className="flex-1">
         <Row className="flex-none">
-          <H3>{capitalizeFirst(t("stocks.viewStocks"))}</H3>
+          <Text variant="h3">{capitalizeFirst(t("stocks.viewStocks"))}</Text>
         </Row>
         {isLoading ? (
           <ActivityIndicator />

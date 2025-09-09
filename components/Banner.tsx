@@ -2,7 +2,7 @@ import React from "react";
 import { Image } from "react-native";
 import Column from "./layout/Column";
 import Row from "./layout/Row";
-import { H2, H4 } from "./ui/typography";
+import { Text } from "./ui/text";
 
 interface RootViewProps {
   className?: string; // Optional className prop for customization
@@ -16,8 +16,8 @@ const Banner: React.FC<RootViewProps> = ({ className }) => {
         source={require("~/assets/images/icon.svg")}
       />
       <Column className="flex-1 justify-start items-start">
-        <H2 className="w-full text-left">Heron Watch</H2>
-        <H4 className="text-muted-foreground">Stock Management solutions</H4>
+        <Text variant="h2" className="w-full text-left">Heron Watch</Text>
+        <Text variant="h4" className="text-muted-foreground">Stock Management solutions</Text>
       </Column>
     </Row>
   );

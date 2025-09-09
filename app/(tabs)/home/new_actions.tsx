@@ -17,7 +17,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { H2 } from "~/components/ui/typography";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -103,7 +102,7 @@ export default function NewActions() {
 
   return (
     <RootView disableInsets={{ left: true}}>
-      <H2 className="mb-2">
+      <Text variant="h2" className="mb-2">
         <Row className="w-full justify-between">
           <Text className="text-4xl">
             {capitalizeFirst(t("actions.newActions"))}
@@ -122,7 +121,7 @@ export default function NewActions() {
             </TooltipContent>
           </Tooltip>
         </Row>
-      </H2>
+      </Text>
       <ScrollView>
         <ActionTable
           data={actions}

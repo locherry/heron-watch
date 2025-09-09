@@ -11,7 +11,7 @@ import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
-import { H4, P } from "~/components/ui/typography";
+import { Text } from "~/components/ui/text";
 import { capitalizeFirst } from "~/lib/utils";
 export default function App() {
   const router = useRouter(); // Initialize the router
@@ -26,21 +26,21 @@ export default function App() {
         <Banner className="mb-8 sm:w-[400px]" />
         {/* Features Section */}
         <Card className="w-full max-w-[400px] mb-6 p-4">
-          <H4 className="text-xl font-semibold mb-3">
+          <Text variant="h4" className="text-xl font-semibold mb-3">
             {t("Your all in one solution for:")}
-          </H4>
+          </Text>
           <Row className="">
             <Column className="h-full items-center w-1/3">
               <RefreshCcw className="text-foreground" />
-              <P className="mt-2 text-center">{t("Real-Time Tracking")}</P>
+              <Text variant="p" className="mt-2 text-center">{t("Real-Time Tracking")}</Text>
             </Column>
             <Column className="h-full items-center w-1/3">
               <Megaphone className="text-foreground" />
-              <P className="mt-2 text-center">{t("Inventory Alerts")}</P>
+              <Text variant="p" className="mt-2 text-center">{t("Inventory Alerts")}</Text>
             </Column>
             <Column className="h-full items-center w-1/3">
               <ServerCrash className="text-foreground" />
-              <P className="mt-2 text-center">{t("Error management")}</P>
+              <Text variant="p" className="mt-2 text-center">{t("Error management")}</Text>
             </Column>
           </Row>
         </Card>
@@ -50,9 +50,9 @@ export default function App() {
             {capitalizeFirst(t("user.login"))}
           </Button>
         </Row>
-        <P className="text-muted-foreground">
+        <Text variant="p" className="text-muted-foreground">
           {t("Made with ❤️ by Ellande & Aloys || All rights reserved")}
-        </P>
+        </Text>
         {/* <Image
         className="w-full h-100 absolute"
         source={require("~/assets/images/Cattail_flowers_Silouhette.svg")}

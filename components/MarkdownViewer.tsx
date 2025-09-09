@@ -2,7 +2,6 @@ import * as FileSystem from "expo-file-system";
 import * as React from "react";
 import { Platform, ScrollView } from "react-native";
 import { Text } from "~/components/ui/text";
-import { BlockQuote, H1, H2, H3, P } from "~/components/ui/typography";
 
 type MarkdownViewerProps = {
   path: string; // local file (native) OR public file (web)
@@ -65,16 +64,16 @@ const renderInline = (text: string, keyPrefix: string) => {
 // Simple renderer (with inline bold, keeps font sizes from parent typography)
 const renderLine = (line: string, index: number) => {
   if (line.startsWith("### "))
-    return <H3 key={index}>{renderInline(line.replace(/^###\s*/, ""), `h3-${index}`)}</H3>;
+    return <Text variant="h3" key={index}>{renderInline(line.replace(/^###\s*/, ""), `Text variant="h3"-${index}`)}</Text>;
   if (line.startsWith("## "))
-    return <H2 key={index}>{renderInline(line.replace(/^##\s*/, ""), `h2-${index}`)}</H2>;
+    return <Text variant="h2" key={index}>{renderInline(line.replace(/^##\s*/, ""), `h2-${index}`)}</Text>;
   if (line.startsWith("# "))
-    return <H1 key={index}>{renderInline(line.replace(/^#\s*/, ""), `h1-${index}`)}</H1>;
+    return <Text variant="h1" key={index}>{renderInline(line.replace(/^#\s*/, ""), `h1-${index}`)}</Text>;
   if (/^\s*-\s+/.test(line))
-    return <P key={index}>{renderInline("• " + line.replace(/^\s*-\s+/, ""), `li-${index}`)}</P>;
+    return <Text variant="p" key={index}>{renderInline("• " + line.replace(/^\s*-\s+/, ""), `li-${index}`)}</Text>;
   if (line.startsWith("> "))
-    return <BlockQuote key={index}>{renderInline(line.replace(/^>\s*/, ""), `bq-${index}`)}</BlockQuote>;
+    return <Text variant="blockquote" key={index}>{renderInline(line.replace(/^>\s*/, ""), `bq-${index}`)}</Text>;
   if (line.trim() !== "")
-    return <P key={index}>{renderInline(line, `p-${index}`)}</P>;
+    return <Text variant="p" key={index}>{renderInline(line, `p-${index}`)}</Text>;
   return <Text key={index}>{"\n"}</Text>;
 };

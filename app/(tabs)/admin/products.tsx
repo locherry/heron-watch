@@ -18,7 +18,6 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
-import { H3, P } from "~/components/ui/typography";
 import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -51,7 +50,7 @@ export default function App() {
       {/* Products */}
       <View className="gap-y-10">
         <Row className="justify-between">
-          <H3 className="">{capitalizeFirst(t("common.products"))}</H3>
+          <Text variant="h3" className="">{capitalizeFirst(t("common.products"))}</Text>
           <Select
             defaultValue={GENERAL_STOCK_CATEGORIES[0]}
             value={GENERAL_STOCK_CATEGORIES.find(
@@ -80,13 +79,13 @@ export default function App() {
                     }
                     return null;
                   })()}
-                  <P className="capitalize">
+                  <Text className="capitalize">
                     {
                       GENERAL_STOCK_CATEGORIES.find(
                         (option) => option.value == stockGlobalCategory
                       )?.label
                     }
-                  </P>
+                  </Text>
                 </View>
               </SelectValue>
             </SelectTrigger>

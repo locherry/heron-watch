@@ -22,7 +22,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { H2 } from "~/components/ui/typography";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
@@ -220,7 +219,7 @@ export default function add_pallet_sheet() {
         renderItem={null}
         ListHeaderComponent={
           <>
-            <H2 className="mb-2">
+            <Text variant="h2" className="mb-2">
               <Row className="w-full justify-between">
                 <Text className="text-4xl">
                   {capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
@@ -255,7 +254,7 @@ export default function add_pallet_sheet() {
                   </TooltipContent>
                 </Tooltip>
               </Row>
-            </H2>
+            </Text>
 
             {/* PRODUCT CODE AUTOCOMPLETE */}
             <Row className="w-full justify-between mb-2 z-20">

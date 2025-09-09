@@ -7,7 +7,7 @@ import { Pencil } from "~/assets/images/icons/Pencil";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
-import { H2 } from "~/components/ui/typography";
+import { Text } from "~/components/ui/text";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function App() {
@@ -18,9 +18,9 @@ export default function App() {
     return (
         <RootView>
             <View className="self-center">
-                <H2 className="">
+                <Text variant="h2">
                     {capitalizeFirst(t("manage_pallet_sheet"))}
-                </H2>
+                </Text>
             </View>
             <View className="flex-1 align-center justify-center">
                 <Row className="justify-center" gap={50}>

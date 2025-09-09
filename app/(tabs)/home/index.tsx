@@ -30,7 +30,6 @@ import {
 } from "~/components/ui/material-tabs";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Text } from "~/components/ui/text";
-import { H3 } from "~/components/ui/typography";
 import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
@@ -198,7 +197,7 @@ export default function MaterialTabsExample() {
       {/* Action History */}
       <View className="flex-1">
         <Row className="flex-none">
-          <H3>{capitalizeFirst(t("common.history"))}</H3>
+          <Text variant="h3">{capitalizeFirst(t("common.history"))}</Text>
         </Row>
         {isLoading ? (
           <ActivityIndicator />

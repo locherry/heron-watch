@@ -9,7 +9,7 @@ import { User } from "~/assets/images/icons/User";
 import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
-import { H2 } from "~/components/ui/typography";
+import { Text } from "~/components/ui/text";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -42,7 +42,7 @@ export default function SettingsScreen() {
 
   return (
     <RootView>
-      <H2>{capitalizeFirst(t("common.settings"))}</H2>
+      <Text variant="h2">{capitalizeFirst(t("common.settings"))}</Text>
       <SettingsEntry
         href="/settings/appearance"
         icon={Paintbrush}

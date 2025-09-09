@@ -16,7 +16,7 @@ import {
   SelectItem,
   SelectTrigger
 } from "~/components/ui/select";
-import { P } from "~/components/ui/typography";
+import { Text } from "~/components/ui/text";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { useColorScheme } from "~/lib/hooks/useColorScheme";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
@@ -115,9 +115,9 @@ export default function AppearanceSettings() {
                 }
                 return null; // If there's no icon, render nothing
               })()}
-              <P>
+              <Text>
                 {options.find((option) => option.value === themeValue)?.label}
-              </P>
+              </Text>
             </View>
         </SelectTrigger>
         <SelectContent className="w-[250px]">

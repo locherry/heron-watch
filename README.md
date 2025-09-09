@@ -27,7 +27,7 @@ Heron Watch is a React Native / Expo Router based application focused on providi
 - **[/app](./app):** Contains routing and layout files following [Expo Router](https://expo.github.io/router/docs) conventions.
   
 - **[/components](./components):** Reusable UI and layout components structured by function.
-  - **[ui](./components/ui):** UI building blocks added via [react-native-reusables (rnr)](https://reactnativereusables.com/getting-started/introduction/) like `Button`, `Typography` (`H2`, `H4`, `P`), and `Table` components.
+  - **[ui](./components/ui):** UI building blocks added via [react-native-reusables (rnr)](https://reactnativereusables.com/getting-started/introduction/) like `Button`, and `Table` components.
   - **[layout](./components/layout):** Components related to item placement and disposition such as `Row` and `Column`.
   - Other custom folders for feature-specific or grouped components.
   

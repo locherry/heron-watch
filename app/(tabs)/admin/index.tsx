@@ -4,12 +4,12 @@ import { Table2 } from "~/assets/images/icons/Table2";
 import { User } from "~/assets/images/icons/User";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
-import { H2 } from "~/components/ui/typography";
+import { Text } from "~/components/ui/text";
 import { capitalizeFirst } from "~/lib/utils";
 export default function App() {
   return (
     <RootView>
-      <H2>{capitalizeFirst(t("admin.tabName"))}</H2>
+      <Text variant="h2">{capitalizeFirst(t("admin.tabName"))}</Text>
       <SettingsEntry
         href={"/admin/users"}
         icon={User}

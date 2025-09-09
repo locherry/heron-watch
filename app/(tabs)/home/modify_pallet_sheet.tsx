@@ -2,10 +2,10 @@ import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    FlatList,
-    useWindowDimensions,
-    View
+  ActivityIndicator,
+  FlatList,
+  useWindowDimensions,
+  View
 } from "react-native";
 import { Pencil } from "~/assets/images/icons/Pencil";
 import RootView from "~/components/layout/RootView";
@@ -14,7 +14,6 @@ import QrScannerButton from "~/components/QrScannerButton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
-import { H2 } from "~/components/ui/typography";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
@@ -178,13 +177,13 @@ export default function add_pallet_sheet() {
         renderItem={null}
         ListHeaderComponent={
           <>
-            <H2 className="mb-2">
+            <Text variant="h2" className="mb-2">
               <Row className="w-full justify-between">
                 <Text className="text-4xl">
                   {capitalizeFirst(t("modify_pallet_sheet.modify_existing_pallet_sheet"))}
                 </Text>
               </Row>
-            </H2>
+            </Text>
             {/* PALLET SHEET DETAILS */}
             <View className="border-2 border-[hsl(var(--border))] rounded-xl">
               <SheetRow
