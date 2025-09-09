@@ -1,7 +1,7 @@
 import * as TabsPrimitive from "@rn-primitives/tabs";
+import { useColorScheme } from "nativewind";
 import * as React from "react";
 import { Animated, Easing, LayoutChangeEvent, Pressable } from "react-native";
-import { useColorScheme } from "~/lib/hooks/useColorScheme";
 import { cn } from "~/lib/utils";
 import { Text } from "./text";
 

@@ -9,7 +9,6 @@ import * as React from "react";
 import { Appearance, Platform } from "react-native";
 import "~/global.css";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
-import { useColorScheme } from "~/lib/hooks/useColorScheme";
 import { NAV_THEME } from "~/lib/theme";
 
 /* -------------------------------------------------------------------------- */
@@ -22,6 +21,7 @@ import "../translations/i18n";
 /* -------------------------------------------------------------------------- */
 /*                Ignore specific deprecation warnings from dependencies      */
 /* -------------------------------------------------------------------------- */
+import { useColorScheme } from "nativewind";
 import { LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToastProvider } from "~/components/ui/toast";
@@ -46,7 +46,7 @@ export default function RootLayout() {
   const hasMounted = React.useRef(false);
 
   // Custom hook to get and set the color scheme from nativewind or other source
-  const { colorScheme, isDarkColorScheme, setColorScheme } = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
 
   // State to track whether color scheme is loaded before rendering UI
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);

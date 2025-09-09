@@ -1,5 +1,6 @@
 import { t } from "i18next";
 import { LucideIcon } from "lucide-react-native";
+import { useColorScheme } from "nativewind";
 import React, { useEffect } from "react";
 import { Appearance, View } from "react-native";
 import { userThemeValue } from "~/@types/user";
@@ -18,7 +19,6 @@ import {
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
-import { useColorScheme } from "~/lib/hooks/useColorScheme";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
