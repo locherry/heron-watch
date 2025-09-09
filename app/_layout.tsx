@@ -1,8 +1,5 @@
 import {
-  DarkTheme,
-  DefaultTheme,
-  Theme,
-  ThemeProvider,
+  ThemeProvider
 } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -12,8 +9,8 @@ import * as React from "react";
 import { Appearance, Platform } from "react-native";
 import "~/global.css";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
-import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/hooks/useColorScheme";
+import { NAV_THEME } from "~/lib/theme";
 
 /* -------------------------------------------------------------------------- */
 /*              Import translations and i18n configuration                   */
@@ -34,22 +31,6 @@ LogBox.ignoreLogs([
   "props.pointerEvents is deprecated. Use style.pointerEvents", // Ignore pointerEvents deprecations
   "Image: style.tintColor is deprecated. Please use props.tintColor.",
 ]);
-
-/* -------------------------------------------------------------------------- */
-/*                      Theme setup with Tailwind colors                      */
-/* -------------------------------------------------------------------------- */
-
-// Define light theme by extending React Navigation's DefaultTheme with custom colors
-const LIGHT_THEME: Theme = {
-  ...DefaultTheme,
-  colors: NAV_THEME.light,
-};
-
-// Define dark theme by extending React Navigation's DarkTheme with custom colors
-const DARK_THEME: Theme = {
-  ...DarkTheme,
-  colors: NAV_THEME.dark,
-};
 
 /* Export ErrorBoundary for catching runtime errors in the navigation layout */
 export { ErrorBoundary } from "expo-router";
@@ -124,7 +105,7 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         {/* Provide navigation theme based on current color scheme */}
-        <ThemeProvider value={colorScheme == "dark" ? DARK_THEME : LIGHT_THEME}>
+        <ThemeProvider value={colorScheme == "dark" ? NAV_THEME.dark : NAV_THEME.light}>
           {/* Render the navigation stack with header hidden */}
           <Stack screenOptions={{ headerShown: false }} />
           {/* PortalHost allows modals, tooltips, and other portals to render above */}
