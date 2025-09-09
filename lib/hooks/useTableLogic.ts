@@ -1,9 +1,10 @@
 import {
   getCoreRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ActionSortState } from "~/@types/action";
 import { BaseTableProps } from "~/@types/table";
 
@@ -23,63 +24,82 @@ export function useTableLogic<T>({
   data,
   columns,
   features,
-  sorting,
   hiddenColumns,
+  sorting,
   onSortingChange,
   onEdit,
   onDelete,
 }: UseTableLogicProps<T>) {
+  // --- Filter columns (respect hiddenColumns) ---
   const filteredColumns = useMemo(
     () => columns.filter((col) => !hiddenColumns?.includes(col.id)),
     [columns, hiddenColumns]
   );
 
-  const tableInstance = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(), // 👈 enable sorting
-    manualSorting: !!onSortingChange, // 👈 if you want server-side sorting
-    state: {
-      sorting: sorting
-        ? [{ id: sorting.order_by, desc: sorting.sort === "desc" }]
-        : [],
+  // --- Controlled or local sorting state ---
+  const [localSorting, setLocalSorting] = useState<SortingState>([]);
+
+  const currentSorting: SortingState = useMemo(() => {
+    return sorting
+      ? [
+          {
+            id: sorting.order_by,
+            desc: sorting.sort === "desc",
+          },
+        ]
+      : localSorting;
+  }, [sorting, localSorting]);
+
+  // --- Handle sorting change ---
+  const handleSortingChange = useCallback(
+    (updater: SortingState | ((old: SortingState) => SortingState)) => {
+      const newSorting =
+        typeof updater === "function" ? updater(currentSorting) : updater;
+
+      if (onSortingChange) {
+        const first = newSorting[0];
+        onSortingChange(
+          first
+            ? {
+                order_by: first.id as ActionSortState["order_by"],
+                sort: first.desc ? "desc" : "asc",
+              }
+            : null
+        );
+      } else {
+        setLocalSorting(newSorting);
+      }
     },
-    onSortingChange: (updater) => {
-      if (!onSortingChange) return;
-
-      const newState =
-        typeof updater === "function"
-          ? updater(
-              sorting
-                ? [{ id: sorting.order_by, desc: sorting.sort === "desc" }]
-                : []
-            )
-          : updater;
-
-      const newSorting = newState[0]
-        ? {
-            order_by: newState[0].id as ActionSortState["order_by"],
-            sort: newState[0].desc ? "desc" : "asc",
-          }
-        : null;
-
-      onSortingChange(newSorting);
-    },
-  });
-
-  const toggleSort = useCallback(
-    (columnId: string) => {
-      if (!features?.sorting || !onSortingChange) return;
-      onSortingChange(columnId);
-    },
-    [features?.sorting, onSortingChange]
+    [onSortingChange, currentSorting]
   );
 
+  // --- Create the table instance ---
+  const tableInstance = useReactTable({
+    data,
+    columns: filteredColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    manualSorting: !!onSortingChange,
+    state: {
+      sorting: currentSorting,
+    },
+    onSortingChange: handleSortingChange,
+  });
+
+  // --- Toggle sort for column by ID ---
+  const toggleSort = useCallback(
+    (columnId: string) => {
+      const column = tableInstance.getColumn(columnId);
+      column?.toggleSorting(column.getIsSorted() === "asc");
+    },
+    [tableInstance]
+  );
+
+  // --- Optional row handler ---
   const handleRowPress = useCallback(
     (item: T) => {
       if (features?.edition && (onEdit || onDelete)) {
-        // Handle row selection/editing logic
+        // You can call onEdit(item) or onDelete(item) here if needed
       }
     },
     [features?.edition, onEdit, onDelete]
