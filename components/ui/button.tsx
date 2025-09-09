@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { LucideIcon } from "lucide-react-native";
 import * as React from "react";
 import { ReactNode } from "react";
-import { Pressable, PressableStateCallbackType, View } from "react-native";
+import { Pressable } from "react-native";
 import { Text, TextClassContext } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
 
@@ -68,7 +68,6 @@ type ButtonProps = React.ComponentProps<typeof Pressable> &
   };
 
 function Button({
-  // ref,
   className,
   variant,
   size,
@@ -76,54 +75,41 @@ function Button({
   icon: Icon,
   ...props
 }: ButtonProps) {
-  const renderChildren = (state: PressableStateCallbackType) => {
-    const hasStringChild = React.Children.toArray(children).some(
-      (child) => typeof child === "string"
-    );
-    const childContent =
-      typeof children === "function" ? children(state) : children;
-    if (typeof childContent === "string" || hasStringChild) {
-      return <Text>{childContent}</Text>;
+  const isIconOnly = Icon && !children;
+
+  const renderChildren = () => {
+    if (
+      typeof children === "string" ||
+      React.Children.toArray(children).some((c) => typeof c === "string")
+    ) {
+      return <Text>{children}</Text>;
     }
-    return childContent;
+    return children;
   };
 
-  const isIconOnlyBtn = Icon && !children
-
   return (
-    <TextClassContext.Provider
-      value={buttonTextVariants({
-        variant,
-        size,
-        className: "web:pointer-events-none",
-      })}
-    >
+    <TextClassContext.Provider value={buttonTextVariants({ variant, size })}>
       <Pressable
-        className={cn(
-          props.disabled && "opacity-50 web:pointer-events-none",
-          buttonVariants({ variant, size, className }),
-          isIconOnlyBtn && "p-2"
-        )}
         role="button"
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          props.disabled && "opacity-50 web:pointer-events-none",
+          isIconOnly && "p-2",
+          "flex-row items-center"
+        )}
         {...props}
       >
-        {(state: PressableStateCallbackType) =>
-          Icon ? (
-            <View className="flex-row align-middle">
-              <Icon
-                className={cn(
-                  variant == "outline" && "text-foreground",
-                  variant !== "outline" && "text-background",
-                  !isIconOnlyBtn && "mr-2",
-                )}
-                strokeWidth={1.5}
-              />
-              {renderChildren(state)}
-            </View>
-          ) : (
-            renderChildren(state)
-          )
-        }
+        {Icon && (
+          <Icon
+            className={cn(
+              variant == "outline" && "text-foreground",
+              variant !== "outline" && "text-background",
+              !isIconOnly && "mr-2"
+            )}
+            strokeWidth={1.5}
+          />
+        )}
+        {renderChildren()}
       </Pressable>
     </TextClassContext.Provider>
   );
