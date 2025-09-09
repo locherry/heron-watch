@@ -111,7 +111,7 @@
     "product_name" : "product name",
     "product_specificity" : "product specificity",
     "selectStockGeneralCategory" : "Select a stock general category",
-    "add_new_product" : "add new product"
+    "new_product" : "new product"
   },
   "common": {
     "open": "open",
