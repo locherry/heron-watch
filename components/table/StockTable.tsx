@@ -13,7 +13,7 @@ import {
   ScrollView,
   View,
   ViewProps,
-  useWindowDimensions,
+  useWindowDimensions
 } from "react-native";
 import { Action, ActionSortState } from "~/@types/action";
 import { ChevronDown } from "~/assets/images/icons/ChevronDown";
@@ -42,7 +42,7 @@ type ActionTableProps = ViewProps & {
   onSortingChange?: (newSorting: ActionSortState | null) => void;
 };
 
-export function ActionTable({
+export function StockTable({
   data,
   fetchNextPage,
   className,
@@ -111,7 +111,7 @@ export function ActionTable({
     "action_id",
     "lot_number",
     "product_code",
-    "id",
+    "id"    
   ];
 
   const toggleSort = (columnId: string) => {

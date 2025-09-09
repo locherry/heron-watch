@@ -157,9 +157,17 @@ export default function MaterialTabsExample() {
 
       {/* Buttons */}
       <View className="flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 mb-4">
-        <Button icon={Package} variant="outline">
-          {capitalizeFirst(t("stocks.viewStocks"))}
-        </Button>
+        <Link
+          href={{
+            pathname: "/home/view_stocks",
+            params: { stockCategory: currentStockCategory[currentStockType] },
+          }}
+          asChild
+        >
+          <Button icon={Package} variant="outline">
+            {capitalizeFirst(t("stocks.viewStocks"))}
+          </Button>
+        </Link>
         <Link
           href={{
             pathname: "/home/new_actions",
