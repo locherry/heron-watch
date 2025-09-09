@@ -26,6 +26,7 @@ import "../translations/i18n";
 /*                Ignore specific deprecation warnings from dependencies      */
 /* -------------------------------------------------------------------------- */
 import { LogBox } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToastProvider } from "~/components/ui/toast";
 
 LogBox.ignoreLogs([
@@ -79,7 +80,10 @@ export default function RootLayout() {
       // If preferences exist, change language and set theme accordingly
       prefs && i18n.changeLanguage(prefs.language);
       const resolvedSystemTheme = Appearance.getColorScheme();
-      const actualTheme = (prefs?.theme !== undefined && prefs.theme !== "system") ? prefs.theme : resolvedSystemTheme ?? "system"
+      const actualTheme =
+        prefs?.theme !== undefined && prefs.theme !== "system"
+          ? prefs.theme
+          : (resolvedSystemTheme ?? "system");
       prefs && setColorScheme(actualTheme);
     });
 
@@ -117,17 +121,19 @@ export default function RootLayout() {
     return null;
   }
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* Provide navigation theme based on current color scheme */}
-      <ThemeProvider value={colorScheme == "dark" ? DARK_THEME : LIGHT_THEME}>
-        {/* Render the navigation stack with header hidden */}
-        <Stack screenOptions={{ headerShown: false }} />
-        {/* PortalHost allows modals, tooltips, and other portals to render above */}
-        <PortalHost />
-        {/* Portal for react-native-toast-message */}
-        <ToastProvider />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        {/* Provide navigation theme based on current color scheme */}
+        <ThemeProvider value={colorScheme == "dark" ? DARK_THEME : LIGHT_THEME}>
+          {/* Render the navigation stack with header hidden */}
+          <Stack screenOptions={{ headerShown: false }} />
+          {/* PortalHost allows modals, tooltips, and other portals to render above */}
+          <PortalHost />
+          {/* Portal for react-native-toast-message */}
+          <ToastProvider />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }
 

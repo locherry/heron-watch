@@ -85,6 +85,11 @@
     "4": "I Transfer to the shop"
   },
   "stocks": {
+    "id":"id",
+    "product_code": "product code",
+    "lot_number": "lot number",
+    "quantity": "quantity",
+    "expiration_date": "expiration date",
     "finishedProducts": "finished products",
     "rawMaterials": "raw materials",
     "viewStocks": "view stocks",
