@@ -18,7 +18,8 @@ export interface BaseTableProps<T> extends ViewProps {
   hiddenColumns?: string[];
   totalRow?: boolean;
   sorting?: ActionSortState | null;
-  onSortingChange?: (newSorting: ActionSortState | null) => void; // ✅ fix
+  onSortingChange?: (newSorting: ActionSortState | null) => void;
+  editEnabled?: boolean;
   onEdit?: (item: T) => void;
   onDelete?: (item: T) => void;
   fetchNextPage?: () => void;
