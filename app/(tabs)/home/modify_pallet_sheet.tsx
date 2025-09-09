@@ -91,8 +91,7 @@ export default function add_pallet_sheet() {
   let [newQRData, setNewQRData] = useState<number | undefined>(undefined);
 
   //Variable that stocks user's inputs in pallet sheet
-  const [originInput, setOriginInput] = useState<string | undefined>(undefined);
-  const [clientInput, setClientInput] = useState<string | undefined>(undefined);
+
   const [quantityInput, setQuantityInput] = useState<string | undefined>(
     undefined
   );
@@ -123,10 +122,7 @@ export default function add_pallet_sheet() {
   );
 
   //State depending constants
-  const [dynamic_product_code_value, setDynamicProductCodeValue] = useState("");
-  const [dynamic_lot_number_value, setDynamicLotNumberValue] = useState("");
-  const [isProductCodeSelected, setIsProductCodeSelected] = useState(false);
-  const [isLotNumberSelected, setIsLotNumberSelected] = useState(false);
+  const [isDataFetched, setIsDataFetched] = useState(false);
   const [completeData, setCompleteData] = useState<any>([]);
   const [qrId, setQrId] = useState<undefined | number>(undefined);
 
@@ -149,25 +145,21 @@ export default function add_pallet_sheet() {
     'get',
     {
       path : {stock_category : stockCategory, product_code : product_code_value, lot_number : lot_number_value}
-    },
-    undefined,
-    isProductCodeSelected && isLotNumberSelected
+    }
   )
 
   useEffect(() => {
     if (palletCompleteData && !Array.isArray(palletCompleteData)) {
       setCompleteData(palletCompleteData?.data);
+      setIsDataFetched(true);
     } else if (
-      !Array.isArray(completeData) &&
-      (!isLotNumberSelected || !isProductCodeSelected)
+      !Array.isArray(completeData)
     ) {
       setCompleteData([]);
+      setIsDataFetched(false);
     }
   }, [palletCompleteData]);
 
-  let isSelectingPC = false;
-  let isSelectingLN = false;
-  console.log(alreadyPlacedQuantity);
   return (
     <RootView disableInsets={{ left: true, top: true }} className="flex gap-y-[30]">
       <FlatList
@@ -188,7 +180,8 @@ export default function add_pallet_sheet() {
             <View className="border-2 border-[hsl(var(--border))] rounded-xl">
               <SheetRow
                 label={t("actions.product_code")}
-                value={completeData?.product_code}
+                editable={false}
+                value={completeData?.product_code ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isNewDataLoading}
@@ -197,10 +190,6 @@ export default function add_pallet_sheet() {
                 label={t("add_pallet_sheet.origin")}
                 editable={false}
                 placeholder="ORIGIN"
-                value={originInput}
-                onChangeText={(text) =>
-                  setOriginInput(text === "" ? undefined : text)
-                }
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
               />
@@ -208,42 +197,40 @@ export default function add_pallet_sheet() {
                 label={t("add_pallet_sheet.client")}
                 editable={false}
                 placeholder="CLIENT"
-                value={clientInput}
-                onChangeText={(text) =>
-                  setClientInput(text === "" ? undefined : text)
-                }
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
               />
               <SheetRow
+                editable={false}
                 label={t("add_pallet_sheet.product")}
-                value={completeData?.product_name}
+                value={completeData?.product_name ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isNewDataLoading}
               />
               <SheetRow
+                editable={false}
                 label={t("add_pallet_sheet.lot_number")}
-                value={completeData?.lot_number}
+                value={completeData?.lot_number ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isNewDataLoading}
               />
               <SheetRow
+                editable={false}
                 label={t("add_pallet_sheet.expiration_date")}
-                value={completeData?.expiration_date}
+                value={completeData?.expiration_date ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isNewDataLoading}
               />
               <SheetRow
+                editable={isDataFetched}
                 label={t("add_pallet_sheet.quantity")}
-                editable={isLotNumberSelected}
-                placeholder="Ex : 40"
-                value={completeData?.quantity}
-                onChangeText={(text) =>
-                  setQuantityInput(text === "" ? undefined : text)
-                }
+                placeholder={completeData?.quantity}
+                onChangeText={(text) => {
+                  setQuantityInput(text === "" ? undefined : text)  
+                }}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 bordersEnabled={false} // last item so no borders
@@ -255,7 +242,7 @@ export default function add_pallet_sheet() {
                     {capitalizeFirst(t("common.submit_modifications"))}
                 </Button>
                 : <QrScannerButton onScan={(data) => {setQrId(Number(data))}}>
-                    
+                    {capitalizeFirst(t("modify_pallet_sheet.scan_existing_sheet"))}
                   </QrScannerButton>}
             </View>
           </>

@@ -180,7 +180,8 @@
     "view_pallet_sheet" : "view pallet sheets"
   },
   "modify_pallet_sheet" :  {
-    "modify_existing_pallet_sheet" : "modify existing pallet sheet"
+    "modify_existing_pallet_sheet" : "modify existing pallet sheet",
+    "scan_existing_sheet" : "scan existing sheet"
   },
   "QR Code loaded": "QR Code loaded",
   "Toggle editing mode": "Toggle editing mode",
