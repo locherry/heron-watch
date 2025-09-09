@@ -1,8 +1,7 @@
 import { Link } from "expo-router";
 import { t } from "i18next";
 import React, { useState } from "react";
-import { ActivityIndicator, useWindowDimensions, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ActivityIndicator, View } from "react-native";
 import { Cylinder } from "~/assets/images/icons/Cylinder";
 import { Forklift } from "~/assets/images/icons/Forklift";
 import { Plus } from "~/assets/images/icons/Plus";
@@ -42,17 +41,6 @@ export default function App() {
       query: { limit: 10 },
     }
   );
-  const { width } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
-
-  // Calculate the column widths dynamically based on screen width
-  const columnWidths = React.useMemo(() => {
-    const minColumnWidths = [120, 120, 180, 180];
-    return minColumnWidths.map((minWidth) => {
-      const evenWidth = width / minColumnWidths.length;
-      return evenWidth > minWidth ? evenWidth : minWidth;
-    });
-  }, [width]);
 
   if (isError) {
     return <Text>Error loading products</Text>;
