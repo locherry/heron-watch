@@ -21,7 +21,7 @@ export default function Header({ className, children, title, onBack }: HeaderPro
         <TooltipTrigger asChild>
           <Button
             icon={ChevronLeft}
-            onPress={onBack ?? router.back} // 👈 use custom handler if provided
+            onPress={onBack ?? router.back} // use custom handler if provided
             variant="outline"
           />
         </TooltipTrigger>
