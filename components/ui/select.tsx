@@ -1,11 +1,10 @@
 import * as SelectPrimitive from "@rn-primitives/select";
-import { LucideIcon } from "lucide-react-native";
+import { Check, ChevronDown, LucideIcon } from "lucide-react-native";
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { Check } from "~/assets/images/icons/Check";
-import { ChevronDown } from "~/assets/images/icons/ChevronDown";
 import { cn } from "~/lib/utils";
+import { Icon } from "./icon";
 
 type Option = SelectPrimitive.Option & {
   label: string;
@@ -43,7 +42,8 @@ function SelectTrigger({
       {...props}
     >
       {children}
-      <ChevronDown
+      <Icon
+        as={ChevronDown}
         size={16}
         aria-hidden={true}
         className="text-foreground opacity-50"
@@ -146,7 +146,7 @@ function SelectLabel({
 function SelectItem({
   className,
   children,
-  icon: Icon, // Icon is passed as a prop
+  icon,
   ...props
 }: SelectPrimitive.ItemProps & {
   ref?: React.RefObject<SelectPrimitive.ItemRef>;
@@ -162,10 +162,11 @@ function SelectItem({
       {...props}
     >
       {/* Render the checkmark if no icon available */}
-      {!Icon && (
+      {!icon && (
         <View className="absolute left-2 native:left-3.5 flex h-3.5 native:pt-px w-3.5 items-center justify-center">
           <SelectPrimitive.ItemIndicator>
-            <Check
+            <Icon
+              as={Check}
               size={16}
               strokeWidth={3}
               className="text-popover-foreground"
@@ -175,9 +176,9 @@ function SelectItem({
       )}
 
       {/* Render the icon if available */}
-      {Icon && (
+      {icon && (
         <View className="absolute left-2 native:left-3.5 flex h-3.5 native:pt-px w-3.5 items-center justify-center">
-          <Icon size={16} className="text-popover-foreground" />
+          <Icon as={icon} size={16} className="text-popover-foreground" />
         </View>
       )}
 

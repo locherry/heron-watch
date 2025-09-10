@@ -1,18 +1,18 @@
 import { Link, LinkProps } from "expo-router"; // Import Link for navigation and its props type
-import type { LucideIcon } from "lucide-react-native"; // Import icon type from lucide-react-native
+import { ChevronRight, type LucideIcon } from "lucide-react-native"; // Import icon type from lucide-react-native
 import React from "react";
 import { View } from "react-native";
-import { ChevronRight } from "~/assets/images/icons/ChevronRight"; // Chevron icon to indicate navigation
 import { cn } from "~/lib/utils"; // Utility to concatenate class names conditionally
 import { Button } from "./ui/button"; // Custom Button component
+import { Icon } from "./ui/icon";
 import { Text } from "./ui/text";
 
 // SettingsEntry component props type declaration
 const SettingsEntry = ({
-  icon: Icon,        // Icon component passed as prop
-  title,             // Title text of the entry
-  href,              // Optional href for navigation (link)
-  onPress,           // Optional onPress callback for button press
+  icon, // Icon component passed as prop
+  title, // Title text of the entry
+  href, // Optional href for navigation (link)
+  onPress, // Optional onPress callback for button press
 }: {
   icon: LucideIcon;
   title: string;
@@ -29,11 +29,16 @@ const SettingsEntry = ({
     <View className="flex-row items-center justify-between flex-1">
       <View className="flex-row items-center">
         {/* Render the icon with size, margin, and stroke width */}
-        <Icon size={24} className="mr-3 text-foreground" strokeWidth={1.5} />
+        <Icon
+          as={icon}
+          size={24}
+          className="mr-3 text-foreground"
+          strokeWidth={1.5}
+        />
         <Text>{title}</Text>
       </View>
       {/* Right arrow icon to indicate it's a navigable item */}
-      <ChevronRight size={24} className="text-muted-foreground" />
+      <Icon as={ChevronRight} size={24} className="text-muted-foreground" />
     </View>
   );
 

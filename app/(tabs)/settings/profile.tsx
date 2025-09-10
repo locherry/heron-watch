@@ -1,6 +1,6 @@
 import { t } from "i18next";
+import { Pencil } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Pencil } from "~/assets/images/icons/Pencil";
 import { Alert } from "~/components/alert/Alert";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";

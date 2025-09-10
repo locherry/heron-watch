@@ -1,9 +1,7 @@
 import { Link, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
-import { Plus } from "lucide-react-native";
+import { Eye, Pencil, Plus } from "lucide-react-native";
 import { View } from "react-native";
-import { Eye } from "~/assets/images/icons/Eye";
-import { Pencil } from "~/assets/images/icons/Pencil";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";

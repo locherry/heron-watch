@@ -1,12 +1,12 @@
 import { flexRender } from "@tanstack/react-table";
+import { ChevronDown, ChevronUp } from "lucide-react-native";
 import { FlatList, Pressable, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { BaseTableProps } from "~/@types/table";
-import { ChevronDown } from "~/assets/images/icons/ChevronDown";
-import { ChevronUp } from "~/assets/images/icons/ChevronUp";
 import { useColumnWidths } from "~/lib/hooks/useColumnWiths";
 import { useTableLogic } from "~/lib/hooks/useTableLogic";
 import { cn } from "~/lib/utils";
+import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
 
 export function BaseTable<T>({
@@ -44,8 +44,8 @@ export function BaseTable<T>({
                     )}
                   </Text>
                   {{
-                    asc: <ChevronUp className="text-foreground" />,
-                    desc: <ChevronDown className="text-foreground" />,
+                    asc: <Icon as={ChevronUp} className="text-foreground" />,
+                    desc: <Icon as={ChevronDown} className="text-foreground" />,
                   }[header.column.getIsSorted() as "asc" | "desc"] ?? null}
                 </View>
               </Pressable>

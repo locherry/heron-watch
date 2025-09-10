@@ -1,5 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
+import { Pencil, Trash } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -7,8 +8,6 @@ import {
   useWindowDimensions,
   View
 } from "react-native";
-import { Pencil } from "~/assets/images/icons/Pencil";
-import { Trash } from "~/assets/images/icons/Trash";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import QrScannerButton from "~/components/QrScannerButton";

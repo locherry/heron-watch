@@ -1,14 +1,12 @@
 import { t } from "i18next";
-import { LucideIcon } from "lucide-react-native";
+import { Laptop, LucideIcon, MoonStar, Sun } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import React, { useEffect } from "react";
 import { Appearance, View } from "react-native";
 import { userThemeValue } from "~/@types/user";
-import { Laptop } from "~/assets/images/icons/Laptop";
-import { MoonStar } from "~/assets/images/icons/MoonStar";
-import { Sun } from "~/assets/images/icons/Sun";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
+import { Icon } from "~/components/ui/icon";
 import { Label } from "~/components/ui/label";
 import {
   Select,
@@ -111,7 +109,7 @@ export default function AppearanceSettings() {
                   (option) => option.value === themeValue
                 );
                 if (selectedOption?.icon) {
-                  return <selectedOption.icon className="mr-2 text-foreground" size={16} />;
+                  return <Icon as={selectedOption.icon}  className="mr-2 text-foreground" size={16} />;
                 }
                 return null; // If there's no icon, render nothing
               })()}

@@ -1,14 +1,11 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
+import { Flashlight, FlashlightOff, QrCode, Scan, X } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Modal, Platform, View } from "react-native";
-import { Flashlight } from "~/assets/images/icons/Flashlight";
-import { FlashlightOff } from "~/assets/images/icons/FlashlightOff";
-import { QrCode } from "~/assets/images/icons/QrCodeIcon";
-import { Scan } from "~/assets/images/icons/Scan";
-import { X } from "~/assets/images/icons/X";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import Row from "./layout/Row";
+import { Icon } from "./ui/icon";
 
 interface QrScannerButtonProps extends React.ComponentProps<typeof Button> {
   onScan?: (data: string) => void;
@@ -101,7 +98,7 @@ export default function QrScannerButton({
                   },
                 ]}
               >
-                <Scan
+                <Icon as={Scan}
                   width="100%"
                   height="100%"
                   preserveAspectRatio="xMidYMid meet"

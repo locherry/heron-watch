@@ -1,15 +1,14 @@
 import { useRouter } from "expo-router"; // For navigation
 import { t } from "i18next";
+import { Megaphone, RefreshCcw, ServerCrash } from "lucide-react-native";
 import * as React from "react";
 import { Image, View } from "react-native";
-import { Megaphone } from "~/assets/images/icons/Megaphone"; // Assuming you have a RefreshCcw icon
-import { RefreshCcw } from "~/assets/images/icons/RefreshCcw"; // Assuming you have a RefreshCcw icon
-import { ServerCrash } from "~/assets/images/icons/ServerCrash"; // Assuming you have a RefreshCcw icon
 import Banner from "~/components/Banner";
 import Column from "~/components/layout/Column";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
+import { Icon } from "~/components/ui/icon";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { capitalizeFirst } from "~/lib/utils";
@@ -31,16 +30,22 @@ export default function App() {
           </Text>
           <Row className="">
             <Column className="h-full items-center w-1/3">
-              <RefreshCcw className="text-foreground" />
-              <Text variant="p" className="mt-2 text-center">{t("Real-Time Tracking")}</Text>
+              <Icon as={RefreshCcw} className="text-foreground" />
+              <Text variant="p" className="mt-2 text-center">
+                {t("Real-Time Tracking")}
+              </Text>
             </Column>
             <Column className="h-full items-center w-1/3">
-              <Megaphone className="text-foreground" />
-              <Text variant="p" className="mt-2 text-center">{t("Inventory Alerts")}</Text>
+              <Icon as={Megaphone} className="text-foreground" />
+              <Text variant="p" className="mt-2 text-center">
+                {t("Inventory Alerts")}
+              </Text>
             </Column>
             <Column className="h-full items-center w-1/3">
-              <ServerCrash className="text-foreground" />
-              <Text variant="p" className="mt-2 text-center">{t("Error management")}</Text>
+              <Icon as={ServerCrash} className="text-foreground" />
+              <Text variant="p" className="mt-2 text-center">
+                {t("Error management")}
+              </Text>
             </Column>
           </Row>
         </Card>

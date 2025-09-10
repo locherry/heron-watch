@@ -1,13 +1,10 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
+import { Gift, Package, Store, Tag } from "lucide-react-native";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { Action } from "~/@types/action";
-import { Gift } from "~/assets/images/icons/Gift";
-import { Package } from "~/assets/images/icons/Package";
-import { Store } from "~/assets/images/icons/Store";
-import { Tag } from "~/assets/images/icons/Tag";
 import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";

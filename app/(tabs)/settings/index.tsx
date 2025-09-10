@@ -1,11 +1,7 @@
 import { router } from "expo-router";
 import { t } from "i18next";
+import { Globe, LogOut, Paintbrush, Scale, User } from "lucide-react-native";
 import React from "react";
-import { Globe } from "~/assets/images/icons/Globe";
-import { LogOut } from "~/assets/images/icons/LogOut";
-import { Paintbrush } from "~/assets/images/icons/Paintbrush";
-import { Scale } from "~/assets/images/icons/Scale";
-import { User } from "~/assets/images/icons/User";
 import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";

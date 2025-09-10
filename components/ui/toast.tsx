@@ -11,13 +11,11 @@
      });
  */
 
+import { AlertTriangle, CheckSquare, Info } from "lucide-react-native";
 import * as React from "react";
 import { Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Toast, { ToastConfig } from "react-native-toast-message";
-import { AlertTriangle } from "~/assets/images/icons/AlertTriangle";
-import { CheckSquare } from "~/assets/images/icons/CheckSquare";
-import { Info } from "~/assets/images/icons/Info";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
 /**

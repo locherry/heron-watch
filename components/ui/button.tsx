@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { Pressable } from "react-native";
 import { Text, TextClassContext } from "~/components/ui/text";
 import { cn } from "~/lib/utils";
+import { Icon } from "./icon";
 
 const buttonVariants = cva(
   "group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
@@ -72,10 +73,10 @@ function Button({
   variant,
   size,
   children,
-  icon: Icon,
+  icon,
   ...props
 }: ButtonProps) {
-  const isIconOnly = Icon && !children;
+  const isIconOnly = icon && !children;
 
   const renderChildren = () => {
     if (
@@ -99,14 +100,15 @@ function Button({
         )}
         {...props}
       >
-        {Icon && (
+        {icon && (
           <Icon
+            as={icon}
+            size={size === "sm" ? 16 : 20}
             className={cn(
               variant == "outline" && "text-foreground",
               variant !== "outline" && "text-background",
               !isIconOnly && "mr-2"
             )}
-            strokeWidth={1.5}
           />
         )}
         {renderChildren()}

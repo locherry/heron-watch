@@ -7,22 +7,15 @@
 
 import { Link } from "expo-router";
 import { t } from "i18next";
+import { Factory, Forklift, Leaf, Package, Plus, ServerCrash, Snowflake, Store, Sun } from "lucide-react-native";
 import React, { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { ActionSortState } from "~/@types/action";
-import { Factory } from "~/assets/images/icons/Factory";
-import { Forklift } from "~/assets/images/icons/Forklift";
-import { Leaf } from "~/assets/images/icons/Leaf";
-import { Package } from "~/assets/images/icons/Package";
-import { Plus } from "~/assets/images/icons/Plus";
-import { ServerCrash } from "~/assets/images/icons/ServerCrash";
-import { Snowflake } from "~/assets/images/icons/Snowflake";
-import { Store } from "~/assets/images/icons/Store";
-import { Sun } from "~/assets/images/icons/Sun";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ActionTable } from "~/components/table/ActionTable";
 import { Button } from "~/components/ui/button";
+import { Icon } from "~/components/ui/icon";
 import {
   MaterialTabs,
   MaterialTabsList,
@@ -130,7 +123,7 @@ export default function MaterialTabsExample() {
               key={tab.stock_category}
             >
               <Row className="flex-1 justify-center">
-                <tab.icon
+                <Icon as={tab.icon}
                   className={cn(
                     "h-4 w-4 mr-2",
                     tab.stock_category ===

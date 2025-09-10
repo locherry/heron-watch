@@ -1,15 +1,14 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
+import { Factory, Plus, Store } from "lucide-react-native";
 import React from "react";
 import { Action } from "~/@types/action";
-import { Factory } from "~/assets/images/icons/Factory";
-import { Plus } from "~/assets/images/icons/Plus";
-import { Store } from "~/assets/images/icons/Store";
 import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ActionTable } from "~/components/table/ActionTable";
 import { Button } from "~/components/ui/button";
+import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import {
   Tooltip,
@@ -112,8 +111,8 @@ export default function NewActions() {
           </Text>
           <Tooltip>
             <TooltipTrigger>
-              {stockCategory === "PF_G" && <Factory />}
-              {stockCategory === "PF_M" && <Store />}
+              {stockCategory === "PF_G" && <Icon as={Factory} />}
+              {stockCategory === "PF_M" && <Icon as={Store} />}
             </TooltipTrigger>
             <TooltipContent>
               <Text>

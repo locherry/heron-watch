@@ -1,7 +1,5 @@
 import { t } from "i18next";
-import { Apple } from "~/assets/images/icons/Apple";
-import { Table2 } from "~/assets/images/icons/Table2";
-import { User } from "~/assets/images/icons/User";
+import { Apple, Table2, User } from "lucide-react-native";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
 import { Text } from "~/components/ui/text";

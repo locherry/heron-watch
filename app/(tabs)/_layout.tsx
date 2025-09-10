@@ -1,6 +1,6 @@
 import { router, Tabs, usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
-import { LucideIcon } from "lucide-react-native";
+import { House, LucideIcon, Menu, Settings, Shield } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -10,10 +10,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { House } from "~/assets/images/icons/House";
-import { Menu } from "~/assets/images/icons/Menu";
-import { Settings } from "~/assets/images/icons/Settings";
-import { Shield } from "~/assets/images/icons/Shield";
+import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import { useAuth } from "~/lib/hooks/useAuth";
 import { capitalizeFirst } from "~/lib/utils";
@@ -64,7 +61,7 @@ export default function TabLayout() {
           marginTop: insets.top,
           width: collapsed
             ? Platform.OS === "web"
-              ? 64
+              ? 58
               : 100
             : Platform.OS === "web"
               ? 240
@@ -77,11 +74,9 @@ export default function TabLayout() {
         <SafeAreaView>
           <TouchableOpacity
             onPress={() => setCollapsed(!collapsed)}
-            className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
-              collapsed ? "justify-center" : ""
-            }`}
+            className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted`}
           >
-            <Menu className="text-foreground" />
+            <Icon size={24} as={Menu} />
             {!collapsed && (
               <Text className="ml-3">{capitalizeFirst(t("tabBar.menu"))}</Text>
             )}
@@ -89,7 +84,7 @@ export default function TabLayout() {
 
           {props.state.routes.map((route, index) => {
             const focused = index === props.state.index;
-            const Icon = NavigationOptions.find(
+            const icon = NavigationOptions.find(
               (opt) => opt.path === route.name
             )?.icon as LucideIcon;
 
@@ -97,11 +92,11 @@ export default function TabLayout() {
               <TouchableOpacity
                 key={route.key}
                 onPress={() => props.navigation.navigate(route.name)}
-                className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
-                  collapsed ? "justify-center" : ""
-                } ${focused ? "bg-muted" : ""}`}
+                className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${focused ? "bg-muted" : ""}`}
               >
                 <Icon
+                  size={24}
+                  as={icon}
                   className={
                     focused ? "text-foreground" : "text-muted-foreground"
                   }
@@ -129,7 +124,7 @@ export default function TabLayout() {
           name={option.path}
           options={{
             drawerLabel: option.title,
-            drawerIcon: ({ color }) => <option.icon color={color} />,
+            drawerIcon: ({ color }) => <Icon as={option.icon} color={color} />,
           }}
         />
       ))}

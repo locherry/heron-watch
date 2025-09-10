@@ -1,4 +1,5 @@
 import { t } from "i18next";
+import { Plus } from "lucide-react-native";
 import React from "react";
 import {
   ActivityIndicator,
@@ -6,7 +7,6 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Plus } from "~/assets/images/icons/Plus";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Button } from "~/components/ui/button";

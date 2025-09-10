@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { t } from "i18next";
+import { ChevronLeft } from "lucide-react-native";
 import { ViewProps } from "react-native";
-import { ChevronLeft } from "~/assets/images/icons/ChevronLeft";
 import { capitalizeFirst, cn } from "~/lib/utils";
 import Row from "./layout/Row";
 import { Button } from "./ui/button";

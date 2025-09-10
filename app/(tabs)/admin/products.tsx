@@ -1,15 +1,13 @@
 import { Link } from "expo-router";
 import { t } from "i18next";
+import { Cylinder, Forklift, Plus, Snowflake } from "lucide-react-native";
 import React, { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { Cylinder } from "~/assets/images/icons/Cylinder";
-import { Forklift } from "~/assets/images/icons/Forklift";
-import { Plus } from "~/assets/images/icons/Plus";
-import { Snowflake } from "~/assets/images/icons/Snowflake";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ProductCategoryTable } from "~/components/table/ProductCategoryTable";
 import { Button } from "~/components/ui/button";
+import { Icon } from "~/components/ui/icon";
 import {
   Select,
   SelectContent,
@@ -75,7 +73,7 @@ export default function App() {
                       (option) => option.value === stockGlobalCategory
                     );
                     if (selectedOption?.icon) {
-                      return <selectedOption.icon className="mr-2" size={16} />;
+                      return <Icon as={selectedOption.icon} className="mr-2" size={16} />;
                     }
                     return null;
                   })()}
@@ -104,10 +102,6 @@ export default function App() {
         {isLoading ? (
           <ActivityIndicator />
         ) : (
-          // <ActionTable
-          //   data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
-          //   fetchNextPage={fetchNextPage}
-          // />
 
           <ProductCategoryTable
             // className="flex-1 h-full border-red-500 border-4"
