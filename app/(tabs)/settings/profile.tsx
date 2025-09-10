@@ -143,7 +143,7 @@ export default function ProfileSettings() {
               aria-label="Toggle editing mode"
               variant="outline"
             >
-              <ToggleIcon icon={Pencil} size={18} />
+              <ToggleIcon as={Pencil} size={20} />
             </Toggle>
           </TooltipTrigger>
           <TooltipContent>
