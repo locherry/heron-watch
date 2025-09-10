@@ -15,6 +15,7 @@ import QrScannerButton from "~/components/QrScannerButton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
@@ -77,6 +78,10 @@ function SheetRow({
 }
 
 export default function add_pallet_sheet() {
+  const {mutate : modifyQrData} = useFetchMutation(
+    "/qr-code/{stock_category}/{qr_code_id}",
+    "patch"
+  );
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory?: "PF_G" | "PF_M";
@@ -87,41 +92,10 @@ export default function add_pallet_sheet() {
     rowsHeight: Math.round(height / 12),
   };
 
-  //Variable that stocks user selected value on droplists
-  const [product_code_value, setProductCodeValue] = useState("");
-  const [lot_number_value, setLotNumberValue] = useState("");
-
-  let [newQRData, setNewQRData] = useState<number | undefined>(undefined);
-
   //Variable that stocks user's inputs in pallet sheet
 
   const [quantityInput, setQuantityInput] = useState<string | undefined>(
     undefined
-  );
-
-  //variable that allowed other droplists to be used
-  let { data, error, isLoading, isError } = useFetchQuery(
-    "/stocks/{stock_category}",
-    "get",
-    {
-      path: { stock_category: stockCategory },
-      query:
-        product_code_value === "" && lot_number_value === ""
-          ? { distinct: true, required_elts: ["product_code"] }
-          : product_code_value !== "" && lot_number_value === ""
-            ? {
-                distinct: true,
-                required_elts: ["lot_number"],
-                filter_params: { product_code: product_code_value },
-              }
-            : {
-                distinct: true,
-                filter_params: {
-                  product_code: product_code_value!,
-                  lot_number: lot_number_value!,
-                },
-              },
-    }
   );
 
   //State depending constants
@@ -143,14 +117,6 @@ export default function add_pallet_sheet() {
     qrId ? true : false
   );
 
-  let {data : alreadyPlacedQuantity = null, isLoading : isLoadingPlacedQuantity = false, error : placedQuantityError = false} = useFetchQuery(
-    "/qr-code/{stock_category}/{product_code}/{lot_number}",
-    'get',
-    {
-      path : {stock_category : stockCategory, product_code : product_code_value, lot_number : lot_number_value}
-    }
-  )
-
   useEffect(() => {
     if (palletCompleteData && !Array.isArray(palletCompleteData)) {
       setCompleteData(palletCompleteData?.data);
@@ -162,6 +128,32 @@ export default function add_pallet_sheet() {
       setIsDataFetched(false);
     }
   }, [palletCompleteData]);
+
+  const handleModifyData = (() => {
+    if (isDataFetched) {
+      modifyQrData(
+        {
+          pathParams : {stock_category : stockCategory, qr_code_id : isDataFetched ? Number(qrId) : 0},
+          body : {quantity : Number(quantityInput)} //The only thing we can modify without deleting pallet sheet is quantity
+        },
+        {
+          onSuccess : (data) => {
+            console.log(data?.message)
+            setQrId(undefined);
+            setIsDataFetched(false);
+          },
+          onError : (data) => {
+            console.log(data.message)
+          }
+        }
+      )
+    }
+
+  });
+
+  const handleDeleteData = (() => {
+
+  });
 
   return (
     <RootView disableInsets={{ left: true, top: true }} className="flex gap-y-[30]">
@@ -245,7 +237,7 @@ export default function add_pallet_sheet() {
                 {qrId ? 
                   <>
                     <Row className="items-center justify-center" gap={20}>
-                      <Button className="" icon={Pencil}>
+                      <Button className="" icon={Pencil} onPress={handleModifyData}>
                           {capitalizeFirst(t("common.submit_modifications"))}
                       </Button>
                       <Button icon={Trash}>
