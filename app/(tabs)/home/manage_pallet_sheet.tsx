@@ -44,6 +44,7 @@ export default function App() {
               pathname: "/home/add_pallet_sheet",
               params: { stockCategory: stockCategory },
             }}
+            asChild
           >
             <Button className="h-40 w-40" size={"lg"} icon={Plus}>
               TEST
@@ -54,6 +55,7 @@ export default function App() {
               pathname: "/home/modify_pallet_sheet",
               params: { stockCategory: stockCategory },
             }}
+            asChild
           >
             <Button className="h-40 w-40" size={"lg"} icon={Pencil} />
           </Link>
@@ -62,6 +64,7 @@ export default function App() {
               pathname: "/home/view_pallet_sheet",
               params: { stockCategory: stockCategory },
             }}
+            asChild
           >
             <Button className="h-40 w-40" size={"lg"} icon={Eye} />
           </Link>
