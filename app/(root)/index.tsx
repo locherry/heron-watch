@@ -30,19 +30,19 @@ export default function App() {
           </Text>
           <Row className="">
             <Column className="h-full items-center w-1/3">
-              <Icon as={RefreshCcw} className="text-foreground" />
+              <Icon as={RefreshCcw} size={20}/>
               <Text variant="p" className="mt-2 text-center">
                 {t("Real-Time Tracking")}
               </Text>
             </Column>
             <Column className="h-full items-center w-1/3">
-              <Icon as={Megaphone} className="text-foreground" />
+              <Icon as={Megaphone} size={20}/>
               <Text variant="p" className="mt-2 text-center">
                 {t("Inventory Alerts")}
               </Text>
             </Column>
             <Column className="h-full items-center w-1/3">
-              <Icon as={ServerCrash} className="text-foreground" />
+              <Icon as={ServerCrash} size={20}/>
               <Text variant="p" className="mt-2 text-center">
                 {t("Error management")}
               </Text>
