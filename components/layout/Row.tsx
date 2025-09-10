@@ -29,7 +29,7 @@ const Row: React.FC<RootViewProps> = ({ children, gap, className }) => {
   return (
     <View
       style={[gap ? { gap: gap } : {}]} // Apply gap if provided
-      className={cn(`w-full flex-row justify-start items-center`, className)} // Utility classes for layout and styling
+      className={cn(`flex-row justify-start items-center`, className)} // Utility classes for layout and styling
     >
       {children}
     </View>

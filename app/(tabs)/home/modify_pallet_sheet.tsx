@@ -6,8 +6,9 @@ import {
   ActivityIndicator,
   FlatList,
   useWindowDimensions,
-  View
+  View,
 } from "react-native";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import QrScannerButton from "~/components/QrScannerButton";
@@ -20,7 +21,7 @@ import { capitalizeFirst, cn } from "~/lib/utils";
 
 interface SheetRowProps {
   label: string;
-  classNameText? : string;
+  classNameText?: string;
   value?: string | number;
   editable?: boolean;
   placeholder?: string;
@@ -41,7 +42,7 @@ function SheetRow({
   rowsHeight,
   bordersEnabled = true,
   isLoading = false,
-  classNameText = ""
+  classNameText = "",
 }: SheetRowProps) {
   return (
     <Row
@@ -67,7 +68,12 @@ function SheetRow({
         ) : isLoading ? (
           <ActivityIndicator size="small" color="hsl(var(--primary))" />
         ) : (
-          <Text className={cn("font-extrabold text-[30px] text-center flex-1", classNameText)}>
+          <Text
+            className={cn(
+              "font-extrabold text-[30px] text-center flex-1",
+              classNameText
+            )}
+          >
             {value ?? ""}
           </Text>
         )}
@@ -77,7 +83,7 @@ function SheetRow({
 }
 
 export default function add_pallet_sheet() {
-  const {mutate : modifyQrData} = useFetchMutation(
+  const { mutate: modifyQrData } = useFetchMutation(
     "/qr-code/{stock_category}/{qr_code_id}",
     "patch"
   );
@@ -110,7 +116,7 @@ export default function add_pallet_sheet() {
     "/qr-code/{qr_code_id}",
     "get",
     {
-      path: { qr_code_id: qrId ?? 0},
+      path: { qr_code_id: qrId ?? 0 },
     },
     undefined,
     qrId ? true : false
@@ -120,42 +126,48 @@ export default function add_pallet_sheet() {
     if (palletCompleteData && !Array.isArray(palletCompleteData)) {
       setCompleteData(palletCompleteData?.data);
       setIsDataFetched(true);
-    } else if (
-      !Array.isArray(completeData)
-    ) {
+    } else if (!Array.isArray(completeData)) {
       setCompleteData([]);
       setIsDataFetched(false);
     }
   }, [palletCompleteData]);
 
-  const handleModifyData = (() => {
+  const handleModifyData = () => {
     if (isDataFetched) {
       modifyQrData(
         {
-          pathParams : {stock_category : stockCategory, qr_code_id : isDataFetched ? Number(qrId) : 0},
-          body : {quantity : Number(quantityInput)} //The only thing we can modify without deleting pallet sheet is quantity
+          pathParams: {
+            stock_category: stockCategory,
+            qr_code_id: isDataFetched ? Number(qrId) : 0,
+          },
+          body: { quantity: Number(quantityInput) }, //The only thing we can modify without deleting pallet sheet is quantity
         },
         {
-          onSuccess : (data) => {
-            console.log(data?.message)
+          onSuccess: (data) => {
+            console.log(data?.message);
             setQrId(undefined);
             setIsDataFetched(false);
           },
-          onError : (data) => {
-            console.log(data.message)
-          }
+          onError: (data) => {
+            console.log(data.message);
+          },
         }
-      )
+      );
     }
+  };
 
-  });
-
-  const handleDeleteData = (() => {
-
-  });
+  const handleDeleteData = () => {};
 
   return (
-    <RootView disableInsets={{ left: true, top: true }} className="flex gap-y-[30]">
+    <RootView
+      disableInsets={{ left: true, top: true }}
+      className="flex gap-y-[30]"
+    >
+      <Header
+        title={capitalizeFirst(
+          t("modify_pallet_sheet.modify_existing_pallet_sheet")
+        )}
+      ></Header>
       <FlatList
         focusable={false}
         data={[]} // empty, we're just using it for scroll container
@@ -163,13 +175,6 @@ export default function add_pallet_sheet() {
         renderItem={null}
         ListHeaderComponent={
           <>
-            <Text variant="h2" className="mb-2">
-              <Row className="w-full justify-between">
-                <Text className="text-4xl">
-                  {capitalizeFirst(t("modify_pallet_sheet.modify_existing_pallet_sheet"))}
-                </Text>
-              </Row>
-            </Text>
             {/* PALLET SHEET DETAILS */}
             <View className="border-2 border-[hsl(var(--border))] rounded-xl">
               <SheetRow
@@ -225,7 +230,7 @@ export default function add_pallet_sheet() {
                 label={t("add_pallet_sheet.quantity")}
                 placeholder={completeData?.quantity}
                 onChangeText={(text) => {
-                  setQuantityInput(text === "" ? undefined : text)  
+                  setQuantityInput(text === "" ? undefined : text);
                 }}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
@@ -233,20 +238,34 @@ export default function add_pallet_sheet() {
               />
             </View>
             <View className="items-center mt-4">
-                {qrId ? 
-                  <>
-                    <Row className="items-center justify-center" gap={20}>
-                      <Button className="" icon={Pencil} onPress={handleModifyData}>
-                          {capitalizeFirst(t("common.submit_modifications"))}
-                      </Button>
-                      <Button icon={Trash}>
-                        {capitalizeFirst(t("modify_pallet_sheet.delete_pallet_sheet"))}
-                      </Button>
-                    </Row>
-                  </>
-                : <QrScannerButton onScan={(data) => {setQrId(Number(data))}}>
-                    {capitalizeFirst(t("modify_pallet_sheet.scan_existing_sheet"))}
-                  </QrScannerButton>}
+              {qrId ? (
+                <>
+                  <Row className="items-center justify-center" gap={20}>
+                    <Button
+                      className=""
+                      icon={Pencil}
+                      onPress={handleModifyData}
+                    >
+                      {capitalizeFirst(t("common.submit_modifications"))}
+                    </Button>
+                    <Button icon={Trash}>
+                      {capitalizeFirst(
+                        t("modify_pallet_sheet.delete_pallet_sheet")
+                      )}
+                    </Button>
+                  </Row>
+                </>
+              ) : (
+                <QrScannerButton
+                  onScan={(data) => {
+                    setQrId(Number(data));
+                  }}
+                >
+                  {capitalizeFirst(
+                    t("modify_pallet_sheet.scan_existing_sheet")
+                  )}
+                </QrScannerButton>
+              )}
             </View>
           </>
         }

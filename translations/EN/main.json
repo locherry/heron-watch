@@ -104,7 +104,8 @@
     "PF_M": "store",
     "MP_F": "fresh",
     "MP_S": "dry",
-    "MP_C": "frozen"
+    "MP_C": "frozen",
+    "EMB" : "packaging"
   },
   "product_category" : {
     "product_code" : "product code",

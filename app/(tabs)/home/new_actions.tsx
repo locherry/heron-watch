@@ -1,9 +1,11 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
-import { Factory, Plus, Store } from "lucide-react-native";
+import { Plus } from "lucide-react-native";
 import React from "react";
 import { Action } from "~/@types/action";
+import { StockCategory } from "~/@types/stock";
 import { Alert } from "~/components/alert/Alert";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ActionTable } from "~/components/table/ActionTable";
@@ -15,6 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { constants } from "~/lib/constants";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -26,7 +29,7 @@ export default function NewActions() {
 
   const rawParams = useLocalSearchParams();
   const { stockCategory = "PF_G", actionsJsonEncoded } = rawParams as {
-    stockCategory?: "PF_G" | "PF_M";
+    stockCategory?: StockCategory;
     actionsJsonEncoded?: string;
   };
 
@@ -104,26 +107,21 @@ export default function NewActions() {
 
   return (
     <RootView disableInsets={{ left: true }}>
-      <Text variant="h2" className="mb-2">
-        <Row className="w-full justify-between">
-          <Text className="text-4xl">
-            {capitalizeFirst(t("actions.newActions"))}
-          </Text>
-          <Tooltip>
-            <TooltipTrigger>
-              {stockCategory === "PF_G" && <Icon as={Factory} />}
-              {stockCategory === "PF_M" && <Icon as={Store} />}
-            </TooltipTrigger>
-            <TooltipContent>
-              <Text>
-                {capitalizeFirst(t("stocks.finishedProducts"))}
-                {" - "}
-                {t(("stocks." + stockCategory) as "stocks.PF_G")}
-              </Text>
-            </TooltipContent>
-          </Tooltip>
-        </Row>
-      </Text>
+      <Header title={capitalizeFirst(t("actions.newActions"))} className="justify-between">
+        <Tooltip>
+          <TooltipTrigger>
+            <Icon as={constants.stockCategoryIcon[stockCategory]}/>
+          </TooltipTrigger>
+          <TooltipContent>
+            <Text>
+              {capitalizeFirst(t("stocks.finishedProducts"))}
+              {" - "}
+              {t(("stocks." + stockCategory) as "stocks.PF_G")}
+            </Text>
+          </TooltipContent>
+        </Tooltip>
+      </Header>
+
       <ActionTable
         data={React.useMemo(() => actions, [actions])}
         // totalRow={true}

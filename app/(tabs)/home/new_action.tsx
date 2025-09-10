@@ -5,20 +5,28 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { Action } from "~/@types/action";
+import Header from "~/components/Header";
 import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import QrScannerButton from "~/components/QrScannerButton";
 import { Button } from "~/components/ui/button";
+import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTrigger
+  SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
+import { constants } from "~/lib/constants";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -256,24 +264,41 @@ export default function NewAction() {
   return (
     <RootView disableInsets={{ left: true }}>
       <ScrollView showsVerticalScrollIndicator>
-        <Row gap={8} className="mb-4">
-          <Text variant="h2" className="flex-1">{capitalizeFirst(t("actions.newAction"))}</Text>
-          <QrScannerButton onScan={onScan} />
-        </Row>
+        <Header
+          title={capitalizeFirst(t("actions.newAction"))}
+          className="justify-between"
+        >
+          <Tooltip>
+            <TooltipTrigger>
+              <Icon as={constants.stockCategoryIcon[stockCategory]} />
+            </TooltipTrigger>
+            <TooltipContent>
+              <Text>
+                {capitalizeFirst(t("stocks.finishedProducts"))}
+                {" - "}
+                {t(("stocks." + stockCategory) as "stocks.PF_G")}
+              </Text>
+            </TooltipContent>
+          </Tooltip>
+        </Header>
         <Column gap={16}>
           {/* action type select... */}
-          <Select
-            defaultValue={ACTION_TYPES[0]}
-            value={ACTION_TYPES.find((option) => option.value == actionId)}
-            onValueChange={(option) =>
-              setActionId(
-                option?.value as (typeof ACTION_TYPES)[number]["value"]
-              )
-            }
-          >
-            <SelectTrigger>
+          <Row gap={8} className="mb-4">
+            <Select
+              className="flex-1"
+              defaultValue={ACTION_TYPES[0]}
+              value={ACTION_TYPES.find((option) => option.value == actionId)}
+              onValueChange={(option) =>
+                setActionId(
+                  option?.value as (typeof ACTION_TYPES)[number]["value"]
+                )
+              }
+            >
+              <SelectTrigger>
                 <View className="mr-2 flex flex-row items-center">
-                  {SelectedIcon && <SelectedIcon className="mr-2 text-foreground" size={16} />}
+                  {SelectedIcon && (
+                    <SelectedIcon className="mr-2 text-foreground" size={16} />
+                  )}
                   <Text className="capitalize">
                     {
                       ACTION_TYPES.find((option) => option.value == actionId)
@@ -281,18 +306,20 @@ export default function NewAction() {
                     }
                   </Text>
                 </View>
-            </SelectTrigger>
-            <SelectContent>
-              {ACTION_TYPES.map((action) => (
-                <SelectItem
-                  key={action.value}
-                  value={String(action.value)}
-                  label={capitalizeFirst(action.label)}
-                  icon={action.icon}
-                />
-              ))}
-            </SelectContent>
-          </Select>
+              </SelectTrigger>
+              <SelectContent>
+                {ACTION_TYPES.map((action) => (
+                  <SelectItem
+                    key={action.value}
+                    value={String(action.value)}
+                    label={capitalizeFirst(action.label)}
+                    icon={action.icon}
+                  />
+                ))}
+              </SelectContent>
+            </Select>
+            <QrScannerButton onScan={onScan} />
+          </Row>
 
           {INPUT_FIELDS.map((field) => {
             const error = errors[field.value];

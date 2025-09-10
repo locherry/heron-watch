@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import { CreatePalletSheet } from "~/components/create-pallet-sheet";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { Input } from "~/components/ui/input";
@@ -212,6 +213,8 @@ export default function add_pallet_sheet() {
   console.log(isNewDataLoading);
   return (
     <RootView disableInsets={{ left: true, top: true }}>
+      <Header title={capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}>
+      </Header>
       <FlatList
         focusable={false}
         data={[]} // empty, we're just using it for scroll container
@@ -221,9 +224,6 @@ export default function add_pallet_sheet() {
           <>
             <Text variant="h2" className="mb-2">
               <Row className="w-full justify-between">
-                <Text className="text-4xl">
-                  {capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
-                </Text>
                 <Label className="text-2xl font-mono">
                   {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
                     " : "}

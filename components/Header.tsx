@@ -14,22 +14,29 @@ type HeaderProps = {
   onBack?: () => void; // 👈 new optional handler
 } & ViewProps;
 
-export default function Header({ className, children, title, onBack }: HeaderProps) {
+export default function Header({
+  className,
+  children,
+  title,
+  onBack,
+}: HeaderProps) {
   return (
-    <Row className={cn("align-end mb-4", className)} gap={16}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            icon={ChevronLeft}
-            onPress={onBack ?? router.back} // use custom handler if provided
-            variant="outline"
-          />
-        </TooltipTrigger>
-        <TooltipContent>
-          <Text>{capitalizeFirst(t("common.goBack"))}</Text>
-        </TooltipContent>
-      </Tooltip>
-      <Text variant="h3">{title}</Text>
+    <Row className={cn("align-end mb-4", className)}>
+      <Row gap={16}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              icon={ChevronLeft}
+              onPress={onBack ?? router.back} // use custom handler if provided
+              variant="outline"
+            />
+          </TooltipTrigger>
+          <TooltipContent>
+            <Text>{capitalizeFirst(t("common.goBack"))}</Text>
+          </TooltipContent>
+        </Tooltip>
+        <Text variant="h3">{title}</Text>
+      </Row>
       {children}
     </Row>
   );

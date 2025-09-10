@@ -8,20 +8,22 @@
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import React, { useState } from "react";
-import { ActivityIndicator, View } from "react-native";
-import { StockSortState } from "~/@types/stock";
+import { ActivityIndicator } from "react-native";
+import { StockCategory, StockSortState } from "~/@types/stock";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
-import Row from "~/components/layout/Row";
 import { StockTable } from "~/components/table/StockTable";
+import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+import { constants } from "~/lib/constants";
 import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function ViewStocks() {
-
   const rawParams = useLocalSearchParams();
   const { stockCategory = "PF_G" } = rawParams as {
-    stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C";
+    stockCategory?: StockCategory;
   };
   const [sorting, setSorting] = useState<StockSortState | null>(null);
 
@@ -40,22 +42,33 @@ export default function ViewStocks() {
 
   return (
     <RootView disableInsets={{ left: true }}>
-      {/* Action History */}
-      <View className="flex-1">
-        <Row className="flex-none">
-          <Text variant="h3">{capitalizeFirst(t("stocks.viewStocks"))}</Text>
-        </Row>
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <StockTable
-            data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
-            fetchNextPage={fetchNextPage}
-            sorting={sorting}
-            onSortingChange={setSorting}
-          />
-        )}
-      </View>
+      <Header
+        title={capitalizeFirst(t("stocks.viewStocks"))}
+        className="justify-between"
+      >
+        <Tooltip>
+          <TooltipTrigger>
+            <Icon as={constants.stockCategoryIcon[stockCategory]} />
+          </TooltipTrigger>
+          <TooltipContent>
+            <Text>
+              {capitalizeFirst(t("stocks.finishedProducts"))}
+              {" - "}
+              {t(("stocks." + stockCategory) as "stocks.PF_G")}
+            </Text>
+          </TooltipContent>
+        </Tooltip>
+      </Header>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <StockTable
+          data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
+          fetchNextPage={fetchNextPage}
+          sorting={sorting}
+          onSortingChange={setSorting}
+        />
+      )}
     </RootView>
   );
 }

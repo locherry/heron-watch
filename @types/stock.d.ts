@@ -10,3 +10,5 @@ export type StockSortState = {
   order_by: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
   sort: "asc" | "desc";
 };
+
+export type StockCategory = "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
