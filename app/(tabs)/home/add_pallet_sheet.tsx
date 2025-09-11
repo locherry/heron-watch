@@ -1,6 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
-import { QrCodeIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -18,11 +17,6 @@ import Row from "~/components/layout/Row";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
@@ -241,18 +235,6 @@ export default function add_pallet_sheet() {
                         )
                       }
                 </Label>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <QrCodeIcon />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <Text>
-                      {capitalizeFirst(
-                        t("add_pallet_sheet.modify_existing_pallet_sheet")
-                      )}
-                    </Text>
-                  </TooltipContent>
-                </Tooltip>
               </Row>
             </Text>
 

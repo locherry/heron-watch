@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
-import { Pencil, Trash } from "lucide-react-native";
+import { MessageCircleWarning, Pencil, Trash } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -12,6 +12,7 @@ import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import QrScannerButton from "~/components/QrScannerButton";
+import { Alert } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
@@ -87,6 +88,11 @@ export default function add_pallet_sheet() {
     "/qr-code/{stock_category}/{qr_code_id}",
     "patch"
   );
+  const {mutate : deleteQrData} = useFetchMutation(
+    "/qr-code/{qr_code_id}",
+    "patch"
+  );
+
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory?: "PF_G" | "PF_M";
@@ -107,6 +113,7 @@ export default function add_pallet_sheet() {
   const [isDataFetched, setIsDataFetched] = useState(false);
   const [completeData, setCompleteData] = useState<any>([]);
   const [qrId, setQrId] = useState<undefined | number>(undefined);
+  const [isQuantityInputInvalid, setIsQuantityInputInvalid] = useState(false);
 
   let {
     data: palletCompleteData = [],
@@ -133,7 +140,7 @@ export default function add_pallet_sheet() {
   }, [palletCompleteData]);
 
   const handleModifyData = () => {
-    if (isDataFetched) {
+    if (isDataFetched && quantityInput) {
       modifyQrData(
         {
           pathParams: {
@@ -153,10 +160,28 @@ export default function add_pallet_sheet() {
           },
         }
       );
+    } else if (!quantityInput) {
+      setIsQuantityInputInvalid(true);
     }
   };
 
-  const handleDeleteData = () => {};
+  const handleDeleteData = () => {
+    if (isDataFetched) {      
+      deleteQrData(
+        {
+          pathParams : {qr_code_id : qrId ?? 0}
+        },
+        {
+          onSuccess : () =>  {
+            console.log("Qr code successfully deleted")
+          },
+          onError : (error) => {
+            console.log(error.message)
+          }
+        }
+      )
+    }
+  };
 
   return (
     <RootView
@@ -248,7 +273,10 @@ export default function add_pallet_sheet() {
                     >
                       {capitalizeFirst(t("common.submit_modifications"))}
                     </Button>
-                    <Button icon={Trash}>
+                    <Button 
+                      icon={Trash}
+                      onPress={handleDeleteData}
+                    >
                       {capitalizeFirst(
                         t("modify_pallet_sheet.delete_pallet_sheet")
                       )}
@@ -267,6 +295,10 @@ export default function add_pallet_sheet() {
                 </QrScannerButton>
               )}
             </View>
+            {isQuantityInputInvalid ? 
+            <Alert icon={MessageCircleWarning} className="text-red-500 my-4">
+            </Alert>
+             : null}
           </>
         }
       />

@@ -158,7 +158,8 @@
     "invalidProductSpecificityEMB" : "must be a designation between 'Boite' or 'Couvercle'", 
     "invalidLotNumber" : "invalid lot number, should be three capital letters + 6 digits (ddmmyy)",
     "loginExpired": "login expired",
-    "redirectToLogin" : "redirect to login"
+    "redirectToLogin" : "redirect to login",
+    "quantityInputRequired" : "You need to specify a new quantity to modify pallet sheet"
   },
   "add_pallet_sheet" : {
     "add_pallet_sheet" : "add pallet sheet",

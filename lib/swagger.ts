@@ -138,7 +138,8 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /** Delete qr code */
+        patch: operations["743db6fca556baab5f4ec0e12d1a1ad6"];
         trace?: never;
     };
     "/qr-code/{stock_category}/{product_code}/{lot_number}": {
@@ -593,7 +594,7 @@ export interface operations {
                 /** @description Number of items to skip (for pagination) */
                 offset?: number;
                 /** @description Order by column */
-                order_by?: "created_at" | "created_by_id" | "id" | "lot_number" | "product_code" | "action_id";
+                order_by?: "created_at" | "created_by_id" | "id" | "comment" | "lot_number" | "product_code" | "action_id" | "quantity" | "transaction";
                 /** @description Sort order: asc or desc */
                 sort?: "asc" | "desc";
             };
@@ -1117,6 +1118,50 @@ export interface operations {
                     };
                     "application/xml": {
                         /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "743db6fca556baab5f4ec0e12d1a1ad6": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The ID of the QR code to delete */
+                qr_code_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description QR code deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example QR code deleted successfully */
+                        message?: string;
+                    };
+                    "application/xml": {
+                        message?: string;
+                    };
+                };
+            };
+            /** @description Invalid request data */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Invalid request data */
+                        error?: string;
+                    };
+                    "application/xml": {
                         error?: string;
                     };
                 };

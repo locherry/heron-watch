@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { Cylinder, Forklift, Plus, Snowflake } from "lucide-react-native";
 import React, { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ProductCategoryTable } from "~/components/table/ProductCategoryTable";
@@ -48,7 +49,7 @@ export default function App() {
       {/* Products */}
       <View className="gap-y-10">
         <Row className="justify-between">
-          <Text variant="h3" className="">{capitalizeFirst(t("common.products"))}</Text>
+          <Header title={capitalizeFirst(t("common.products"))} className=""/>
           <Select
             defaultValue={GENERAL_STOCK_CATEGORIES[0]}
             value={GENERAL_STOCK_CATEGORIES.find(
