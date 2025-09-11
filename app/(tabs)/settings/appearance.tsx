@@ -2,10 +2,11 @@ import { t } from "i18next";
 import { Laptop, LucideIcon, MoonStar, Sun } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import React, { useEffect } from "react";
-import { Appearance, View } from "react-native";
+import { Appearance } from "react-native";
 import { userThemeValue } from "~/@types/user";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
+import Row from "~/components/layout/Row";
 import { Icon } from "~/components/ui/icon";
 import { Label } from "~/components/ui/label";
 import {
@@ -13,7 +14,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectTrigger
+  SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
@@ -63,12 +64,12 @@ export default function AppearanceSettings() {
   const handleValueChange = (newValue: SelectOption) => {
     const newThemeValue = (newValue?.value ?? "system") as userThemeValue;
     setThemeValue(newThemeValue);
-    
+
     if (newValue?.value === "light" || newValue?.value === "dark") {
       setColorScheme(newValue.value); // Update the color scheme based on user selection
       SecureStorage.modify("userPreferences", "theme", newValue.value);
     } else {
-      const resolvedSystemTheme = Appearance.getColorScheme()
+      const resolvedSystemTheme = Appearance.getColorScheme();
       setColorScheme(resolvedSystemTheme ?? "system"); // Set to system's theme when "system" is selected
       SecureStorage.modify("userPreferences", "theme", "system");
     }
@@ -88,12 +89,13 @@ export default function AppearanceSettings() {
     });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     SecureStorage.get("userPreferences").then((userPreferences) => {
-      userPreferences?.theme && setThemeValue(userPreferences?.theme)
-    })
-  })
+      userPreferences?.theme && setThemeValue(userPreferences?.theme);
+    });
+  });
 
+  const selectedOption = options.find((option) => option.value === themeValue);
   return (
     <RootView>
       <Header title={capitalizeFirst(t("settings.appearance.name"))}></Header>
@@ -102,32 +104,21 @@ export default function AppearanceSettings() {
         onValueChange={handleValueChange}
         defaultValue={options.find((option) => option.value == themeValue)}
       >
-        <SelectTrigger className="w-[250px]">
-            <View className="mr-2 flex flex-row items-center">
-              {(() => {
-                const selectedOption = options.find(
-                  (option) => option.value === themeValue
-                );
-                if (selectedOption?.icon) {
-                  return <Icon as={selectedOption.icon}  className="mr-2 text-foreground" size={16} />;
-                }
-                return null; // If there's no icon, render nothing
-              })()}
-              <Text>
-                {options.find((option) => option.value === themeValue)?.label}
-              </Text>
-            </View>
+        <SelectTrigger>
+          <Row gap={8}>
+            {selectedOption?.icon && <Icon as={selectedOption.icon} />}
+            <Text>{selectedOption?.label}</Text>
+          </Row>
         </SelectTrigger>
-        <SelectContent className="w-[250px]">
+        <SelectContent>
           <SelectGroup>
             {options.map((option) => (
               <SelectItem
                 key={option.value}
                 label={option.label}
                 value={option.value}
-                icon={option.icon}
               >
-                {option.label}
+                <Icon as={option.icon} />
               </SelectItem>
             ))}
           </SelectGroup>

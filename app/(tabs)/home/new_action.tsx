@@ -259,7 +259,6 @@ export default function NewAction() {
   const selectedOption = ACTION_TYPES.find(
     (option) => option.value === actionId
   );
-  const SelectedIcon = selectedOption?.icon;
 
   return (
     <RootView disableInsets={{ left: true }}>
@@ -287,25 +286,18 @@ export default function NewAction() {
             <Select
               className="flex-1"
               defaultValue={ACTION_TYPES[0]}
-              value={ACTION_TYPES.find((option) => option.value == actionId)}
+              value={selectedOption}
               onValueChange={(option) =>
                 setActionId(
                   option?.value as (typeof ACTION_TYPES)[number]["value"]
                 )
               }
             >
-              <SelectTrigger>
-                <View className="mr-2 flex flex-row items-center">
-                  {SelectedIcon && (
-                    <SelectedIcon className="mr-2 text-foreground" size={16} />
-                  )}
-                  <Text className="capitalize">
-                    {
-                      ACTION_TYPES.find((option) => option.value == actionId)
-                        ?.label
-                    }
-                  </Text>
-                </View>
+              <SelectTrigger className="w-full">
+                <Row gap={8}>
+                  {selectedOption?.icon && <Icon as={selectedOption.icon} />}
+                  <Text>{selectedOption?.label}</Text>
+                </Row>
               </SelectTrigger>
               <SelectContent>
                 {ACTION_TYPES.map((action) => (
@@ -313,8 +305,9 @@ export default function NewAction() {
                     key={action.value}
                     value={String(action.value)}
                     label={capitalizeFirst(action.label)}
-                    icon={action.icon}
-                  />
+                  >
+                    <Icon as={action.icon} />
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>

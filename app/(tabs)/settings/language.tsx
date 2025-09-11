@@ -8,7 +8,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
@@ -71,29 +70,28 @@ export default function LanguageSettings() {
     });
   };
 
+  const selectedOption = LANGUAGES.find(
+    (value) => value.value == selectedLanguage
+  );
+
   return (
     <RootView>
       <Header title={capitalizeFirst(t("settings.language.name"))}></Header>
 
       <Label>{capitalizeFirst(t("settings.language.appLanguage"))}</Label>
       <Select
-        defaultValue={LANGUAGES.find(
-          (value) => value.value == selectedLanguage
-        )}
-        value={LANGUAGES.find((value) => value.value == selectedLanguage)}
+        value={selectedOption}
         onValueChange={(option) =>
           option && applyLanguageToApp(option as Option)
         }
       >
-        <SelectTrigger className="w-[250px]">
+        <SelectTrigger>
           <SelectValue
-            className="text-foreground text-sm native:text-lg flex flex-row items-center"
-            placeholder="Select app language"
+            placeholder=""
           />
         </SelectTrigger>
-        <SelectContent className="w-[250px]">
+        <SelectContent>
           <SelectGroup>
-            <SelectLabel>Language</SelectLabel>
             {LANGUAGES.map((option) => (
               <SelectItem
                 key={option.value}
