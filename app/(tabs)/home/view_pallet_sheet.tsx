@@ -39,7 +39,7 @@ export default function App() {
                 required_elts : ["product_code"],
                 distinct : true
                 }
-        }
+        },
     )
 
     const {data : LNData, error : LNError, isLoading : LNIsLoading, isError : LNIsError} = useFetchQuery(
@@ -78,8 +78,10 @@ export default function App() {
             line.product_code.includes(dynamic_product_code_value)
         );
         setPCFilteredData(filteredResult);
+        } else {
+            setPCFilteredData([]);
         }
-    }, [dynamic_product_code_value]);
+    }, [dynamic_product_code_value, PCData]);
 
     useEffect(() => {
         if (LNData !== undefined && LNData.data !== undefined) {
@@ -87,16 +89,10 @@ export default function App() {
             line.lot_number.includes(dynamic_lot_number_value)
         );
         setLNFilteredData(filteredResult);
+        } else {
+            setLNFilteredData([]);
         }
-    }, [dynamic_lot_number_value]);
-
-    useEffect(() => {
-        setPCFilteredData(PCData?.data ?? []);
-    }, [PCData]);
-
-    useEffect(() => {
-        setLNFilteredData(LNData?.data ?? []);
-    }, [LNData]);
+    }, [dynamic_lot_number_value, LNData]);
 
     let isSelectingPC = false;
     let isSelectingLN = false;
@@ -134,8 +130,10 @@ export default function App() {
                                 data={!isProductCodeFocus ? PCfilteredData : []}
                                 value={dynamic_product_code_value}
                                 onChangeText={(text) => {
+                                    if (product_code_value !== "") {
+                                        setProductCodeValue("");
+                                    }
                                     setDynamicProductCodeValue(text);
-                                    setProductCodeValue("");
                                 }}
                                 renderTextInput={(props) => (
                                 <Input {...props} placeholder={t("actions.product_code")} />
@@ -187,8 +185,11 @@ export default function App() {
                             data={!isLotNumberFocus ? LNfilteredData : []}
                             value={dynamic_lot_number_value}
                             onChangeText={(text) => {
+                                if (lot_number_value !== "") {
+                                    setLotNumberValue("");
+                                }
                                 setDynamicLotNumberValue(text);
-                                setLotNumberValue("");
+
                             }}
                             flatListProps={{
                                 keyExtractor: (item) => item.lot_number,
