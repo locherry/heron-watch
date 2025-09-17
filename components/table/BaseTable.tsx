@@ -1,7 +1,6 @@
 import { flexRender } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react-native";
-import { FlatList, Pressable, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { FlatList, Pressable, ScrollView, View } from "react-native";
 import { BaseTableProps } from "~/@types/table";
 import { useColumnWidths } from "~/lib/hooks/useColumnWiths";
 import { useTableLogic } from "~/lib/hooks/useTableLogic";
