@@ -15,7 +15,7 @@ function Alert({
 }: ViewProps &
   React.RefAttributes<View> & {
     icon: LucideIcon;
-    variant?: "default" | "destructive" | "success";
+    variant?: "default" | "destructive" | "success" | "info";
     iconClassName?: string;
   }) {
   return (
@@ -24,6 +24,7 @@ function Alert({
         "text-sm text-foreground",
         variant === "destructive" && "text-destructive",
         variant === "success" && "text-green-600",
+        variant === "info" && "text-blue-600",
         className
       )}
     >
@@ -42,6 +43,7 @@ function Alert({
               "size-4",
               variant === "destructive" && "text-destructive",
               variant === "success" && "text-green-600",
+              variant === "info" && "text-blue-600",
               iconClassName
             )}
           />

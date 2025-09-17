@@ -19,15 +19,6 @@ import Toast, { ToastConfig } from "react-native-toast-message";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
 /**
- * Temporary fix for warning when accessing useLayoutEffect on the server. See issue
- * https://github.com/calintamas/react-native-toast-message/issues/530
- */
-if (typeof document === "undefined") {
-  // @ts-ignore
-  React.useLayoutEffect = React.useEffect;
-}
-
-/**
  * @docs https://github.com/calintamas/react-native-toast-message/blob/main/docs/quick-start.md
  */
 const TOAST_CONFIG: ToastConfig = {
