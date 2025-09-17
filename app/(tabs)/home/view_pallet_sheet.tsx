@@ -1,9 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { Keyboard, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { FlatList, Keyboard, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
-import { FlatList } from "react-native-gesture-handler";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Input } from "~/components/ui/input";
