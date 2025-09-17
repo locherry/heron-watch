@@ -21,9 +21,7 @@ export function MarkdownViewer({ path }: MarkdownViewerProps) {
           raw = await res.text();
         } else {
           // On native, use expo-file-system
-          raw = await FileSystem.readAsStringAsync(path, {
-            encoding: FileSystem.EncodingType.UTF8,
-          });
+          raw = await new FileSystem.File(path).text()
         }
 
         setContent(raw);
