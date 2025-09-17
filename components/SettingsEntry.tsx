@@ -26,7 +26,7 @@ const SettingsEntry = ({
 
   // Content inside the button/link: icon, title, and right arrow
   const content = (
-    <View className="flex-row items-center justify-between flex-1">
+    <View className="flex-1 h-10 flex-row items-center justify-between">
       <View className="flex-row items-center">
         {/* Render the icon with size, margin, and stroke width */}
         <Icon
