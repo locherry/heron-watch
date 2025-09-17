@@ -33,7 +33,6 @@ const SettingsEntry = ({
           as={icon}
           size={24}
           className="mr-3 text-foreground"
-          strokeWidth={1.5}
         />
         <Text>{title}</Text>
       </View>
