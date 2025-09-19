@@ -7,6 +7,7 @@ import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { PalletCard } from "~/components/ui/pallet-card";
 import { Text } from "~/components/ui/text";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
@@ -209,6 +210,11 @@ export default function App() {
                                 ),
                             }}
                             />
+                        </View>
+                        <View>
+                            <PalletCard
+                            objId = {2}
+                            objQuantity = {23}/>
                         </View>
                     </>
                 }>
