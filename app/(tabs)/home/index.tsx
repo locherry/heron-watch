@@ -119,7 +119,7 @@ export default function MaterialTabsExample() {
           {stockCategoryTabs[currentStockType].map((tab) => (
             <TabsTrigger
               value={tab.stock_category}
-              className="flex-1"
+              className="flex-1 cursor-pointer"
               key={tab.stock_category}
             >
               <Row className="flex-1 justify-center">
@@ -132,7 +132,13 @@ export default function MaterialTabsExample() {
                       : "text-muted-foreground"
                   )}
                 />
-                <Text>
+                <Text 
+                  className={cn(
+                    tab.stock_category ===
+                      currentStockCategory[currentStockType]
+                      ? "text-foreground"
+                      : "text-muted-foreground"
+                  )}>
                   {capitalizeFirst(
                     t(
                       ("stocks." + tab.name) as
