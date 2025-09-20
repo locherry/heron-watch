@@ -5,11 +5,10 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Platform,
-  SafeAreaView,
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import { useAuth } from "~/lib/hooks/useAuth";
