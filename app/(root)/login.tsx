@@ -1,9 +1,12 @@
 import { useRouter } from "expo-router"; // For navigation
 import { t } from "i18next";
+import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
 import { View } from "react-native";
+import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
+import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
@@ -13,6 +16,7 @@ import { capitalizeFirst } from "~/lib/utils";
 export default function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false); // Track if login is successful
@@ -123,18 +127,25 @@ export default function LoginScreen() {
           value={email}
           onChangeText={setEmail}
           placeholder={capitalizeFirst(t("user.email"))}
-          className="mb-4"
           keyboardType="email-address"
         />
 
         {/* Password Input */}
-        <Input
-          value={password}
-          onChangeText={setPassword}
-          placeholder={capitalizeFirst(t("user.password"))}
-          secureTextEntry
-          className="mb-6"
-        />
+        <Row className="mb-2">
+          <Input
+            value={password}
+            onChangeText={setPassword}
+            placeholder={capitalizeFirst(t("user.password"))}
+            secureTextEntry={!passwordVisible}
+          />
+          <Button
+            variant={"ghost"}
+            className="absolute right-0 text-foreground"
+            onPress={() => setPasswordVisible(!passwordVisible)}
+          >
+            <Icon as={passwordVisible ? Eye : EyeOff} />
+          </Button>
+        </Row>
 
         {/* Login Button */}
         <Button
