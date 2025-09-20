@@ -6,7 +6,6 @@ import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { Action } from "~/@types/action";
 import Header from "~/components/Header";
-import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import QrScannerButton from "~/components/QrScannerButton";
@@ -280,57 +279,56 @@ export default function NewAction() {
             </TooltipContent>
           </Tooltip>
         </Header>
-        <Column gap={16}>
-          {/* action type select... */}
-          <Row gap={8} className="mb-4">
-            <Select
-              className="flex-1"
-              defaultValue={ACTION_TYPES[0]}
-              value={selectedOption}
-              onValueChange={(option) =>
-                setActionId(
-                  option?.value as (typeof ACTION_TYPES)[number]["value"]
-                )
-              }
-            >
-              <SelectTrigger className="w-full">
-                <Row gap={8}>
-                  {selectedOption?.icon && <Icon as={selectedOption.icon} />}
-                  <Text>{selectedOption?.label}</Text>
-                </Row>
-              </SelectTrigger>
-              <SelectContent>
-                {ACTION_TYPES.map((action) => (
-                  <SelectItem
-                    key={action.value}
-                    value={String(action.value)}
-                    label={capitalizeFirst(action.label)}
-                  >
-                    <Icon as={action.icon} />
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <QrScannerButton onScan={onScan} />
-          </Row>
+        {/* action type select... */}
+        <Label>{capitalizeFirst(t("actions.actionType"))}</Label>
+        <Row gap={8} className="mb-4">
+          <Select
+            className="flex-1"
+            defaultValue={ACTION_TYPES[0]}
+            value={selectedOption}
+            onValueChange={(option) =>
+              setActionId(
+                option?.value as (typeof ACTION_TYPES)[number]["value"]
+              )
+            }
+          >
+            <SelectTrigger className="w-full">
+              <Row gap={8}>
+                {selectedOption?.icon && <Icon as={selectedOption.icon} />}
+                <Text>{selectedOption?.label}</Text>
+              </Row>
+            </SelectTrigger>
+            <SelectContent>
+              {ACTION_TYPES.map((action) => (
+                <SelectItem
+                  key={action.value}
+                  value={String(action.value)}
+                  label={capitalizeFirst(action.label)}
+                >
+                  <Icon as={action.icon} />
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <QrScannerButton onScan={onScan} />
+        </Row>
 
-          {INPUT_FIELDS.map((field) => {
-            const error = errors[field.value];
-            return (
-              <View key={field.value} className="mb-2">
-                <Label>{capitalizeFirst(field.label)}</Label>
-                <Input
-                  className={`w-full ${error ? "border-red-500" : ""}`}
-                  value={(formData[field.value] ?? "").toString()}
-                  onChangeText={(text) => handleChange(field.value, text)}
-                />
-                {error ? (
-                  <Text className="text-red-500 text-xs mt-1">{error}</Text>
-                ) : null}
-              </View>
-            );
-          })}
-        </Column>
+        {INPUT_FIELDS.map((field) => {
+          const error = errors[field.value];
+          return (
+            <View key={field.value} className="mb-2">
+              <Label>{capitalizeFirst(field.label)}</Label>
+              <Input
+                className={`w-full ${error ? "border-red-500" : ""}`}
+                value={(formData[field.value] ?? "").toString()}
+                onChangeText={(text) => handleChange(field.value, text)}
+              />
+              {error ? (
+                <Text className="text-red-500 text-xs mt-1">{error}</Text>
+              ) : null}
+            </View>
+          );
+        })}
 
         <Row className="flex-none w-full" gap={8}>
           <Button className="flex-1" variant={"outline"} onPress={handleCancel}>

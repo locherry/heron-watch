@@ -75,7 +75,7 @@
     "created_at": "created at",
     "action_id": "action",
     "transaction": "transaction",
-    "selectActionType": "Select action type",
+    "actionType": "Action type",
     "newAction": "New action",
     "newActions": "New actions",
     "expirationDate": "expiration date",
