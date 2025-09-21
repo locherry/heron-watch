@@ -166,8 +166,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get informations about qr-codes (add possibility to filter data from qrCodes table) */
-        get: operations["df62b86a906e1f59ef3bd0dc508495ab"];
+        get?: never;
         put?: never;
         /** Create a new QR code entry */
         post: operations["243f9d365ae979ae09c642f27dda1a4f"];
@@ -192,6 +191,23 @@ export interface paths {
         head?: never;
         /** Modify an existing QR code entry */
         patch: operations["a23be3f6247b5d045575fe593e651e07"];
+        trace?: never;
+    };
+    "/qr-code/list/{stock_category}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get informations about qr-codes (add possibility to filter data from qrCodes table) */
+        get: operations["0bb5a5bbcbc2e960a88873cee7034c97"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/stocks/{stock_category}": {
@@ -1242,73 +1258,6 @@ export interface operations {
             };
         };
     };
-    df62b86a906e1f59ef3bd0dc508495ab: {
-        parameters: {
-            query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Select which data we want to fetch */
-                required_elts?: components["schemas"]["qr_code_selected_elts"];
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["filter_params"];
-            };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Qr code data retrieved successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Qr code data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock"][];
-                    };
-                    "application/xml": {
-                        /** @example Qr code data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Qr code not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     "243f9d365ae979ae09c642f27dda1a4f": {
         parameters: {
             query?: never;
@@ -1461,6 +1410,73 @@ export interface operations {
                         error?: string;
                     };
                 };
+            };
+        };
+    };
+    "0bb5a5bbcbc2e960a88873cee7034c97": {
+        parameters: {
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Order by column */
+                order_by?: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+                /** @description Filter value that appeared multiple times */
+                distinct?: boolean;
+                /** @description Select which data we want to fetch */
+                required_elts?: components["schemas"]["qr_code_selected_elts"];
+                /** @description Add conditions in where clause to filter data */
+                filter_params?: components["schemas"]["filter_params"];
+            };
+            header?: never;
+            path: {
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Qr code data retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Qr code data retrieved successfully */
+                        message?: string;
+                        data?: components["schemas"]["Stock"][];
+                    };
+                    "application/xml": {
+                        /** @example Qr code data retrieved successfully */
+                        message?: string;
+                        data?: components["schemas"]["Stock"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Qr code not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

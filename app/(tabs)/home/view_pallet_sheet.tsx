@@ -24,7 +24,7 @@ export default function App() {
     const [dynamic_lot_number_value, setDynamicLotNumberValue] = useState("");
 
     const {data : PCData, error : PCError, isLoading : PCIsLoading, isError : PCIsError} = useFetchQuery(
-        "/stocks/{stock_category}",
+        "/qr-code/list/{stock_category}",
         "get",
         {
             path : {stock_category : stockCategory},
@@ -43,7 +43,7 @@ export default function App() {
     )
 
     const {data : LNData, error : LNError, isLoading : LNIsLoading, isError : LNIsError} = useFetchQuery(
-        "/stocks/{stock_category}",
+        "/qr-code/list/{stock_category}",
         "get",
         {
             path : {stock_category : stockCategory},
@@ -60,6 +60,23 @@ export default function App() {
                 }
         }
     )
+
+    const {data : selectedPalletsData, error : palletError, isLoading : palletIsLoading, isError : palletIsError} = useFetchQuery(
+        "/qr-code/list/{stock_category}",
+        "get",
+        {
+            path : {stock_category : stockCategory},
+            query : {
+                required_elts: ["id", "quantity"],
+                filter_params : {
+                    product_code : product_code_value,
+                    lot_number : lot_number_value
+                }
+            }
+        },
+        undefined,
+        product_code_value && lot_number_value ? true : false
+        )
 
     const { height, width } = useWindowDimensions();
     const { rowNameWidth, rowsHeight } = {
@@ -96,6 +113,8 @@ export default function App() {
 
     let isSelectingPC = false;
     let isSelectingLN = false;
+
+    console.log(selectedPalletsData);
     return (
         <RootView>
             <FlatList
@@ -211,10 +230,15 @@ export default function App() {
                             }}
                             />
                         </View>
-                        <View>
-                            <PalletCard
-                            objId = {2}
-                            objQuantity = {23}/>
+                        <View className="mt-5">
+                            <FlatList
+                            keyExtractor={(item) => (item.id.toString())}
+                            data={selectedPalletsData?.data ?? null}
+                            renderItem={ ({item}) => 
+                                    <PalletCard objId={item.id} objQuantity={item.quantity}>
+                                    </PalletCard>
+                            }
+                            />
                         </View>
                     </>
                 }>
