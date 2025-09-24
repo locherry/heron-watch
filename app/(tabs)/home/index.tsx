@@ -202,7 +202,7 @@ export default function MaterialTabsExample() {
           asChild
         >
           <Button icon={Forklift} variant="outline">
-            {t("Generate a new pallet sheet")}
+            {capitalizeFirst(t("manage_pallet_sheet"))}
           </Button>
         </Link>
       </View>
