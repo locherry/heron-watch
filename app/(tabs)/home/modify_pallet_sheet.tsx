@@ -86,6 +86,7 @@ function SheetRow({
 }
 
 export default function add_pallet_sheet() {
+  const [t] = useTranslation();
   const { mutate: modifyQrData } = useFetchMutation(
     "/qr-code/{stock_category}/{qr_code_id}",
     "patch"
