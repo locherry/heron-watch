@@ -34,7 +34,7 @@ export default function NewActions() {
     actionsJsonEncoded?: string;
   };
 
-  // ✅ Parse all actions from query param
+  // Parse all actions from query param
   const [actions, setActions] = React.useState<Action[]>(() => {
     if (!actionsJsonEncoded) return [];
     try {
@@ -78,6 +78,7 @@ export default function NewActions() {
   const handleCancel = () => {
     router.back();
   };
+  
   const handleEdit = (actionToBeEdited: Action) => {
     router.push({
       pathname: "/home/new_action",

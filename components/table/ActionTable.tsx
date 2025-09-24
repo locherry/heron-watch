@@ -52,7 +52,7 @@ export function ActionTable(props: Omit<BaseTableProps<Action>, "columns">) {
       {...props}
       data={props.data ?? []}
       columns={columns}
-      features={{ sorting: true, edition: true }}
+      features={{ sorting: props.sorting, edition: props.editEnabled }}
     />
   );
 }
