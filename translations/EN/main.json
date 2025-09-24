@@ -116,6 +116,7 @@
     "new_product" : "new product"
   },
   "common": {
+    "total": "total",
     "open": "open",
     "goBack": "go back",
     "exports": "exports",

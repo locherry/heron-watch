@@ -120,7 +120,7 @@ export function BaseTable<T>({
 
       {totalRow && (
         <View className="flex-row justify-between p-2 border-t border-border bg-background dark:bg-background-dark">
-          <Text>Total rows</Text>
+          <Text>{capitalizeFirst(t("common.total"))}</Text>
           <Text>{data.length}</Text>
         </View>
       )}
