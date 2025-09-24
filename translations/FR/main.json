@@ -3,12 +3,15 @@
     "home": "accueil",
     "admin": "administration",
     "settings": "paramètres",
-    "menu" : "menu"
+    "menu": "menu"
   },
   "admin": {
     "tabName": "panneau d'administration",
     "users": {
       "name": "gérer les utilisateurs"
+    },
+    "product_category": {
+      "name": "gérer les produits"
     },
     "exports": {
       "name": "Exporter vers une feuille de calcul"
@@ -28,9 +31,14 @@
       "appLanguage": "langue de l'application",
       "name": "langue"
     },
+    "legal": {
+      "name": "mentions légales",
+      "termsOfService": "conditions d’utilisation",
+      "license": "licence"
+    },
     "appearance": {
       "name": "apparence",
-      "tintColor": "couleur d'accent",
+      "tintColor": "couleur de surbrillance",
       "theme": "thème",
       "lightTheme": "thème clair",
       "darkTheme": "thème sombre",
@@ -47,8 +55,8 @@
     "addUser": "ajouter un utilisateur",
     "admin": "administrateur",
     "user": "utilisateur",
-    "logout": "déconnexion",
-    "login": "connexion"
+    "logout": "se déconnecter",
+    "login": "se connecter"
   },
   "color": {
     "raspberry": "framboise",
@@ -67,36 +75,56 @@
     "created_at": "créé le",
     "action_id": "action",
     "transaction": "transaction",
-    "selectActionType": "Sélectionner le type d'action",
-    "newAction": "Nouvelle action",
-    "newActions": "Nouvelles actions",
+    "actionType": "type d'action",
+    "newAction": "nouvelle action",
+    "newActions": "nouvelles actions",
+    "newActionsCreated": "nouvelles actions créées",
     "expirationDate": "date d'expiration",
-    "1": "J'entre en stock",
-    "2": "Je vends",
-    "3": "Je donne",
-    "4": "Je transfère au magasin"
+    "1": "je stocke",
+    "2": "je vends",
+    "3": "je donne",
+    "4": "je transfère au magasin"
   },
   "stocks": {
+    "id": "id",
+    "product_code": "code produit",
+    "lot_number": "numéro de lot",
+    "quantity": "quantité",
+    "expiration_date": "date d'expiration",
     "finishedProducts": "produits finis",
     "rawMaterials": "matières premières",
     "viewStocks": "voir les stocks",
     "newActions": "nouvelles actions",
     "fresh": "frais",
     "frozen": "congelé",
-    "dry": "Sec",
+    "dry": "sec",
     "packaging": "emballage",
-    "cannery": "usine de conserve",
-    "store": "magasin"
+    "cannery": "conserverie",
+    "store": "magasin",
+    "PF_G": "général",
+    "PF_M": "magasin",
+    "MP_F": "frais",
+    "MP_S": "sec",
+    "MP_C": "congelé",
+    "EMB": "emballage"
+  },
+  "product_category": {
+    "product_code": "code produit",
+    "product_name": "nom du produit",
+    "product_specificity": "spécificité du produit",
+    "selectStockGeneralCategory": "sélectionner une catégorie générale de stock",
+    "new_product": "nouveau produit"
   },
   "common": {
-    "goBack" : "retour",
+    "open": "ouvrir",
+    "goBack": "retourner",
     "exports": "exportations",
     "user": "utilisateur",
     "users": "utilisateurs",
     "settings": "paramètres",
     "delete": "supprimer",
-    "edit": "éditer",
-    "save": "sauvegarder",
+    "edit": "modifier",
+    "save": "enregistrer",
     "add": "ajouter",
     "back": "retour",
     "next": "suivant",
@@ -107,31 +135,77 @@
     "error": "erreur",
     "success": "succès",
     "action": "action",
+    "actions": "actions",
     "date": "date",
     "product": "produit",
+    "products": "produits",
     "cancel": "annuler",
     "OK": "OK",
     "sell": "vendre",
     "stock": "stock",
     "give": "donner",
-    "discard": "jeter"
+    "discard": "rejeter",
+    "product_category": "catégorie de produit",
+    "submit_modifications": "soumettre les modifications"
   },
+  "errors": {
+    "required": "Ce champ est obligatoire",
+    "invalidExpirationDate": "date d'expiration invalide, le format est : jj-mm-aaaa ex : 31-12-2025",
+    "invalidQuantity": "quantité invalide, la quantité doit être un entier",
+    "invalidProductCode": "code produit invalide, doit commencer par trois chiffres",
+    "invalidProductName": "nom de produit invalide, doit être composé de lettres ou de chiffres",
+    "invalidProductSpecificityPF": "doit être une désignation de 3 lettres maximum",
+    "invalidProductSpecificityMP": "doit être une lettre entre : F (frais), C (congelé) ou S (sec)",
+    "invalidProductSpecificityEMB": "doit être 'Boite' ou 'Couvercle'",
+    "invalidLotNumber": "numéro de lot invalide, doit être trois lettres majuscules + 6 chiffres (jjmmaaa)",
+    "loginExpired": "connexion expirée",
+    "redirectToLogin": "rediriger vers la connexion",
+    "quantityInputRequired": "Vous devez spécifier une nouvelle quantité pour modifier la fiche palette"
+  },
+  "add_pallet_sheet": {
+    "add_pallet_sheet": "ajouter une fiche palette",
+    "remains_to_be_placed": "reste à placer",
+    "select_a_product": "sélectionner un produit",
+    "modify_existing_pallet_sheet": "modifier une fiche palette existante",
+    "product_code": "code",
+    "origin": "origine",
+    "client": "client",
+    "product": "produit",
+    "lot_number": "numéro de lot",
+    "expiration_date": "date d'expiration",
+    "quantity": "quantité",
+    "create_sheet": "créer une fiche",
+    "create_qr_code": "créer un QR Code",
+    "alert_unable_to_create_qr": "impossible de créer un QR Code",
+    "alert_field_missing": "certains champs sont vides"
+  },
+  "view_pallet_sheet": {
+    "view_pallet_sheet": "voir les fiches palettes"
+  },
+  "modify_pallet_sheet": {
+    "modify_existing_pallet_sheet": "modifier une fiche palette existante",
+    "scan_existing_sheet": "scanner une fiche existante",
+    "delete_pallet_sheet": "supprimer une fiche palette"
+  },
+  "QR Code loaded": "QR Code chargé",
   "Toggle editing mode": "Basculer en mode édition",
   "Total users": "Nombre total d'utilisateurs",
   "Total actions": "Nombre total d'actions",
-  "Manage Errors": "Gérer les erreurs",
+  "Total products": "Nombre total de produits",
   "Please confirm": "Veuillez confirmer",
-  "Do you really want to discard the unsaved changes?": "Voulez-vous vraiment ignorer les modifications non enregistrées ?",
+  "Do you really want to discard the unsaved changes?": "Voulez-vous vraiment abandonner les modifications non enregistrées ?",
   "Do you really want to log out ?": "Voulez-vous vraiment vous déconnecter ?",
-  "Scan Qr code": "Scanner le code QR",
+  "Scan Qr code": "Scanner le QR Code",
   "transfer to the shop": "transférer au magasin",
   "welcome home !": "bienvenue à la maison !",
   "Finished products": "Produits finis",
-  "New actions": "Nouvelles actions",
   "Your all in one solution for:": "Votre solution tout-en-un pour :",
   "Real-Time Tracking": "Suivi en temps réel",
   "Error management": "Gestion des erreurs",
-  "Inventory Alerts": "Alertes de stock",
-  "Get right where your left :": "Reprenez là où vous vous êtes arrêtés :",
-  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Fait avec ❤️ par Ellande & Aloys || Tous droits réservés"
+  "Manage Errors": "Gérer les erreurs",
+  "manage_pallet_sheet": "gérer les fiches palettes",
+  "Generate a new pallet sheet": "Générer une nouvelle fiche palette",
+  "Inventory Alerts": "Alertes d'inventaire",
+  "Get right where you left :": "Reprendre là où vous vous êtes arrêté :",
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Réalisé avec ❤️ par Ellande & Aloys || Tous droits réservés"
 }

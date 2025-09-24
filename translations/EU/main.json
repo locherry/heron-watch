@@ -1,7 +1,7 @@
 {
   "tabBar": {
-    "home": "etxea",
-    "admin": "administazioa",
+    "home": "hasiera",
+    "admin": "administrazioa",
     "settings": "ezarpenak",
     "menu": "menua"
   },
@@ -10,17 +10,20 @@
     "users": {
       "name": "erabiltzaileak kudeatu"
     },
+    "product_category": {
+      "name": "produktuak kudeatu"
+    },
     "exports": {
-      "name": "Excel fitxategira esportatu"
+      "name": "Esportatu kalkulu-orri batera"
     }
   },
   "settings": {
     "profile": {
-      "name": "profil",
-      "userInfo": "erabiltzailearen informazioa",
+      "name": "profila",
+      "userInfo": "erabiltzaile informazioa",
       "deleteUser": "erabiltzailea ezabatu",
       "userRole": {
-        "admin": "admin erabiltzailea",
+        "admin": "administratzaile erabiltzailea",
         "user": "erabiltzailea"
       }
     },
@@ -28,69 +31,94 @@
       "appLanguage": "aplikazioaren hizkuntza",
       "name": "hizkuntza"
     },
+    "legal": {
+      "name": "lege-oharrak",
+      "termsOfService": "zerbitzuaren baldintzak",
+      "license": "lizentzia"
+    },
     "appearance": {
       "name": "itxura",
-      "tintColor": "tintazko kolorea",
+      "tintColor": "nabarmendutako kolorea",
       "theme": "gaia",
-      "lightTheme": "argi gaia",
-      "darkTheme": "ilun gaia",
+      "lightTheme": "gaia argia",
+      "darkTheme": "gaia iluna",
       "systemDefault": "sistemaren lehenetsia"
     }
   },
   "user": {
-    "firstName": "izena",
-    "lastName": "abizena",
+    "firstName": "izen",
+    "lastName": "abizen",
     "username": "erabiltzaile izena",
-    "email": "posta elektronikoa",
+    "email": "posta",
     "password": "pasahitza",
     "role": "rola",
-    "addUser": "erabiltzaile bat gehitu",
+    "addUser": "erabiltzaile berria gehitu",
     "admin": "administratzailea",
     "user": "erabiltzailea",
-    "logout": "irteera",
+    "logout": "irten",
     "login": "sartu"
   },
   "color": {
-    "raspberry": "framboesa",
+    "raspberry": "marrubia",
     "ocean": "ozeanoa",
-    "sage": "saukea",
+    "sage": "salbia",
     "sunny": "eguzkitsua",
-    "rust": "arroz"
+    "rust": "herdoila"
   },
   "actions": {
     "id": "id",
     "quantity": "kantitatea",
     "comment": "iruzkina",
-    "product_code": "produktuen kodea",
+    "product_code": "produktu kodea",
     "lot_number": "lote zenbakia",
     "created_by_id": "nork sortua",
     "created_at": "noiz sortua",
     "action_id": "ekintza",
     "transaction": "transakzioa",
-    "selectActionType": "Aukeratu ekintza mota",
-    "newAction": "Ekintza berria",
-    "newActions": "Ekintza berriak",
+    "actionType": "ekintza mota",
+    "newAction": "ekintza berria",
+    "newActions": "ekintza berriak",
+    "newActionsCreated": "ekintza berriak sortuta",
     "expirationDate": "iraungitze data",
-    "1": "Stockean sartzen dut",
-    "2": "Saltzen dut",
-    "3": "Ematen dut",
-    "4": "Dendara transferitzen dut"
+    "1": "stockean sartzen dut",
+    "2": "saltzen dut",
+    "3": "ematen dut",
+    "4": "dendara transferitzen dut"
   },
   "stocks": {
-    "finishedProducts": "Amaitutako Produktuak",
-    "rawMaterials": "lehengaiak",
-    "viewStocks": "ikuska ezarpenak",
+    "id": "id",
+    "product_code": "produktu kodea",
+    "lot_number": "lote zenbakia",
+    "quantity": "kantitatea",
+    "expiration_date": "iraungitze data",
+    "finishedProducts": "produktu bukatuak",
+    "rawMaterials": "lehengaia",
+    "viewStocks": "ikus stockak",
     "newActions": "ekintza berriak",
     "fresh": "freskoa",
-    "frozen": "hozkaitua",
-    "dry": "idorra",
-    "packaging": "paketazioa",
-    "cannery": "kontserba lantegia",
-    "store": "denda"
+    "frozen": "izoztua",
+    "dry": "lehorra",
+    "packaging": "ontziratzea",
+    "cannery": "kontserba fabrika",
+    "store": "denda",
+    "PF_G": "orokorra",
+    "PF_M": "denda",
+    "MP_F": "freskoa",
+    "MP_S": "lehorra",
+    "MP_C": "izoztua",
+    "EMB": "ontziratzea"
+  },
+  "product_category": {
+    "product_code": "produktu kodea",
+    "product_name": "produktu izena",
+    "product_specificity": "produktuaren zehaztasuna",
+    "selectStockGeneralCategory": "hautatu stockaren kategoria orokorra",
+    "new_product": "produktu berria"
   },
   "common": {
-    "goBack": "itzuli",
-    "exports": "esportazioa",
+    "open": "ireki",
+    "goBack": "atzera",
+    "exports": "esportazioak",
     "user": "erabiltzailea",
     "users": "erabiltzaileak",
     "settings": "ezarpenak",
@@ -102,36 +130,82 @@
     "next": "hurrengoa",
     "done": "eginda",
     "close": "itxi",
-    "history": "historiala",
+    "history": "historia",
     "loading": "kargatzen",
     "error": "errorea",
     "success": "arrakasta",
     "action": "ekintza",
+    "actions": "ekintzak",
     "date": "data",
     "product": "produktua",
-    "cancel": "ezeztatu",
-    "OK": "ON",
+    "products": "produktuak",
+    "cancel": "utzi",
+    "OK": "Ados",
     "sell": "saldu",
     "stock": "stocka",
     "give": "eman",
-    "discard": "baztertu"
+    "discard": "baztertu",
+    "product_category": "produktu kategoria",
+    "submit_modifications": "aldaketak bidali"
   },
-  "Toggle editing mode": "Editatze modua aldatu",
-  "Total users": "Erabiltzaile guztira",
-  "Total actions": "Ekintza guztira",
-  "Manage Errors": "Kudeatu erroreak",
+  "errors": {
+    "required": "Eremu hau derrigorrezkoa da",
+    "invalidExpirationDate": "iraungitze data baliogabea, formatu zuzena: ee-hh-uuuu adib. 31-12-2025",
+    "invalidQuantity": "kantitate baliogabea, osoko zenbaki bat izan behar du",
+    "invalidProductCode": "produktu kode baliogabea, hiru zenbakirekin hasi behar da",
+    "invalidProductName": "produktu izen baliogabea, hizki edo zenbakiz osatua izan behar du",
+    "invalidProductSpecificityPF": "gehienez 3 hizkiko izendapena izan behar du",
+    "invalidProductSpecificityMP": "F (freskoa), C (izoztua) edo S (lehorra) artean izan behar du",
+    "invalidProductSpecificityEMB": "'Kutxa' edo 'Estalkia' izan behar du",
+    "invalidLotNumber": "lote zenbaki baliogabea, hiru letra maiuskulaz + 6 zenbaki (eehhuu)",
+    "loginExpired": "saioa iraungi da",
+    "redirectToLogin": "saioa hasteko birbideratu",
+    "quantityInputRequired": "Pale txartela aldatzeko kantitate berria zehaztu behar duzu"
+  },
+  "add_pallet_sheet": {
+    "add_pallet_sheet": "pale txartela gehitu",
+    "remains_to_be_placed": "kokatzeko falta da",
+    "select_a_product": "produktua aukeratu",
+    "modify_existing_pallet_sheet": "existitzen den pale txartela aldatu",
+    "product_code": "kodea",
+    "origin": "jatorria",
+    "client": "bezeroa",
+    "product": "produktua",
+    "lot_number": "lote zenbakia",
+    "expiration_date": "iraungitze data",
+    "quantity": "kantitatea",
+    "create_sheet": "txartela sortu",
+    "create_qr_code": "QR kodea sortu",
+    "alert_unable_to_create_qr": "ezin izan da QR kodea sortu",
+    "alert_field_missing": "eremu batzuk hutsik daude"
+  },
+  "view_pallet_sheet": {
+    "view_pallet_sheet": "pale txartelak ikusi"
+  },
+  "modify_pallet_sheet": {
+    "modify_existing_pallet_sheet": "existitzen den pale txartela aldatu",
+    "scan_existing_sheet": "existitzen den txartela eskaneatu",
+    "delete_pallet_sheet": "pale txartela ezabatu"
+  },
+  "QR Code loaded": "QR kodea kargatua",
+  "Toggle editing mode": "Editatzeko modua aldatu",
+  "Total users": "Erabiltzaile kopuru osoa",
+  "Total actions": "Ekintza kopuru osoa",
+  "Total products": "Produktu kopuru osoa",
   "Please confirm": "Mesedez, baieztatu",
-  "Do you really want to discard the unsaved changes?": "Benetan nahi al duzu aldaketak gordetu gabe baztertu?",
-  "Do you really want to log out ?": "Benetan nahi al duzu saioa itxi?",
+  "Do you really want to discard the unsaved changes?": "Benetan gorde gabeko aldaketak baztertu nahi dituzu?",
+  "Do you really want to log out ?": "Benetan saioa itxi nahi duzu?",
   "Scan Qr code": "QR kodea eskaneatu",
-  "transfer to the shop": "dendan transferitu",
+  "transfer to the shop": "dendara transferitu",
   "welcome home !": "ongi etorri etxera!",
-  "Finished products": "Amaitutako produktuak",
-  "New actions": "Ekintza berriak",
-  "Your all in one solution for:": "Zure dena-batean irtenbidea:",
-  "Real-Time Tracking": "Denbora erreko jarraipena",
-  "Error management": "Erroreen kudeaketa",
-  "Inventory Alerts": "Inbentarioaren abisuak",
-  "Get right where your left :": "Hasi hemen utzi zenuen lekutik:",
-  "Made with ❤️ by Ellande & Aloys || All rights reserved": "❤️z egina Ellande & Aloys-ek || Eskubide guztiak erreserbatuta"
+  "Finished products": "Produktu bukatuak",
+  "Your all in one solution for:": "Zure soluzio osoa honetarako:",
+  "Real-Time Tracking": "Denbora errealeko jarraipena",
+  "Error management": "Errore kudeaketa",
+  "Manage Errors": "Erroreak kudeatu",
+  "manage_pallet_sheet": "pale txartelak kudeatu",
+  "Generate a new pallet sheet": "Pale txartel berria sortu",
+  "Inventory Alerts": "Inbentario alertak",
+  "Get right where you left :": "Utzi zenuen tokian jarraitu:",
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Ellande & Aloys-ek egina ❤️ || Eskubide guztiak erreserbatuak"
 }
