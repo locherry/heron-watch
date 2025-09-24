@@ -94,8 +94,9 @@ export default function App() {
                   key={stock.value}
                   value={String(stock.value)}
                   label={capitalizeFirst(stock.label)}
-                  icon={stock.icon}
-                />
+                >
+                  <Icon as={stock.icon} />
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
