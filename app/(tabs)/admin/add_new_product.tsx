@@ -2,7 +2,10 @@ import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
+import Toast from "react-native-toast-message";
+import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
+import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { capitalizeFirst } from "~/lib/utils";
@@ -70,6 +73,7 @@ export default function App() {
 
   return (
     <RootView>
+      <Header title={capitalizeFirst(t("product_category.new_product"))} />;
       {INPUT_FIELDS.map((field) => {
         const error = errors[field.id];
         return (
@@ -85,6 +89,9 @@ export default function App() {
           </View>
         );
       })}
+      <Button onPress={()=>Toast.show({type:"info", text1:"TODO : implement link with backend", text2:"hello"})}>
+        {capitalizeFirst(t("common.save"))}
+      </Button>
     </RootView>
   );
 }
