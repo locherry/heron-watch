@@ -1,9 +1,9 @@
 import * as Print from "expo-print";
-import { t } from "i18next";
 import { AlertCircle, Printer } from "lucide-react-native";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Platform, View } from "react-native";
 import QrCode from "react-native-qrcode-svg";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
@@ -14,84 +14,94 @@ import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst, cn } from "~/lib/utils";
 import { Card } from "./ui/card";
 
-type PalletSheetData = {
-    product_code : string, 
-    origin : string | undefined, 
-    client :  string | undefined, 
-    product_name : string, 
-    lot_number : string, 
-    expiration_date : string, 
-    quantity : number | undefined
-} | undefined
-
+type PalletSheetData =
+  | {
+      product_code: string;
+      origin: string | undefined;
+      client: string | undefined;
+      product_name: string;
+      lot_number: string;
+      expiration_date: string;
+      quantity: number | undefined;
+    }
+  | undefined;
 
 type StockCategory = "PF_G" | "PF_M" | "MP_F" | "MP_C" | "MP_S" | "EMB";
 
-
 function CreatePalletSheet({
-    stockCategory,
-    data, 
-    className,
-    ...props
-} :{stockCategory :StockCategory,  data : PalletSheetData} & ViewProps, ) {
-    const qrRef = useRef<any>(null);
-    const [qrCodeValue, setQrCodeValue] = useState<number | undefined>(undefined);
-    const [isDataSet, setIsDataSet] = useState(false);
-    const [emitAlert, setEmitAlert] = useState(false);
+  stockCategory,
+  data,
+  className,
+  ...props
+}: { stockCategory: StockCategory; data: PalletSheetData } & ViewProps) {
+  const [t] = useTranslation();
 
-    const {mutate : createNewQR } = useFetchMutation(
-        "/qr-code/{stock_category}",
-        "post"
+  const qrRef = useRef<any>(null);
+  const [qrCodeValue, setQrCodeValue] = useState<number | undefined>(undefined);
+  const [isDataSet, setIsDataSet] = useState(false);
+  const [emitAlert, setEmitAlert] = useState(false);
+
+  const { mutate: createNewQR } = useFetchMutation(
+    "/qr-code/{stock_category}",
+    "post"
+  );
+
+  useEffect(() => {
+    if (!data) {
+      setIsDataSet(false);
+    }
+  }, [data]);
+
+  const verifyDataIsCorrect = (data: any) => {
+    //Type guard
+    return (
+      typeof data?.product_code === "string" &&
+      typeof data?.client === "string" &&
+      typeof data?.origin === "string" &&
+      typeof data?.lot_number === "string" &&
+      typeof data?.expiration_date === "string" &&
+      typeof data?.quantity === "number" &&
+      typeof data?.product_name === "string"
     );
+  };
+  const handleNewQRCreation = () => {
+    createNewQR(
+      {
+        pathParams: { stock_category: stockCategory },
+        body: {
+          product_code: data?.product_code,
+          lot_number: data?.lot_number,
+          quantity: data?.quantity,
+          expiration_date: data?.expiration_date,
+        },
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data?.data?.id);
+          setQrCodeValue(data?.data?.id);
+        },
 
-    useEffect(() => {
-
-      if (!data) {
-        setIsDataSet(false);
+        onError: (error) => {
+          console.log(error.message);
+        },
       }
-    }, [data]);
+    );
+  };
 
+  const getQRBase64 = () =>
+    new Promise<string>((resolve) => {
+      qrRef.current?.toDataURL((b64: string) => resolve(b64));
+    });
 
-    const verifyDataIsCorrect = (data : any) => {
-      //Type guard
-      return typeof data?.product_code === "string" && typeof data?.client === "string" && typeof data?.origin === "string" && typeof data?.lot_number === "string" && typeof data?.expiration_date === "string" && typeof data?.quantity === "number" && typeof data?.product_name === "string" ;
-    }
-    const handleNewQRCreation = () => {
-        createNewQR(
-            {
-                pathParams : {stock_category : stockCategory},
-                body : {
-                    product_code : data?.product_code,
-                    lot_number : data?.lot_number,
-                    quantity : data?.quantity,
-                    expiration_date : data?.expiration_date,
-                }
-            },
-            {
-                onSuccess : (data) => {
-                    console.log(data?.data?.id)
-                    setQrCodeValue(data?.data?.id);
-                },
+  const makePdf = async () => {
+    const qrBase64 = await getQRBase64();
 
-                onError : (error) => {
-                    console.log(error.message);
-                } 
-            }
-        );
-    }
-    
-    const getQRBase64 = () =>  new Promise<string>((resolve) => {
-        qrRef.current?.toDataURL((b64 : string) => resolve(b64));
-        })
-        
-    const makePdf = async () => {
-        const qrBase64 = await getQRBase64();
-    
     //Adapt font size with lentgh of the product name
     const maxLength = 22;
     let fontSizeContent = 35;
-    if (data?.product_name.length ?? 0 > maxLength ) {
-      fontSizeContent -= Math.floor(data?.product_name.length ?? 0 / 2) - maxLength ;
+    if (data?.product_name.length ?? 0 > maxLength) {
+      fontSizeContent -=
+        Math.floor(data?.product_name.length ?? 0 / 2) - maxLength;
     }
     const html = `
 <!DOCTYPE html>
@@ -197,119 +207,214 @@ function CreatePalletSheet({
 
     //Directly print generated PDF file.
     if (Platform.OS !== "web") {
-      await Print.printAsync({html,orientation:"landscape"});
+      await Print.printAsync({ html, orientation: "landscape" });
     } else {
       pdfMake.vfs = pdfFonts.vfs;
 
-      pdfMake.createPdf({content : [
-    {
-      table: {
-        widths: [150, 50, '*', 100], // colonnes : label, product code/origin, product name/origin, QR
-        body: [
-          // Ligne 1 : Code produit + product code + origin + QR
-          [
-            { text: capitalizeFirst(t("add_pallet_sheet.product_code")).toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.product_code ?? "").toUpperCase(), fontSize: 35, alignment: 'center', colSpan: 2 },
-            {},
-            { image: `data:image/png;base64,${qrBase64}`, width: 100, height: 100, alignment: 'center', rowSpan: 2 }
+      pdfMake
+        .createPdf({
+          content: [
+            {
+              table: {
+                widths: [150, 50, "*", 100], // colonnes : label, product code/origin, product name/origin, QR
+                body: [
+                  // Ligne 1 : Code produit + product code + origin + QR
+                  [
+                    {
+                      text: capitalizeFirst(
+                        t("add_pallet_sheet.product_code")
+                      ).toUpperCase(),
+                      fontSize: 20,
+                      bold: true,
+                      alignment: "center",
+                    },
+                    {
+                      text: escapeHtml(data?.product_code ?? "").toUpperCase(),
+                      fontSize: 35,
+                      alignment: "center",
+                      colSpan: 2,
+                    },
+                    {},
+                    {
+                      image: `data:image/png;base64,${qrBase64}`,
+                      width: 100,
+                      height: 100,
+                      alignment: "center",
+                      rowSpan: 2,
+                    },
+                  ],
+                  [
+                    {
+                      text: t("add_pallet_sheet.origin").toUpperCase(),
+                      fontSize: 20,
+                      bold: true,
+                      alignment: "center",
+                    },
+                    {
+                      text: escapeHtml(data?.origin ?? "").toUpperCase(),
+                      fontSize: 35,
+                      alignment: "center",
+                      colSpan: 2,
+                    },
+                    {},
+                    {},
+                  ],
+                  // Ligne 2 : Client
+                  [
+                    {
+                      text: t("add_pallet_sheet.client").toUpperCase(),
+                      fontSize: 20,
+                      bold: true,
+                      alignment: "center",
+                    },
+                    {
+                      text: escapeHtml(data?.client ?? "").toUpperCase(),
+                      fontSize: 35,
+                      alignment: "center",
+                      colSpan: 3,
+                    },
+                    {},
+                    {},
+                  ],
+                  // Ligne 3 : Product
+                  [
+                    {
+                      text: t("add_pallet_sheet.product").toUpperCase(),
+                      fontSize: 20,
+                      bold: true,
+                      alignment: "center",
+                    },
+                    {
+                      text: escapeHtml(data?.product_name ?? "").toUpperCase(),
+                      fontSize: fontSizeContent,
+                      alignment: "center",
+                      colSpan: 3,
+                    },
+                    {},
+                    {},
+                  ],
+                  // Ligne 4 : Lot Number
+                  [
+                    {
+                      text: t("add_pallet_sheet.lot_number").toUpperCase(),
+                      fontSize: 20,
+                      bold: true,
+                      alignment: "center",
+                    },
+                    {
+                      text: escapeHtml(data?.lot_number ?? "").toUpperCase(),
+                      fontSize: 35,
+                      alignment: "center",
+                      colSpan: 3,
+                    },
+                    {},
+                    {},
+                  ],
+                  // Ligne 5 : Expiration Date
+                  [
+                    {
+                      text: t("add_pallet_sheet.expiration_date").toUpperCase(),
+                      fontSize: 20,
+                      bold: true,
+                      alignment: "center",
+                    },
+                    {
+                      text: escapeHtml(
+                        data?.expiration_date ?? ""
+                      ).toUpperCase(),
+                      fontSize: 35,
+                      alignment: "center",
+                      colSpan: 3,
+                    },
+                    {},
+                    {},
+                  ],
+                  // Ligne 6 & 7 : Quantity UV
+                  [
+                    {
+                      text: t("add_pallet_sheet.quantity").toUpperCase(),
+                      fontSize: 20,
+                      bold: true,
+                      alignment: "center",
+                      rowSpan: 2,
+                    },
+                    { text: "UV", alignment: "center", width: 20 },
+                    { text: "", colSpan: 2, alignment: "center" },
+                    {},
+                  ],
+                  [
+                    {}, // cellule rowspan
+                    { text: "UV", alignment: "center", width: 20 },
+                    { text: "", colSpan: 2, alignment: "center" },
+                    {},
+                  ],
+                ],
+              },
+              layout: {
+                hLineWidth: () => 2,
+                vLineWidth: () => 2,
+                hLineColor: () => "black",
+                vLineColor: () => "black",
+                paddingLeft: () => 12,
+                paddingRight: () => 12,
+                paddingTop: () => 12,
+                paddingBottom: () => 12,
+              },
+            },
           ],
-          [
-            { text: t("add_pallet_sheet.origin").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' }, 
-            { text: escapeHtml(data?.origin ?? "").toUpperCase(), fontSize: 35, alignment: "center", colSpan: 2 },
-            {},
-            {}
-          ],
-          // Ligne 2 : Client
-          [
-            { text: t("add_pallet_sheet.client").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.client ?? "").toUpperCase(), fontSize: 35, alignment: 'center', colSpan: 3 },
-            {}, 
-            {}
-          ],
-          // Ligne 3 : Product
-          [
-            { text: t("add_pallet_sheet.product").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.product_name ?? "").toUpperCase(), fontSize: fontSizeContent, alignment: 'center', colSpan: 3 },
-            {},
-            {}
-          ],
-          // Ligne 4 : Lot Number
-          [
-            { text: t("add_pallet_sheet.lot_number").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.lot_number ?? "").toUpperCase(), fontSize: 35, alignment: 'center', colSpan: 3 },
-            {},
-            {}
-          ],
-          // Ligne 5 : Expiration Date
-          [
-            { text: t("add_pallet_sheet.expiration_date").toUpperCase(), fontSize: 20, bold: true, alignment: 'center' },
-            { text: escapeHtml(data?.expiration_date ?? "").toUpperCase(), fontSize: 35, alignment: 'center', colSpan: 3 },
-            {},
-            {}
-          ],
-          // Ligne 6 & 7 : Quantity UV
-          [
-            { text: t("add_pallet_sheet.quantity").toUpperCase(), fontSize: 20, bold: true, alignment: 'center', rowSpan: 2 },
-            { text: "UV", alignment: 'center', width: 20 },
-            { text: '', colSpan: 2, alignment: "center"},
-            {}
-          ],
-          [
-            {}, // cellule rowspan
-            { text: "UV", alignment: 'center', width: 20 },
-            { text: '', colSpan: 2, alignment: "center"},
-            {}
-          ]
-        ]
-      },
-      layout: {
-        hLineWidth: () => 2,
-        vLineWidth: () => 2,
-        hLineColor: () => 'black',
-        vLineColor: () => 'black',
-        paddingLeft: () => 12,
-        paddingRight: () => 12,
-        paddingTop: () => 12,
-        paddingBottom: () => 12
-      }
+          pageSize: "A4",
+          pageOrientation: "landscape",
+        })
+        .download("Feuille_Pallette.pdf");
     }
-  ], pageSize : "A4", pageOrientation : "landscape" }).download("Feuille_Pallette.pdf");
-    }
-
-    }
-    return (
-        <View className={cn("content-center", className)}>
-            <View className={cn("items-center",isDataSet ? "hidden" : "flex")}>
-              <Button onPress={() => {
-                if (verifyDataIsCorrect(data)) {
-                  setEmitAlert(false);
-                  setIsDataSet(true);
-                  handleNewQRCreation();
-                } else {
-                  setEmitAlert(true);
-                }
-              }}>
-                {capitalizeFirst(t("add_pallet_sheet.create_qr_code"))}
-              </Button>
-              <Alert icon={AlertCircle} className={cn("text-red-500 text-xs mt-1",emitAlert ? "flex" : "hidden")}>
-                <AlertTitle className="text-red-500 text-xl mt-1">
-                  {capitalizeFirst(t("add_pallet_sheet.alert_unable_to_create_qr"))}
-                </AlertTitle>
-                <AlertDescription className="text-red-500 text-xs mt-1">
-                  {capitalizeFirst(t("add_pallet_sheet.alert_field_missing"))}
-                </AlertDescription>
-              </Alert>
-            </View>
-            <Row className={cn("items-center", isDataSet ? "justify-center" : "hidden")} gap={20}>
-              <Card className="p-2">
-                <QrCode getRef={(c) => (qrRef.current = c)} value={qrCodeValue?.toString()}/>
-              </Card>
-              <Button  className="" onPress={makePdf} icon={Printer}>
-                  {capitalizeFirst(t("add_pallet_sheet.create_sheet"))}
-              </Button>
-            </Row>
-        </View>
-    )
+  };
+  return (
+    <View className={cn("content-center", className)}>
+      <View className={cn("items-center", isDataSet ? "hidden" : "flex")}>
+        <Button
+          onPress={() => {
+            if (verifyDataIsCorrect(data)) {
+              setEmitAlert(false);
+              setIsDataSet(true);
+              handleNewQRCreation();
+            } else {
+              setEmitAlert(true);
+            }
+          }}
+        >
+          {capitalizeFirst(t("add_pallet_sheet.create_qr_code"))}
+        </Button>
+        <Alert
+          icon={AlertCircle}
+          className={cn(
+            "text-red-500 text-xs mt-1",
+            emitAlert ? "flex" : "hidden"
+          )}
+        >
+          <AlertTitle className="text-red-500 text-xl mt-1">
+            {capitalizeFirst(t("add_pallet_sheet.alert_unable_to_create_qr"))}
+          </AlertTitle>
+          <AlertDescription className="text-red-500 text-xs mt-1">
+            {capitalizeFirst(t("add_pallet_sheet.alert_field_missing"))}
+          </AlertDescription>
+        </Alert>
+      </View>
+      <Row
+        className={cn("items-center", isDataSet ? "justify-center" : "hidden")}
+        gap={20}
+      >
+        <Card className="p-2">
+          <QrCode
+            getRef={(c) => (qrRef.current = c)}
+            value={qrCodeValue?.toString()}
+          />
+        </Card>
+        <Button className="" onPress={makePdf} icon={Printer}>
+          {capitalizeFirst(t("add_pallet_sheet.create_sheet"))}
+        </Button>
+      </Row>
+    </View>
+  );
 }
 
 function escapeHtml(s: string) {

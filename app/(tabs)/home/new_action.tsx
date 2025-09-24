@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { t } from "i18next";
 import { Gift, Package, Store, Tag } from "lucide-react-native";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { Action } from "~/@types/action";
@@ -30,6 +30,8 @@ import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function NewAction() {
+  const [t] = useTranslation();
+
   const rawParams = useLocalSearchParams();
   const {
     actionsJsonEncoded,

@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams } from "expo-router";
-import { t } from "i18next";
 import { Eye, Pencil, Plus } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { StockCategory } from "~/@types/stock";
 import Header from "~/components/Header";
@@ -9,11 +9,17 @@ import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
-import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function App() {
+  const [t] = useTranslation();
+
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory?: StockCategory;

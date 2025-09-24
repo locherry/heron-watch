@@ -1,5 +1,5 @@
-import { t } from "i18next";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ProductCategory } from "~/@types/productCategory";
 import { BaseColumnDef, BaseTableProps } from "~/@types/table";
 import { capitalizeFirst } from "~/lib/utils";
@@ -8,6 +8,8 @@ import { BaseTable } from "./BaseTable";
 export function ProductCategoryTable(
   props: Omit<BaseTableProps<ProductCategory>, "columns">
 ) {
+  const [t] = useTranslation();
+
   // --- Base columns ---
   const columns = React.useMemo<BaseColumnDef<ProductCategory>[]>(
     () => [
@@ -29,7 +31,7 @@ export function ProductCategoryTable(
       },
     ],
     []
-  ); 
-  
+  );
+
   return <BaseTable {...props} data={props.data ?? []} columns={columns} />;
 }

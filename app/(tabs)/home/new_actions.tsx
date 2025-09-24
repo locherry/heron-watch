@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { t } from "i18next";
 import { Plus } from "lucide-react-native";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { Action } from "~/@types/action";
 import { StockCategory } from "~/@types/stock";
@@ -23,6 +23,8 @@ import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function NewActions() {
+  const [t] = useTranslation();
+
   const { mutate: createNewActions } = useFetchMutation(
     "/actions/{stock_category}",
     "post"
@@ -59,7 +61,7 @@ export default function NewActions() {
             text1: t("common.success"),
             text2: t("actions.newActionsCreated"),
           });
-          router.push({pathname : "/home", params : { stockCategory }});
+          router.push({ pathname: "/home", params: { stockCategory } });
         },
       }
     );
@@ -78,7 +80,7 @@ export default function NewActions() {
   const handleCancel = () => {
     router.back();
   };
-  
+
   const handleEdit = (actionToBeEdited: Action) => {
     router.push({
       pathname: "/home/new_action",
@@ -114,10 +116,13 @@ export default function NewActions() {
 
   return (
     <RootView disableInsets={{ left: true }}>
-      <Header title={capitalizeFirst(t("actions.newActions"))} className="justify-between">
+      <Header
+        title={capitalizeFirst(t("actions.newActions"))}
+        className="justify-between"
+      >
         <Tooltip>
           <TooltipTrigger>
-            <Icon as={constants.stockCategoryIcon[stockCategory]}/>
+            <Icon as={constants.stockCategoryIcon[stockCategory]} />
           </TooltipTrigger>
           <TooltipContent>
             <Text>

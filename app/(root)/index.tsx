@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router"; // For navigation
-import { t } from "i18next";
 import { Megaphone, RefreshCcw, ServerCrash } from "lucide-react-native";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, View } from "react-native";
 import Banner from "~/components/Banner";
 import Column from "~/components/layout/Column";
@@ -13,6 +13,7 @@ import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { capitalizeFirst } from "~/lib/utils";
 export default function App() {
+  const [t] = useTranslation()
   const router = useRouter(); // Initialize the router
 
   const handleLoginPress = () => {

@@ -6,9 +6,19 @@
  */
 
 import { Link } from "expo-router";
-import { t } from "i18next";
-import { Factory, Forklift, Leaf, Package, Plus, ServerCrash, Snowflake, Store, Sun } from "lucide-react-native";
+import {
+  Factory,
+  Forklift,
+  Leaf,
+  Package,
+  Plus,
+  ServerCrash,
+  Snowflake,
+  Store,
+  Sun,
+} from "lucide-react-native";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ActivityIndicator, View } from "react-native";
 import { ActionSortState } from "~/@types/action";
 import RootView from "~/components/layout/RootView";
@@ -27,6 +37,8 @@ import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
 export default function MaterialTabsExample() {
+  const [t] = useTranslation();
+
   // First Tab system
   const [currentStockType, setcurrentStockType] = useState<
     "raw_materials" | "finished_products"
@@ -123,7 +135,8 @@ export default function MaterialTabsExample() {
               key={tab.stock_category}
             >
               <Row className="flex-1 justify-center">
-                <Icon as={tab.icon}
+                <Icon
+                  as={tab.icon}
                   className={cn(
                     "h-4 w-4 mr-2",
                     tab.stock_category ===
@@ -132,13 +145,14 @@ export default function MaterialTabsExample() {
                       : "text-muted-foreground"
                   )}
                 />
-                <Text 
+                <Text
                   className={cn(
                     tab.stock_category ===
                       currentStockCategory[currentStockType]
                       ? "text-foreground"
                       : "text-muted-foreground"
-                  )}>
+                  )}
+                >
                   {capitalizeFirst(
                     t(
                       ("stocks." + tab.name) as

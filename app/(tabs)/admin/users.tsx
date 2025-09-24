@@ -1,6 +1,6 @@
-import { t } from "i18next";
 import { Plus } from "lucide-react-native";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   ScrollView,
@@ -24,6 +24,8 @@ import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function App() {
+  const [t] = useTranslation();
+
   const { data, isLoading, isError } = useFetchQuery("/users", "get");
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();

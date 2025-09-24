@@ -1,7 +1,7 @@
 import { Link } from "expo-router";
-import { t } from "i18next";
 import { Cylinder, Forklift, Plus, Snowflake } from "lucide-react-native";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ActivityIndicator, View } from "react-native";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -23,6 +23,8 @@ import { capitalizeFirst } from "~/lib/utils";
 type stockGlobalCategory = "PF" | "MP" | "EMB";
 
 export default function App() {
+  const [t] = useTranslation();
+
   const [stockGlobalCategory, setStockGlobalCategory] =
     useState<stockGlobalCategory>("PF");
   const GENERAL_STOCK_CATEGORIES = [
@@ -49,7 +51,7 @@ export default function App() {
       {/* Products */}
       <View className="gap-y-10">
         <Row className="justify-between">
-          <Header title={capitalizeFirst(t("common.products"))} className=""/>
+          <Header title={capitalizeFirst(t("common.products"))} className="" />
           <Select
             defaultValue={GENERAL_STOCK_CATEGORIES[0]}
             value={GENERAL_STOCK_CATEGORIES.find(
@@ -74,7 +76,13 @@ export default function App() {
                       (option) => option.value === stockGlobalCategory
                     );
                     if (selectedOption?.icon) {
-                      return <Icon as={selectedOption.icon} className="mr-2" size={16} />;
+                      return (
+                        <Icon
+                          as={selectedOption.icon}
+                          className="mr-2"
+                          size={16}
+                        />
+                      );
                     }
                     return null;
                   })()}
@@ -104,7 +112,6 @@ export default function App() {
         {isLoading ? (
           <ActivityIndicator />
         ) : (
-
           <ProductCategoryTable
             // className="flex-1 h-full border-red-500 border-4"
             data={data?.pages.flatMap((page) => page.data ?? []) ?? []}

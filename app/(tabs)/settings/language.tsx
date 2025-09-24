@@ -1,5 +1,5 @@
-import { t } from "i18next";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Label } from "~/components/ui/label";
@@ -27,6 +27,8 @@ type Option = {
 };
 
 export default function LanguageSettings() {
+  const [t] = useTranslation();
+
   const LANGUAGES: Option[] = [
     { value: "EN", label: "English" },
     { value: "EU", label: "Euskera" },
@@ -86,9 +88,7 @@ export default function LanguageSettings() {
         }
       >
         <SelectTrigger>
-          <SelectValue
-            placeholder=""
-          />
+          <SelectValue placeholder="" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

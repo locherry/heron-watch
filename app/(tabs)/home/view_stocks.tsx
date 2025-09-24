@@ -6,8 +6,8 @@
  */
 
 import { useLocalSearchParams } from "expo-router";
-import { t } from "i18next";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ActivityIndicator } from "react-native";
 import { StockCategory, StockSortState } from "~/@types/stock";
 import Header from "~/components/Header";
@@ -15,12 +15,18 @@ import RootView from "~/components/layout/RootView";
 import { StockTable } from "~/components/table/StockTable";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
-import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
 import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function ViewStocks() {
+  const [t] = useTranslation();
+
   const rawParams = useLocalSearchParams();
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory?: StockCategory;

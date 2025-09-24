@@ -1,6 +1,6 @@
-import { t } from "i18next";
 import { Pencil } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert } from "~/components/alert/Alert";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -26,6 +26,8 @@ import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function ProfileSettings() {
+  const [t] = useTranslation();
+
   const [userSession, setUserSession] = useState<
     SecureStorageData["userSession"] | null
   >(null);

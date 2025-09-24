@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router"; // For navigation
-import { t } from "i18next";
 import { Eye, EyeOff } from "lucide-react-native";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
@@ -14,6 +14,7 @@ import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function LoginScreen() {
+  const [t] = useTranslation();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [passwordVisible, setPasswordVisible] = React.useState(false);

@@ -1,6 +1,6 @@
 import { router } from "expo-router";
-import { t } from "i18next";
 import { ChevronLeft } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { ViewProps } from "react-native";
 import { capitalizeFirst, cn } from "~/lib/utils";
 import Row from "./layout/Row";
@@ -20,6 +20,8 @@ export default function Header({
   title,
   onBack,
 }: HeaderProps) {
+  const [t] = useTranslation();
+
   return (
     <Row className={cn("align-end mb-4", className)}>
       <Row gap={16}>

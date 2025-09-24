@@ -1,7 +1,7 @@
 import { router } from "expo-router";
-import { t } from "i18next";
 import { Globe, LogOut, Paintbrush, Scale, User } from "lucide-react-native";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
@@ -10,6 +10,7 @@ import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function SettingsScreen() {
+  const [t] = useTranslation()
   // Handler for the logout confirmation
   const confirLogout = () => {
     console.log("Logged out");

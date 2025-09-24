@@ -1,6 +1,6 @@
 import { flexRender } from "@tanstack/react-table";
-import { t } from "i18next";
 import { ChevronDown, ChevronUp, Pencil, X } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, ScrollView, View } from "react-native";
 import { BaseTableProps } from "~/@types/table";
 import { useColumnWidths } from "~/lib/hooks/useColumnWiths";
@@ -21,6 +21,8 @@ export function BaseTable<T>({
   features = { sorting: false, edition: false },
   ...props
 }: BaseTableProps<T>) {
+  const [t] = useTranslation();
+
   const { tableInstance, toggleSort } = useTableLogic({
     data,
     columns,

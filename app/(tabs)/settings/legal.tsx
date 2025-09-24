@@ -1,6 +1,6 @@
 import { Asset } from "expo-asset";
-import { t } from "i18next";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Modal, ScrollView } from "react-native";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -16,6 +16,8 @@ const mdAsset = Asset.fromModule(
 );
 
 export default function LegalSettings() {
+  const [t] = useTranslation();
+
   const [showModal, setShowModal] = useState(false);
   const [uri, setUri] = React.useState<string | null>(null);
 

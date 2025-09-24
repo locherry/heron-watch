@@ -1,7 +1,7 @@
-import { t } from "i18next";
 import { Laptop, LucideIcon, MoonStar, Sun } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Appearance } from "react-native";
 import { userThemeValue } from "~/@types/user";
 import Header from "~/components/Header";
@@ -36,6 +36,8 @@ type SelectOption =
   | undefined;
 
 export default function AppearanceSettings() {
+  const [t] = useTranslation();
+
   const { colorScheme, setColorScheme } = useColorScheme();
   const { mutate: updateTheme } = useFetchMutation("/users/{user_ID}", "patch");
 

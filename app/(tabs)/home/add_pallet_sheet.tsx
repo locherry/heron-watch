@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
-import { t } from "i18next";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   FlatList,
@@ -43,6 +43,8 @@ function SheetRow({
   bordersEnabled = true,
   isLoading = false,
 }: SheetRowProps) {
+  const [t] = useTranslation();
+
   return (
     <Row
       className={cn(bordersEnabled && "border-b-2 border-[hsl(var(--border))]")}
@@ -77,6 +79,8 @@ function SheetRow({
 }
 
 export default function add_pallet_sheet() {
+  const [t] = useTranslation();
+
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_C" | "MP_S" | "EMB";
@@ -155,15 +159,23 @@ export default function add_pallet_sheet() {
     isProductCodeSelected && isLotNumberSelected
   );
 
-  let {data : alreadyPlacedQuantity = null, isLoading : isLoadingPlacedQuantity = false, error : placedQuantityError = false} = useFetchQuery(
+  let {
+    data: alreadyPlacedQuantity = null,
+    isLoading: isLoadingPlacedQuantity = false,
+    error: placedQuantityError = false,
+  } = useFetchQuery(
     "/qr-code/{stock_category}/{product_code}/{lot_number}",
-    'get',
+    "get",
     {
-      path : {stock_category : stockCategory, product_code : product_code_value, lot_number : lot_number_value}
+      path: {
+        stock_category: stockCategory,
+        product_code: product_code_value,
+        lot_number: lot_number_value,
+      },
     },
     undefined,
     isProductCodeSelected && isLotNumberSelected
-  )
+  );
 
   useEffect(() => {
     if (!isProductCodeSelected && !isLotNumberSelected) {
@@ -206,8 +218,9 @@ export default function add_pallet_sheet() {
   let isSelectingLN = false;
   return (
     <RootView disableInsets={{ left: true, top: true }}>
-      <Header title={capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}>
-      </Header>
+      <Header
+        title={capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
+      ></Header>
       <FlatList
         focusable={false}
         data={[]} // empty, we're just using it for scroll container
@@ -220,19 +233,23 @@ export default function add_pallet_sheet() {
                 <Label className="text-2xl font-mono">
                   {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
                     " : "}
-                    {!Array.isArray(completeData)
-                      ? isLoadingPlacedQuantity || isNewDataLoading ? (
-                        <ActivityIndicator size="small" color="hsl(var(--primary))"  />
-                      ) : (
-                        <Text>
-                          {completeData?.quantity - (alreadyPlacedQuantity?.data?.quantity ?? 0)}
-                        </Text>)
-                      : (
-                        <Text> 
-                          {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
-                        </Text>
-                        )
-                      }
+                  {!Array.isArray(completeData) ? (
+                    isLoadingPlacedQuantity || isNewDataLoading ? (
+                      <ActivityIndicator
+                        size="small"
+                        color="hsl(var(--primary))"
+                      />
+                    ) : (
+                      <Text>
+                        {completeData?.quantity -
+                          (alreadyPlacedQuantity?.data?.quantity ?? 0)}
+                      </Text>
+                    )
+                  ) : (
+                    <Text>
+                      {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                    </Text>
+                  )}
                 </Label>
               </Row>
             </Text>

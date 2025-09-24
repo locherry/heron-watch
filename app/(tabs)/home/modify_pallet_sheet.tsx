@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
-import { t } from "i18next";
 import { MessageCircleWarning, Pencil, Trash } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   FlatList,
@@ -45,6 +45,8 @@ function SheetRow({
   isLoading = false,
   classNameText = "",
 }: SheetRowProps) {
+  const [t] = useTranslation();
+
   return (
     <Row
       className={cn(bordersEnabled && "border-b-2 border-[hsl(var(--border))]")}
@@ -88,7 +90,7 @@ export default function add_pallet_sheet() {
     "/qr-code/{stock_category}/{qr_code_id}",
     "patch"
   );
-  const {mutate : deleteQrData} = useFetchMutation(
+  const { mutate: deleteQrData } = useFetchMutation(
     "/qr-code/{qr_code_id}",
     "patch"
   );
@@ -166,20 +168,20 @@ export default function add_pallet_sheet() {
   };
 
   const handleDeleteData = () => {
-    if (isDataFetched) {      
+    if (isDataFetched) {
       deleteQrData(
         {
-          pathParams : {qr_code_id : qrId ?? 0}
+          pathParams: { qr_code_id: qrId ?? 0 },
         },
         {
-          onSuccess : () =>  {
-            console.log("Qr code successfully deleted")
+          onSuccess: () => {
+            console.log("Qr code successfully deleted");
           },
-          onError : (error) => {
-            console.log(error.message)
-          }
+          onError: (error) => {
+            console.log(error.message);
+          },
         }
-      )
+      );
     }
   };
 
@@ -273,10 +275,7 @@ export default function add_pallet_sheet() {
                     >
                       {capitalizeFirst(t("common.submit_modifications"))}
                     </Button>
-                    <Button 
-                      icon={Trash}
-                      onPress={handleDeleteData}
-                    >
+                    <Button icon={Trash} onPress={handleDeleteData}>
                       {capitalizeFirst(
                         t("modify_pallet_sheet.delete_pallet_sheet")
                       )}
@@ -295,10 +294,12 @@ export default function add_pallet_sheet() {
                 </QrScannerButton>
               )}
             </View>
-            {isQuantityInputInvalid ? 
-            <Alert icon={MessageCircleWarning} className="text-red-500 my-4">
-            </Alert>
-             : null}
+            {isQuantityInputInvalid ? (
+              <Alert
+                icon={MessageCircleWarning}
+                className="text-red-500 my-4"
+              ></Alert>
+            ) : null}
           </>
         }
       />

@@ -1,12 +1,12 @@
 import { useLocalSearchParams } from "expo-router";
-import { t } from "i18next";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
-    FlatList,
-    Keyboard,
-    TouchableOpacity,
-    useWindowDimensions,
-    View,
+  FlatList,
+  Keyboard,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import Header from "~/components/Header";
@@ -19,6 +19,8 @@ import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function App() {
+  const [t] = useTranslation();
+
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_C" | "MP_S" | "EMB";
