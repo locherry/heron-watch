@@ -188,7 +188,7 @@ export default function MaterialTabsExample() {
           asChild
         >
           <Button icon={Plus} variant="outline">
-            {t("actions.newActions")}
+            {capitalizeFirst(t("actions.newActions"))}
           </Button>
         </Link>
         <Button icon={ServerCrash} variant="outline">
