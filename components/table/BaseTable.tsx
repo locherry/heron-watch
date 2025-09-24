@@ -1,10 +1,12 @@
 import { flexRender } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp } from "lucide-react-native";
+import { t } from "i18next";
+import { ChevronDown, ChevronUp, Pencil, X } from "lucide-react-native";
 import { FlatList, Pressable, ScrollView, View } from "react-native";
 import { BaseTableProps } from "~/@types/table";
 import { useColumnWidths } from "~/lib/hooks/useColumnWiths";
 import { useTableLogic } from "~/lib/hooks/useTableLogic";
-import { cn } from "~/lib/utils";
+import { capitalizeFirst, cn } from "~/lib/utils";
+import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
 
@@ -14,6 +16,9 @@ export function BaseTable<T>({
   className,
   totalRow,
   fetchNextPage,
+  onDelete,
+  onEdit,
+  features = { sorting: false, edition: false },
   ...props
 }: BaseTableProps<T>) {
   const { tableInstance, toggleSort } = useTableLogic({
@@ -75,6 +80,24 @@ export function BaseTable<T>({
           </Text>
         </View>
       ))}
+
+      {/* Edit and Delete Buttons (conditionally rendered) */}
+      {features.edition && (
+        <View className="flex-row items-center space-x-2 p-2">
+          <Button onPress={() => onEdit?.(item)} variant={"outline"}>
+            <Icon as={Pencil} />
+            <Text className="hidden lg:inline">
+              {capitalizeFirst(t("common.edit"))}
+            </Text>
+          </Button>
+          <Button onPress={() => onDelete?.(item)} variant={"outline"}>
+            <Icon className="text-[hsl(var(--destructive))]" as={X} />
+            <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
+              {capitalizeFirst(t("common.delete"))}
+            </Text>
+          </Button>
+        </View>
+      )}
     </View>
   );
 

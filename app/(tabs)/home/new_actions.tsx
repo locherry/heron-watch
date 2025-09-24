@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import { Plus } from "lucide-react-native";
 import React from "react";
+import Toast from "react-native-toast-message";
 import { Action } from "~/@types/action";
 import { StockCategory } from "~/@types/stock";
 import { Alert } from "~/components/alert/Alert";
@@ -53,7 +54,12 @@ export default function NewActions() {
       },
       {
         onSuccess: () => {
-          router.back();
+          Toast.show({
+            type: "success",
+            text1: t("common.success"),
+            text2: t("actions.newActionsCreated"),
+          });
+          router.push({pathname : "/home", params : { stockCategory }});
         },
       }
     );
@@ -124,11 +130,11 @@ export default function NewActions() {
 
       <ActionTable
         data={React.useMemo(() => actions, [actions])}
-        // totalRow={true}
-        // editEnabled={true}
-        // onDelete={handleDelete}
-        // onEdit={handleEdit}
-        // hiddenColumns={["created_by_id", "created_at"]}
+        totalRow={true}
+        editEnabled={true}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+        hiddenColumns={["created_by_id", "created_at"]}
       />
 
       <Button
