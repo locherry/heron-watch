@@ -1,5 +1,5 @@
 import { Cylinder, Forklift, ScanBarcode } from "lucide-react-native";
-import { LayoutChangeEvent, View } from "react-native";
+import { View } from "react-native";
 import Row from "~/components/layout/Row";
 import {
     Card,
@@ -11,11 +11,11 @@ import { Text } from "~/components/ui/text";
 import { Icon } from "./icon";
 import { Separator } from "./separator";
 
-function PalletCard ({objId, objQuantity,handleLayout, ...props} : {objId : number, objQuantity : number, handleLayout : (event : LayoutChangeEvent) => void}) {
+function PalletCard ({objId, objQuantity, ...props} : {objId : number, objQuantity : number}) {
 
     return (
-        <View className="ml-10" onLayout={handleLayout}>
-            <Card className="max-w-[170] py-1 mb-2 gap-1">
+        <View className="ml-12">
+            <Card className="w-[170] py-1 mb-2 gap-1">
                 <CardHeader className="flex-row justify-end items-center">
                     <Icon as={ScanBarcode} />
                     <Text>{objId}</Text>

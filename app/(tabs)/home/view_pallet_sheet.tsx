@@ -2,11 +2,11 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    FlatList,
-    Keyboard,
-    LayoutChangeEvent, TouchableOpacity,
-    useWindowDimensions,
-    View,
+  FlatList,
+  Keyboard,
+  LayoutChangeEvent, TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import Header from "~/components/Header";
@@ -23,7 +23,7 @@ export default function App() {
     const [numCol, setNumCol] = useState(0);
     const handleLayout = (event : LayoutChangeEvent) => {
         const {width} = event.nativeEvent.layout;
-        setNumCol(Math.floor(width / PALLET_CARD_WIDTH))
+        setNumCol(Math.floor(width / (PALLET_CARD_WIDTH + 30))) //We take in account the 10px of left margin
     }
   const [t] = useTranslation();
 
@@ -138,7 +138,7 @@ export default function App() {
   let isSelectingPC = false;
   let isSelectingLN = false;
 
-    console.log(selectedPalletsData);
+    console.log(numCol);
     return (
         <RootView>
             <FlatList
@@ -256,12 +256,13 @@ export default function App() {
                         </View>
                         <View className="mt-5">
                             <FlatList
+                            key = {numCol}
                             keyExtractor={(item) => (item.id.toString())}
                             data={selectedPalletsData?.data ?? null}
-                            horizontal={true}
                             numColumns={numCol}
+                            onLayout={handleLayout}
                             renderItem={ ({item}) => 
-                                    <PalletCard objId={item.id} objQuantity={item.quantity} handleLayout={handleLayout}>
+                                    <PalletCard objId={item.id} objQuantity={item.quantity}>
                                     </PalletCard>
                             }
                             />
