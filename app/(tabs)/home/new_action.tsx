@@ -71,10 +71,10 @@ export default function NewAction() {
   }, [editActionId, existingActions]);
 
   const ACTION_TYPES = [
-    { value: "1", label: t("actions.1"), icon: Tag },
-    { value: "2", label: t("actions.2"), icon: Package },
-    { value: "3", label: t("actions.3"), icon: Gift },
-    { value: "4", label: t("actions.4"), icon: Store },
+    { value: "1", label: capitalizeFirst(t("actions.1")), icon: Tag },
+    { value: "2", label: capitalizeFirst(t("actions.2")), icon: Package },
+    { value: "3", label: capitalizeFirst(t("actions.3")), icon: Gift },
+    { value: "4", label: capitalizeFirst(t("actions.4")), icon: Store },
   ] as const;
 
   const [actionId, setActionId] = React.useState<string | number>(
@@ -84,42 +84,42 @@ export default function NewAction() {
 
   const INPUT_FIELDS = [
     {
-      label: t("actions.product_code"),
+      label: capitalizeFirst(t("actions.product_code")),
       value: "product_code",
       regex: /^\d{3}.*$/,
       required: true,
-      errorMessage: t("errors.invalidProductCode"),
+      errorMessage: capitalizeFirst(t("errors.invalidProductCode")),
     },
     {
-      label: t("actions.lot_number"),
+      label: capitalizeFirst(t("actions.lot_number")),
       value: "lot_number",
       regex: /^[A-Z]{3}\d{6}$/,
       required: true,
-      errorMessage: t("errors.invalidLotNumber"),
+      errorMessage: capitalizeFirst(t("errors.invalidLotNumber")),
     },
     {
-      label: t("actions.quantity"),
+      label: capitalizeFirst(t("actions.quantity")),
       value: "quantity",
       regex: /^\d+$/,
       required: true,
-      errorMessage: t("errors.invalidQuantity"),
+      errorMessage: capitalizeFirst(t("errors.invalidQuantity")),
     },
     {
-      label: t("actions.expirationDate"),
+      label: capitalizeFirst(t("actions.expirationDate")),
       value: "expiration_date",
       regex: /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
       required: true,
-      errorMessage: t("errors.invalidExpirationDate"),
+      errorMessage: capitalizeFirst(t("errors.invalidExpirationDate")),
     },
     {
-      label: t("actions.transaction"),
+      label: capitalizeFirst(t("actions.transaction")),
       value: "transaction",
       regex: /^.*$/,
       required: false,
       errorMessage: "",
     },
     {
-      label: t("actions.comment"),
+      label: capitalizeFirst(t("actions.comment")),
       value: "comment",
       regex: /^.*$/,
       required: false,
