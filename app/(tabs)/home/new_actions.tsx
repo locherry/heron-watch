@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React from "react";
@@ -24,6 +25,7 @@ import { capitalizeFirst } from "~/lib/utils";
 
 export default function NewActions() {
   const [t] = useTranslation();
+  const queryClient = useQueryClient();
 
   const { mutate: createNewActions } = useFetchMutation(
     "/actions/{stock_category}",
@@ -67,7 +69,14 @@ export default function NewActions() {
           });
         },
         onSuccess: (data) => {
-          console.error(data);
+          // Invalidate the actions list for this stock category, so the table will refresh
+          // Optimize with optimistic updates later
+          queryClient.invalidateQueries({
+            queryKey: [
+              "/actions/{stock_category}",
+              { path: { stockCategory: stockCategory } },
+            ],
+          });
           let type = "success";
           let text1 = t("common.success");
           let text2 = t("actions.newActionsCreated");
@@ -129,9 +138,7 @@ export default function NewActions() {
         {
           text: t("common.OK"),
           onPress: () => {
-            setActions((prev) =>
-              prev.filter((a) => a.id !== actionToBeDeleted.id)
-            );
+            setActions((prev) => prev.filter((a) => a !== actionToBeDeleted));
           },
         },
       ]

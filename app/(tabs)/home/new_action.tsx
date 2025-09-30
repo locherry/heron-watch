@@ -107,7 +107,7 @@ export default function NewAction() {
     {
       label: capitalizeFirst(t("actions.expirationDate")),
       value: "expiration_date",
-      regex: /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+      regex: /^\d{4}-(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])$/,
       required: true,
       errorMessage: capitalizeFirst(t("errors.invalidExpirationDate")),
     },
@@ -137,19 +137,18 @@ export default function NewAction() {
   };
 
   const [formData, setFormData] = React.useState<
-    Record<string, string | number | undefined>
+    Record<string, string | number | null | undefined>
   >({
     ...INPUT_FIELDS.reduce(
       (acc, field) => {
         acc[field.value] = "";
         return acc;
       },
-      {} as Record<string, string>
+      {} as Record<string, string | number | null | undefined> // Update here to allow null
     ),
     action_id: actionId,
     id: 0,
   });
-
   const handleChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
     setErrors((prev) => ({ ...prev, [key]: validateField(key, value) }));
