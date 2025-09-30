@@ -7,6 +7,7 @@
 
 import { Link } from "expo-router";
 import {
+  Cylinder,
   Factory,
   Forklift,
   Leaf,
@@ -50,7 +51,7 @@ export default function MaterialTabsExample() {
       { name: "fresh", icon: Leaf, stock_category: "MP_F" },
       { name: "dry", icon: Sun, stock_category: "MP_S" },
       { name: "frozen", icon: Snowflake, stock_category: "MP_C" },
-      { name: "packaging", icon: Package, stock_category: "EMB" },
+      { name: "packaging", icon: Cylinder, stock_category: "EMB" },
     ],
     finished_products: [
       { name: "cannery", icon: Factory, stock_category: "PF_G" },
