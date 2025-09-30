@@ -190,10 +190,10 @@ export default function NewAction() {
         comment: (formData.comment as string) || "",
         product_code: (formData.product_code as string) || "000",
         lot_number: (formData.lot_number as string) || "",
-        created_by_id: 0,
         created_at: new Date().toISOString(),
         action_id: Number(actionId),
         transaction: (formData.transaction as string) || "",
+        expiration_date: (formData.expiration_date as string) || undefined,
       };
 
       updatedActions = [...existingActions, newAction];

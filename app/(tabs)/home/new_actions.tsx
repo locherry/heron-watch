@@ -55,11 +55,35 @@ export default function NewActions() {
         body: actions,
       },
       {
-        onSuccess: () => {
+        onError: (error) => {
+          console.error(error);
+          let type = "error";
+          let text1 = t("common.error");
+          let text2 = t("actions.newActionsCreated");
           Toast.show({
-            type: "success",
-            text1: t("common.success"),
-            text2: t("actions.newActionsCreated"),
+            type,
+            text1,
+            text2,
+          });
+        },
+        onSuccess: (data) => {
+          console.error(data);
+          let type = "success";
+          let text1 = t("common.success");
+          let text2 = t("actions.newActionsCreated");
+          if (data.message == "Actions created with errors") {
+            type = "info";
+            text1 = t("common.error");
+            //   if (data.data.errors_in_stock) {
+            //     text2 = t("stocks.errorsInStock");
+            //   } else if (data.data.blocking_errors){
+            //     text2 = t("actions.blockingErrorsInActions");
+            //   }
+          }
+          Toast.show({
+            type,
+            text1,
+            text2,
           });
           router.push({ pathname: "/home", params: { stockCategory } });
         },

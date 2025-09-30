@@ -320,11 +320,13 @@ export interface components {
             comment: string;
             product_code: string;
             lot_number: string;
-            created_by_id: number;
+            created_by_id?: number | null;
             /** Format: date-time */
             created_at: string;
             action_id: number;
             transaction: string;
+            /** Format: date-time */
+            expiration_date?: string | null;
         };
         Stock: {
             /** @example 1 */
@@ -722,6 +724,40 @@ export interface operations {
                     "application/xml": {
                         /** @example Unauthorized */
                         error?: string;
+                    };
+                };
+            };
+            /** @description Unprocessable Entity - Incorrect or Invalid data format */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unprocessable entity */
+                        message?: string;
+                        data?: {
+                            errors_in_stocks?: string[];
+                            blocking_errors?: {
+                                [key: string]: {
+                                    react_ids?: number[];
+                                    error_message?: string;
+                                };
+                            };
+                        };
+                    };
+                    "application/xml": {
+                        /** @example Unprocessable entity */
+                        message?: string;
+                        data?: {
+                            errors_in_stocks?: string[];
+                            blocking_errors?: {
+                                [key: string]: {
+                                    react_ids?: number[];
+                                    error_message?: string;
+                                };
+                            };
+                        };
                     };
                 };
             };
