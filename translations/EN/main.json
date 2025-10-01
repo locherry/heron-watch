@@ -151,7 +151,7 @@
   },
   "errors": {
     "required" : "This field is required",
-    "invalidExpirationDate" : "invalid expiration date, date format is : dd-mm-yyyy eg : 31-12-2025",
+    "invalidExpirationDate" : "invalid expiration date, date format is : dd-mm-yyyy eg : 2025-31-12",
     "invalidQuantity" : "invalid quantity, quantity sould be an integer",
     "invalidProductCode" : "invalid product code, should begin with three digits",
     "invalidProductName" : "invalid product name, must consist of letters or numbers",

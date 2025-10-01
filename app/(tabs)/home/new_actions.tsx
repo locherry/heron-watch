@@ -124,8 +124,8 @@ export default function NewActions() {
       },
     });
   };
-
-  const handleDelete = (actionToBeDeleted: Action) => {
+  
+  const handleDelete = (actionToBeDeleted: any) => {
     Alert.alert(
       t("Please confirm"),
       t("Do you really want to discard the unsaved changes?"),
@@ -138,7 +138,9 @@ export default function NewActions() {
         {
           text: t("common.OK"),
           onPress: () => {
-            setActions((prev) => prev.filter((a) => a !== actionToBeDeleted));
+            setActions((prev) =>
+              prev.filter((a) => a.id !== actionToBeDeleted.original.id)
+            );
           },
         },
       ]
