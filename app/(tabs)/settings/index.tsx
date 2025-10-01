@@ -12,18 +12,11 @@ import { capitalizeFirst } from "~/lib/utils";
 export default function SettingsScreen() {
   const [t] = useTranslation()
   // Handler for the logout confirmation
-  const confirLogout = () => {
-    console.log("Logged out");
-    SecureStorage.remove("userSession");
-    SecureStorage.remove("userPreferences");
-    router.push("/login"); // Redirect to login page
-  };
-
   const confirmLogout = () => {
     Alert.alert(t("Please confirm"), t("Do you really want to log out ?"), [
       {
         text: t("common.cancel"),
-        onPress: () => console.info("Cancel Pressed"),
+        onPress: () => {},
         style: "cancel",
       },
       {

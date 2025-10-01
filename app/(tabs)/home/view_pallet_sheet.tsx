@@ -138,7 +138,6 @@ export default function App() {
   let isSelectingPC = false;
   let isSelectingLN = false;
 
-    console.log(numCol);
     return (
         <RootView>
             <FlatList

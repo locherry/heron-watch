@@ -132,7 +132,7 @@ export default function NewActions() {
       [
         {
           text: t("common.cancel"),
-          onPress: () => console.info("Cancel Pressed"),
+          onPress: () => {},
           style: "cancel",
         },
         {

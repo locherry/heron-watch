@@ -140,7 +140,6 @@ export default function NewAction() {
 
   // Prefill form if editing
   React.useEffect(() => {
-    console.log("Editing action ID:", editActionId);
     if (!editActionId) return;
 
     const actionToEdit = existingActions.find(
@@ -152,7 +151,6 @@ export default function NewAction() {
         ...actionToEdit,
         action_id: actionToEdit.id,
       }));
-      console.log(actionToEdit)
       setActionId(actionToEdit.action_id.toString());
     }
   }, [editActionId, existingActions]);

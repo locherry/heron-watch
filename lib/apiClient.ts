@@ -115,7 +115,6 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
     errorData?.error || `HTTP error! status: ${response.status}`;
 
   if (response.status === 401) {
-    console.log(errorData)
     if (errorData?.message === "Invalid or expired token") {
       Toast.show({
         type: "error",
