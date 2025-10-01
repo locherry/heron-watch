@@ -53,22 +53,6 @@ export default function NewAction() {
     }
   }, [actionsJsonEncoded]);
 
-  // Prefill form if editing
-  React.useEffect(() => {
-    if (!editActionId) return;
-
-    const actionToEdit = existingActions.find(
-      (a) => String(a.id) === editActionId
-    );
-    if (actionToEdit) {
-      setFormData((prev) => ({
-        ...prev,
-        ...actionToEdit,
-        action_id: actionToEdit.id,
-      }));
-      setActionId(actionToEdit.id);
-    }
-  }, [editActionId, existingActions]);
 
   const ACTION_TYPES = [
     { value: "1", label: capitalizeFirst(t("actions.1")), icon: Tag },
@@ -153,6 +137,25 @@ export default function NewAction() {
     setFormData((prev) => ({ ...prev, [key]: value }));
     setErrors((prev) => ({ ...prev, [key]: validateField(key, value) }));
   };
+
+  // Prefill form if editing
+  React.useEffect(() => {
+    console.log("Editing action ID:", editActionId);
+    if (!editActionId) return;
+
+    const actionToEdit = existingActions.find(
+      (a) => String(a.id) === editActionId
+    );
+    if (actionToEdit) {
+      setFormData((prev) => ({
+        ...prev,
+        ...actionToEdit,
+        action_id: actionToEdit.id,
+      }));
+      console.log(actionToEdit)
+      setActionId(actionToEdit.action_id.toString());
+    }
+  }, [editActionId, existingActions]);
 
   const isFormValid = React.useMemo(() => {
     return INPUT_FIELDS.every((field) => {

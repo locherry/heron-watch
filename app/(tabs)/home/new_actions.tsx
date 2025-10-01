@@ -114,12 +114,12 @@ export default function NewActions() {
     router.back();
   };
 
-  const handleEdit = (actionToBeEdited: Action) => {
+  const handleEdit = (actionToBeEdited: any) => {
     router.push({
       pathname: "/home/new_action",
       params: {
         actionsJsonEncoded: JSON.stringify(actions),
-        editActionId: actionToBeEdited.id,
+        editActionId: actionToBeEdited.original.id,
         stockCategory,
       },
     });
