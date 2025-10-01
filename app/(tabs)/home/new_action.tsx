@@ -1,5 +1,4 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { Gift, Package, Store, Tag } from "lucide-react-native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
@@ -53,16 +52,8 @@ export default function NewAction() {
     }
   }, [actionsJsonEncoded]);
 
-
-  const ACTION_TYPES = [
-    { value: "1", label: capitalizeFirst(t("actions.1")), icon: Tag },
-    { value: "2", label: capitalizeFirst(t("actions.2")), icon: Package },
-    { value: "3", label: capitalizeFirst(t("actions.3")), icon: Gift },
-    { value: "4", label: capitalizeFirst(t("actions.4")), icon: Store },
-  ] as const;
-
   const [actionId, setActionId] = React.useState<string | number>(
-    ACTION_TYPES[0].value
+    constants.actionTypes[0].value
   );
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
@@ -257,7 +248,7 @@ export default function NewAction() {
     }
   }, [qrCodeResults.data]);
 
-  const selectedOption = ACTION_TYPES.find(
+  const selectedOption = constants.actionTypes.find(
     (option) => option.value === actionId
   );
 
@@ -286,26 +277,26 @@ export default function NewAction() {
         <Row gap={8} className="mb-4">
           <Select
             className="flex-1"
-            defaultValue={ACTION_TYPES[0]}
+            defaultValue={constants.actionTypes[0]}
             value={selectedOption}
             onValueChange={(option) =>
               setActionId(
-                option?.value as (typeof ACTION_TYPES)[number]["value"]
+                option?.value as (typeof constants.actionTypes)[number]["value"]
               )
             }
           >
             <SelectTrigger className="w-full">
               <Row gap={8}>
                 {selectedOption?.icon && <Icon as={selectedOption.icon} />}
-                <Text>{selectedOption?.label}</Text>
+                <Text>{selectedOption && capitalizeFirst(t(selectedOption.label))}</Text>
               </Row>
             </SelectTrigger>
             <SelectContent>
-              {ACTION_TYPES.map((action) => (
+              {constants.actionTypes.map((action) => (
                 <SelectItem
                   key={action.value}
                   value={String(action.value)}
-                  label={capitalizeFirst(action.label)}
+                  label={capitalizeFirst(t(action.label))}
                 >
                   <Icon as={action.icon} />
                 </SelectItem>

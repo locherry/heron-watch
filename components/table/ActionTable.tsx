@@ -1,13 +1,18 @@
+import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { Action } from "~/@types/action";
-import { BaseColumnDef, BaseTableProps } from "~/@types/table";
+import { BaseTableProps } from "~/@types/table";
+import { constants } from "~/lib/constants";
 import { capitalizeFirst } from "~/lib/utils";
+import Row from "../layout/Row";
+import { Icon } from "../ui/icon";
+import { Text } from "../ui/text";
 import { BaseTable } from "./BaseTable";
 
 export function ActionTable(props: Omit<BaseTableProps<Action>, "columns">) {
   const [t] = useTranslation();
 
-  const columns: BaseColumnDef<Action>[] = [
+  const columns: ColumnDef<Action>[] = [
     {
       id: "product_code",
       accessorKey: "product_code",
@@ -42,6 +47,20 @@ export function ActionTable(props: Omit<BaseTableProps<Action>, "columns">) {
       id: "action_id",
       accessorKey: "action_id",
       header: () => capitalizeFirst(t("actions.action_id")),
+      cell: (item) => {
+        const currentActionType = constants.actionTypes.find(
+          (actionType) => actionType.value == item.getValue()
+        );
+        return (
+          <Row gap={8}>
+            {currentActionType?.icon && <Icon as={currentActionType.icon} />}
+            <Text>
+              {currentActionType?.label &&
+                capitalizeFirst(t(currentActionType.label))}
+            </Text>
+          </Row>
+        );
+      },
     },
     {
       id: "transaction",

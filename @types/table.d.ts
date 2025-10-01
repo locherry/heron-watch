@@ -1,8 +1,4 @@
-export interface BaseColumnDef<T> {
-  id: string;
-  accessorKey: keyof T;
-  header: () => string;
-}
+import { ColumnDef } from '@tanstack/react-table';
 
 export interface TableFeatures {
   sorting?: boolean;
@@ -13,7 +9,7 @@ export interface TableFeatures {
 
 export interface BaseTableProps<T> extends ViewProps {
   data: T[];
-  columns: BaseColumnDef<T>[];
+  columns: ColumnDef<T>[];
   features?: Partial<TableFeatures>;
   hiddenColumns?: string[];
   totalRow?: boolean;
