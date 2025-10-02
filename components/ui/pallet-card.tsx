@@ -30,7 +30,7 @@ function PalletCard ({objId, objQuantity, ...props} : {objId : number, objQuanti
                     </Row>
                 </CardContent>
                 <CardFooter className="justify-center ">
-                    <Icon as={Forklift}/>
+                    <Icon as={Forklift} size={25}/>
                 </CardFooter>
             </Card>
         </View>

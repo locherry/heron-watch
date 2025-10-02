@@ -1,10 +1,10 @@
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Keyboard,
-  LayoutChangeEvent, TouchableOpacity,
+  LayoutChangeEvent, Pressable, TouchableOpacity,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -261,8 +261,16 @@ export default function App() {
                             numColumns={numCol}
                             onLayout={handleLayout}
                             renderItem={ ({item}) => 
-                                    <PalletCard objId={item.id} objQuantity={item.quantity}>
-                                    </PalletCard>
+                                  <Link
+                                    href={{
+                                      pathname : "/home/modify_pallet_sheet",
+                                    }}
+                                    asChild> 
+                                   <Pressable>
+                                      <PalletCard objId={item.id} objQuantity={item.quantity}>
+                                      </PalletCard>
+                                    </Pressable>
+                                  </Link>
                             }
                             />
                         </View>
