@@ -97,8 +97,9 @@ export default function add_pallet_sheet() {
   );
 
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
-  const { stockCategory = "PF_G" } = rawParams as {
+  const { stockCategory = "PF_G", alreadySetQrId = undefined } = rawParams as {
     stockCategory?: "PF_G" | "PF_M";
+    alreadySetQrId? : number|undefined;
   };
   const { height, width } = useWindowDimensions();
   const { rowNameWidth, rowsHeight } = {
@@ -115,7 +116,7 @@ export default function add_pallet_sheet() {
   //State depending constants
   const [isDataFetched, setIsDataFetched] = useState(false);
   const [completeData, setCompleteData] = useState<any>([]);
-  const [qrId, setQrId] = useState<undefined | number>(undefined);
+  const [qrId, setQrId] = useState<undefined | number>(alreadySetQrId);
   const [isQuantityInputInvalid, setIsQuantityInputInvalid] = useState(false);
 
   let {

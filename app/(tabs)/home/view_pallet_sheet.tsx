@@ -264,6 +264,7 @@ export default function App() {
                                   <Link
                                     href={{
                                       pathname : "/home/modify_pallet_sheet",
+                                      params : {stockCategory : stockCategory , alreadySetQrId : item.id}
                                     }}
                                     asChild> 
                                    <Pressable>
