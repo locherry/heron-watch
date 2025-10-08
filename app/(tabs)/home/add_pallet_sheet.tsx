@@ -240,7 +240,7 @@ export default function add_pallet_sheet() {
                         color="hsl(var(--primary))"
                       />
                     ) : (
-                      <Text>
+                      <Text className={cn("", completeData?.quantity - (alreadyPlacedQuantity?.data?.quantity ?? 0) >= 0 ? "text-black" : "text-red-500")}>
                         {completeData?.quantity -
                           (alreadyPlacedQuantity?.data?.quantity ?? 0)}
                       </Text>
