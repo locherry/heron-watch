@@ -1,4 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
+import { ArrowBigRightDash } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -14,12 +15,12 @@ import { CreatePalletSheet } from "~/components/create-pallet-sheet";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
+import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
-
 interface SheetRowProps {
   label: string;
   value?: string | number;
@@ -29,6 +30,7 @@ interface SheetRowProps {
   rowNameWidth: number;
   rowsHeight: number;
   bordersEnabled?: boolean;
+  isError? : boolean;
   isLoading?: boolean;
 }
 
@@ -41,6 +43,7 @@ function SheetRow({
   rowNameWidth,
   rowsHeight,
   bordersEnabled = true,
+  isError = false,
   isLoading = false,
 }: SheetRowProps) {
   const [t] = useTranslation();
@@ -58,7 +61,7 @@ function SheetRow({
       <View className="flex-1 p-2">
         {editable ? (
           <Input
-            className="font-extrabold text-[30px] text-center flex-1"
+            className={cn("font-extrabold text-[30px] text-center flex-1", isError && "border-red-500")}
             placeholder={placeholder}
             value={value?.toString()}
             onChangeText={onChangeText}
@@ -138,7 +141,7 @@ export default function add_pallet_sheet() {
   const [isProductCodeFocus, setIsProductCodeFocus] = useState(true);
   const [isLotNumberFocus, setIsLotNumberFocus] = useState(true);
   const [completeData, setCompleteData] = useState<any>([]);
-
+  const [isQuantityError, setIsQuantityError] = useState<boolean>(false);
   let {
     data: productCompleteData = [],
     isLoading: isNewDataLoading = false,
@@ -214,6 +217,13 @@ export default function add_pallet_sheet() {
     setFilteredData(data?.data ?? []);
   }, [data]);
 
+  useEffect(() => {
+    if (completeData?.quantity - (Number(quantityInput) ?? 0) < 0) {
+      setIsQuantityError(true);
+    } else {
+      setIsQuantityError(false);
+    }
+  }, [quantityInput]);
   let isSelectingPC = false;
   let isSelectingLN = false;
   return (
@@ -229,10 +239,11 @@ export default function add_pallet_sheet() {
         ListHeaderComponent={
           <>
             <Text variant="h2" className="mb-2">
-              <Row className="w-full justify-between">
-                <Label className="text-2xl font-mono">
+              <Row className="w-full justify-start" gap={10}>
+                <Text className="text-2xl font-mono">
                   {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
                     " : "}
+                </Text>
                   {!Array.isArray(completeData) ? (
                     isLoadingPlacedQuantity || isNewDataLoading ? (
                       <ActivityIndicator
@@ -240,7 +251,7 @@ export default function add_pallet_sheet() {
                         color="hsl(var(--primary))"
                       />
                     ) : (
-                      <Text className={cn("", completeData?.quantity - (alreadyPlacedQuantity?.data?.quantity ?? 0) >= 0 ? "text-black" : "text-red-500")}>
+                      <Text className={cn("text-xl", completeData?.quantity - (alreadyPlacedQuantity?.data?.quantity ?? 0) >= 0 ? "text-black" : "text-red-500")}>
                         {completeData?.quantity -
                           (alreadyPlacedQuantity?.data?.quantity ?? 0)}
                       </Text>
@@ -250,7 +261,13 @@ export default function add_pallet_sheet() {
                       {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
                     </Text>
                   )}
-                </Label>
+                { quantityInput !== '' && quantityInput != undefined ? 
+                  (<>
+                    <Icon as={ArrowBigRightDash} size={30} />
+                    <Text className={cn("text-xl", completeData?.quantity - (Number(quantityInput) ?? 0) < 0 ? "text-red-500" : "text-black")}>{completeData?.quantity - (Number(quantityInput) ?? 0)}</Text>
+                  </>) : 
+                  (<></>)
+                }
               </Row>
             </Text>
 
@@ -436,6 +453,7 @@ export default function add_pallet_sheet() {
                 }
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
+                isError={isQuantityError}
                 bordersEnabled={false} // last item so no borders
               />
             </View>
