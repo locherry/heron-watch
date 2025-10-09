@@ -13,7 +13,7 @@ const Banner: React.FC<RootViewProps> = ({ className }) => {
     <Row className={className + " flex-none"} gap={16}>
       <Image
         style={{ width: 100, height: 100 }}
-        source={require("~/assets/images/icon.svg")}
+        source={require("~/assets/images/icon.png")}
       />
       <Column className="flex-1 justify-start items-start">
         <Text variant="h2" className="w-full text-left">Heron Watch</Text>
