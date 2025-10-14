@@ -141,6 +141,7 @@ export default function add_pallet_sheet() {
   const [isProductCodeFocus, setIsProductCodeFocus] = useState(true);
   const [isLotNumberFocus, setIsLotNumberFocus] = useState(true);
   const [completeData, setCompleteData] = useState<any>([]);
+  const [placedQuantity, setPlacedQuantity] = useState<any>([]);
   const [isQuantityError, setIsQuantityError] = useState<boolean>(false);
   let {
     data: productCompleteData = [],
@@ -214,6 +215,14 @@ export default function add_pallet_sheet() {
   }, [productCompleteData]);
 
   useEffect(() => {
+    if (alreadyPlacedQuantity && !Array.isArray(alreadyPlacedQuantity)) {
+      setPlacedQuantity(alreadyPlacedQuantity?.data?.quantity);
+    } else if (!Array.isArray(placedQuantity)) {
+      setPlacedQuantity([]);
+    }
+  }, [alreadyPlacedQuantity]);
+
+  useEffect(() => {
     setFilteredData(data?.data ?? []);
   }, [data]);
 
@@ -251,9 +260,9 @@ export default function add_pallet_sheet() {
                         color="hsl(var(--primary))"
                       />
                     ) : (
-                      <Text className={cn("text-xl", completeData?.quantity - (alreadyPlacedQuantity?.data?.quantity ?? 0) >= 0 ? "text-black" : "text-red-500")}>
+                      <Text className={cn("text-xl", completeData?.quantity - (placedQuantity ?? 0) >= 0 ? "text-black" : "text-red-500")}>
                         {completeData?.quantity -
-                          (alreadyPlacedQuantity?.data?.quantity ?? 0)}
+                          (placedQuantity ?? 0)}
                       </Text>
                     )
                   ) : (
@@ -264,7 +273,7 @@ export default function add_pallet_sheet() {
                 { quantityInput !== '' && quantityInput != undefined ? 
                   (<>
                     <Icon as={ArrowBigRightDash} size={30} />
-                    <Text className={cn("text-xl", completeData?.quantity - (Number(quantityInput) ?? 0) < 0 ? "text-red-500" : "text-black")}>{completeData?.quantity - (Number(quantityInput) ?? 0)}</Text>
+                    <Text className={cn("text-xl", (completeData?.quantity - (placedQuantity ?? 0)) - (Number(quantityInput) ?? 0) < 0 ? "text-red-500" : "text-black")}>{(completeData?.quantity - (placedQuantity ?? 0)) - (Number(quantityInput) ?? 0)}</Text>
                   </>) : 
                   (<></>)
                 }
