@@ -194,6 +194,12 @@ export default function add_pallet_sheet() {
           },
         }
       );
+      //Reset of all parameters
+      setQuantityInput(undefined);
+      setIsDataFetched(false);
+      setPlacedQuantity([]);
+      setCompleteData([]);
+      setStockData([]);
     } else if (!quantityInput) {
       setIsQuantityInputInvalid(true);
     }
@@ -214,10 +220,15 @@ export default function add_pallet_sheet() {
           },
         }
       );
+      setQuantityInput(undefined);
+      setIsDataFetched(false);
+      setPlacedQuantity([]);
+      setCompleteData([]);
+      setStockData([]);
     }
   };
 
-    useEffect(() => {
+  useEffect(() => {
     if (palletCompleteData && !Array.isArray(palletCompleteData)) {
       setCompleteData(palletCompleteData?.data);
       setIsDataFetched(true);
@@ -244,8 +255,7 @@ export default function add_pallet_sheet() {
     }
   }, [alreadyPlacedQuantity]);
 
-  console.log(stockData?.quantity);
-
+  console.log(Array.isArray(stockData));
   return (
     <RootView
       disableInsets={{ left: true, top: true }}
@@ -268,15 +278,15 @@ export default function add_pallet_sheet() {
                     {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
                       " : "}
                   </Text>
-                    {!Array.isArray(productStockQuantity) ? (
+                    {!Array.isArray(stockData) ? (
                       productStockIsLoading || isNewDataLoading ? (
                         <ActivityIndicator
                           size="small"
                           color="hsl(var(--primary))"
                         />
                       ) : (
-                        <Text className={cn("text-xl", ((stockData?.quantity) - (placedQuantity)) >= 0 ? "text-black" : "text-red-500")}>
-                          {stockData?.quantity ?? 0 - (placedQuantity ?? 0)}
+                        <Text className={cn("text-xl", (stockData?.quantity - placedQuantity) >= 0 ? "text-black" : "text-red-500")}>
+                          {stockData?.quantity - placedQuantity}
                         </Text>
                       )
                     ) : (
@@ -287,7 +297,7 @@ export default function add_pallet_sheet() {
                   { quantityInput !== '' && quantityInput != undefined ? 
                     (<>
                       <Icon as={ArrowBigRightDash} size={30} />
-                      <Text className={cn("text-xl", (stockData?.quantity ?? 0 - (placedQuantity ?? 0)) - ((Number(quantityInput) ?? 0) - (placedQuantity ?? 0)) < 0 ? "text-red-500" : "text-black")}>{(stockData?.quantity ?? 0 - (placedQuantity ?? 0)) - ((Number(quantityInput) ?? 0) - (placedQuantity ?? 0))}</Text>
+                      <Text className={cn("text-xl", (stockData?.quantity - placedQuantity) - (Number(quantityInput) - placedQuantity) < 0 ? "text-red-500" : "text-black")}>{(stockData?.quantity- placedQuantity) - (Number(quantityInput) - placedQuantity)}</Text>
                     </>) : 
                     (<></>)
                   }
