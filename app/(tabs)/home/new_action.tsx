@@ -15,7 +15,9 @@ import { Label } from "~/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
@@ -288,19 +290,36 @@ export default function NewAction() {
             <SelectTrigger className="w-full">
               <Row gap={8}>
                 {selectedOption?.icon && <Icon as={selectedOption.icon} />}
-                <Text>{selectedOption && capitalizeFirst(t(selectedOption.label))}</Text>
+                <Text>
+                  {selectedOption && capitalizeFirst(t(selectedOption.label))}
+                </Text>
               </Row>
             </SelectTrigger>
             <SelectContent>
-              {constants.actionTypes.map((action) => (
-                <SelectItem
-                  key={action.value}
-                  value={String(action.value)}
-                  label={capitalizeFirst(t(action.label))}
-                >
-                  <Icon as={action.icon} />
-                </SelectItem>
-              ))}
+              <SelectGroup>
+                <SelectLabel>{capitalizeFirst(t("common.add"))} (+)</SelectLabel>
+                {constants.actionTypes.filter((action => action.additionRule == "+")).map((action) => (
+                  <SelectItem
+                    key={action.value}
+                    value={String(action.value)}  
+                    label={capitalizeFirst(t(action.label))}
+                  >
+                    <Icon as={action.icon} />
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+              <SelectGroup>
+                <SelectLabel>{capitalizeFirst(t("common.substract"))} (-)</SelectLabel>
+                {constants.actionTypes.filter((action => action.additionRule == "-")).map((action) => (
+                  <SelectItem
+                    key={action.value}
+                    value={String(action.value)}
+                    label={capitalizeFirst(t(action.label))}
+                  >
+                    <Icon as={action.icon} />
+                  </SelectItem>
+                ))}
+              </SelectGroup>
             </SelectContent>
           </Select>
           <QrScannerButton onScan={onScan} />

@@ -1,12 +1,12 @@
 import {
-    Factory,
-    Gift,
-    Leaf,
-    Package,
-    Snowflake,
-    Store,
-    Sun,
-    Tag,
+  Factory,
+  Gift,
+  Leaf,
+  Package,
+  Snowflake,
+  Store,
+  Sun,
+  Tag,
 } from "lucide-react-native";
 
 export const constants = {
@@ -20,9 +20,9 @@ export const constants = {
     EMB: Package,
   },
   actionTypes: [
-    { value: "1", label: "actions.1", icon: Tag },
-    { value: "2", label: "actions.2", icon: Package },
-    { value: "3", label: "actions.3", icon: Gift },
-    { value: "4", label: "actions.4", icon: Store },
+    { value: "1", label: "actions.1", icon: Package, additionRule: "+" },
+    { value: "2", label: "actions.2", icon: Tag, additionRule: "-" },
+    { value: "3", label: "actions.3", icon: Gift, additionRule: "-" },
+    { value: "4", label: "actions.4", icon: Store, additionRule: "-" },
   ],
 } as const;
