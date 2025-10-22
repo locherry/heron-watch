@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router"; // For navigation
-import { Eye, EyeOff } from "lucide-react-native";
+import { Eye, EyeClosed } from "lucide-react-native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
@@ -144,7 +144,7 @@ export default function LoginScreen() {
             className="absolute right-0 text-foreground"
             onPress={() => setPasswordVisible(!passwordVisible)}
           >
-            <Icon as={passwordVisible ? Eye : EyeOff} />
+            <Icon as={passwordVisible ? Eye : EyeClosed} />
           </Button>
         </Row>
 

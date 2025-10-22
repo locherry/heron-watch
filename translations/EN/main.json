@@ -42,7 +42,9 @@
       "theme": "theme",
       "lightTheme": "light theme",
       "darkTheme": "dark theme",
-      "systemDefault": "system default"
+      "systemDefault": "system default",
+      "animations": "animations",
+      "fontSize": "font size"
     }
   },
   "user": {

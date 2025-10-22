@@ -1,12 +1,20 @@
-import { Laptop, LucideIcon, MoonStar, Sun } from "lucide-react-native";
+import {
+  CaseSensitive,
+  Laptop,
+  LucideIcon,
+  MoonStar,
+  Sun,
+} from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Appearance } from "react-native";
 import { userThemeValue } from "~/@types/user";
 import Header from "~/components/Header";
+import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
+import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Label } from "~/components/ui/label";
 import {
@@ -16,10 +24,11 @@ import {
   SelectItem,
   SelectTrigger,
 } from "~/components/ui/select";
+import { Switch } from "~/components/ui/switch";
 import { Text } from "~/components/ui/text";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
-import { capitalizeFirst } from "~/lib/utils";
+import { capitalizeFirst, cn } from "~/lib/utils";
 
 // Define Option type
 type Option = {
@@ -98,34 +107,99 @@ export default function AppearanceSettings() {
   });
 
   const selectedOption = options.find((option) => option.value === themeValue);
+
+  // TODO : implement real behavior
+  const [animationEnabled, setAnimationEnabled] = React.useState(true);
+
+  // TODO : implement real behavior
+  const [fontSizeValue, setFontSizeValue] = React.useState<
+    "small" | "medium" | "large"
+  >("medium");
+  const fontSizeOptions = [
+    {
+      value: "small",
+      size: 14,
+    },
+    {
+      value: "medium",
+      size: 16,
+    },
+    {
+      value: "large",
+      size: 18,
+    },
+  ] as const;
   return (
     <RootView>
       <Header title={capitalizeFirst(t("settings.appearance.name"))}></Header>
-      <Label>{capitalizeFirst(t("settings.appearance.theme"))}</Label>
-      <Select
-        onValueChange={handleValueChange}
-        defaultValue={options.find((option) => option.value == themeValue)}
-      >
-        <SelectTrigger>
-          <Row gap={8}>
-            {selectedOption?.icon && <Icon as={selectedOption.icon} />}
-            <Text>{selectedOption?.label}</Text>
-          </Row>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {options.map((option) => (
-              <SelectItem
-                key={option.value}
-                label={option.label}
-                value={option.value}
-              >
-                <Icon as={option.icon} />
-              </SelectItem>
+      <Column gap={16}>
+        <Row className="justify-between mb-4">
+          <Label>{capitalizeFirst(t("settings.appearance.theme"))}</Label>
+          <Select
+            onValueChange={handleValueChange}
+            defaultValue={options.find((option) => option.value == themeValue)}
+          >
+            <SelectTrigger>
+              <Row gap={8}>
+                {selectedOption?.icon && <Icon as={selectedOption.icon} />}
+                <Text>{selectedOption?.label}</Text>
+              </Row>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {options.map((option) => (
+                  <SelectItem
+                    key={option.value}
+                    label={option.label}
+                    value={option.value}
+                  >
+                    <Icon as={option.icon} />
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </Row>
+
+        <Row className="justify-between">
+          <Label>{capitalizeFirst(t("settings.appearance.animations"))}</Label>
+          <Switch
+            onCheckedChange={setAnimationEnabled}
+            checked={animationEnabled}
+          />
+        </Row>
+
+        <Row className="justify-between">
+          <Label>{capitalizeFirst(t("settings.appearance.fontSize"))}</Label>
+          <Row gap={16}>
+            {fontSizeOptions.map((option) => (
+              <Column className="items-center" key={option.value}>
+                <Button
+                  variant={
+                    fontSizeValue == option.value ? "default" : "outline"
+                  }
+                  style={{
+                    height: option.size * 3 - 16,
+                    width: option.size * 3 - 16,
+                  }}
+                  onPress={()=>setFontSizeValue(option.value)}
+                >
+                  <Icon
+                    className={cn(
+                      fontSizeValue == option.value
+                        ? "text-background"
+                        : "text-foreground"
+                    )}
+                    as={CaseSensitive}
+                    size={option.size * 6 - 16}
+                  />
+                </Button>
+                <Text>{option.value}</Text>
+              </Column>
             ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+          </Row>
+        </Row>
+      </Column>
     </RootView>
   );
 }
