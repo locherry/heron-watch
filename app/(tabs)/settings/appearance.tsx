@@ -176,25 +176,28 @@ export default function AppearanceSettings() {
               <Column className="items-center" key={option.value}>
                 <Button
                   variant={
-                    fontSizeValue == option.value ? "default" : "outline"
+                    fontSizeValue === option.value ? "default" : "outline"
                   }
                   style={{
                     height: option.size * 3 - 16,
                     width: option.size * 3 - 16,
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                  onPress={()=>setFontSizeValue(option.value)}
+                  onPress={() => setFontSizeValue(option.value)}
                 >
                   <Icon
+                    as={CaseSensitive}
+                    size={(option.size * 3 - 16) * 0.6} // 60% of button size
                     className={cn(
-                      fontSizeValue == option.value
+                      fontSizeValue === option.value
                         ? "text-background"
                         : "text-foreground"
                     )}
-                    as={CaseSensitive}
-                    size={option.size * 6 - 16}
                   />
                 </Button>
-                <Text>{option.value}</Text>
+
+                <Text style={{fontSize:option.size}}>{capitalizeFirst(option.value)}</Text>
               </Column>
             ))}
           </Row>
