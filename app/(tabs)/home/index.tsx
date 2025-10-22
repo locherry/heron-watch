@@ -43,7 +43,7 @@ export default function MaterialTabsExample() {
   // First Tab system
   const [currentStockType, setcurrentStockType] = useState<
     "raw_materials" | "finished_products"
-  >("raw_materials");
+  >("finished_products");
 
   // Second Tab system
   const stockCategoryTabs = {
