@@ -236,7 +236,7 @@ export default function add_pallet_sheet() {
   let isSelectingPC = false;
   let isSelectingLN = false;
   return (
-    <RootView disableInsets={{ left: true, top: true }}>
+    <RootView disableInsets={{ left: true}}>
       <Header
         title={capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
       ></Header>

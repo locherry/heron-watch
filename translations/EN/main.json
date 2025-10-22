@@ -118,6 +118,7 @@
     "new_product" : "new product"
   },
   "common": {
+    "view": "view",
     "total": "total",
     "open": "open",
     "goBack": "go back",

@@ -258,7 +258,7 @@ export default function add_pallet_sheet() {
   console.log(Array.isArray(stockData));
   return (
     <RootView
-      disableInsets={{ left: true, top: true }}
+      disableInsets={{ left: true}}
       className="flex gap-y-[30]"
     >
       <Header
