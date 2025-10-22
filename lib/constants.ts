@@ -25,4 +25,5 @@ export const constants = {
     { value: "3", label: "actions.3", icon: Gift, additionRule: "-" },
     { value: "4", label: "actions.4", icon: Store, additionRule: "-" },
   ],
+  appName: "Heron Watch",
 } as const;

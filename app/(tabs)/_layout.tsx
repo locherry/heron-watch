@@ -1,16 +1,25 @@
 import { router, Tabs, usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
-import { House, LucideIcon, Menu, Settings, Shield } from "lucide-react-native";
+import {
+  House,
+  LucideIcon,
+  PanelLeft,
+  Settings,
+  Shield,
+} from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Image,
   Platform,
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Row from "~/components/layout/Row";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
+import { constants } from "~/lib/constants";
 import { useAuth } from "~/lib/hooks/useAuth";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -62,22 +71,30 @@ export default function TabLayout() {
             ? Platform.OS === "web"
               ? 58
               : 100
-            : Platform.OS === "web"
-              ? 240
-              : undefined,
+            : 240,
           flexShrink: 0,
         },
         headerShown: false,
       }}
       drawerContent={(props) => (
-        <SafeAreaView>
+        <>
           <TouchableOpacity
             onPress={() => setCollapsed(!collapsed)}
             className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted`}
           >
-            <Icon size={24} as={Menu} />
-            {!collapsed && (
-              <Text className="ml-3">{capitalizeFirst(t("tabBar.menu"))}</Text>
+            {!collapsed ? (
+              <Row className="flex-1">
+                <Image
+                  source={require("~/assets/images/icon.png")}
+                  style={{ width: 24, height: 24 }}
+                />
+                <Text className="ml-3 flex-1" numberOfLines={1}>
+                  {constants.appName}
+                </Text>
+                <Icon size={24} as={PanelLeft} />
+              </Row>
+            ) : (
+              <Icon size={24} as={PanelLeft} />
             )}
           </TouchableOpacity>
 
@@ -114,7 +131,7 @@ export default function TabLayout() {
               </TouchableOpacity>
             );
           })}
-        </SafeAreaView>
+        </>
       )}
     >
       {NavigationOptions.map((option) => (
