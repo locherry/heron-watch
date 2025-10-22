@@ -285,7 +285,7 @@ export default function add_pallet_sheet() {
                           color="hsl(var(--primary))"
                         />
                       ) : (
-                        <Text className={cn("text-xl", (stockData?.quantity - placedQuantity) >= 0 ? "text-black" : "text-red-500")}>
+                        <Text className={cn("text-xl", (stockData?.quantity - placedQuantity) >= 0 ? "text-foreground" : "text-destructive")}>
                           {stockData?.quantity - placedQuantity}
                         </Text>
                       )
@@ -297,7 +297,7 @@ export default function add_pallet_sheet() {
                   { quantityInput !== '' && quantityInput != undefined ? 
                     (<>
                       <Icon as={ArrowBigRightDash} size={30} />
-                      <Text className={cn("text-xl", (stockData?.quantity - placedQuantity) - (Number(quantityInput) - placedQuantity) < 0 ? "text-red-500" : "text-black")}>{(stockData?.quantity- placedQuantity) - (Number(quantityInput) - placedQuantity)}</Text>
+                      <Text className={cn("text-xl", (stockData?.quantity - placedQuantity) - (Number(quantityInput) - placedQuantity) < 0 ? "text-destructive" : "text-foreground")}>{(stockData?.quantity- placedQuantity) - (Number(quantityInput) - placedQuantity)}</Text>
                     </>) : 
                     (<></>)
                   }
@@ -398,7 +398,7 @@ export default function add_pallet_sheet() {
             {isQuantityInputInvalid ? (
               <Alert
                 icon={MessageCircleWarning}
-                className="text-red-500 my-4"
+                className="text-destructive my-4"
               ></Alert>
             ) : null}
           </>

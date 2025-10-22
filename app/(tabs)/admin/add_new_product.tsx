@@ -80,11 +80,11 @@ export default function App() {
           <View key={field.id} className="mb-2">
             <Label>{field.label}</Label>
             <Input
-              className={`w-full ${error ? "border-red-500" : ""}`}
+              className={`w-full ${error ? "border-destructive" : ""}`}
               onChangeText={(text) => checkValidity(field.id, text)}
             />
             {error ? (
-              <Text className="text-red-500 text-xs mt-1">{error}</Text>
+              <Text className="text-destructive text-xs mt-1">{error}</Text>
             ) : null}
           </View>
         );

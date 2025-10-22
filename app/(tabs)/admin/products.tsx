@@ -10,11 +10,11 @@ import { ProductCategoryTable } from "~/components/table/ProductCategoryTable";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
@@ -113,7 +113,7 @@ export default function App() {
           <ActivityIndicator />
         ) : (
           <ProductCategoryTable
-            // className="flex-1 h-full border-red-500 border-4"
+            // className="flex-1 h-full border-destructive border-4"
             data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
             fetchNextPage={fetchNextPage}
           />

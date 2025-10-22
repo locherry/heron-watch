@@ -387,14 +387,14 @@ function CreatePalletSheet({
         <Alert
           icon={AlertCircle}
           className={cn(
-            "text-red-500 text-xs mt-1",
+            "text-destructive text-xs mt-1",
             emitAlert ? "flex" : "hidden"
           )}
         >
-          <AlertTitle className="text-red-500 text-xl mt-1">
+          <AlertTitle className="text-destructive text-xl mt-1">
             {capitalizeFirst(t("add_pallet_sheet.alert_unable_to_create_qr"))}
           </AlertTitle>
-          <AlertDescription className="text-red-500 text-xs mt-1">
+          <AlertDescription className="text-destructive text-xs mt-1">
             {capitalizeFirst(t("add_pallet_sheet.alert_field_missing"))}
           </AlertDescription>
         </Alert>

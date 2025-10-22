@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Keyboard,
-  LayoutChangeEvent, Pressable, TouchableOpacity,
+  LayoutChangeEvent,
+  Pressable,
+  TouchableOpacity,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -19,12 +21,12 @@ import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function App() {
-    const PALLET_CARD_WIDTH = 170;
-    const [numCol, setNumCol] = useState(0);
-    const handleLayout = (event : LayoutChangeEvent) => {
-        const {width} = event.nativeEvent.layout;
-        setNumCol(Math.floor(width / (PALLET_CARD_WIDTH + 30))) //We take in account the 10px of left margin
-    }
+  const PALLET_CARD_WIDTH = 170;
+  const [numCol, setNumCol] = useState(0);
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+    setNumCol(Math.floor(width / (PALLET_CARD_WIDTH + 30))); //We take in account the 10px of left margin
+  };
   const [t] = useTranslation();
 
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
@@ -138,147 +140,155 @@ export default function App() {
   let isSelectingPC = false;
   let isSelectingLN = false;
 
-    return (
-        <RootView>
-            <FlatList
-                focusable = {false}
-                data = {[]}
-                keyExtractor={(_,i) => i.toString()}
-                renderItem={null}
-                ListHeaderComponent={
-                    <>
-                        <Header title={capitalizeFirst(t("view_pallet_sheet.view_pallet_sheet"))} className="mb-2"/>
-                        <View className="z-20">
-                            <Label className="text-base">
-                                {capitalizeFirst(t("actions.product_code"))}
-                            </Label>
-                            <Autocomplete
-                                inputContainerStyle={{ borderWidth: 0 }} // remove default border
-                                containerStyle={{ width: width / 5 }}
-                                hideResults={isProductCodeFocus}
-                                onBlur={() => {
-                                setTimeout(() => {
-                                    Keyboard.dismiss();
-                                    if (!isProductCodeFocus && !isSelectingPC) {
-                                    setIsProductCodeFocus(true);
-                                    } else {
-                                    isSelectingPC = false;
-                                    }
-                                }, 100);
-                                }}
-                                onFocus={() => {
-                                setIsProductCodeFocus(false);
-                                }}
-                                data={!isProductCodeFocus ? PCfilteredData : []}
-                                value={dynamic_product_code_value}
-                                onChangeText={(text) => {
-                                    if (product_code_value !== "") {
-                                        setProductCodeValue("");
-                                    }
-                                    setDynamicProductCodeValue(text);
-                                }}
-                                renderTextInput={(props) => (
-                                <Input {...props} placeholder={t("actions.product_code")} />
-                                )}
-                                flatListProps={{
-                                keyExtractor: (item) => item.product_code,
-                                renderItem: ({ item }) => (
-                                    <TouchableOpacity
-                                    className="flex-row justify-center border border-black dark:border-white bg-white dark:bg-black"
-                                    onPressIn={() => (isSelectingPC = true)}
-                                    onPress={() => {
-                                        setProductCodeValue(item.product_code);
-                                        setDynamicProductCodeValue(item.product_code);
-                                        setIsProductCodeFocus(true);
-                                    }}
-                                    >
-                                    <Text className="text-black dark:text-white">
-                                        {item.product_code}
-                                    </Text>
-                                    </TouchableOpacity>
-                                ),
-                                }}
-                            />
-                        </View>
-                        <View className="z-10">
-                            <Label className="text-base">
-                                {capitalizeFirst(t("actions.lot_number"))}
-                            </Label>
-                            <Autocomplete
-                            inputContainerStyle={{ borderWidth: 0 }} // remove default border
-                            containerStyle={{ width: width / 5 }}
-                            hideResults={isLotNumberFocus}
-                            onBlur={() => {
-                                Keyboard.dismiss();
-                                setTimeout(() => {
-                                if (!isLotNumberFocus && !isSelectingLN) {
-                                    setIsLotNumberFocus(true);
-                                } else {
-                                    isSelectingLN = false;
-                                }
-                                }, 100);
-                            }}
-                            renderTextInput={(props) => (
-                                <Input {...props} placeholder={t("actions.lot_number")} />
-                            )}
-                            onFocus={() => {
-                                setIsLotNumberFocus(false)
-                            }}
-                            data={!isLotNumberFocus ? LNfilteredData : []}
-                            value={dynamic_lot_number_value}
-                            onChangeText={(text) => {
-                                if (lot_number_value !== "") {
-                                    setLotNumberValue("");
-                                }
-                                setDynamicLotNumberValue(text);
-
-                            }}
-                            flatListProps={{
-                                keyExtractor: (item) => item.lot_number,
-                                renderItem: ({ item }) => (
-                                <TouchableOpacity
-                                    className="flex-row justify-center border border-black dark:border-white bg-white dark:bg-black"
-                                    onPressIn={() => (isSelectingLN = true)}
-                                    onPress={() => {
-                                    setLotNumberValue(item.lot_number);
-                                    setDynamicLotNumberValue(item.lot_number);
-                                    setIsLotNumberFocus(true);
-                                    }}
-                                >
-                                    <Text className="text-black dark:text-white">
-                                    {item.lot_number}
-                                    </Text>
-                                </TouchableOpacity>
-                                ),
-                            }}
-                            />
-                        </View>
-                        <View className="mt-5">
-                            <FlatList
-                            key = {numCol}
-                            keyExtractor={(item) => (item.id.toString())}
-                            data={selectedPalletsData?.data ?? null}
-                            numColumns={numCol}
-                            onLayout={handleLayout}
-                            renderItem={ ({item}) => 
-                                  <Link
-                                    href={{
-                                      pathname : "/home/modify_pallet_sheet",
-                                      params : {stockCategory : stockCategory , alreadySetQrId : item.id}
-                                    }}
-                                    asChild> 
-                                   <Pressable>
-                                      <PalletCard objId={item.id} objQuantity={item.quantity}>
-                                      </PalletCard>
-                                    </Pressable>
-                                  </Link>
-                            }
-                            />
-                        </View>
-                    </>
-                }>
-
-            </FlatList>
-        </RootView>
-    );
+  return (
+    <RootView>
+      <FlatList
+        focusable={false}
+        data={[]}
+        keyExtractor={(_, i) => i.toString()}
+        renderItem={null}
+        ListHeaderComponent={
+          <>
+            <Header
+              title={capitalizeFirst(t("view_pallet_sheet.view_pallet_sheet"))}
+              className="mb-2"
+            />
+            <View className="z-20">
+              <Label className="text-base">
+                {capitalizeFirst(t("actions.product_code"))}
+              </Label>
+              <Autocomplete
+                inputContainerStyle={{ borderWidth: 0 }} // remove default border
+                containerStyle={{ width: width / 5 }}
+                hideResults={isProductCodeFocus}
+                onBlur={() => {
+                  setTimeout(() => {
+                    Keyboard.dismiss();
+                    if (!isProductCodeFocus && !isSelectingPC) {
+                      setIsProductCodeFocus(true);
+                    } else {
+                      isSelectingPC = false;
+                    }
+                  }, 100);
+                }}
+                onFocus={() => {
+                  setIsProductCodeFocus(false);
+                }}
+                data={!isProductCodeFocus ? PCfilteredData : []}
+                value={dynamic_product_code_value}
+                onChangeText={(text) => {
+                  if (product_code_value !== "") {
+                    setProductCodeValue("");
+                  }
+                  setDynamicProductCodeValue(text);
+                }}
+                renderTextInput={(props) => (
+                  <Input {...props} placeholder={t("actions.product_code")} />
+                )}
+                renderResultList={(props)=><FlatList {...props} className="border-muted-foreground"/>}
+                flatListProps={{
+                  keyExtractor: (item) => item.product_code,
+                  renderItem: ({ item }) => (
+                    <TouchableOpacity
+                      className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
+                      onPressIn={() => (isSelectingPC = true)}
+                      onPress={() => {
+                        setProductCodeValue(item.product_code);
+                        setDynamicProductCodeValue(item.product_code);
+                        setIsProductCodeFocus(true);
+                      }}
+                    >
+                      <Text>
+                        {item.product_code}
+                      </Text>
+                    </TouchableOpacity>
+                  ),
+                }}
+              />
+            </View>
+            <View className="z-10">
+              <Label className="text-base">
+                {capitalizeFirst(t("actions.lot_number"))}
+              </Label>
+              <Autocomplete
+                inputContainerStyle={{ borderWidth: 0 }} // remove default border
+                containerStyle={{ width: width / 5 }}
+                hideResults={isLotNumberFocus}
+                onBlur={() => {
+                  Keyboard.dismiss();
+                  setTimeout(() => {
+                    if (!isLotNumberFocus && !isSelectingLN) {
+                      setIsLotNumberFocus(true);
+                    } else {
+                      isSelectingLN = false;
+                    }
+                  }, 100);
+                }}
+                renderTextInput={(props) => (
+                  <Input {...props} placeholder={t("actions.lot_number")} />
+                )}
+                onFocus={() => {
+                  setIsLotNumberFocus(false);
+                }}
+                data={!isLotNumberFocus ? LNfilteredData : []}
+                value={dynamic_lot_number_value}
+                onChangeText={(text) => {
+                  if (lot_number_value !== "") {
+                    setLotNumberValue("");
+                  }
+                  setDynamicLotNumberValue(text);
+                }}
+                flatListProps={{
+                  keyExtractor: (item) => item.lot_number,
+                  renderItem: ({ item }) => (
+                    <TouchableOpacity
+                      className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
+                      onPressIn={() => (isSelectingLN = true)}
+                      onPress={() => {
+                        setLotNumberValue(item.lot_number);
+                        setDynamicLotNumberValue(item.lot_number);
+                        setIsLotNumberFocus(true);
+                      }}
+                    >
+                      <Text>
+                        {item.lot_number}
+                      </Text>
+                    </TouchableOpacity>
+                  ),
+                }}
+              />
+            </View>
+            <View className="mt-5">
+              <FlatList
+                key={numCol}
+                keyExtractor={(item) => item.id.toString()}
+                data={selectedPalletsData?.data ?? null}
+                numColumns={numCol}
+                onLayout={handleLayout}
+                renderItem={({ item }) => (
+                  <Link
+                    href={{
+                      pathname: "/home/modify_pallet_sheet",
+                      params: {
+                        stockCategory: stockCategory,
+                        alreadySetQrId: item.id,
+                      },
+                    }}
+                    asChild
+                  >
+                    <Pressable>
+                      <PalletCard
+                        objId={item.id}
+                        objQuantity={item.quantity}
+                      ></PalletCard>
+                    </Pressable>
+                  </Link>
+                )}
+              />
+            </View>
+          </>
+        }
+      ></FlatList>
+    </RootView>
+  );
 }

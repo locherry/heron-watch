@@ -120,7 +120,7 @@ export default function LoginScreen() {
         </Text>
 
         {error && (
-          <Text className="text-red-500 text-sm text-center mb-4">{error}</Text>
+          <Text className="text-destructive text-sm text-center mb-4">{error}</Text>
         )}
 
         {/* Email Input */}

@@ -331,12 +331,12 @@ export default function NewAction() {
             <View key={field.value} className="mb-2">
               <Label>{capitalizeFirst(field.label)}</Label>
               <Input
-                className={`w-full ${error ? "border-red-500" : ""}`}
+                className={`w-full ${error ? "border-destructive" : ""}`}
                 value={(formData[field.value] ?? "").toString()}
                 onChangeText={(text) => handleChange(field.value, text)}
               />
               {error ? (
-                <Text className="text-red-500 text-xs mt-1">{error}</Text>
+                <Text className="text-destructive text-xs mt-1">{error}</Text>
               ) : null}
             </View>
           );

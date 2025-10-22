@@ -61,7 +61,7 @@ function SheetRow({
       <View className="flex-1 p-2">
         {editable ? (
           <Input
-            className={cn("font-extrabold text-[30px] text-center flex-1", isError && "border-red-500")}
+            className={cn("font-extrabold text-[30px] text-center flex-1", isError && "border-destructive")}
             placeholder={placeholder}
             value={value?.toString()}
             onChangeText={onChangeText}
@@ -260,7 +260,7 @@ export default function add_pallet_sheet() {
                         color="hsl(var(--primary))"
                       />
                     ) : (
-                      <Text className={cn("text-xl", completeData?.quantity - (placedQuantity ?? 0) >= 0 ? "text-black" : "text-red-500")}>
+                      <Text className={cn("text-xl", completeData?.quantity - (placedQuantity ?? 0) >= 0 ? "text-foreground" : "text-destructive")}>
                         {completeData?.quantity -
                           (placedQuantity ?? 0)}
                       </Text>
@@ -273,7 +273,7 @@ export default function add_pallet_sheet() {
                 { quantityInput !== '' && quantityInput != undefined ? 
                   (<>
                     <Icon as={ArrowBigRightDash} size={30} />
-                    <Text className={cn("text-xl", (completeData?.quantity - (placedQuantity ?? 0)) - (Number(quantityInput) ?? 0) < 0 ? "text-red-500" : "text-black")}>{(completeData?.quantity - (placedQuantity ?? 0)) - (Number(quantityInput) ?? 0)}</Text>
+                    <Text className={cn("text-xl", (completeData?.quantity - (placedQuantity ?? 0)) - (Number(quantityInput) ?? 0) < 0 ? "text-destructive" : "text-foreground")}>{(completeData?.quantity - (placedQuantity ?? 0)) - (Number(quantityInput) ?? 0)}</Text>
                   </>) : 
                   (<></>)
                 }
@@ -323,7 +323,7 @@ export default function add_pallet_sheet() {
                   keyExtractor: (item) => item.product_code,
                   renderItem: ({ item }) => (
                     <TouchableOpacity
-                      className="flex-row justify-center border border-black dark:border-white bg-white dark:bg-black"
+                      className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
                       onPressIn={() => (isSelectingPC = true)}
                       onPress={() => {
                         setProductCodeValue(item.product_code);
@@ -332,7 +332,7 @@ export default function add_pallet_sheet() {
                         setIsProductCodeFocus(true);
                       }}
                     >
-                      <Text className="text-black dark:text-white">
+                      <Text className="text-foreground dark:text-white">
                         {item.product_code}
                       </Text>
                     </TouchableOpacity>
@@ -382,7 +382,7 @@ export default function add_pallet_sheet() {
                   keyExtractor: (item) => item.lot_number,
                   renderItem: ({ item }) => (
                     <TouchableOpacity
-                      className="flex-row justify-center border border-black dark:border-white bg-white dark:bg-black"
+                      className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
                       onPressIn={() => (isSelectingLN = true)}
                       onPress={() => {
                         setLotNumberValue(item.lot_number);
@@ -391,7 +391,7 @@ export default function add_pallet_sheet() {
                         setIsLotNumberFocus(true);
                       }}
                     >
-                      <Text className="text-black dark:text-white">
+                      <Text className="text-foreground dark:text-white">
                         {item.lot_number}
                       </Text>
                     </TouchableOpacity>
