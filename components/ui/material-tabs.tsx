@@ -62,10 +62,13 @@ function MaterialTabsList({
     });
   });
 
-  const {colorScheme} = useColorScheme();
+  const { colorScheme } = useColorScheme();
 
   return (
-    <TabsPrimitive.List className={cn("flex-row border-muted border-b",className)} {...props}>
+    <TabsPrimitive.List
+      className={cn("flex-row border-muted border-b", className)}
+      {...props}
+    >
       {wrappedChildren}
       <Animated.View
         style={{
@@ -82,22 +85,47 @@ function MaterialTabsList({
   );
 }
 
-function MaterialTabsTrigger({ children, ...props }: any) {
+function MaterialTabsTrigger({
+  children,
+  disabled = false,
+  value,
+  ...props
+}: any) {
+  const { value: currentValue } = TabsPrimitive.useRootContext();
+  const isActive = currentValue === value;
   const content =
     typeof children === "function" ? children({ pressed: false }) : children;
 
   return (
-    <TabsPrimitive.Trigger {...props} asChild>
+    <TabsPrimitive.Trigger
+      value={value}
+      disabled={disabled}
+      // 👇 ensures RN’s accessibility + primitive’s own disabled state are in sync
+      data-disabled={disabled ? true : undefined}
+      asChild
+      {...props}
+    >
       <Pressable
+        disabled={disabled}
+        pointerEvents={disabled ? "none" : "auto"} // 👈 actually blocks touches
         className={cn(
-          "items-center justify-center px-4 pb-2"
+          "items-center justify-center px-4 pb-2 transition-opacity",
+          disabled ? "opacity-40" : "opacity-100"
         )}
       >
-        <Text className={cn("text-xl font-bold")}>{content}</Text>
+        <Text
+          className={cn(
+            "text-xl font-bold",
+            isActive ? "text-foreground" : "text-muted-foreground"
+          )}
+        >
+          {content}
+        </Text>
       </Pressable>
     </TabsPrimitive.Trigger>
   );
 }
+
 
 function MaterialTabsContent({
   className,

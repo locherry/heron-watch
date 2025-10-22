@@ -112,7 +112,7 @@ export default function MaterialTabsExample() {
         }
       >
         <MaterialTabsList>
-          <MaterialTabsTrigger value="raw_materials">
+          <MaterialTabsTrigger value="raw_materials" disabled>
             {capitalizeFirst(t("stocks.rawMaterials"))}
           </MaterialTabsTrigger>
           <MaterialTabsTrigger value="finished_products">
