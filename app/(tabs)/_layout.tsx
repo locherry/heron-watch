@@ -10,6 +10,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Animated,
+  Easing,
   Image,
   Platform,
   TouchableOpacity,
@@ -28,7 +30,22 @@ export default function TabLayout() {
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
   const isLargeScreen = width >= 768;
+
+  // Drawer animation state
   const [collapsed, setCollapsed] = useState(false);
+  const animatedWidth = React.useRef(new Animated.Value(240)).current; // start expanded
+  const toggleDrawer = () => {
+    const toValue = collapsed ? 240 : 60; // expanded : collapsed
+    Animated.timing(animatedWidth, {
+      toValue,
+      duration: 250,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: false, // layout animation → false required
+    }).start();
+
+    setCollapsed(!collapsed);
+  };
+
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   const NavigationOptions = [
@@ -67,26 +84,32 @@ export default function TabLayout() {
         drawerStyle: {
           paddingLeft: insets.left,
           marginTop: insets.top,
-          width: collapsed
-            ? Platform.OS === "web"
-              ? 58
-              : 100
-            : 240,
+          width: Platform.select({
+            // native: 240,
+            native:undefined,
+            web: animatedWidth,
+          }),
           flexShrink: 0,
         },
         headerShown: false,
       }}
       drawerContent={(props) => (
-        <>
+        <Animated.View
+          style={{
+            width: animatedWidth, // animate the inner container instead
+            overflow: "hidden",
+          }}
+        >
           <TouchableOpacity
-            onPress={() => setCollapsed(!collapsed)}
-            className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted`}
+            onPress={toggleDrawer}
+            className="flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted"
           >
             {!collapsed ? (
-              <Row className="flex-1">
+              <Row className="flex-1 items-center">
                 <Image
                   source={require("~/assets/images/icon.png")}
                   style={{ width: 24, height: 24 }}
+                  className="w-6 h-6 shrink-0"
                 />
                 <Text className="ml-3 flex-1" numberOfLines={1}>
                   {constants.appName}
@@ -108,7 +131,9 @@ export default function TabLayout() {
               <TouchableOpacity
                 key={route.key}
                 onPress={() => props.navigation.navigate(route.name)}
-                className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${focused ? "bg-muted" : ""}`}
+                className={`flex-row items-center rounded-md m-1 py-2 px-3 hover:bg-muted ${
+                  focused ? "bg-muted" : ""
+                }`}
               >
                 <Icon
                   size={24}
@@ -131,7 +156,7 @@ export default function TabLayout() {
               </TouchableOpacity>
             );
           })}
-        </>
+        </Animated.View>
       )}
     >
       {NavigationOptions.map((option) => (
