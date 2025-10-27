@@ -63,7 +63,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Get all known errors, specific to a stock category */
+        get: operations["53274fdcbd559258e6ec7f081c472771"];
         put?: never;
         post?: never;
         delete?: never;
@@ -217,7 +218,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get actual stock data */
+        /** Get stock data for a given date, or the current stock if no date provided */
         get: operations["3affd2f60f651f8329274f7b8d06c203"];
         put?: never;
         /** Save a stock in database, which is the stock at a precize date. */
@@ -362,35 +363,43 @@ export interface components {
             /** @example GDE | F | Boite */
             product_specificity?: string;
         };
-        /** @example [
+        /**
+         * @example [
          *       "id",
          *       "product_code",
          *       "lot_number",
          *       "quantity",
          *       "expiration_date"
-         *     ] */
+         *     ]
+         */
         stock_selected_elts: string[];
-        /** @example [
+        /**
+         * @example [
          *       "product_code",
          *       "product_name",
          *       "product_specificity"
-         *     ] */
+         *     ]
+         */
         product_category_selected_elts: string[];
-        /** @example [
+        /**
+         * @example [
          *       "id",
          *       "product_code",
          *       "lot_number",
          *       "quantity",
          *       "expiration_date"
-         *     ] */
+         *     ]
+         */
         stock_selected_elts_join_product_category_table: string[];
-        /** @example [
+        /**
+         * @example [
          *       "id",
          *       "product_code",
          *       "lot_number",
          *       "quantity",
          *       "expiration_date"
-         *     ] */
+         *     ]
+         */
         qr_code_selected_elts: string[];
         filter_params: {
             /**
@@ -465,7 +474,8 @@ export interface components {
              */
             product_specificity?: string;
         };
-        /** @example {
+        /**
+         * @example {
          *       "errors_in_stocks": {
          *         "309": {
          *           "GDE040428": {
@@ -514,7 +524,8 @@ export interface components {
          *           }
          *         }
          *       }
-         *     } */
+         *     }
+         */
         ErrorResponse: {
             /** @description Code produit */
             errors_in_stocks?: {
@@ -530,10 +541,12 @@ export interface components {
             [key: string]: components["schemas"]["ErrorDetail"];
         };
         ErrorDetail: {
-            /** @example [
+            /**
+             * @example [
              *       5,
              *       6
-             *     ] */
+             *     ]
+             */
             react_ids?: number[];
             /** @example Incorrect quantity value : -85 */
             error_message?: string;
@@ -564,6 +577,8 @@ export interface components {
             transaction?: string;
         };
         Error_manager_corrupted_data: {
+            /** @example 3 */
+            id?: number;
             /** @example 309 */
             product_code?: string;
             /** @example GDE050528 */
@@ -823,24 +838,24 @@ export interface operations {
                 "application/json": {
                     /**
                      * Format: email
-                     * @example user@example.com
+                     * @example admin.minad@mail.com
                      */
                     email: string;
                     /**
                      * Format: password
-                     * @example yourPassword
+                     * @example password
                      */
                     password: string;
                 };
                 "application/xml": {
                     /**
                      * Format: email
-                     * @example user@example.com
+                     * @example admin.minad@mail.com
                      */
                     email: string;
                     /**
                      * Format: password
-                     * @example yourPassword
+                     * @example password
                      */
                     password: string;
                 };
@@ -913,6 +928,62 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    "53274fdcbd559258e6ec7f081c472771": {
+        parameters: {
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Order by column */
+                order_by?: "id" | "product_code" | "lot_number";
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+            };
+            header?: never;
+            path: {
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Errors fetched successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Errors fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Error_manager_corrupted_data"][];
+                    };
+                    "application/xml": {
+                        /** @example Errors fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Error_manager_corrupted_data"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
             };
         };
     };
@@ -1519,6 +1590,7 @@ export interface operations {
     "3affd2f60f651f8329274f7b8d06c203": {
         parameters: {
             query?: {
+                date?: string;
                 /** @description Maximum number of results to return */
                 limit?: number;
                 /** @description Number of items to skip (for pagination) */
