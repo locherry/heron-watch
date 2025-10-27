@@ -11,6 +11,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "translate": "node ./scripts/updateTranslation.js",
+    "swagger": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts",
     "update_api_interface": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts"
   },
   "dependencies": {
@@ -42,7 +43,7 @@
     "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "expo": "54.0.19",
+    "expo": "54.0.20",
     "expo-blur": "~15.0.7",
     "expo-camera": "~17.0.8",
     "expo-constants": "~18.0.9",
@@ -90,7 +91,7 @@
     "@types/react": "~19.1.10",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
-    "openapi-typescript": "^7.9.1",
+    "openapi-typescript": "^7.10.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.9.2"
