@@ -4,15 +4,14 @@
   "version": "0.0.0",
   "license": "UNLICENSED",
   "private": true,
-  "type": "module",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "translate": "node ./scripts/updateTranslation.js",
-    "ip_config": "node ./scripts/updateIpConfig.js",
+    "translate": "node ./scripts/updateTranslation.mjs",
+    "ip_config": "node ./scripts/updateIpConfig.mjs",
     "swagger": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts",
     "update_api_interface": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts"
   },
