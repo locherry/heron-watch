@@ -5,6 +5,7 @@ import { initReactI18next } from 'react-i18next'
 // import LanguageDetector from 'i18next-browser-languagedetector'
 
 
+import mainDE from './DE/main.json'
 import mainEN from './EN/main.json'
 import mainEU from './EU/main.json'
 import mainFR from './FR/main.json'
@@ -15,6 +16,9 @@ export const languageRessources = {
   },
   FR: {
     main: mainFR
+  },
+  DE: {
+    main: mainDE
   },
   EU: {
     main: mainEU

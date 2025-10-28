@@ -33,6 +33,7 @@ export default function LanguageSettings() {
     { value: "EN", label: "English" },
     { value: "EU", label: "Euskera" },
     { value: "FR", label: "Français" },
+    { value: "DE", label: "Deutsch" },
   ];
 
   const [selectedLanguage, setSelectedLanguage] = useState<

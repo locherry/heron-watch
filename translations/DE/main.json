@@ -1,0 +1,219 @@
+{
+  "tabBar": {
+    "home": "Startseite",
+    "admin": "admin",
+    "settings": "Einstellungen",
+    "menu": "Menü"
+  },
+  "admin": {
+    "tabName": "Verwaltungsoberfläche",
+    "users": {
+      "name": "Benutzer verwalten"
+    },
+    "product_category": {
+      "name": "Produkte verwalten"
+    },
+    "exports": {
+      "name": "Export in Tabellenkalkulation"
+    }
+  },
+  "settings": {
+    "profile": {
+      "name": "Profil",
+      "userInfo": "Benutzerinfo",
+      "deleteUser": "Benutzer löschen",
+      "userRole": {
+        "admin": "Admin-Benutzer",
+        "user": "Benutzer"
+      }
+    },
+    "language": {
+      "appLanguage": "app Sprache",
+      "name": "Sprache"
+    },
+    "legal": {
+      "name": "Rechtliche Hinweise",
+      "termsOfService": "Servicebedingungen",
+      "license": "Lizenz"
+    },
+    "appearance": {
+      "name": "Aussehen",
+      "tintColor": "Tönungsfarbe",
+      "theme": "Thema",
+      "lightTheme": "Lichtthema",
+      "darkTheme": "dunkles Thema",
+      "systemDefault": "Systemvorgabe",
+      "animations": "Animationen",
+      "fontSize": "Schriftgröße"
+    }
+  },
+  "user": {
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "username": "Nutzername",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "role": "Rolle",
+    "addUser": "Benutzer hinzufügen",
+    "admin": "admin",
+    "user": "Benutzer",
+    "logout": "Abmeldung",
+    "login": "Anmeldung"
+  },
+  "color": {
+    "raspberry": "Himbeere",
+    "ocean": "Meer",
+    "sage": "Salbei",
+    "sunny": "sonnig",
+    "rust": "Rost"
+  },
+  "actions": {
+    "1": "I Aktie",
+    "2": "Ich verkaufe",
+    "3": "I Geben",
+    "4": "I Transfer zum Geschäft",
+    "id": "id",
+    "quantity": "Menge",
+    "comment": "Kommentar",
+    "product_code": "Produktcode",
+    "lot_number": "Losnummer",
+    "created_by_id": "erstellt von",
+    "created_at": "erstellt am",
+    "action_id": "Aktion",
+    "transaction": "Transaktion",
+    "actionType": "Art der Aktion",
+    "newAction": "Neue Aktion",
+    "newActions": "Neue Aktionen",
+    "newActionsCreated": "Neue Aktionen erstellt",
+    "expirationDate": "Verfallsdatum"
+  },
+  "stocks": {
+    "id": "id",
+    "product_code": "Produktcode",
+    "lot_number": "Losnummer",
+    "quantity": "Menge",
+    "expiration_date": "Verfallsdatum",
+    "finishedProducts": "Fertigerzeugnisse",
+    "rawMaterials": "Grundstoffe",
+    "viewStocks": "Aktien ansehen",
+    "newActions": "neue Aktionen",
+    "fresh": "frisch",
+    "frozen": "gefroren",
+    "dry": "trocken",
+    "packaging": "Verpackung",
+    "cannery": "Konservenfabrik",
+    "store": "speichern",
+    "PF_G": "allgemein",
+    "PF_M": "speichern",
+    "MP_F": "frisch",
+    "MP_S": "trocken",
+    "MP_C": "gefroren",
+    "EMB": "Verpackung"
+  },
+  "product_category": {
+    "product_code": "Produktcode",
+    "product_name": "Produktname",
+    "product_specificity": "Produktspezifität",
+    "selectStockGeneralCategory": "Wählen Sie eine allgemeine Aktienkategorie",
+    "new_product": "neues Produkt"
+  },
+  "common": {
+    "view": "siehe",
+    "total": "insgesamt",
+    "open": "öffnen",
+    "goBack": "zurückgehen",
+    "exports": "Ausfuhren",
+    "user": "Benutzer",
+    "users": "Benutzer",
+    "settings": "Einstellungen",
+    "delete": "löschen",
+    "edit": "bearbeiten",
+    "save": "speichern",
+    "add": "hinzufügen.",
+    "substract": "subtrahieren.",
+    "back": "zurück",
+    "next": "nächste",
+    "done": "fertig",
+    "close": "schließen",
+    "history": "Geschichte",
+    "loading": "Laden",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "action": "Aktion",
+    "actions": "Aktionen",
+    "date": "Datum",
+    "product": "Produkt",
+    "products": "Produkte",
+    "cancel": "kündigen",
+    "OK": "OK",
+    "sell": "verkaufen",
+    "stock": "Aktie",
+    "give": "geben.",
+    "discard": "verwerfen",
+    "product_category": "Produktkategorie",
+    "submit_modifications": "Änderungen einreichen"
+  },
+  "errors": {
+    "required": "Dieses Feld ist erforderlich",
+    "invalidExpirationDate": "ungültiges Ablaufdatum, Datumsformat ist: tt-mm-jjjj z.B.: 2025-31-12",
+    "invalidQuantity": "Ungültige Menge, Menge sollte eine ganze Zahl sein",
+    "invalidProductCode": "ungültiger Produktcode, sollte mit drei Ziffern beginnen",
+    "invalidProductName": "ungültiger Produktname, muss aus Buchstaben oder Zahlen bestehen",
+    "invalidProductSpecificityPF": "muss eine Kombination von maximal 3 Buchstaben sein",
+    "invalidProductSpecificityMP": "muss ein Buchstabe sein zwischen: F (frais), C (congelé), oder S (sec)",
+    "invalidProductSpecificityEMB": "muss eine Bezeichnung zwischen \"Boite\" oder \"Couvercle\" sein",
+    "invalidLotNumber": "Ungültige Losnummer, sollte aus drei Großbuchstaben + 6 Ziffern bestehen (ddmmyy)",
+    "loginExpired": "Anmeldung verfallen",
+    "redirectToLogin": "zur Anmeldung umleiten",
+    "quantityInputRequired": "Sie müssen eine neue Menge angeben, um das Palettenblatt zu ändern"
+  },
+  "add_pallet_sheet": {
+    "add_pallet_sheet": "Palettenblatt hinzufügen",
+    "remains_to_be_placed": "bleibt zu platzieren",
+    "select_a_product": "ein Produkt auswählen",
+    "modify_existing_pallet_sheet": "bestehende Palettenblätter ändern",
+    "product_code": "Code",
+    "origin": "Herkunft",
+    "client": "Kunde",
+    "product": "Produkt",
+    "lot_number": "Losnummer",
+    "expiration_date": "Verfallsdatum",
+    "quantity": "Menge",
+    "create_sheet": "Blatt erstellen",
+    "create_qr_code": "QR-Code erstellen",
+    "alert_unable_to_create_qr": "QR-Code nicht erstellen können",
+    "alert_field_missing": "einige Felder sind leer"
+  },
+  "view_pallet_sheet": {
+    "view_pallet_sheet": "Palettenblätter ansehen"
+  },
+  "modify_pallet_sheet": {
+    "modify_existing_pallet_sheet": "bestehende Palettenblätter ändern",
+    "scan_existing_sheet": "bestehendes Blatt scannen",
+    "delete_pallet_sheet": "Palettenblatt löschen"
+  },
+  "Select a date": "Wählen Sie ein Datum",
+  "Current stock": "Aktueller Bestand",
+  "Stock as of": "Bestand zum",
+  "QR Code loaded": "QR-Code geladen",
+  "Toggle editing mode": "Bearbeitungsmodus umschalten",
+  "Total users": "Benutzer insgesamt",
+  "Total actions": "Aktionen insgesamt",
+  "Total products": "Gesamtprodukte",
+  "Please confirm": "Bitte bestätigen",
+  "Do you really want to discard the unsaved changes?": "Wollen Sie die nicht gespeicherten Änderungen wirklich verwerfen?",
+  "Do you really want to log out ?": "Wollen Sie sich wirklich abmelden?",
+  "Scan Qr code": "Qr-Code scannen",
+  "transfer to the shop": "Übergabe an das Geschäft",
+  "welcome home !": "Willkommen zu Hause!",
+  "Finished products": "Fertige Produkte",
+  "Your all in one solution for:": "Ihre All-in-One-Lösung für:",
+  "Real-Time Tracking": "Verfolgung in Echtzeit",
+  "Error management": "Fehlermanagement",
+  "Manage Errors": "Fehler verwalten",
+  "manage_pallet_sheet": "Palettenbogen verwalten",
+  "Generate a new pallet sheet": "Erzeugen eines neuen Palettenbogens",
+  "Inventory Alerts": "Inventar-Warnungen",
+  "Get right where you left :": "Machen Sie genau da weiter, wo Sie aufgehört haben:",
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Hergestellt mit ❤️ von Ellande & Aloys || Alle Rechte vorbehalten"
+}
