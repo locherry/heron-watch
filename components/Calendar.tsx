@@ -6,8 +6,7 @@ import { Platform, View } from "react-native";
 import { FullWindowOverlay as RNFullWindowOverlay } from "react-native-screens"; // Full-screen overlay for iOS
 import DateTimePicker, {
   DateType,
-  useDefaultClassNames,
-  useDefaultStyles,
+  useDefaultClassNames
 } from "react-native-ui-datepicker"; // The date picker component
 import { Button } from "~/components/ui/button"; // Assuming you have this button component
 import { Icon } from "~/components/ui/icon"; // Assuming you have this icon component
@@ -24,8 +23,9 @@ type CalendarProps = {
 };
 
 export function Calendar({ className, date, onDateChange }: CalendarProps) {
-  const [t] = useTranslation(); // Use translation hook to get translated text
-  const defaultStyles = useDefaultStyles();
+  const [t, i18n] = useTranslation(); // Use translation hook to get translated text
+  const locale = i18n.language.toLowerCase()
+
   const defaultClassNames = useDefaultClassNames();
   const [isPickerVisible, setPickerVisible] = React.useState(false); // Visibility state for the picker
   const buttonRef = React.useRef<View>(null); // Reference to button to track position
@@ -91,6 +91,7 @@ export function Calendar({ className, date, onDateChange }: CalendarProps) {
                 //https://github.com/farhoudshapouran/react-native-ui-datepicker
                 mode="single"
                 date={date}
+                locale={locale}
                 onChange={handleDateChange}
                 showOutsideDays={true}
                 className={cn(
