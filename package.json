@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "license": "UNLICENSED",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -89,6 +90,7 @@
     "@babel/core": "^7.25.2",
     "@types/pdfmake": "^0.2.11",
     "@types/react": "~19.1.10",
+    "axios": "^1.13.1",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "openapi-typescript": "^7.10.1",

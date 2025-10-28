@@ -1,13 +1,13 @@
-import { devConfig } from '@/devEnvConfig';
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { devEnvConfig } from '../devEnvConfig.env.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DEEPLE_API_KEY = devConfig.DEEPLE_API_KEY
+const DEEPLE_API_KEY = devEnvConfig.DEEPLE_API_KEY
 
 const translationDir = path.resolve(__dirname, '../translations')
 
