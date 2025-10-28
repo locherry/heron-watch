@@ -2,7 +2,7 @@
   "expo": {
     "name": "heron-watch",
     "slug": "heron-watch",
-    "version": "1.0.0",
+    "version": "0.0.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "heronwatch",

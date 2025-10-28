@@ -192,6 +192,9 @@
     "scan_existing_sheet" : "scan existing sheet",
     "delete_pallet_sheet" : "delete pallet sheet"
   },
+  "Select a date": "Select a date",
+  "Current stock": "Current stock",
+  "Stock as of": "Stock as of",
   "QR Code loaded": "QR Code loaded",
   "Toggle editing mode": "Toggle editing mode",
   "Total users": "Total users",
