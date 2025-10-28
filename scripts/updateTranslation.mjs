@@ -1,13 +1,13 @@
 import axios from 'axios';
+import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { devEnvConfig } from '../devEnvConfig.env';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DEEPLE_API_KEY = devEnvConfig.DEEPLE_API_KEY
+const DEEPLE_API_KEY = process.env.EXPO_PUBLIC_DEEPLE_API_KEY
 
 const translationDir = path.resolve(__dirname, '../translations')
 

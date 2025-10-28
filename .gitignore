@@ -40,3 +40,4 @@ app-example
 
 # environment files
 *.env.*
+.env

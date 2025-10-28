@@ -93,6 +93,8 @@
     "@types/pdfmake": "^0.2.11",
     "@types/react": "~19.1.10",
     "axios": "^1.13.1",
+    "dotenv": "^17.2.3",
+    "eas-cli": "^16.25.1",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "openapi-typescript": "^7.10.1",

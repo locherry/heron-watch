@@ -13,12 +13,14 @@ import {
   ApiRequestParams,
   ApiResponse,
 } from "~/@types/api";
-import { devEnvConfig } from "~/devEnvConfig.env";
 import { SecureStorage } from "./classes/SecureStorage";
 import { capitalizeFirst } from "./utils";
 
 // Base URL for API requests
-const endpoint = `http://${devEnvConfig.ip}`;
+
+console.log(process.env)
+
+const endpoint = `http://${process.env.EXPO_PUBLIC_SERVER_IP}`;
 
 // List of API routes that do not require JWT authentication
 // Due to limitation in openapi-typescript

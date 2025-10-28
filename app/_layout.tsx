@@ -1,6 +1,4 @@
-import {
-  ThemeProvider
-} from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
@@ -105,7 +103,9 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         {/* Provide navigation theme based on current color scheme */}
-        <ThemeProvider value={colorScheme == "dark" ? NAV_THEME.dark : NAV_THEME.light}>
+        <ThemeProvider
+          value={colorScheme == "dark" ? NAV_THEME.dark : NAV_THEME.light}
+        >
           {/* Render the navigation stack with header hidden */}
           <Stack screenOptions={{ headerShown: false }} />
           {/* PortalHost allows modals, tooltips, and other portals to render above */}
