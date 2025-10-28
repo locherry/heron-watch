@@ -12,6 +12,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "translate": "node ./scripts/updateTranslation.js",
+    "ip_config": "node ./scripts/updateIpConfig.js",
     "swagger": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts",
     "update_api_interface": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts"
   },
