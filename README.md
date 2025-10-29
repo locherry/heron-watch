@@ -22,6 +22,15 @@ Heron Watch is a React Native / Expo Router based application focused on providi
    git clone https://github.com/locherry/heron-watch.git
    cd heron-watch
 
+## Deployment
+1. Mobile:
+    ```bash
+    npx eas build -p android --profile preview
+
+2. Web:
+    ```bash
+    npx eas deploy
+
 ## Project Structure
 
 - **[/app](./app):** Contains routing and layout files following [Expo Router](https://expo.github.io/router/docs) conventions.
