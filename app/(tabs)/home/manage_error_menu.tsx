@@ -1,0 +1,48 @@
+import { useLocalSearchParams } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import { StockCategory } from "~/@types/stock";
+import Header from "~/components/Header";
+import RootView from "~/components/layout/RootView";
+import { ErrorsAccordion } from "~/components/table/ErrorsAccordion";
+import { Text } from "~/components/ui/text";
+import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
+import { capitalizeFirst } from "~/lib/utils";
+
+export default function ErrorMenu() {
+    const [t] = useTranslation();
+    const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
+    const { stockCategory = "PF_G" } = rawParams as {
+        stockCategory?: StockCategory;
+    };
+
+    //Fetch different products
+    const {data, isLoading, isError} = useFetchQuery(
+        "/errorsManager/{stock_category}",
+        "get",
+        {
+            path : {stock_category : stockCategory},
+            query : {
+                required_elts : ["product_code"],
+                distinct : true,
+            }
+        }
+    )
+    return (
+        <RootView>
+            <Header 
+                title={capitalizeFirst(t("error_management_menu.title"))}
+                className="mb-4"
+            />
+            <View className="">
+                <Text variant={"h4"} className="text-center">
+                    {capitalizeFirst(t("error_management_menu.kown_errors"))}
+                </Text>
+            </View>
+            <ErrorsAccordion
+            data = {data?.data}
+            stockCategory={stockCategory}
+            />
+        </RootView>
+    );
+}

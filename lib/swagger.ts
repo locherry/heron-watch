@@ -63,8 +63,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get all known errors, specific to a stock category */
-        get: operations["53274fdcbd559258e6ec7f081c472771"];
+        get?: never;
         put?: never;
         post?: never;
         delete?: never;
@@ -106,6 +105,40 @@ export interface paths {
         head?: never;
         /** Correct wrong expiration_date */
         patch: operations["f3767d2b95e3d9782fd7d64dae6a3cb7"];
+        trace?: never;
+    };
+    "/errorsManager/{stock_category}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all known errors, specific to a stock category */
+        get: operations["19a26d65d36aef8861a50d4e0046f618"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/errors_and_quantities/{stock_category}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all known errors, specific to a stock category, with their actual quantity in stock */
+        get: operations["4ed90574a84499604f4752508d514d14"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/productCategory/{stock_global_category}": {
@@ -363,6 +396,23 @@ export interface components {
             /** @example GDE | F | Boite */
             product_specificity?: string;
         };
+        Known_errors: {
+            /**
+             * @description id of known error, given by database
+             * @example 4
+             */
+            id: number;
+            /**
+             * @description Code produit
+             * @example 309
+             */
+            product_code: string;
+            /**
+             * @description Numéro de lot
+             * @example GDE050528
+             */
+            lot_number: string;
+        };
         /**
          * @example [
          *       "id",
@@ -373,6 +423,14 @@ export interface components {
          *     ]
          */
         stock_selected_elts: string[];
+        /**
+         * @example [
+         *       "id",
+         *       "product_code",
+         *       "lot_number"
+         *     ]
+         */
+        known_errors_selected_elts: string[];
         /**
          * @example [
          *       "product_code",
@@ -423,6 +481,40 @@ export interface components {
              * @example 2028-05-05
              */
             expiration_date?: string;
+        };
+        known_errors_filter_params: {
+            /**
+             * @description id of known error, given by database
+             * @example 4
+             */
+            id?: number;
+            /**
+             * @description Code produit
+             * @example 309
+             */
+            product_code?: string;
+            /**
+             * @description Numéro de lot
+             * @example GDE050528
+             */
+            lot_number?: string;
+        };
+        known_errors_quantities_filter_params: {
+            /**
+             * @description Code produit
+             * @example 309
+             */
+            product_code?: string;
+            /**
+             * @description Numéro de lot
+             * @example GDE050528
+             */
+            lot_number?: string;
+            /**
+             * @description Quantité
+             * @example -43
+             */
+            quantity?: number;
         };
         filter_params_PC: {
             /**
@@ -931,62 +1023,6 @@ export interface operations {
             };
         };
     };
-    "53274fdcbd559258e6ec7f081c472771": {
-        parameters: {
-            query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "id" | "product_code" | "lot_number";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-            };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Errors fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Errors fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Error_manager_corrupted_data"][];
-                    };
-                    "application/xml": {
-                        /** @example Errors fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Error_manager_corrupted_data"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
     ad26345d7319f72aa2ba8872e27fc3c7: {
         parameters: {
             query?: never;
@@ -1114,6 +1150,128 @@ export interface operations {
                     "application/json": {
                         /** @example Expiration date updated successfuly */
                         message?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "19a26d65d36aef8861a50d4e0046f618": {
+        parameters: {
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Order by column */
+                order_by?: "id" | "product_code" | "lot_number";
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+                /** @description Filter value that appeared multiple times */
+                distinct?: boolean;
+                /** @description Select which data we want to fetch */
+                required_elts?: components["schemas"]["known_errors_selected_elts"];
+                /** @description Add conditions in where clause to filter data */
+                filter_params?: components["schemas"]["known_errors_filter_params"];
+            };
+            header?: never;
+            path: {
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Errors fetched successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Errors fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Error_manager_corrupted_data"][];
+                    };
+                    "application/xml": {
+                        /** @example Errors fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Error_manager_corrupted_data"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
+    "4ed90574a84499604f4752508d514d14": {
+        parameters: {
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Order by column */
+                order_by?: "product_code" | "lot_number" | "quantity";
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+                /** @description Filter value that appeared multiple times */
+                distinct?: boolean;
+                /** @description Add conditions in where clause to filter data */
+                filter_params?: components["schemas"]["known_errors_quantities_filter_params"];
+            };
+            header?: never;
+            path: {
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Errors fetched successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Errors fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Error_manager_corrupted_data"][];
+                    };
+                    "application/xml": {
+                        /** @example Errors fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Error_manager_corrupted_data"][];
                     };
                 };
             };

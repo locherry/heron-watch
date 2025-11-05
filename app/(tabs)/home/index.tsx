@@ -157,8 +157,8 @@ export default function MaterialTabsExample() {
                   {capitalizeFirst(
                     t(
                       ("stocks." + tab.name) as
-                        | "stocks.cannery"
-                        | "stocks.store"
+                      | "stocks.cannery"
+                      | "stocks.store"
                     )
                   )}
                 </Text>
@@ -192,9 +192,16 @@ export default function MaterialTabsExample() {
             {capitalizeFirst(t("actions.newActions"))}
           </Button>
         </Link>
-        <Button icon={ServerCrash} variant="outline">
-          {t("Manage Errors")}
-        </Button>
+        <Link
+          href={{
+            pathname: "/home/manage_error_menu",
+            params: { stockCategory: currentStockCategory[currentStockType] }
+          }}
+          asChild>
+          <Button icon={ServerCrash} variant="outline">
+            {t("Manage Errors")}
+          </Button>
+        </Link>
         <Link
           href={{
             pathname: "/home/manage_pallet_sheet",
