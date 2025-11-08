@@ -83,7 +83,10 @@ export function Calendar({ className, date, onDateChange }: CalendarProps) {
                 position: "absolute",
                 left: buttonPosition.x, // Align to left of the button
                 top: buttonPosition.y + buttonPosition.height + 8, // Place just below the button
-                right: buttonPosition.x , // Align right edge
+                ...Platform.select({
+                  web:{}, 
+                  default:{ right: buttonPosition.x} // For non-web platforms, align to the right 
+                })
               }}
             >
               {/* DateTimePicker component */}
@@ -95,7 +98,7 @@ export function Calendar({ className, date, onDateChange }: CalendarProps) {
                 onChange={handleDateChange}
                 showOutsideDays={true}
                 className={cn(
-                  "bg-background rounded-sm",
+                  "bg-background rounded-sm p-2",
                   "border-border bg-background dark:border-input border shadow-sm shadow-black/5"
                 )}
                 classNames={{
