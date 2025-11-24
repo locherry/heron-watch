@@ -39,10 +39,12 @@ export default function ErrorMenu() {
                     {capitalizeFirst(t("error_management_menu.kown_errors"))}
                 </Text>
             </View>
-            <ErrorsAccordion
-            data = {data?.data}
-            stockCategory={stockCategory}
-            />
+            <View className="border-2 rounded-xl border-[hsl(var(--border))]">
+                <ErrorsAccordion
+                data = {data?.data}
+                stockCategory={stockCategory}
+                />
+            </View>
         </RootView>
     );
 }

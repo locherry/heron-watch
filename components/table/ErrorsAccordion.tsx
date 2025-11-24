@@ -9,19 +9,21 @@ import { FlatList } from "react-native";
 import { StockCategory } from '~/@types/stock';
 import { ErrorsTable } from '~/components/table/ErrorsTable';
 import { capitalizeFirst } from '~/lib/utils';
+import { Separator } from '../ui/separator';
 import { Text } from '../ui/text';
-export function ErrorsAccordion({data, stockCategory} : {data : {product_code? : string | undefined}[] | undefined, stockCategory : StockCategory}) {
+export function ErrorsAccordion({data, stockCategory, className} : {data : {product_code? : string | undefined}[] | undefined, stockCategory : StockCategory, className? : string}) {
     const [t] = useTranslation();
     //We get actual stock category
 
     return (
-        <Accordion type="single" className='w-full' defaultValue="item-1">
+        <Accordion type="single" defaultValue="item-1" collapsible={true}>
             <FlatList 
             data = {data}
             keyExtractor={(item) => (item.product_code ?? "1")}
             renderItem = {({item, index}) => (
+                <>
                 <AccordionItem value={"item-".concat(String(index))}>
-                    <AccordionTrigger>
+                    <AccordionTrigger className='mx-10' >
                         <Text>
                             {capitalizeFirst(item.product_code ?? t("error_management_menu.not_found"))}
                         </Text>
@@ -33,6 +35,8 @@ export function ErrorsAccordion({data, stockCategory} : {data : {product_code? :
                         />
                     </AccordionContent>
                 </AccordionItem>
+                <Separator />
+                </> 
             )}
             />
         </Accordion>
