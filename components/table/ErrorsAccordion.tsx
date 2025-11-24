@@ -15,6 +15,9 @@ export function ErrorsAccordion({data, stockCategory, className} : {data : {prod
     const [t] = useTranslation();
     //We get actual stock category
 
+    //Count number of displayed items to disable separator when we arrive at the end
+    const nb_items = data?.length ?? 0;
+    console.log(nb_items);
     return (
         <Accordion type="single" defaultValue="item-1" collapsible={true}>
             <FlatList 
@@ -35,7 +38,7 @@ export function ErrorsAccordion({data, stockCategory, className} : {data : {prod
                         />
                     </AccordionContent>
                 </AccordionItem>
-                <Separator />
+                {index != nb_items - 1 ? <Separator /> : <></>}
                 </> 
             )}
             />

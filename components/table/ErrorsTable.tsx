@@ -44,6 +44,7 @@ export function ErrorsTable({product_code, stockCategory} : {product_code : stri
                 <BaseTable
                 data = {data?.data as BaseTableProps<KnownErrorsTable>["data"]?? []}
                 columns={columns}
+                features={{sorting : false, edition : true}}
                 />
             )
             }
