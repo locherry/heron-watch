@@ -19,6 +19,8 @@ export function BaseTable<T>({
   onDelete,
   onEdit,
   features = { sorting: false, edition: false },
+  fixedWidth,
+  onPress,
   ...props
 }: BaseTableProps<T>) {
   const [t] = useTranslation();
@@ -28,8 +30,11 @@ export function BaseTable<T>({
     columns,
     ...props,
   });
-
-  const columnWidths = useColumnWidths({ columns });
+  let columnWidths = useColumnWidths({columns});
+  if (fixedWidth) {
+    const count = columns.length;
+    columnWidths = Array(count).fill(0).map(() => Math.max(140, fixedWidth / count))
+  }
 
   const renderHeader = () => (
     <View className="flex-row border-b border-border bg-background">
@@ -63,6 +68,7 @@ export function BaseTable<T>({
   );
 
   const renderRow = ({ item, index }: { item: any; index: number }) => (
+  <Pressable onPress={onPress}> 
     <View
       className={cn(
         "flex-row",
@@ -101,6 +107,7 @@ export function BaseTable<T>({
         </View>
       )}
     </View>
+  </Pressable>
   );
 
   return (

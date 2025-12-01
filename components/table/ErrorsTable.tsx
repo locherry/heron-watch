@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { useState, } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, LayoutChangeEvent, View } from "react-native";
 import { KnownErrorsTable } from "~/@types/ErrorManager";
 import { StockCategory } from "~/@types/stock";
 import { BaseTableProps } from "~/@types/table";
@@ -10,7 +11,11 @@ import { BaseTable } from "./BaseTable";
 
 
 export function ErrorsTable({product_code, stockCategory} : {product_code : string | undefined, stockCategory : StockCategory}) {
+    const [fixedWidth, setFixedWidth] = useState<undefined|number>(undefined);
     const [t] = useTranslation();
+    const handleLayout = (event : LayoutChangeEvent) => {
+        setFixedWidth(event.nativeEvent.layout.width);
+    }
     const {data, isLoading, isError} = useFetchQuery(
         "/errors_and_quantities/{stock_category}",
         "get",
@@ -37,14 +42,14 @@ export function ErrorsTable({product_code, stockCategory} : {product_code : stri
         }
     ];
     return (
-        <View>
+        <View onLayout={handleLayout}>
             {isLoading ? (
                 <ActivityIndicator />
             ) : (
                 <BaseTable
                 data = {data?.data as BaseTableProps<KnownErrorsTable>["data"]?? []}
                 columns={columns}
-                features={{sorting : false, edition : true}}
+                fixedWidth={fixedWidth}
                 />
             )
             }

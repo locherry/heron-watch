@@ -20,4 +20,6 @@ export interface BaseTableProps<T> extends ViewProps {
   onDelete?: (item: T) => void;
   fetchNextPage?: () => void;
   className?: string;
+  fixedWidth? : number;
+  onPress? : () => void;
 }
