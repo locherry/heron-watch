@@ -20,7 +20,7 @@ export function BaseTable<T>({
   onEdit,
   features = { sorting: false, edition: false },
   fixedWidth,
-  onPress,
+  onPress = () => {},
   ...props
 }: BaseTableProps<T>) {
   const [t] = useTranslation();
@@ -68,7 +68,7 @@ export function BaseTable<T>({
   );
 
   const renderRow = ({ item, index }: { item: any; index: number }) => (
-  <Pressable onPress={onPress}> 
+  <Pressable onPress={() => onPress(item.product_code, item.lot_number)}> 
     <View
       className={cn(
         "flex-row",

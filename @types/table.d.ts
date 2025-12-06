@@ -21,5 +21,5 @@ export interface BaseTableProps<T> extends ViewProps {
   fetchNextPage?: () => void;
   className?: string;
   fixedWidth? : number;
-  onPress? : () => void;
+  onPress? : (...args : any[]) => void;
 }

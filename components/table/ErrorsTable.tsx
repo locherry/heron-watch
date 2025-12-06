@@ -1,4 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { useRouter } from "expo-router";
 import { useState, } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, LayoutChangeEvent, View } from "react-native";
@@ -13,6 +14,14 @@ import { BaseTable } from "./BaseTable";
 export function ErrorsTable({product_code, stockCategory} : {product_code : string | undefined, stockCategory : StockCategory}) {
     const [fixedWidth, setFixedWidth] = useState<undefined|number>(undefined);
     const [t] = useTranslation();
+    const router = useRouter();
+    //Define call back to navigate to the correct page after clicking on a row
+    const onPress = (product_code : string, lot_number : string) => {
+        router.push({
+            pathname : "/home/specific_product_error_management",
+            params : {product_code : product_code, lot_number : lot_number}
+        })
+    }
     const handleLayout = (event : LayoutChangeEvent) => {
         setFixedWidth(event.nativeEvent.layout.width);
     }
@@ -50,6 +59,7 @@ export function ErrorsTable({product_code, stockCategory} : {product_code : stri
                 data = {data?.data as BaseTableProps<KnownErrorsTable>["data"]?? []}
                 columns={columns}
                 fixedWidth={fixedWidth}
+                onPress = {onPress}
                 />
             )
             }

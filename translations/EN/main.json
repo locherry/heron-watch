@@ -195,7 +195,8 @@
     "error_management_menu" : {
     "title" : "Error Management",
     "kown_errors" : "Known Errors", 
-    "not_found" : "Not Found"
+    "not_found" : "Not Found",
+    "resolve_error" : "Resolve Error"
   },
   "Select a date": "Select a date",
   "Current stock": "Current stock",
