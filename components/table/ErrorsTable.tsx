@@ -19,7 +19,7 @@ export function ErrorsTable({product_code, stockCategory} : {product_code : stri
     const onPress = (product_code : string, lot_number : string) => {
         router.push({
             pathname : "/home/specific_product_error_management",
-            params : {product_code : product_code, lot_number : lot_number}
+            params : {product_code : product_code, lot_number : lot_number, stock_category : stockCategory}
         })
     }
     const handleLayout = (event : LayoutChangeEvent) => {

@@ -426,6 +426,20 @@ export interface components {
         /**
          * @example [
          *       "id",
+         *       "quantity",
+         *       "comment",
+         *       "product_code",
+         *       "lot_number",
+         *       "created_by_id",
+         *       "created_at",
+         *       "transaction",
+         *       "action_id"
+         *     ]
+         */
+        actions_selected_elts: string[];
+        /**
+         * @example [
+         *       "id",
          *       "product_code",
          *       "lot_number"
          *     ]
@@ -481,6 +495,44 @@ export interface components {
              * @example 2028-05-05
              */
             expiration_date?: string;
+        };
+        actions_filter_params: {
+            /**
+             * @description Code produit
+             * @example 309
+             */
+            product_code?: string;
+            /**
+             * @description Numéro de lot
+             * @example GDE050528
+             */
+            lot_number?: string;
+            /**
+             * @description Quantité
+             * @example 43
+             */
+            quantity?: number;
+            /**
+             * @description Identifiant du créateur de l'action
+             * @example 3
+             */
+            created_by_id?: number;
+            /**
+             * Format: date
+             * @description Date de création de l'action
+             * @example 2023-08-09 13:43:22
+             */
+            created_at?: string;
+            /**
+             * @description Entité avec qui l'action est en rapport (dépend du contexte)
+             * @example 20222
+             */
+            transaction?: string;
+            /**
+             * @description Identifiant du type d'action (vente, stock...)
+             * @example 1
+             */
+            action_id?: number;
         };
         known_errors_filter_params: {
             /**
@@ -731,6 +783,12 @@ export interface operations {
                 order_by?: "created_at" | "created_by_id" | "id" | "comment" | "lot_number" | "product_code" | "action_id" | "quantity" | "transaction";
                 /** @description Sort order: asc or desc */
                 sort?: "asc" | "desc";
+                /** @description Filter value that appeared multiple times */
+                distinct?: boolean;
+                /** @description Select which data we want to fetch */
+                required_elts?: components["schemas"]["actions_selected_elts"];
+                /** @description Add conditions in where clause to filter data */
+                filter_params?: components["schemas"]["actions_filter_params"];
             };
             header?: never;
             path: {
