@@ -192,11 +192,12 @@
     "scan_existing_sheet" : "scan existing sheet",
     "delete_pallet_sheet" : "delete pallet sheet"
   },
-    "error_management_menu" : {
+  "error_management_menu" : {
     "title" : "Error Management",
     "kown_errors" : "Known Errors", 
     "not_found" : "Not Found",
-    "resolve_error" : "Resolve Error"
+    "resolve_error" : "Resolve Error",
+    "list_actions_wrong_product" : "List of all actions that concerns the product"
   },
   "Select a date": "Select a date",
   "Current stock": "Current stock",

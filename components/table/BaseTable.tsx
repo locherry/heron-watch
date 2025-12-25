@@ -68,7 +68,7 @@ export function BaseTable<T>({
   );
 
   const renderRow = ({ item, index }: { item: any; index: number }) => (
-  <Pressable onPress={() => onPress(item.product_code, item.lot_number)}> 
+  <Pressable onPress={() => {onPress(item.original.product_code, item.original.lot_number)}}> 
     <View
       className={cn(
         "flex-row",
@@ -109,7 +109,6 @@ export function BaseTable<T>({
     </View>
   </Pressable>
   );
-
   return (
     <View className={cn("flex-1", className)}>
       <ScrollView horizontal>

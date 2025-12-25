@@ -255,7 +255,6 @@ export default function add_pallet_sheet() {
     }
   }, [alreadyPlacedQuantity]);
 
-  console.log(Array.isArray(stockData));
   return (
     <RootView
       disableInsets={{ left: true}}
