@@ -193,11 +193,12 @@
     "delete_pallet_sheet" : "delete pallet sheet"
   },
   "error_management_menu" : {
-    "title" : "Error Management",
-    "kown_errors" : "Known Errors", 
-    "not_found" : "Not Found",
-    "resolve_error" : "Resolve Error",
-    "list_actions_wrong_product" : "List of all actions that concerns the product"
+    "title" : "error management",
+    "kown_errors" : "known errors", 
+    "not_found" : "not found",
+    "resolve_error" : "resolve error",
+    "list_actions_wrong_product" : "list of all actions that concerns the product",
+    "new_quantity_after_update" : "new quantity after update :"
   },
   "Select a date": "Select a date",
   "Current stock": "Current stock",

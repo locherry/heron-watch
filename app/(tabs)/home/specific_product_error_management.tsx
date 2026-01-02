@@ -2,10 +2,12 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, LayoutChangeEvent, TextInput, useWindowDimensions, View } from "react-native";
+import { FlatList, LayoutChangeEvent, useWindowDimensions, View } from "react-native";
 import { StockCategory } from "~/@types/stock";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
+import Row from "~/components/layout/Row";
+import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
@@ -25,8 +27,11 @@ export default function App() {
             }
         }
     );
-    const [errorListDimension, setErrorListDimension] = useState<undefined | number>(undefined)
+    const [errorListDimension, setErrorListDimension] = useState<undefined | number>(undefined);
     const [errorsInput, setErrorsInput] = useState<{[id : number] : number}>({});
+    const [textInput, setTextInput] = useState<{[id : number] : [string, boolean]} | undefined>(undefined);
+    const [totalStockQuantity, setTotalStockQuantity] = useState<number>(0);
+
     //Array to stock all error's inputs
     useEffect(() => {
         setErrorsInput(previousState => {
@@ -39,8 +44,50 @@ export default function App() {
             return newTab;
         })
     }, [data])
+    useEffect(() => {
+        let newStockQuantity : number = 0;
+        for (var value in errorsInput) {
+            if (errorsInput) {
+                if (errorsInput[value]) {
+                    if (errorsInput[value]?.toString() == "-") {
+                        newStockQuantity += 0;
+                    } else {
+                        newStockQuantity += Number(errorsInput[value]);
+                    }
+                } else {
+                    newStockQuantity += 0;
+                }
+            } else {
+                newStockQuantity += 0;
+            }
+        }
+        setTotalStockQuantity(newStockQuantity);
+    }, [errorsInput])
     const handleLayout = (nativeEvent : LayoutChangeEvent) => {
         setErrorListDimension(nativeEvent.nativeEvent.layout.width)
+    }
+    const handleTypeInput = (text : string) : boolean => {
+        //Apply regexp
+        let number_pattern : RegExp = /^-?\d+$/;
+        let just_negative : RegExp = /^-?$/
+        if (number_pattern.test(text) || just_negative.test(text)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    const handleDataFormating = (data : string) : string => {
+        let dataFormated : Date = new Date(data);
+        const formatter = new Intl.DateTimeFormat('fr-FR', {
+            day : '2-digit',
+            month : '2-digit',
+            year : 'numeric',
+            hour : '2-digit',
+            minute : '2-digit',
+            second : '2-digit'
+        })
+
+        return formatter.format(dataFormated);
     }
     const renderItem = ({item, index} : {item : any, index : number}) => (
         <View
@@ -51,47 +98,62 @@ export default function App() {
             )}
             onLayout={handleLayout}>
                 <Text>
-                    {item.created_at}
+                    {handleDataFormating(item.created_at)}
                 </Text>
                 <Text>
                     {item.created_by_id}
                 </Text>
-                <TextInput
-                    className="text-center text-xl"
-                    defaultValue={errorsInput[index]?.toString()}
+                <Input
+                    className={cn("text-xl text-center", (textInput ? textInput[index] ? !textInput[index][1] ? "border-destructive" : "" : "" : ""))}
+                    style={{width : (errorListDimension ?? 0) / 6}}
+                    value={textInput ? textInput[index] ? textInput[index][0] : errorsInput[index]?.toString() : errorsInput[index]?.toString()}
                     onChangeText={(text) => {
-                        const newTab = {...errorsInput};
-                        newTab[index] = Number(text);
-                        setErrorsInput(previousState => newTab);
+                        if (handleTypeInput(text)) {
+                            //Change de previous correct text
+                            const newTextInput = {...textInput};
+                            newTextInput[index] = [text, true];
+                            setTextInput(newTextInput);
+
+                            //Change inputs to the new corrects one, and calculate the new stock quantity displayed.
+                            const newTab = {...errorsInput};
+                            newTab[index] = Number(text);
+                            setErrorsInput(previousState => newTab);
+                        } else {
+                            const newTextInput = {...textInput};
+                            if (newTextInput[index]) {
+                                newTextInput[index][1] = false;
+                            }
+
+                            setTextInput(newTextInput);                            
+                        }
                     }}
-                    inputMode="numeric"
+                    keyboardType="numeric"
                 />
 
         </View>
     );
-    console.log(lot_number);
     return (
         <RootView>
             <Header
             title = {capitalizeFirst(t("error_management_menu.resolve_error"))}
             className="mb4"
             />
-            <View className="mr-20 ml-20">
+            <View className="mr-5 ml-5">
                 <Text variant={"h2"} className="flex justify-center">
                     {capitalizeFirst(t("error_management_menu.list_actions_wrong_product"))}
                 </Text>
+                <View className="flex-row justify-around items-center">
+                    <Text variant={"h4"} className="p-2">
+                        {capitalizeFirst(t("actions.created_at"))}
+                    </Text>
+                    <Text variant={"h4"} className="p-2">
+                        {capitalizeFirst(t("actions.created_by_id"))}
+                    </Text>
+                    <Text variant={"h4"} className="p-2">
+                        {capitalizeFirst(t("actions.quantity"))}
+                    </Text>
+                </View>
                 <View>
-                    <View className="flex-row justify-around items-center">
-                        <Text variant={"h4"} className="p-2">
-                            Creation date
-                        </Text>
-                        <Text variant={"h4"} className="p-2">
-                            User
-                        </Text>
-                        <Text variant={"h4"} className="p-2">
-                            Creation date
-                        </Text>
-                    </View>
                     <FlatList
                         data={data?.data}
                         keyExtractor={(row) => (row.id.toString())}
@@ -100,9 +162,15 @@ export default function App() {
                 </View>
             </View>
             <View className="items-center mt-20">
-                <Text variant={"h3"}>
-                    A faire : val stock actuel
-                </Text>
+                <Row>
+                    <Text variant={"h3"}>
+                        {capitalizeFirst(t("error_management_menu.new_quantity_after_update"))}
+                    </Text>
+                    <Text variant={"h3"} className="m-2 border-2 rounded-xl p-1 border-[hsl(var(--border))]">
+                        {totalStockQuantity}
+                    </Text>
+                </Row>
+
             </View>
         </RootView>
     );
