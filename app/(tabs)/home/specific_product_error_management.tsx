@@ -18,12 +18,13 @@ export default function App() {
     const dimensions = useWindowDimensions();
     const {product_code, lot_number, stock_category} = specificProduct as {product_code : string, lot_number : string, stock_category : StockCategory};
     const {data, isLoading, isError} = useFetchQuery(
-        "/actions/{stock_category}",
+        "/actions_and_users/{stock_category}",
         "get", 
         {
             path : {stock_category : stock_category},
             query : {
-                filter_params : {product_code : product_code, lot_number : lot_number}
+                filter_params : {product_code : product_code, lot_number : lot_number},
+                required_elts : ["id", "first_name", "last_name", "quantity", "created_at"]
             }
         }
     );
@@ -31,7 +32,6 @@ export default function App() {
     const [errorsInput, setErrorsInput] = useState<{[id : number] : number}>({});
     const [textInput, setTextInput] = useState<{[id : number] : [string, boolean]} | undefined>(undefined);
     const [totalStockQuantity, setTotalStockQuantity] = useState<number>(0);
-
     //Array to stock all error's inputs
     useEffect(() => {
         setErrorsInput(previousState => {
@@ -43,6 +43,7 @@ export default function App() {
             }
             return newTab;
         })
+        console.log(data);
     }, [data])
     useEffect(() => {
         let newStockQuantity : number = 0;
@@ -101,7 +102,7 @@ export default function App() {
                     {handleDataFormating(item.created_at)}
                 </Text>
                 <Text>
-                    {item.created_by_id}
+                    {capitalizeFirst(item.first_name) + " " + capitalizeFirst(item.last_name)}
                 </Text>
                 <Input
                     className={cn("text-xl text-center", (textInput ? textInput[index] ? !textInput[index][1] ? "border-destructive" : "" : "" : ""))}

@@ -61,7 +61,7 @@ export default function LoginScreen() {
       console.log("login successfull");
       const userInfo = loginData.data.user_info;
       const userSession = {
-        id: userInfo?.id,
+        id: userInfo?.user_id,
         username: userInfo?.username,
         firstName: userInfo?.first_name,
         lastName: userInfo?.last_name,

@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/actions_and_users/{stock_category}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all actions, specific to a stock category, with users infos */
+        get: operations["86e64a4131204bb66d918ef847fc3367"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/actions/{stock_category}": {
         parameters: {
             query?: never;
@@ -322,7 +339,7 @@ export interface components {
     schemas: {
         User: {
             /** @example 1 */
-            id: number;
+            user_id: number;
             /** @example John */
             first_name: string;
             /** @example Doe */
@@ -440,6 +457,23 @@ export interface components {
         /**
          * @example [
          *       "id",
+         *       "quantity",
+         *       "comment",
+         *       "product_code",
+         *       "lot_number",
+         *       "created_by_id",
+         *       "created_at",
+         *       "transaction",
+         *       "action_id",
+         *       "user_id",
+         *       "first_name",
+         *       "last_name"
+         *     ]
+         */
+        actions_and_user_selected_elts: string[];
+        /**
+         * @example [
+         *       "id",
          *       "product_code",
          *       "lot_number"
          *     ]
@@ -533,6 +567,59 @@ export interface components {
              * @example 1
              */
             action_id?: number;
+        };
+        actions_and_user_filter_params: {
+            /**
+             * @description Code produit
+             * @example 309
+             */
+            product_code?: string;
+            /**
+             * @description Numéro de lot
+             * @example GDE050528
+             */
+            lot_number?: string;
+            /**
+             * @description Quantité
+             * @example 43
+             */
+            quantity?: number;
+            /**
+             * @description Identifiant du créateur de l'action
+             * @example 3
+             */
+            created_by_id?: number;
+            /**
+             * Format: date
+             * @description Date de création de l'action
+             * @example 2023-08-09 13:43:22
+             */
+            created_at?: string;
+            /**
+             * @description Entité avec qui l'action est en rapport (dépend du contexte)
+             * @example 20222
+             */
+            transaction?: string;
+            /**
+             * @description Identifiant du type d'action (vente, stock...)
+             * @example 1
+             */
+            action_id?: number;
+            /**
+             * @description Identifiant de l'utilisateur
+             * @example 1
+             */
+            user_id?: Record<string, never>;
+            /**
+             * @description Nom de l'utilisateur
+             * @example Dupond
+             */
+            first_name?: string;
+            /**
+             * @description Prénom de l'utilisateur
+             * @example Michel
+             */
+            last_name?: string;
         };
         known_errors_filter_params: {
             /**
@@ -772,6 +859,68 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    "86e64a4131204bb66d918ef847fc3367": {
+        parameters: {
+            query?: {
+                /** @description Maximum number of results to return */
+                limit?: number;
+                /** @description Number of items to skip (for pagination) */
+                offset?: number;
+                /** @description Order by column */
+                order_by?: "created_at" | "created_by_id" | "id" | "comment" | "lot_number" | "product_code" | "action_id" | "quantity" | "transaction" | "first_name" | "last_name" | "user_id";
+                /** @description Sort order: asc or desc */
+                sort?: "asc" | "desc";
+                /** @description Filter value that appeared multiple times */
+                distinct?: boolean;
+                /** @description Select which data we want to fetch */
+                required_elts?: components["schemas"]["actions_and_user_selected_elts"];
+                /** @description Add conditions in where clause to filter data */
+                filter_params?: components["schemas"]["actions_and_user_filter_params"];
+            };
+            header?: never;
+            path: {
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Actions fetched successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Actions fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Action"][];
+                    };
+                    "application/xml": {
+                        /** @example Actions fetched successfully */
+                        message?: string;
+                        data?: components["schemas"]["Action"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                    "application/xml": {
+                        /** @example Unauthorized */
+                        error?: string;
+                    };
+                };
+            };
+        };
+    };
     "331b62c6cfe39ae53eb55c4b5f423c9c": {
         parameters: {
             query?: {
@@ -1025,7 +1174,7 @@ export interface operations {
                             jwt?: string;
                             expireAt?: number;
                             user_info?: {
-                                id?: number;
+                                user_id?: number;
                                 email?: string;
                                 /** @enum {unknown} */
                                 role?: "admin" | "user";
@@ -1049,7 +1198,7 @@ export interface operations {
                             jwt?: string;
                             expireAt?: number;
                             user_info?: {
-                                id?: number;
+                                user_id?: number;
                                 email?: string;
                                 role?: string;
                                 username?: string;
