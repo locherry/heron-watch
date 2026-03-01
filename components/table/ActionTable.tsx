@@ -24,9 +24,9 @@ export function ActionTable(props: Omit<BaseTableProps<Action>, "columns">) {
       header: () => capitalizeFirst(t("actions.quantity")),
     },
     {
-      id: "lot_number",
-      accessorKey: "lot_number",
-      header: () => capitalizeFirst(t("actions.lot_number")),
+      id: "batch_number",
+      accessorKey: "batch_number",
+      header: () => capitalizeFirst(t("actions.batch_number")),
     },
     {
       id: "created_at",

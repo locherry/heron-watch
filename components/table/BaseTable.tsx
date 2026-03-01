@@ -30,10 +30,12 @@ export function BaseTable<T>({
     columns,
     ...props,
   });
-  let columnWidths = useColumnWidths({columns});
+  let columnWidths = useColumnWidths({ columns });
   if (fixedWidth) {
     const count = columns.length;
-    columnWidths = Array(count).fill(0).map(() => Math.max(140, fixedWidth / count))
+    columnWidths = Array(count)
+      .fill(0)
+      .map(() => Math.max(140, fixedWidth / count));
   }
 
   const renderHeader = () => (
@@ -51,7 +53,7 @@ export function BaseTable<T>({
                   <Text className="font-bold text-foreground mr-1">
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </Text>
                   {{
@@ -62,52 +64,56 @@ export function BaseTable<T>({
               </Pressable>
             )}
           </View>
-        ))
+        )),
       )}
     </View>
   );
 
   const renderRow = ({ item, index }: { item: any; index: number }) => (
-  <Pressable onPress={() => {onPress(item.original.product_code, item.original.lot_number)}}> 
-    <View
-      className={cn(
-        "flex-row",
-        index % 2 === 0 ? "bg-muted" : "bg-background",
-        "dark:bg-muted-dark dark:odd:bg-background-dark"
-      )}
+    <Pressable
+      onPress={() => {
+        onPress(item.original.product_code, item.original.batch_number);
+      }}
     >
-      {item.getVisibleCells().map((cell: any, cellIndex: number) => (
-        <View
-          key={cell.id}
-          style={{ width: columnWidths[cellIndex] }}
-          className="p-2"
-        >
-          <Text>
-            {flexRender(cell.column.columnDef.cell, cell.getContext()) ??
-              (cell.getValue() as string | number | null)}
-          </Text>
-        </View>
-      ))}
+      <View
+        className={cn(
+          "flex-row",
+          index % 2 === 0 ? "bg-muted" : "bg-background",
+          "dark:bg-muted-dark dark:odd:bg-background-dark",
+        )}
+      >
+        {item.getVisibleCells().map((cell: any, cellIndex: number) => (
+          <View
+            key={cell.id}
+            style={{ width: columnWidths[cellIndex] }}
+            className="p-2"
+          >
+            <Text>
+              {flexRender(cell.column.columnDef.cell, cell.getContext()) ??
+                (cell.getValue() as string | number | null)}
+            </Text>
+          </View>
+        ))}
 
-      {/* Edit and Delete Buttons (conditionally rendered) */}
-      {features.edition && (
-        <View className="flex-row items-center space-x-2 p-2">
-          <Button onPress={() => onEdit?.(item)} variant={"outline"}>
-            <Icon as={Pencil} />
-            <Text className="hidden lg:inline">
-              {capitalizeFirst(t("common.edit"))}
-            </Text>
-          </Button>
-          <Button onPress={() => onDelete?.(item)} variant={"outline"}>
-            <Icon className="text-[hsl(var(--destructive))]" as={X} />
-            <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
-              {capitalizeFirst(t("common.delete"))}
-            </Text>
-          </Button>
-        </View>
-      )}
-    </View>
-  </Pressable>
+        {/* Edit and Delete Buttons (conditionally rendered) */}
+        {features.edition && (
+          <View className="flex-row items-center space-x-2 p-2">
+            <Button onPress={() => onEdit?.(item)} variant={"outline"}>
+              <Icon as={Pencil} />
+              <Text className="hidden lg:inline">
+                {capitalizeFirst(t("common.edit"))}
+              </Text>
+            </Button>
+            <Button onPress={() => onDelete?.(item)} variant={"outline"}>
+              <Icon className="text-[hsl(var(--destructive))]" as={X} />
+              <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
+                {capitalizeFirst(t("common.delete"))}
+              </Text>
+            </Button>
+          </View>
+        )}
+      </View>
+    </Pressable>
   );
   return (
     <View className={cn("flex-1", className)}>

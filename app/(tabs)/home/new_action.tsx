@@ -13,18 +13,18 @@ import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
@@ -55,7 +55,7 @@ export default function NewAction() {
   }, [actionsJsonEncoded]);
 
   const [actionId, setActionId] = React.useState<string | number>(
-    constants.actionTypes[0].value
+    constants.actionTypes[0].value,
   );
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
@@ -68,11 +68,11 @@ export default function NewAction() {
       errorMessage: capitalizeFirst(t("errors.invalidProductCode")),
     },
     {
-      label: capitalizeFirst(t("actions.lot_number")),
-      value: "lot_number",
+      label: capitalizeFirst(t("actions.batch_number")),
+      value: "batch_number",
       regex: /^[A-Z]{3}\d{6}$/,
       required: true,
-      errorMessage: capitalizeFirst(t("errors.invalidLotNumber")),
+      errorMessage: capitalizeFirst(t("errors.invalidbatchNumber")),
     },
     {
       label: capitalizeFirst(t("actions.quantity")),
@@ -121,7 +121,7 @@ export default function NewAction() {
         acc[field.value] = "";
         return acc;
       },
-      {} as Record<string, string | number | null | undefined> // Update here to allow null
+      {} as Record<string, string | number | null | undefined>, // Update here to allow null
     ),
     action_id: actionId,
     id: 0,
@@ -136,7 +136,7 @@ export default function NewAction() {
     if (!editActionId) return;
 
     const actionToEdit = existingActions.find(
-      (a) => String(a.id) === editActionId
+      (a) => String(a.id) === editActionId,
     );
     if (actionToEdit) {
       setFormData((prev) => ({
@@ -168,7 +168,7 @@ export default function NewAction() {
               action_id: actionId,
               id: a.id,
             } as Action)
-          : a
+          : a,
       );
     } else {
       // Add new action
@@ -182,7 +182,7 @@ export default function NewAction() {
         quantity: Number(formData.quantity) || 0,
         comment: (formData.comment as string) || "",
         product_code: (formData.product_code as string) || "000",
-        lot_number: (formData.lot_number as string) || "",
+        batch_number: (formData.batch_number as string) || "",
         created_at: new Date().toISOString(),
         action_id: Number(actionId),
         transaction: (formData.transaction as string) || "",
@@ -228,7 +228,7 @@ export default function NewAction() {
       },
     },
     undefined,
-    !!qrCodeId
+    !!qrCodeId,
   );
 
   React.useEffect(() => {
@@ -251,7 +251,7 @@ export default function NewAction() {
   }, [qrCodeResults.data]);
 
   const selectedOption = constants.actionTypes.find(
-    (option) => option.value === actionId
+    (option) => option.value === actionId,
   );
 
   return (
@@ -283,7 +283,7 @@ export default function NewAction() {
             value={selectedOption}
             onValueChange={(option) =>
               setActionId(
-                option?.value as (typeof constants.actionTypes)[number]["value"]
+                option?.value as (typeof constants.actionTypes)[number]["value"],
               )
             }
           >
@@ -297,28 +297,36 @@ export default function NewAction() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>{capitalizeFirst(t("common.add"))} (+)</SelectLabel>
-                {constants.actionTypes.filter((action => action.additionRule == "+")).map((action) => (
-                  <SelectItem
-                    key={action.value}
-                    value={String(action.value)}  
-                    label={capitalizeFirst(t(action.label))}
-                  >
-                    <Icon as={action.icon} />
-                  </SelectItem>
-                ))}
+                <SelectLabel>
+                  {capitalizeFirst(t("common.add"))} (+)
+                </SelectLabel>
+                {constants.actionTypes
+                  .filter((action) => action.additionRule == "+")
+                  .map((action) => (
+                    <SelectItem
+                      key={action.value}
+                      value={String(action.value)}
+                      label={capitalizeFirst(t(action.label))}
+                    >
+                      <Icon as={action.icon} />
+                    </SelectItem>
+                  ))}
               </SelectGroup>
               <SelectGroup>
-                <SelectLabel>{capitalizeFirst(t("common.substract"))} (-)</SelectLabel>
-                {constants.actionTypes.filter((action => action.additionRule == "-")).map((action) => (
-                  <SelectItem
-                    key={action.value}
-                    value={String(action.value)}
-                    label={capitalizeFirst(t(action.label))}
-                  >
-                    <Icon as={action.icon} />
-                  </SelectItem>
-                ))}
+                <SelectLabel>
+                  {capitalizeFirst(t("common.substract"))} (-)
+                </SelectLabel>
+                {constants.actionTypes
+                  .filter((action) => action.additionRule == "-")
+                  .map((action) => (
+                    <SelectItem
+                      key={action.value}
+                      value={String(action.value)}
+                      label={capitalizeFirst(t(action.label))}
+                    >
+                      <Icon as={action.icon} />
+                    </SelectItem>
+                  ))}
               </SelectGroup>
             </SelectContent>
           </Select>

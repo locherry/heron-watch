@@ -1055,7 +1055,7 @@ export interface components {
             /** Format: email */
             email: string;
             /** @description The user roles */
-            roles?: string[];
+            roles?: ("ROLE_USER" | "ROLE_ADMIN")[];
             first_name: string;
             last_name: string;
             /**
@@ -1069,7 +1069,7 @@ export interface components {
             /** Format: email */
             email: string;
             /** @description The user roles */
-            roles?: string[];
+            roles?: ("ROLE_USER" | "ROLE_ADMIN")[];
             first_name: string;
             last_name: string;
             /**

@@ -79,7 +79,7 @@ export default function MaterialTabsExample() {
 
   function updateStockCategory(
     type: "raw_materials" | "finished_products",
-    value: StockCategory
+    value: StockCategory,
   ) {
     setCurrentStockCategory((prev) => ({
       ...prev,
@@ -90,11 +90,11 @@ export default function MaterialTabsExample() {
   const [sorting, setSorting] = useState<ActionSortState | null>(null);
 
   const { data, error, isLoading, isError, fetchNextPage } =
-    useInfiniteFetchQuery("/actions/{stock_category}", "get", {
-      path: { stock_category: currentStockCategory[currentStockType] },
+    useInfiniteFetchQuery("/api/actions", "get", {
       query: {
         limit: 10,
         ...(sorting ? { sort: sorting.sort, order_by: sorting.order_by } : {}),
+        stock_category: currentStockCategory[currentStockType],
       },
     });
 
@@ -143,7 +143,7 @@ export default function MaterialTabsExample() {
                     tab.stock_category ===
                       currentStockCategory[currentStockType]
                       ? "text-foreground"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground",
                   )}
                 />
                 <Text
@@ -151,15 +151,15 @@ export default function MaterialTabsExample() {
                     tab.stock_category ===
                       currentStockCategory[currentStockType]
                       ? "text-foreground"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground",
                   )}
                 >
                   {capitalizeFirst(
                     t(
                       ("stocks." + tab.name) as
-                      | "stocks.cannery"
-                      | "stocks.store"
-                    )
+                        | "stocks.cannery"
+                        | "stocks.store",
+                    ),
                   )}
                 </Text>
               </Row>
@@ -195,9 +195,10 @@ export default function MaterialTabsExample() {
         <Link
           href={{
             pathname: "/home/manage_error_menu",
-            params: { stockCategory: currentStockCategory[currentStockType] }
+            params: { stockCategory: currentStockCategory[currentStockType] },
           }}
-          asChild>
+          asChild
+        >
           <Button icon={ServerCrash} variant="outline">
             {t("Manage Errors")}
           </Button>
@@ -224,7 +225,7 @@ export default function MaterialTabsExample() {
           <ActivityIndicator />
         ) : (
           <ActionTable
-            data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
+            data={data?.pages.flatMap((page) => page ?? []) ?? []}
             fetchNextPage={fetchNextPage}
             sorting={sorting}
             onSortingChange={setSorting}

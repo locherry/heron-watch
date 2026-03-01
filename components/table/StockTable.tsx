@@ -8,7 +8,7 @@ import { BaseTable } from "./BaseTable";
 const STOCK_TABLE_COLUMNS: (keyof Stock)[] = [
   "id",
   "product_code",
-  "lot_number",
+  "batch_number",
   "quantity",
   "expiration_date",
 ];

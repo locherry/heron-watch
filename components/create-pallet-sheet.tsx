@@ -20,7 +20,7 @@ type PalletSheetData =
       origin: string | undefined;
       client: string | undefined;
       product_name: string;
-      lot_number: string;
+      batch_number: string;
       expiration_date: string;
       quantity: number | undefined;
     }
@@ -43,7 +43,7 @@ function CreatePalletSheet({
 
   const { mutate: createNewQR } = useFetchMutation(
     "/qr-code/{stock_category}",
-    "post"
+    "post",
   );
 
   useEffect(() => {
@@ -58,7 +58,7 @@ function CreatePalletSheet({
       typeof data?.product_code === "string" &&
       typeof data?.client === "string" &&
       typeof data?.origin === "string" &&
-      typeof data?.lot_number === "string" &&
+      typeof data?.batch_number === "string" &&
       typeof data?.expiration_date === "string" &&
       typeof data?.quantity === "number" &&
       typeof data?.product_name === "string"
@@ -70,7 +70,7 @@ function CreatePalletSheet({
         pathParams: { stock_category: stockCategory },
         body: {
           product_code: data?.product_code,
-          lot_number: data?.lot_number,
+          batch_number: data?.batch_number,
           quantity: data?.quantity,
           expiration_date: data?.expiration_date,
         },
@@ -84,7 +84,7 @@ function CreatePalletSheet({
         onError: (error) => {
           console.log(error.message);
         },
-      }
+      },
     );
   };
 
@@ -185,8 +185,8 @@ function CreatePalletSheet({
       <td colspan="3" class="productName">${escapeHtml(data?.product_name ?? "")}</td>
     </tr>
     <tr>
-      <td class="label">${t("add_pallet_sheet.lot_number")}</td>
-      <td colspan="3" class="content">${escapeHtml(data?.lot_number ?? "")}</td>
+      <td class="label">${t("add_pallet_sheet.batch_number")}</td>
+      <td colspan="3" class="content">${escapeHtml(data?.batch_number ?? "")}</td>
     </tr>
     <tr>
       <td class="label">${t("add_pallet_sheet.expiration_date")}</td>
@@ -222,7 +222,7 @@ function CreatePalletSheet({
                   [
                     {
                       text: capitalizeFirst(
-                        t("add_pallet_sheet.product_code")
+                        t("add_pallet_sheet.product_code"),
                       ).toUpperCase(),
                       fontSize: 20,
                       bold: true,
@@ -296,13 +296,13 @@ function CreatePalletSheet({
                   // Ligne 4 : Lot Number
                   [
                     {
-                      text: t("add_pallet_sheet.lot_number").toUpperCase(),
+                      text: t("add_pallet_sheet.batch_number").toUpperCase(),
                       fontSize: 20,
                       bold: true,
                       alignment: "center",
                     },
                     {
-                      text: escapeHtml(data?.lot_number ?? "").toUpperCase(),
+                      text: escapeHtml(data?.batch_number ?? "").toUpperCase(),
                       fontSize: 35,
                       alignment: "center",
                       colSpan: 3,
@@ -320,7 +320,7 @@ function CreatePalletSheet({
                     },
                     {
                       text: escapeHtml(
-                        data?.expiration_date ?? ""
+                        data?.expiration_date ?? "",
                       ).toUpperCase(),
                       fontSize: 35,
                       alignment: "center",
@@ -388,7 +388,7 @@ function CreatePalletSheet({
           icon={AlertCircle}
           className={cn(
             "text-destructive text-xs mt-1",
-            emitAlert ? "flex" : "hidden"
+            emitAlert ? "flex" : "hidden",
           )}
         >
           <AlertTitle className="text-destructive text-xl mt-1">

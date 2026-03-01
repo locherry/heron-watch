@@ -10,8 +10,8 @@
     "users": {
       "name": "manage users"
     },
-    "product_category" : {
-      "name" : "manage products"
+    "product_category": {
+      "name": "manage products"
     },
     "exports": {
       "name": "Export to spreadsheet"
@@ -72,7 +72,7 @@
     "quantity": "quantity",
     "comment": "comment",
     "product_code": "product code",
-    "lot_number": "lot number",
+    "batch_number": "lot number",
     "created_by_id": "created by",
     "created_at": "created at",
     "action_id": "action",
@@ -88,9 +88,9 @@
     "4": "I Transfer to the shop"
   },
   "stocks": {
-    "id":"id",
+    "id": "id",
     "product_code": "product code",
-    "lot_number": "lot number",
+    "batch_number": "lot number",
     "quantity": "quantity",
     "expiration_date": "expiration date",
     "finishedProducts": "finished products",
@@ -108,14 +108,14 @@
     "MP_F": "fresh",
     "MP_S": "dry",
     "MP_C": "frozen",
-    "EMB" : "packaging"
+    "EMB": "packaging"
   },
-  "product_category" : {
-    "product_code" : "product code",
-    "product_name" : "product name",
-    "product_specificity" : "product specificity",
-    "selectStockGeneralCategory" : "Select a stock general category",
-    "new_product" : "new product"
+  "product_category": {
+    "product_code": "product code",
+    "product_name": "product name",
+    "product_specificity": "product specificity",
+    "selectStockGeneralCategory": "Select a stock general category",
+    "new_product": "new product"
   },
   "common": {
     "view": "view",
@@ -143,62 +143,63 @@
     "actions": "actions",
     "date": "date",
     "product": "product",
-    "products" : "products",
+    "products": "products",
     "cancel": "cancel",
     "OK": "OK",
     "sell": "sell",
     "stock": "stock",
     "give": "give",
     "discard": "discard",
-    "product_category" : "product category",
-    "submit_modifications" : "submit modifications"
+    "product_category": "product category",
+    "submit_modifications": "submit modifications"
   },
   "errors": {
-    "required" : "This field is required",
-    "invalidExpirationDate" : "invalid expiration date, date format is : dd-mm-yyyy eg : 2025-31-12",
-    "invalidQuantity" : "invalid quantity, quantity sould be an integer",
-    "invalidProductCode" : "invalid product code, should begin with three digits",
-    "invalidProductName" : "invalid product name, must consist of letters or numbers",
-    "invalidProductSpecificityPF" : "must be a disgnation of maximum 3 letters",
-    "invalidProductSpecificityMP" : "must be a letter between : F (frais), C (congelé), or S (sec)",
-    "invalidProductSpecificityEMB" : "must be a designation between 'Boite' or 'Couvercle'", 
-    "invalidLotNumber" : "invalid lot number, should be three capital letters + 6 digits (ddmmyy)",
+    "fillBothFields": "please fill both fields",
+    "required": "This field is required",
+    "invalidExpirationDate": "invalid expiration date, date format is : dd-mm-yyyy eg : 2025-31-12",
+    "invalidQuantity": "invalid quantity, quantity sould be an integer",
+    "invalidProductCode": "invalid product code, should begin with three digits",
+    "invalidProductName": "invalid product name, must consist of letters or numbers",
+    "invalidProductSpecificityPF": "must be a disgnation of maximum 3 letters",
+    "invalidProductSpecificityMP": "must be a letter between : F (frais), C (congelé), or S (sec)",
+    "invalidProductSpecificityEMB": "must be a designation between 'Boite' or 'Couvercle'",
+    "invalidbatchNumber": "invalid lot number, should be three capital letters + 6 digits (ddmmyy)",
     "loginExpired": "login expired",
-    "redirectToLogin" : "redirect to login",
-    "quantityInputRequired" : "You need to specify a new quantity to modify pallet sheet"
+    "redirectToLogin": "redirect to login",
+    "quantityInputRequired": "You need to specify a new quantity to modify pallet sheet"
   },
-  "add_pallet_sheet" : {
-    "add_pallet_sheet" : "add pallet sheet",
-    "remains_to_be_placed" : "remains to be placed",
-    "select_a_product" : "select a product",
-    "modify_existing_pallet_sheet" : "modify existing pallet sheet",
-    "product_code" : "code",
-    "origin" : "origin",
-    "client" : "client",
-    "product" : "product",
-    "lot_number" : "lot number",
-    "expiration_date" : "expiration date",
-    "quantity" : "quantity",
-    "create_sheet" : "create sheet",
-    "create_qr_code" : "create QR Code",
-    "alert_unable_to_create_qr" : "unable to create qr code",
-    "alert_field_missing" : "some fileds are empty"
+  "add_pallet_sheet": {
+    "add_pallet_sheet": "add pallet sheet",
+    "remains_to_be_placed": "remains to be placed",
+    "select_a_product": "select a product",
+    "modify_existing_pallet_sheet": "modify existing pallet sheet",
+    "product_code": "code",
+    "origin": "origin",
+    "client": "client",
+    "product": "product",
+    "batch_number": "lot number",
+    "expiration_date": "expiration date",
+    "quantity": "quantity",
+    "create_sheet": "create sheet",
+    "create_qr_code": "create QR Code",
+    "alert_unable_to_create_qr": "unable to create qr code",
+    "alert_field_missing": "some fileds are empty"
   },
-  "view_pallet_sheet" : {
-    "view_pallet_sheet" : "view pallet sheets"
+  "view_pallet_sheet": {
+    "view_pallet_sheet": "view pallet sheets"
   },
-  "modify_pallet_sheet" :  {
-    "modify_existing_pallet_sheet" : "modify existing pallet sheet",
-    "scan_existing_sheet" : "scan existing sheet",
-    "delete_pallet_sheet" : "delete pallet sheet"
+  "modify_pallet_sheet": {
+    "modify_existing_pallet_sheet": "modify existing pallet sheet",
+    "scan_existing_sheet": "scan existing sheet",
+    "delete_pallet_sheet": "delete pallet sheet"
   },
-  "error_management_menu" : {
-    "title" : "error management",
-    "kown_errors" : "known errors", 
-    "not_found" : "not found",
-    "resolve_error" : "resolve error",
-    "list_actions_wrong_product" : "list of all actions that concerns the product",
-    "new_quantity_after_update" : "new quantity after update :"
+  "error_management_menu": {
+    "title": "error management",
+    "kown_errors": "known errors",
+    "not_found": "not found",
+    "resolve_error": "resolve error",
+    "list_actions_wrong_product": "list of all actions that concerns the product",
+    "new_quantity_after_update": "new quantity after update :"
   },
   "Select a date": "Select a date",
   "Current stock": "Current stock",
@@ -207,7 +208,7 @@
   "Toggle editing mode": "Toggle editing mode",
   "Total users": "Total users",
   "Total actions": "Total actions",
-  "Total products" : "total products",
+  "Total products": "total products",
   "Please confirm": "Please confirm",
   "Do you really want to discard the unsaved changes?": "Do you really want to discard the unsaved changes?",
   "Do you really want to log out ?": "Do you really want to log out?",
@@ -219,8 +220,8 @@
   "Real-Time Tracking": "Real-Time Tracking",
   "Error management": "Error management",
   "Manage Errors": "Manage Errors",
-  "manage_pallet_sheet" : "manage pallet sheet",
-  "Generate a new pallet sheet" : "Generate a new pallet sheet",
+  "manage_pallet_sheet": "manage pallet sheet",
+  "Generate a new pallet sheet": "Generate a new pallet sheet",
   "Inventory Alerts": "Inventory Alerts",
   "Get right where you left :": "Get right where you left :",
   "Made with ❤️ by Ellande & Aloys || All rights reserved": "Made with ❤️ by Ellande & Aloys || All rights reserved"

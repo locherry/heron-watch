@@ -1,12 +1,17 @@
 import { useLocalSearchParams } from "expo-router";
-import { ArrowBigRightDash, MessageCircleWarning, Pencil, Trash } from "lucide-react-native";
+import {
+    ArrowBigRightDash,
+    MessageCircleWarning,
+    Pencil,
+    Trash,
+} from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
-  FlatList,
-  useWindowDimensions,
-  View,
+    ActivityIndicator,
+    FlatList,
+    useWindowDimensions,
+    View,
 } from "react-native";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -75,7 +80,7 @@ function SheetRow({
           <Text
             className={cn(
               "font-extrabold text-[30px] text-center flex-1",
-              classNameText
+              classNameText,
             )}
           >
             {value ?? ""}
@@ -90,17 +95,17 @@ export default function add_pallet_sheet() {
   const [t] = useTranslation();
   const { mutate: modifyQrData } = useFetchMutation(
     "/qr-code/{stock_category}/{qr_code_id}",
-    "patch"
+    "patch",
   );
   const { mutate: deleteQrData } = useFetchMutation(
     "/qr-code/{qr_code_id}",
-    "patch"
+    "patch",
   );
 
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
   const { stockCategory = "PF_G", alreadySetQrId = undefined } = rawParams as {
     stockCategory?: "PF_G" | "PF_M";
-    alreadySetQrId? : number|undefined;
+    alreadySetQrId?: number | undefined;
   };
   const { height, width } = useWindowDimensions();
   const { rowNameWidth, rowsHeight } = {
@@ -111,7 +116,7 @@ export default function add_pallet_sheet() {
   //Variable that stocks user's inputs in pallet sheet
 
   const [quantityInput, setQuantityInput] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   //State depending constants
@@ -133,46 +138,47 @@ export default function add_pallet_sheet() {
       path: { qr_code_id: qrId ?? 0 },
     },
     undefined,
-    qrId ? true : false
+    qrId ? true : false,
   );
-
-
 
   let {
     data: alreadyPlacedQuantity = null,
     isLoading: isLoadingPlacedQuantity = false,
     error: placedQuantityError = false,
   } = useFetchQuery(
-    "/qr-code/{stock_category}/{product_code}/{lot_number}",
+    "/qr-code/{stock_category}/{product_code}/{batch_number}",
     "get",
     {
       path: {
         stock_category: stockCategory,
         product_code: completeData.product_code,
-        lot_number: completeData.lot_number,
+        batch_number: completeData.batch_number,
       },
     },
     undefined,
-    isDataFetched
+    isDataFetched,
   );
 
   let {
-    data : productStockQuantity = null,
-    isLoading : productStockIsLoading = false,
-    isError : productStockIsError = false,
+    data: productStockQuantity = null,
+    isLoading: productStockIsLoading = false,
+    isError: productStockIsError = false,
   } = useFetchQuery(
     "/stocks/{stock_category}",
     "get",
     {
-      path : {stock_category : stockCategory},
-      query : {
-        required_elts : ["quantity"],
-        filter_params : {"product_code" : completeData.product_code, "lot_number" : completeData.lot_number}
-      }
+      path: { stock_category: stockCategory },
+      query: {
+        required_elts: ["quantity"],
+        filter_params: {
+          product_code: completeData.product_code,
+          batch_number: completeData.batch_number,
+        },
+      },
     },
-    undefined, 
-    isDataFetched
-  )
+    undefined,
+    isDataFetched,
+  );
   const handleModifyData = () => {
     if (isDataFetched && quantityInput) {
       modifyQrData(
@@ -192,7 +198,7 @@ export default function add_pallet_sheet() {
           onError: (data) => {
             console.log(data.message);
           },
-        }
+        },
       );
       //Reset of all parameters
       setQuantityInput(undefined);
@@ -218,7 +224,7 @@ export default function add_pallet_sheet() {
           onError: (error) => {
             console.log(error.message);
           },
-        }
+        },
       );
       setQuantityInput(undefined);
       setIsDataFetched(false);
@@ -246,7 +252,7 @@ export default function add_pallet_sheet() {
     }
   }, [productStockQuantity]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (alreadyPlacedQuantity && !Array.isArray(alreadyPlacedQuantity)) {
       setPlacedQuantity(alreadyPlacedQuantity?.data?.quantity);
       setQuantityInput(completeData?.quantity);
@@ -256,13 +262,10 @@ export default function add_pallet_sheet() {
   }, [alreadyPlacedQuantity]);
 
   return (
-    <RootView
-      disableInsets={{ left: true}}
-      className="flex gap-y-[30]"
-    >
+    <RootView disableInsets={{ left: true }} className="flex gap-y-[30]">
       <Header
         title={capitalizeFirst(
-          t("modify_pallet_sheet.modify_existing_pallet_sheet")
+          t("modify_pallet_sheet.modify_existing_pallet_sheet"),
         )}
       ></Header>
       <FlatList
@@ -272,35 +275,54 @@ export default function add_pallet_sheet() {
         renderItem={null}
         ListHeaderComponent={
           <>
-          <Row>
-            <Text className="text-2xl font-mono">
-                    {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
-                      " : "}
-                  </Text>
-                    {!Array.isArray(stockData) ? (
-                      productStockIsLoading || isNewDataLoading ? (
-                        <ActivityIndicator
-                          size="small"
-                          color="hsl(var(--primary))"
-                        />
-                      ) : (
-                        <Text className={cn("text-xl", (stockData?.quantity - placedQuantity) >= 0 ? "text-foreground" : "text-destructive")}>
-                          {stockData?.quantity - placedQuantity}
-                        </Text>
-                      )
-                    ) : (
-                      <Text>
-                        {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
-                      </Text>
+            <Row>
+              <Text className="text-2xl font-mono">
+                {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
+                  " : "}
+              </Text>
+              {!Array.isArray(stockData) ? (
+                productStockIsLoading || isNewDataLoading ? (
+                  <ActivityIndicator size="small" color="hsl(var(--primary))" />
+                ) : (
+                  <Text
+                    className={cn(
+                      "text-xl",
+                      stockData?.quantity - placedQuantity >= 0
+                        ? "text-foreground"
+                        : "text-destructive",
                     )}
-                  { quantityInput !== '' && quantityInput != undefined ? 
-                    (<>
-                      <Icon as={ArrowBigRightDash} size={30} />
-                      <Text className={cn("text-xl", (stockData?.quantity - placedQuantity) - (Number(quantityInput) - placedQuantity) < 0 ? "text-destructive" : "text-foreground")}>{(stockData?.quantity- placedQuantity) - (Number(quantityInput) - placedQuantity)}</Text>
-                    </>) : 
-                    (<></>)
-                  }
-              </Row>
+                  >
+                    {stockData?.quantity - placedQuantity}
+                  </Text>
+                )
+              ) : (
+                <Text>
+                  {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                </Text>
+              )}
+              {quantityInput !== "" && quantityInput != undefined ? (
+                <>
+                  <Icon as={ArrowBigRightDash} size={30} />
+                  <Text
+                    className={cn(
+                      "text-xl",
+                      stockData?.quantity -
+                        placedQuantity -
+                        (Number(quantityInput) - placedQuantity) <
+                        0
+                        ? "text-destructive"
+                        : "text-foreground",
+                    )}
+                  >
+                    {stockData?.quantity -
+                      placedQuantity -
+                      (Number(quantityInput) - placedQuantity)}
+                  </Text>
+                </>
+              ) : (
+                <></>
+              )}
+            </Row>
             {/* PALLET SHEET DETAILS */}
             <View className="border-2 border-[hsl(var(--border))] rounded-xl">
               <SheetRow
@@ -337,8 +359,8 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 editable={false}
-                label={t("add_pallet_sheet.lot_number")}
-                value={completeData?.lot_number ?? ""}
+                label={t("add_pallet_sheet.batch_number")}
+                value={completeData?.batch_number ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isNewDataLoading}
@@ -377,7 +399,7 @@ export default function add_pallet_sheet() {
                     </Button>
                     <Button icon={Trash} onPress={handleDeleteData}>
                       {capitalizeFirst(
-                        t("modify_pallet_sheet.delete_pallet_sheet")
+                        t("modify_pallet_sheet.delete_pallet_sheet"),
                       )}
                     </Button>
                   </Row>
@@ -389,7 +411,7 @@ export default function add_pallet_sheet() {
                   }}
                 >
                   {capitalizeFirst(
-                    t("modify_pallet_sheet.scan_existing_sheet")
+                    t("modify_pallet_sheet.scan_existing_sheet"),
                   )}
                 </QrScannerButton>
               )}

@@ -30,7 +30,7 @@ interface SheetRowProps {
   rowNameWidth: number;
   rowsHeight: number;
   bordersEnabled?: boolean;
-  isError? : boolean;
+  isError?: boolean;
   isLoading?: boolean;
 }
 
@@ -61,7 +61,10 @@ function SheetRow({
       <View className="flex-1 p-2">
         {editable ? (
           <Input
-            className={cn("font-extrabold text-[30px] text-center flex-1", isError && "border-destructive")}
+            className={cn(
+              "font-extrabold text-[30px] text-center flex-1",
+              isError && "border-destructive",
+            )}
             placeholder={placeholder}
             value={value?.toString()}
             onChangeText={onChangeText}
@@ -96,7 +99,7 @@ export default function add_pallet_sheet() {
 
   //Variable that stocks user selected value on droplists
   const [product_code_value, setProductCodeValue] = useState("");
-  const [lot_number_value, setLotNumberValue] = useState("");
+  const [batch_number_value, setbatchNumberValue] = useState("");
 
   let [newQRData, setNewQRData] = useState<number | undefined>(undefined);
 
@@ -104,7 +107,7 @@ export default function add_pallet_sheet() {
   const [originInput, setOriginInput] = useState<string | undefined>(undefined);
   const [clientInput, setClientInput] = useState<string | undefined>(undefined);
   const [quantityInput, setQuantityInput] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   //variable that allowed other droplists to be used
@@ -114,32 +117,32 @@ export default function add_pallet_sheet() {
     {
       path: { stock_category: stockCategory },
       query:
-        product_code_value === "" && lot_number_value === ""
+        product_code_value === "" && batch_number_value === ""
           ? { distinct: true, required_elts: ["product_code"] }
-          : product_code_value !== "" && lot_number_value === ""
+          : product_code_value !== "" && batch_number_value === ""
             ? {
                 distinct: true,
-                required_elts: ["lot_number"],
+                required_elts: ["batch_number"],
                 filter_params: { product_code: product_code_value },
               }
             : {
                 distinct: true,
                 filter_params: {
                   product_code: product_code_value!,
-                  lot_number: lot_number_value!,
+                  batch_number: batch_number_value!,
                 },
               },
-    }
+    },
   );
 
   //State depending constants
   const [filteredData, setFilteredData] = useState(data?.data ?? []);
   const [dynamic_product_code_value, setDynamicProductCodeValue] = useState("");
-  const [dynamic_lot_number_value, setDynamicLotNumberValue] = useState("");
+  const [dynamic_batch_number_value, setDynamicbatchNumberValue] = useState("");
   const [isProductCodeSelected, setIsProductCodeSelected] = useState(false);
-  const [isLotNumberSelected, setIsLotNumberSelected] = useState(false);
+  const [isbatchNumberSelected, setIsbatchNumberSelected] = useState(false);
   const [isProductCodeFocus, setIsProductCodeFocus] = useState(true);
-  const [isLotNumberFocus, setIsLotNumberFocus] = useState(true);
+  const [isbatchNumberFocus, setIsbatchNumberFocus] = useState(true);
   const [completeData, setCompleteData] = useState<any>([]);
   const [placedQuantity, setPlacedQuantity] = useState<any>([]);
   const [isQuantityError, setIsQuantityError] = useState<boolean>(false);
@@ -155,12 +158,12 @@ export default function add_pallet_sheet() {
       query: {
         filter_params: {
           product_code: product_code_value,
-          lot_number: lot_number_value,
+          batch_number: batch_number_value,
         },
       },
     },
     undefined,
-    isProductCodeSelected && isLotNumberSelected
+    isProductCodeSelected && isbatchNumberSelected,
   );
 
   let {
@@ -168,24 +171,24 @@ export default function add_pallet_sheet() {
     isLoading: isLoadingPlacedQuantity = false,
     error: placedQuantityError = false,
   } = useFetchQuery(
-    "/qr-code/{stock_category}/{product_code}/{lot_number}",
+    "/qr-code/{stock_category}/{product_code}/{batch_number}",
     "get",
     {
       path: {
         stock_category: stockCategory,
         product_code: product_code_value,
-        lot_number: lot_number_value,
+        batch_number: batch_number_value,
       },
     },
     undefined,
-    isProductCodeSelected && isLotNumberSelected
+    isProductCodeSelected && isbatchNumberSelected,
   );
 
   useEffect(() => {
-    if (!isProductCodeSelected && !isLotNumberSelected) {
+    if (!isProductCodeSelected && !isbatchNumberSelected) {
       if (data !== undefined && data.data !== undefined) {
         let filteredResult = data?.data?.filter((line) =>
-          line.product_code.includes(dynamic_product_code_value)
+          line.product_code.includes(dynamic_product_code_value),
         );
         setFilteredData(filteredResult);
       }
@@ -193,22 +196,22 @@ export default function add_pallet_sheet() {
   }, [dynamic_product_code_value]);
 
   useEffect(() => {
-    if (!isLotNumberSelected && isProductCodeSelected) {
+    if (!isbatchNumberSelected && isProductCodeSelected) {
       if (data !== undefined && data.data !== undefined) {
         let filteredResult = data?.data?.filter((line) =>
-          line.lot_number.includes(dynamic_lot_number_value)
+          line.batch_number.includes(dynamic_batch_number_value),
         );
         setFilteredData(filteredResult);
       }
     }
-  }, [dynamic_lot_number_value]);
+  }, [dynamic_batch_number_value]);
 
   useEffect(() => {
     if (productCompleteData && !Array.isArray(productCompleteData)) {
       setCompleteData(productCompleteData?.data?.[0]);
     } else if (
       !Array.isArray(completeData) &&
-      (!isLotNumberSelected || !isProductCodeSelected)
+      (!isbatchNumberSelected || !isProductCodeSelected)
     ) {
       setCompleteData([]);
     }
@@ -236,7 +239,7 @@ export default function add_pallet_sheet() {
   let isSelectingPC = false;
   let isSelectingLN = false;
   return (
-    <RootView disableInsets={{ left: true}}>
+    <RootView disableInsets={{ left: true }}>
       <Header
         title={capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
       ></Header>
@@ -253,30 +256,51 @@ export default function add_pallet_sheet() {
                   {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
                     " : "}
                 </Text>
-                  {!Array.isArray(completeData) ? (
-                    isLoadingPlacedQuantity || isNewDataLoading ? (
-                      <ActivityIndicator
-                        size="small"
-                        color="hsl(var(--primary))"
-                      />
-                    ) : (
-                      <Text className={cn("text-xl", completeData?.quantity - (placedQuantity ?? 0) >= 0 ? "text-foreground" : "text-destructive")}>
-                        {completeData?.quantity -
-                          (placedQuantity ?? 0)}
-                      </Text>
-                    )
+                {!Array.isArray(completeData) ? (
+                  isLoadingPlacedQuantity || isNewDataLoading ? (
+                    <ActivityIndicator
+                      size="small"
+                      color="hsl(var(--primary))"
+                    />
                   ) : (
-                    <Text>
-                      {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                    <Text
+                      className={cn(
+                        "text-xl",
+                        completeData?.quantity - (placedQuantity ?? 0) >= 0
+                          ? "text-foreground"
+                          : "text-destructive",
+                      )}
+                    >
+                      {completeData?.quantity - (placedQuantity ?? 0)}
                     </Text>
-                  )}
-                { quantityInput !== '' && quantityInput != undefined ? 
-                  (<>
+                  )
+                ) : (
+                  <Text>
+                    {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                  </Text>
+                )}
+                {quantityInput !== "" && quantityInput != undefined ? (
+                  <>
                     <Icon as={ArrowBigRightDash} size={30} />
-                    <Text className={cn("text-xl", (completeData?.quantity - (placedQuantity ?? 0)) - (Number(quantityInput) ?? 0) < 0 ? "text-destructive" : "text-foreground")}>{(completeData?.quantity - (placedQuantity ?? 0)) - (Number(quantityInput) ?? 0)}</Text>
-                  </>) : 
-                  (<></>)
-                }
+                    <Text
+                      className={cn(
+                        "text-xl",
+                        completeData?.quantity -
+                          (placedQuantity ?? 0) -
+                          (Number(quantityInput) ?? 0) <
+                          0
+                          ? "text-destructive"
+                          : "text-foreground",
+                      )}
+                    >
+                      {completeData?.quantity -
+                        (placedQuantity ?? 0) -
+                        (Number(quantityInput) ?? 0)}
+                    </Text>
+                  </>
+                ) : (
+                  <></>
+                )}
               </Row>
             </Text>
 
@@ -306,12 +330,12 @@ export default function add_pallet_sheet() {
                 value={dynamic_product_code_value}
                 onChangeText={(text) => {
                   if (product_code_value !== "") {
-                    if (lot_number_value !== "") {
-                      setLotNumberValue("");
-                      setIsLotNumberSelected(false);
+                    if (batch_number_value !== "") {
+                      setbatchNumberValue("");
+                      setIsbatchNumberSelected(false);
                     }
                     setProductCodeValue("");
-                    setDynamicLotNumberValue("");
+                    setDynamicbatchNumberValue("");
                   }
                   setDynamicProductCodeValue(text);
                   setIsProductCodeSelected(false);
@@ -344,55 +368,55 @@ export default function add_pallet_sheet() {
             {/* LOT NUMBER AUTOCOMPLETE */}
             <Row className="w-full justify-between mb-2 z-10">
               <Label className="text-base">
-                {capitalizeFirst(t("actions.lot_number"))}
+                {capitalizeFirst(t("actions.batch_number"))}
               </Label>
               <Autocomplete
                 inputContainerStyle={{ borderWidth: 0 }} // remove default border
                 containerStyle={{ width: width / 5 }}
-                hideResults={isLotNumberFocus}
+                hideResults={isbatchNumberFocus}
                 onBlur={() => {
                   Keyboard.dismiss();
                   setTimeout(() => {
-                    if (!isLotNumberFocus && !isSelectingLN) {
-                      setIsLotNumberFocus(true);
+                    if (!isbatchNumberFocus && !isSelectingLN) {
+                      setIsbatchNumberFocus(true);
                     } else {
                       isSelectingLN = false;
                     }
                   }, 100);
                 }}
                 renderTextInput={(props) => (
-                  <Input {...props} placeholder={t("actions.lot_number")} />
+                  <Input {...props} placeholder={t("actions.batch_number")} />
                 )}
                 onFocus={() => {
-                  if (isLotNumberFocus) {
-                    setIsLotNumberFocus(false);
+                  if (isbatchNumberFocus) {
+                    setIsbatchNumberFocus(false);
                   }
                 }}
                 editable={isProductCodeSelected}
-                data={!isLotNumberFocus ? filteredData : []}
-                value={dynamic_lot_number_value}
+                data={!isbatchNumberFocus ? filteredData : []}
+                value={dynamic_batch_number_value}
                 onChangeText={(text) => {
-                  if (lot_number_value !== "") {
-                    setLotNumberValue("");
-                    setIsLotNumberSelected(false);
+                  if (batch_number_value !== "") {
+                    setbatchNumberValue("");
+                    setIsbatchNumberSelected(false);
                   }
-                  setDynamicLotNumberValue(text);
+                  setDynamicbatchNumberValue(text);
                 }}
                 flatListProps={{
-                  keyExtractor: (item) => item.lot_number,
+                  keyExtractor: (item) => item.batch_number,
                   renderItem: ({ item }) => (
                     <TouchableOpacity
                       className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
                       onPressIn={() => (isSelectingLN = true)}
                       onPress={() => {
-                        setLotNumberValue(item.lot_number);
-                        setIsLotNumberSelected(true);
-                        setDynamicLotNumberValue(item.lot_number);
-                        setIsLotNumberFocus(true);
+                        setbatchNumberValue(item.batch_number);
+                        setIsbatchNumberSelected(true);
+                        setDynamicbatchNumberValue(item.batch_number);
+                        setIsbatchNumberFocus(true);
                       }}
                     >
                       <Text className="text-foreground dark:text-white">
-                        {item.lot_number}
+                        {item.batch_number}
                       </Text>
                     </TouchableOpacity>
                   ),
@@ -411,7 +435,7 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 label={t("add_pallet_sheet.origin")}
-                editable={isLotNumberSelected}
+                editable={isbatchNumberSelected}
                 placeholder="Origin (Ex : IGP)"
                 value={originInput}
                 onChangeText={(text) =>
@@ -422,7 +446,7 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 label={t("add_pallet_sheet.client")}
-                editable={isLotNumberSelected}
+                editable={isbatchNumberSelected}
                 placeholder="Client (Ex : AGRO)"
                 value={clientInput}
                 onChangeText={(text) =>
@@ -439,8 +463,8 @@ export default function add_pallet_sheet() {
                 isLoading={isNewDataLoading}
               />
               <SheetRow
-                label={t("add_pallet_sheet.lot_number")}
-                value={completeData?.lot_number}
+                label={t("add_pallet_sheet.batch_number")}
+                value={completeData?.batch_number}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isNewDataLoading}
@@ -454,7 +478,7 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 label={t("add_pallet_sheet.quantity")}
-                editable={isLotNumberSelected}
+                editable={isbatchNumberSelected}
                 placeholder="Ex : 40"
                 value={quantityInput?.toString()}
                 onChangeText={(text) =>
