@@ -42,7 +42,9 @@
       "theme": "gaia",
       "lightTheme": "gaia argia",
       "darkTheme": "gaia iluna",
-      "systemDefault": "sistemaren lehenetsia"
+      "systemDefault": "sistemaren lehenetsia",
+      "animations": "animazioak",
+      "fontSize": "Letren tamaina"
     }
   },
   "user": {
@@ -66,6 +68,10 @@
     "rust": "herdoila"
   },
   "actions": {
+    "1": "stockean sartzen dut",
+    "2": "saltzen dut",
+    "3": "ematen dut",
+    "4": "dendara transferitzen dut",
     "id": "id",
     "quantity": "kantitatea",
     "comment": "iruzkina",
@@ -79,11 +85,7 @@
     "newAction": "ekintza berria",
     "newActions": "ekintza berriak",
     "newActionsCreated": "ekintza berriak sortuta",
-    "expirationDate": "iraungitze data",
-    "1": "stockean sartzen dut",
-    "2": "saltzen dut",
-    "3": "ematen dut",
-    "4": "dendara transferitzen dut"
+    "expirationDate": "iraungitze data"
   },
   "stocks": {
     "id": "id",
@@ -146,7 +148,10 @@
     "give": "eman",
     "discard": "baztertu",
     "product_category": "produktu kategoria",
-    "submit_modifications": "aldaketak bidali"
+    "submit_modifications": "aldaketak bidali",
+    "view": "ikusi",
+    "total": "guztira",
+    "substract": "ken"
   },
   "errors": {
     "required": "Eremu hau derrigorrezkoa da",
@@ -160,7 +165,8 @@
     "invalidbatchNumber": "lote zenbaki baliogabea, hiru letra maiuskulaz + 6 zenbaki (eehhuu)",
     "loginExpired": "saioa iraungi da",
     "redirectToLogin": "saioa hasteko birbideratu",
-    "quantityInputRequired": "Pale txartela aldatzeko kantitate berria zehaztu behar duzu"
+    "quantityInputRequired": "Pale txartela aldatzeko kantitate berria zehaztu behar duzu",
+    "fillBothFields": "Mesedez, bete bi eremuak."
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "pale txartela gehitu",
@@ -207,5 +213,20 @@
   "Generate a new pallet sheet": "Pale txartel berria sortu",
   "Inventory Alerts": "Inbentario alertak",
   "Get right where you left :": "Utzi zenuen tokian jarraitu:",
-  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Ellande & Aloys-ek egina ❤️ || Eskubide guztiak erreserbatuak"
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Ellande & Aloys-ek egina ❤️ || Eskubide guztiak erreserbatuak",
+  "error_management_menu": {
+    "title": "akatsen kudeaketa",
+    "kown_errors": "ezagutzen diren akatsak",
+    "not_found": "Ez da aurkitu",
+    "resolve_error": "Akatsa konpondu",
+    "list_actions_wrong_product": "Produktua ardatz duten ekintza guztien zerrenda",
+    "new_quantity_after_update": "Eguneratze ondorengo kopuru berria :"
+  },
+  "I stock": "Nik gordetzen dut",
+  "I sell": "Saltzen dut",
+  "I Give": "Nik ematen dut",
+  "I Transfer to the shop": "Dendara transferitzen naiz",
+  "Select a date": "Hautatu data",
+  "Current stock": "Egungo stoka",
+  "Stock as of": "Eguneroko egoera"
 }

@@ -165,7 +165,8 @@
     "invalidbatchNumber": "numéro de lot invalide, doit être trois lettres majuscules + 6 chiffres (jjmmaaa)",
     "loginExpired": "connexion expirée",
     "redirectToLogin": "rediriger vers la connexion",
-    "quantityInputRequired": "Vous devez spécifier une nouvelle quantité pour modifier la fiche palette"
+    "quantityInputRequired": "Vous devez spécifier une nouvelle quantité pour modifier la fiche palette",
+    "fillBothFields": "Veuillez remplir les deux champs"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "ajouter une fiche palette",
@@ -215,5 +216,17 @@
   "Made with ❤️ by Ellande & Aloys || All rights reserved": "Réalisé avec ❤️ par Ellande & Aloys || Tous droits réservés",
   "Select a date": "Sélectionnez une date",
   "Current stock": "Stock actuel",
-  "Stock as of": "Stock au"
+  "Stock as of": "Stock au",
+  "error_management_menu": {
+    "title": "gestion des erreurs",
+    "kown_errors": "erreurs connues",
+    "not_found": "non trouvé",
+    "resolve_error": "résoudre l'erreur",
+    "list_actions_wrong_product": "liste de toutes les actions concernant le produit",
+    "new_quantity_after_update": "nouvelle quantité après mise à jour :"
+  },
+  "I stock": "Je stocke",
+  "I sell": "Je vends",
+  "I Give": "Je donne",
+  "I Transfer to the shop": "Je transfère au magasin"
 }

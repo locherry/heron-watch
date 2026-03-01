@@ -25,12 +25,13 @@ const getFiles = source =>
 
 
 let supportedLanguages = [];
-
 const fetchSupportedLanguages = async () => {
     try {
         const response = await axios.get('https://api-free.deepl.com/v2/languages', {
+            headers: {
+                'Authorization': `DeepL-Auth-Key ${DEEPLE_API_KEY}`,
+            },
             params: {
-                auth_key: DEEPLE_API_KEY,
                 type: 'target'
             }
         });
@@ -40,12 +41,13 @@ const fetchSupportedLanguages = async () => {
     }
 };
 
+
+
 const isLanguageSupported = (lang) => {
     return supportedLanguages.includes(lang);
 };
 
 const translate = async (text, targetLang) => {
-
     if (!isLanguageSupported(targetLang)) {
         console.error(`Target language ${targetLang} is not supported by DeepL.`);
         return null;
@@ -53,8 +55,10 @@ const translate = async (text, targetLang) => {
 
     try {
         const response = await axios.post('https://api-free.deepl.com/v2/translate', null, {
+            headers: {
+                'Authorization': `DeepL-Auth-Key ${DEEPLE_API_KEY}`,
+            },
             params: {
-                auth_key: DEEPLE_API_KEY,
                 text: text,
                 target_lang: targetLang,
                 source_lang: translationRef

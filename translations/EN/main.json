@@ -81,11 +81,7 @@
     "newAction": "New action",
     "newActions": "New actions",
     "newActionsCreated": "New actions created",
-    "expirationDate": "expiration date",
-    "1": "I stock",
-    "2": "I sell",
-    "3": "I Give",
-    "4": "I Transfer to the shop"
+    "expirationDate": "expiration date"
   },
   "stocks": {
     "id": "id",
@@ -201,6 +197,10 @@
     "list_actions_wrong_product": "list of all actions that concerns the product",
     "new_quantity_after_update": "new quantity after update :"
   },
+  "I stock": "I stock",
+  "I sell": "I sell",
+  "I Give": "I Give",
+  "I Transfer to the shop": "I Transfer to the shop",
   "Select a date": "Select a date",
   "Current stock": "Current stock",
   "Stock as of": "Stock as of",

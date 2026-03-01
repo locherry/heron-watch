@@ -165,7 +165,8 @@
     "invalidbatchNumber": "Ungültige Losnummer, sollte aus drei Großbuchstaben + 6 Ziffern bestehen (ddmmyy)",
     "loginExpired": "Anmeldung verfallen",
     "redirectToLogin": "zur Anmeldung umleiten",
-    "quantityInputRequired": "Sie müssen eine neue Menge angeben, um das Palettenblatt zu ändern"
+    "quantityInputRequired": "Sie müssen eine neue Menge angeben, um das Palettenblatt zu ändern",
+    "fillBothFields": "bitte beide Felder ausfüllen"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "Palettenblatt hinzufügen",
@@ -215,5 +216,17 @@
   "Generate a new pallet sheet": "Erzeugen eines neuen Palettenbogens",
   "Inventory Alerts": "Inventar-Warnungen",
   "Get right where you left :": "Machen Sie genau da weiter, wo Sie aufgehört haben:",
-  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Hergestellt mit ❤️ von Ellande & Aloys || Alle Rechte vorbehalten"
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Hergestellt mit ❤️ von Ellande & Aloys || Alle Rechte vorbehalten",
+  "error_management_menu": {
+    "title": "Fehlermanagement",
+    "kown_errors": "bekannte Fehler",
+    "not_found": "nicht gefunden",
+    "resolve_error": "Fehler beheben",
+    "list_actions_wrong_product": "Liste aller Maßnahmen, die das Produkt betreffen",
+    "new_quantity_after_update": "neue Menge nach der Aktualisierung :"
+  },
+  "I stock": "I Aktie",
+  "I sell": "Ich verkaufe",
+  "I Give": "I Geben",
+  "I Transfer to the shop": "I Transfer zum Geschäft"
 }
