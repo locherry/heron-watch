@@ -4,59 +4,31 @@
  */
 
 export interface paths {
-    "/actions_and_users/{stock_category}": {
+    "/api/actions": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get all actions, specific to a stock category, with users infos */
-        get: operations["86e64a4131204bb66d918ef847fc3367"];
+        /**
+         * Retrieves the collection of Action resources.
+         * @description Retrieves the collection of Action resources.
+         */
+        get: operations["api_actions_get_collection"];
         put?: never;
-        post?: never;
+        /**
+         * Creates a Action resource.
+         * @description Creates a Action resource.
+         */
+        post: operations["api_actions_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/actions/{stock_category}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get all actions, specific to a stock category */
-        get: operations["331b62c6cfe39ae53eb55c4b5f423c9c"];
-        put?: never;
-        /** Insert new actions in the specified stock category */
-        post: operations["460f76563da78d49cac27d90f6280ff4"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/actions/{stock_category}/{action_ID}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get an action by id in the specified stock category */
-        get: operations["0860d0739a5643134ee5b943ccf40bd3"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/login": {
+    "/api/actions/batch": {
         parameters: {
             query?: never;
             header?: never;
@@ -65,15 +37,122 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Authenticate user and return JWT */
-        post: operations["fe6544959270bd59edaecbc87ce09a4c"];
+        /**
+         * Creates a Action resource.
+         * @description Creates a Action resource.
+         */
+        post: operations["api_actionsbatch_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/errors/{stock_category}": {
+    "/api/actions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a Action resource.
+         * @description Retrieves a Action resource.
+         */
+        get: operations["api_actions_id_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/action_categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the collection of ActionCategory resources.
+         * @description Retrieves the collection of ActionCategory resources.
+         */
+        get: operations["api_action_categories_get_collection"];
+        put?: never;
+        /**
+         * Creates a ActionCategory resource.
+         * @description Creates a ActionCategory resource.
+         */
+        post: operations["api_action_categories_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/action_categories/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a ActionCategory resource.
+         * @description Retrieves a ActionCategory resource.
+         */
+        get: operations["api_action_categories_id_get"];
+        put?: never;
+        post?: never;
+        /**
+         * Removes the ActionCategory resource.
+         * @description Removes the ActionCategory resource.
+         */
+        delete: operations["api_action_categories_id_delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Updates the ActionCategory resource.
+         * @description Updates the ActionCategory resource.
+         */
+        patch: operations["api_action_categories_id_patch"];
+        trace?: never;
+    };
+    "/api/actions_controllers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the collection of ActionsController resources.
+         * @description Retrieves the collection of ActionsController resources.
+         */
+        get: operations["api_actions_controllers_get_collection"];
+        put?: never;
+        /**
+         * Creates a ActionsController resource.
+         * @description Creates a ActionsController resource.
+         */
+        post: operations["api_actions_controllers_post"];
+        /**
+         * Removes the ActionsController resource.
+         * @description Removes the ActionsController resource.
+         */
+        delete: operations["api_actions_controllers_delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Updates the ActionsController resource.
+         * @description Updates the ActionsController resource.
+         */
+        patch: operations["api_actions_controllers_patch"];
+        trace?: never;
+    };
+    "/api/known_errors/fix_errors": {
         parameters: {
             query?: never;
             header?: never;
@@ -82,15 +161,38 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Creates a KnownError resource.
+         * @description Creates a KnownError resource.
+         */
+        post: operations["api_known_errorsfix_errors_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/known_errors/show_errors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the collection of KnownError resources.
+         * @description Retrieves the collection of KnownError resources.
+         */
+        get: operations["api_known_errorsshow_errors_get_collection"];
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
-        /** Correct errors in actions, so in stocks too */
-        patch: operations["ad26345d7319f72aa2ba8872e27fc3c7"];
+        patch?: never;
         trace?: never;
     };
-    "/errors": {
+    "/api/login": {
         parameters: {
             query?: never;
             header?: never;
@@ -99,15 +201,122 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Add corrupted data to known_errors table */
-        post: operations["67cf18badd8d1e56bcc93ea516184d4f"];
+        /**
+         * Creates a user token.
+         * @description Creates a user token.
+         */
+        post: operations["login_check_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/errors/{stock_category}/correctExpDate": {
+    "/api/products": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the collection of Product resources.
+         * @description Retrieves the collection of Product resources.
+         */
+        get: operations["api_products_get_collection"];
+        put?: never;
+        /**
+         * Creates a Product resource.
+         * @description Creates a Product resource.
+         */
+        post: operations["api_products_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/products/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a Product resource.
+         * @description Retrieves a Product resource.
+         */
+        get: operations["api_products_id_get"];
+        put?: never;
+        post?: never;
+        /**
+         * Removes the Product resource.
+         * @description Removes the Product resource.
+         */
+        delete: operations["api_products_id_delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Updates the Product resource.
+         * @description Updates the Product resource.
+         */
+        patch: operations["api_products_id_patch"];
+        trace?: never;
+    };
+    "/api/qr_codes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the collection of QrCode resources.
+         * @description Retrieves the collection of QrCode resources.
+         */
+        get: operations["api_qr_codes_get_collection"];
+        put?: never;
+        /**
+         * Creates a QrCode resource.
+         * @description Creates a QrCode resource.
+         */
+        post: operations["api_qr_codes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/qr_codes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a QrCode resource.
+         * @description Retrieves a QrCode resource.
+         */
+        get: operations["api_qr_codes_id_get"];
+        put?: never;
+        post?: never;
+        /**
+         * Removes the QrCode resource.
+         * @description Removes the QrCode resource.
+         */
+        delete: operations["api_qr_codes_id_delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Updates the QrCode resource.
+         * @description Updates the QrCode resource.
+         */
+        patch: operations["api_qr_codes_id_patch"];
+        trace?: never;
+    };
+    "/api/stock/add_new_stocks": {
         parameters: {
             query?: never;
             header?: never;
@@ -116,23 +325,29 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post?: never;
+        /**
+         * Creates a Stock resource.
+         * @description Creates a Stock resource.
+         */
+        post: operations["api_stockadd_new_stocks_post"];
         delete?: never;
         options?: never;
         head?: never;
-        /** Correct wrong expiration_date */
-        patch: operations["f3767d2b95e3d9782fd7d64dae6a3cb7"];
+        patch?: never;
         trace?: never;
     };
-    "/errorsManager/{stock_category}": {
+    "/api/stock/get_actual_stocks": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get all known errors, specific to a stock category */
-        get: operations["19a26d65d36aef8861a50d4e0046f618"];
+        /**
+         * Retrieves the collection of Stock resources.
+         * @description Retrieves the collection of Stock resources.
+         */
+        get: operations["api_stockget_actual_stocks_get_collection"];
         put?: never;
         post?: never;
         delete?: never;
@@ -141,714 +356,719 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/errors_and_quantities/{stock_category}": {
+    "/api/stock_at_date/{date}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get all known errors, specific to a stock category, with their actual quantity in stock */
-        get: operations["4ed90574a84499604f4752508d514d14"];
+        /**
+         * Retrieves a StockSnapshot resource.
+         * @description Retrieves a StockSnapshot resource.
+         */
+        get: operations["api_stock_at_date_date_get"];
         put?: never;
-        post?: never;
+        /**
+         * Creates a StockSnapshot resource.
+         * @description Creates a StockSnapshot resource.
+         */
+        post: operations["api_stock_at_date_date_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/productCategory/{stock_global_category}": {
+    "/api/users": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get actual stock data */
-        get: operations["ec2ea90dc22cd101d430e4e75bd71abc"];
+        /**
+         * Retrieves the collection of User resources.
+         * @description Retrieves the collection of User resources.
+         */
+        get: operations["api_users_get_collection"];
         put?: never;
-        post?: never;
+        /**
+         * Creates a User resource.
+         * @description Creates a User resource.
+         */
+        post: operations["api_users_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/qr-code/{qr_code_id}": {
+    "/api/users/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get the requested qr code data matching the qr_code_id */
-        get: operations["5168e82022c69e25a348f7ecc7e247ab"];
-        put?: never;
+        /**
+         * Retrieves a User resource.
+         * @description Retrieves a User resource.
+         */
+        get: operations["api_users_id_get"];
+        /**
+         * Replaces the User resource.
+         * @description Replaces the User resource.
+         */
+        put: operations["api_users_id_put"];
         post?: never;
-        delete?: never;
+        /**
+         * Removes the User resource.
+         * @description Removes the User resource.
+         */
+        delete: operations["api_users_id_delete"];
         options?: never;
         head?: never;
-        /** Delete qr code */
-        patch: operations["743db6fca556baab5f4ec0e12d1a1ad6"];
+        /**
+         * Updates the User resource.
+         * @description Updates the User resource.
+         */
+        patch: operations["api_users_id_patch"];
         trace?: never;
     };
-    "/qr-code/{stock_category}/{product_code}/{lot_number}": {
+    "/api/user_preferences": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Fetch how much of a product has been already placed on pallets */
-        get: operations["5d2f667d45dbd8aa74304236f1ca00c8"];
+        /**
+         * Retrieves the collection of UserPreference resources.
+         * @description Retrieves the collection of UserPreference resources.
+         */
+        get: operations["api_user_preferences_get_collection"];
         put?: never;
-        post?: never;
+        /**
+         * Creates a UserPreference resource.
+         * @description Creates a UserPreference resource.
+         */
+        post: operations["api_user_preferences_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/qr-code/{stock_category}": {
+    "/api/user_preferences/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
-        /** Create a new QR code entry */
-        post: operations["243f9d365ae979ae09c642f27dda1a4f"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/qr-code/{stock_category}/{qr_code_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
+        /**
+         * Retrieves a UserPreference resource.
+         * @description Retrieves a UserPreference resource.
+         */
+        get: operations["api_user_preferences_id_get"];
         put?: never;
         post?: never;
-        delete?: never;
+        /**
+         * Removes the UserPreference resource.
+         * @description Removes the UserPreference resource.
+         */
+        delete: operations["api_user_preferences_id_delete"];
         options?: never;
         head?: never;
-        /** Modify an existing QR code entry */
-        patch: operations["a23be3f6247b5d045575fe593e651e07"];
-        trace?: never;
-    };
-    "/qr-code/list/{stock_category}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get informations about qr-codes (add possibility to filter data from qrCodes table) */
-        get: operations["0bb5a5bbcbc2e960a88873cee7034c97"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/stocks/{stock_category}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get stock data for a given date, or the current stock if no date provided */
-        get: operations["3affd2f60f651f8329274f7b8d06c203"];
-        put?: never;
-        /** Save a stock in database, which is the stock at a precize date. */
-        post: operations["1988dd14be8f06b9096f02e3b5ad82a6"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/stocks_join_product_category/{stock_category}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get actual stock data, joined to product's informations */
-        get: operations["270886d50fc8c945e01a672f4a1eadd3"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/users": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get all users */
-        get: operations["21374aa54f8c94a3dfd9abf9efe9ac86"];
-        put?: never;
-        /** Create a new user */
-        post: operations["c23061913c7f3c33a5e8f57461149771"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/users/{user_ID}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get an user by ID */
-        get: operations["cd7cf90bd70793032e47d1fee7bc665a"];
-        put?: never;
-        post?: never;
-        /** Delete a user */
-        delete: operations["97fd6c75f1cdb47d086d2fa8a7063640"];
-        options?: never;
-        head?: never;
-        /** Modify a user */
-        patch: operations["d34c02a1e3276e417eb75f2b6e91cf26"];
+        /**
+         * Updates the UserPreference resource.
+         * @description Updates the UserPreference resource.
+         */
+        patch: operations["api_user_preferences_id_patch"];
         trace?: never;
     };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        User: {
-            /** @example 1 */
-            user_id: number;
-            /** @example John */
-            first_name: string;
-            /** @example Doe */
-            last_name: string;
-            /** @example johndoe */
-            username: string;
-            /**
-             * Format: email
-             * @example john@example.com
-             */
-            email: string;
-            /** @enum {unknown} */
-            role: "admin" | "user";
-            user_preferences?: {
-                /**
-                 * @example dark
-                 * @enum {unknown|null}
-                 */
-                theme?: "light" | "dark" | "system" | null;
-                /** @example #ff0000 */
-                tint_color?: string | null;
-                /** @enum {unknown|null} */
-                language?: "EN" | "EU" | "FR" | null;
-            };
-        };
         Action: {
-            id: number;
-            quantity: number;
-            comment: string;
-            product_code: string;
-            lot_number: string;
-            created_by_id?: number | null;
+            readonly id?: number;
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
+            stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            quantity?: number;
+            comment?: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            product: string;
+            batch_number: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            created_by_id: string;
             /** Format: date-time */
             created_at: string;
-            action_id: number;
-            transaction: string;
             /** Format: date-time */
-            expiration_date?: string | null;
+            expire_at?: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            action_category: string;
+            transaction_code?: string | null;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            batchNumber?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            actionCategory?: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            createdById?: string | null;
+            readonly productCode?: string | null;
+            transactionCode?: string | null;
+            /** Format: date-time */
+            expireAt?: string;
+        };
+        "Action.ActionBatchInput": {
+            actions: components["schemas"]["Action"][];
+        };
+        "Action.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            /** @enum {string} */
+            stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            quantity?: number;
+            comment?: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            product: string;
+            batch_number: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            created_by_id: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            expire_at?: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            action_category: string;
+            transaction_code?: string | null;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            batchNumber?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            actionCategory?: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            createdById?: string | null;
+            readonly productCode?: string | null;
+            transactionCode?: string | null;
+            /** Format: date-time */
+            expireAt?: string;
+        };
+        ActionCategory: {
+            readonly id?: number;
+            action_name: string;
+            /** @enum {string} */
+            addition_rule: "+" | "-";
+            actionName?: string;
+            /** @enum {string} */
+            additionRule?: "+" | "-";
+        };
+        "ActionCategory.jsonMergePatch": {
+            readonly id?: number;
+            action_name?: string;
+            /** @enum {string} */
+            addition_rule?: "+" | "-";
+            actionName?: string;
+            /** @enum {string} */
+            additionRule?: "+" | "-";
+        };
+        "ActionCategory.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            action_name: string;
+            /** @enum {string} */
+            addition_rule: "+" | "-";
+            actionName?: string;
+            /** @enum {string} */
+            additionRule?: "+" | "-";
+        };
+        ActionsController: {
+            container?: components["schemas"]["ContainerInterface"];
+            readonly actions?: unknown;
+            readonly subscribedServices?: unknown;
+        };
+        "ActionsController.jsonMergePatch": {
+            container?: components["schemas"]["ContainerInterface"];
+            readonly actions?: unknown;
+            readonly subscribedServices?: unknown;
+        };
+        "ActionsController.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            container?: components["schemas"]["ContainerInterface.jsonld"];
+            readonly actions?: unknown;
+            readonly subscribedServices?: unknown;
+        };
+        /** @description Unprocessable entity */
+        ConstraintViolation: {
+            /** @default 422 */
+            status: number;
+            violations?: {
+                /** @description The property path of the violation */
+                propertyPath: string;
+                /** @description The message associated with the violation */
+                message: string;
+                /** @description The code of the violation */
+                code?: string;
+                /** @description An extra hint to understand the violation */
+                hint?: string;
+                /** @description The serialized payload of the violation */
+                payload?: {
+                    [key: string]: unknown;
+                };
+            }[];
+            readonly detail?: string;
+            readonly type?: string;
+            readonly title?: string | null;
+            readonly instance?: string | null;
+        };
+        /** @description Unprocessable entity */
+        "ConstraintViolation.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            /** @default 422 */
+            status: number;
+            violations?: {
+                /** @description The property path of the violation */
+                propertyPath: string;
+                /** @description The message associated with the violation */
+                message: string;
+                /** @description The code of the violation */
+                code?: string;
+                /** @description An extra hint to understand the violation */
+                hint?: string;
+                /** @description The serialized payload of the violation */
+                payload?: {
+                    [key: string]: unknown;
+                };
+            }[];
+            readonly detail?: string;
+            readonly description?: string;
+            readonly type?: string;
+            readonly title?: string | null;
+            readonly instance?: string | null;
+        };
+        ContainerInterface: Record<string, never>;
+        "ContainerInterface.jsonld": Record<string, never>;
+        /** @description A representation of common errors. */
+        Error: {
+            /** @description A short, human-readable summary of the problem. */
+            readonly title?: string | null;
+            /** @description A human-readable explanation specific to this occurrence of the problem. */
+            readonly detail?: string | null;
+            /**
+             * @default 400
+             * @example 404
+             */
+            status: number | null;
+            /** @description A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced. */
+            readonly instance?: string | null;
+            /** @description A URI reference that identifies the problem type */
+            readonly type?: string;
+        };
+        /** @description A representation of common errors. */
+        "Error.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            /** @description A short, human-readable summary of the problem. */
+            readonly title?: string | null;
+            /** @description A human-readable explanation specific to this occurrence of the problem. */
+            readonly detail?: string | null;
+            /**
+             * @default 400
+             * @example 404
+             */
+            status: number | null;
+            /** @description A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced. */
+            readonly instance?: string | null;
+            /** @description A URI reference that identifies the problem type */
+            readonly type?: string;
+            readonly description?: string | null;
+        };
+        HydraCollectionBaseSchema: components["schemas"]["HydraCollectionBaseSchemaNoPagination"] & {
+            /**
+             * @example {
+             *       "@id": "string",
+             *       "@type": "string",
+             *       "first": "string",
+             *       "last": "string",
+             *       "previous": "string",
+             *       "next": "string"
+             *     }
+             */
+            view?: {
+                /** Format: iri-reference */
+                "@id"?: string;
+                "@type"?: string;
+                /** Format: iri-reference */
+                first?: string;
+                /** Format: iri-reference */
+                last?: string;
+                /** Format: iri-reference */
+                previous?: string;
+                /** Format: iri-reference */
+                next?: string;
+            };
+        };
+        HydraCollectionBaseSchemaNoPagination: {
+            totalItems?: number;
+            search?: {
+                "@type"?: string;
+                template?: string;
+                variableRepresentation?: string;
+                mapping?: {
+                    "@type"?: string;
+                    variable?: string;
+                    property?: string | null;
+                    required?: boolean;
+                }[];
+            };
+        };
+        HydraItemBaseSchema: {
+            "@context"?: string | ({
+                "@vocab": string;
+                /** @enum {string} */
+                hydra: "http://www.w3.org/ns/hydra/core#";
+            } & {
+                [key: string]: unknown;
+            });
+            "@id": string;
+            "@type": string;
+        };
+        KnownError: {
+            readonly id?: number;
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
+            stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            /** Format: date-time */
+            detected_at?: string;
+            quantity?: number;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            action: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            corrected_by: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            dissmissed_by: string | null;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            /** Format: date-time */
+            detectedAt?: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            correctedBy?: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            dissmissedBy?: string | null;
+        };
+        "KnownError.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            /** @enum {string} */
+            stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            /** Format: date-time */
+            detected_at?: string;
+            quantity?: number;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            action: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            corrected_by: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            dissmissed_by: string | null;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            /** Format: date-time */
+            detectedAt?: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            correctedBy?: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            dissmissedBy?: string | null;
+        };
+        Product: {
+            readonly id?: number;
+            product_code: string;
+            product_name: string;
+            product_specificity: string;
+            /**
+             * @example PF
+             * @enum {string}
+             */
+            stock_group: "PF" | "MP" | "EMB";
+            productCode?: string;
+            productName?: string;
+            productspecificity?: string;
+            /** @enum {string} */
+            stockGroup?: "PF" | "MP" | "EMB";
+        };
+        "Product.jsonMergePatch": {
+            readonly id?: number;
+            product_code?: string;
+            product_name?: string;
+            product_specificity?: string;
+            /**
+             * @example PF
+             * @enum {string}
+             */
+            stock_group?: "PF" | "MP" | "EMB";
+            productCode?: string;
+            productName?: string;
+            productspecificity?: string;
+            /** @enum {string} */
+            stockGroup?: "PF" | "MP" | "EMB";
+        };
+        "Product.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            product_code: string;
+            product_name: string;
+            product_specificity: string;
+            /** @enum {string} */
+            stock_group: "PF" | "MP" | "EMB";
+            productCode?: string;
+            productName?: string;
+            productspecificity?: string;
+            /** @enum {string} */
+            stockGroup?: "PF" | "MP" | "EMB";
+        };
+        QrCode: {
+            readonly id?: number;
+            product_code: string;
+            batch_number: string;
+            quantity?: number;
+            /** Format: date-time */
+            expiration_date: string;
+            productCode?: string;
+            batchNumber?: string;
+            /** Format: date-time */
+            expirationDate?: string;
+        };
+        "QrCode.jsonMergePatch": {
+            readonly id?: number;
+            product_code?: string;
+            batch_number?: string;
+            quantity?: number;
+            /** Format: date-time */
+            expiration_date?: string;
+            productCode?: string;
+            batchNumber?: string;
+            /** Format: date-time */
+            expirationDate?: string;
+        };
+        "QrCode.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            product_code: string;
+            batch_number: string;
+            quantity?: number;
+            /** Format: date-time */
+            expiration_date: string;
+            productCode?: string;
+            batchNumber?: string;
+            /** Format: date-time */
+            expirationDate?: string;
         };
         Stock: {
-            /** @example 1 */
-            id: number;
-            /** @example 144 */
+            readonly id?: number;
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
+            stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            product: string;
+            batch_number: string;
+            quantity?: number;
+            /** Format: date-time */
+            expire_at?: string;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            batchNumber?: string;
+            /** Format: date-time */
+            expireAt?: string;
+        };
+        "Stock.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            /** @enum {string} */
+            stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            product: string;
+            batch_number: string;
+            quantity?: number;
+            /** Format: date-time */
+            expire_at?: string;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            batchNumber?: string;
+            /** Format: date-time */
+            expireAt?: string;
+        };
+        StockSnapshot: {
+            readonly id?: number;
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
+            stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             product_code: string;
-            /** @example DSC050525 */
-            lot_number: string;
-            /** @example 100 */
+            batch_number: string;
             quantity: number;
-            /**
-             * Format: date
-             * @example 2025-05-05
-             */
-            expiration_date: string;
+            /** Format: date-time */
+            expire_at: string;
+            /** Format: date-time */
+            snapshot_date: string;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            productCode?: string;
+            batchNumber?: string;
+            /** Format: date-time */
+            expireAt?: string;
+            /** Format: date-time */
+            snapshotDate?: string;
         };
-        Stock_join_product_category: {
-            /** @example 1 */
-            id: number;
-            /** @example 144 */
+        "StockSnapshot.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            /** @enum {string} */
+            stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             product_code: string;
-            /** @example DSC050525 */
-            lot_number: string;
-            /** @example 100 */
+            batch_number: string;
             quantity: number;
-            /**
-             * Format: date
-             * @example 2025-05-05
-             */
-            expiration_date: string;
-            /** @example Gésiers de dinde */
-            product_name: string;
-            /** @example GDE | F | Boite */
-            product_specificity?: string;
+            /** Format: date-time */
+            expire_at: string;
+            /** Format: date-time */
+            snapshot_date: string;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            productCode?: string;
+            batchNumber?: string;
+            /** Format: date-time */
+            expireAt?: string;
+            /** Format: date-time */
+            snapshotDate?: string;
         };
-        Known_errors: {
+        "User-user.create_user.update": {
+            /** Format: email */
+            email: string;
             /**
-             * @description id of known error, given by database
-             * @example 4
+             * @description A temporary variable, used when creating/updating a user password
+             *     The hashing is done through an event listener (useful for both API and non API contexts)
              */
-            id: number;
-            /**
-             * @description Code produit
-             * @example 309
-             */
-            product_code: string;
-            /**
-             * @description Numéro de lot
-             * @example GDE050528
-             */
-            lot_number: string;
+            plainPassword: string;
+            first_name: string;
+            last_name: string;
         };
-        /**
-         * @example [
-         *       "id",
-         *       "product_code",
-         *       "lot_number",
-         *       "quantity",
-         *       "expiration_date"
-         *     ]
-         */
-        stock_selected_elts: string[];
-        /**
-         * @example [
-         *       "id",
-         *       "quantity",
-         *       "comment",
-         *       "product_code",
-         *       "lot_number",
-         *       "created_by_id",
-         *       "created_at",
-         *       "transaction",
-         *       "action_id"
-         *     ]
-         */
-        actions_selected_elts: string[];
-        /**
-         * @example [
-         *       "id",
-         *       "quantity",
-         *       "comment",
-         *       "product_code",
-         *       "lot_number",
-         *       "created_by_id",
-         *       "created_at",
-         *       "transaction",
-         *       "action_id",
-         *       "user_id",
-         *       "first_name",
-         *       "last_name"
-         *     ]
-         */
-        actions_and_user_selected_elts: string[];
-        /**
-         * @example [
-         *       "id",
-         *       "product_code",
-         *       "lot_number"
-         *     ]
-         */
-        known_errors_selected_elts: string[];
-        /**
-         * @example [
-         *       "product_code",
-         *       "product_name",
-         *       "product_specificity"
-         *     ]
-         */
-        product_category_selected_elts: string[];
-        /**
-         * @example [
-         *       "id",
-         *       "product_code",
-         *       "lot_number",
-         *       "quantity",
-         *       "expiration_date"
-         *     ]
-         */
-        stock_selected_elts_join_product_category_table: string[];
-        /**
-         * @example [
-         *       "id",
-         *       "product_code",
-         *       "lot_number",
-         *       "quantity",
-         *       "expiration_date"
-         *     ]
-         */
-        qr_code_selected_elts: string[];
-        filter_params: {
+        "User-user.create_user.update.jsonMergePatch": {
+            /** Format: email */
+            email?: string;
             /**
-             * @description Code produit
-             * @example 309
+             * @description A temporary variable, used when creating/updating a user password
+             *     The hashing is done through an event listener (useful for both API and non API contexts)
              */
-            product_code?: string;
-            /**
-             * @description Numéro de lot
-             * @example GDE050528
-             */
-            lot_number?: string;
-            /**
-             * @description Quantité
-             * @example 43
-             */
-            quantity?: number;
-            /**
-             * Format: date
-             * @description Date d'expiration
-             * @example 2028-05-05
-             */
-            expiration_date?: string;
-        };
-        actions_filter_params: {
-            /**
-             * @description Code produit
-             * @example 309
-             */
-            product_code?: string;
-            /**
-             * @description Numéro de lot
-             * @example GDE050528
-             */
-            lot_number?: string;
-            /**
-             * @description Quantité
-             * @example 43
-             */
-            quantity?: number;
-            /**
-             * @description Identifiant du créateur de l'action
-             * @example 3
-             */
-            created_by_id?: number;
-            /**
-             * Format: date
-             * @description Date de création de l'action
-             * @example 2023-08-09 13:43:22
-             */
-            created_at?: string;
-            /**
-             * @description Entité avec qui l'action est en rapport (dépend du contexte)
-             * @example 20222
-             */
-            transaction?: string;
-            /**
-             * @description Identifiant du type d'action (vente, stock...)
-             * @example 1
-             */
-            action_id?: number;
-        };
-        actions_and_user_filter_params: {
-            /**
-             * @description Code produit
-             * @example 309
-             */
-            product_code?: string;
-            /**
-             * @description Numéro de lot
-             * @example GDE050528
-             */
-            lot_number?: string;
-            /**
-             * @description Quantité
-             * @example 43
-             */
-            quantity?: number;
-            /**
-             * @description Identifiant du créateur de l'action
-             * @example 3
-             */
-            created_by_id?: number;
-            /**
-             * Format: date
-             * @description Date de création de l'action
-             * @example 2023-08-09 13:43:22
-             */
-            created_at?: string;
-            /**
-             * @description Entité avec qui l'action est en rapport (dépend du contexte)
-             * @example 20222
-             */
-            transaction?: string;
-            /**
-             * @description Identifiant du type d'action (vente, stock...)
-             * @example 1
-             */
-            action_id?: number;
-            /**
-             * @description Identifiant de l'utilisateur
-             * @example 1
-             */
-            user_id?: Record<string, never>;
-            /**
-             * @description Nom de l'utilisateur
-             * @example Dupond
-             */
+            plainPassword?: string;
             first_name?: string;
-            /**
-             * @description Prénom de l'utilisateur
-             * @example Michel
-             */
             last_name?: string;
         };
-        known_errors_filter_params: {
+        "User-user.read": {
+            readonly id?: number;
+            /** Format: email */
+            email: string;
+            first_name: string;
+            last_name: string;
             /**
-             * @description id of known error, given by database
-             * @example 4
+             * Format: iri-reference
+             * @example https://example.com/
              */
-            id?: number;
-            /**
-             * @description Code produit
-             * @example 309
-             */
-            product_code?: string;
-            /**
-             * @description Numéro de lot
-             * @example GDE050528
-             */
-            lot_number?: string;
+            preferences?: string | null;
         };
-        known_errors_quantities_filter_params: {
+        "User.jsonld-user.read": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            /** Format: email */
+            email: string;
+            first_name: string;
+            last_name: string;
             /**
-             * @description Code produit
-             * @example 309
+             * Format: iri-reference
+             * @example https://example.com/
              */
-            product_code?: string;
-            /**
-             * @description Numéro de lot
-             * @example GDE050528
-             */
-            lot_number?: string;
-            /**
-             * @description Quantité
-             * @example -43
-             */
-            quantity?: number;
+            preferences?: string | null;
         };
-        filter_params_PC: {
+        "UserPreference-preferences.read": {
             /**
-             * @description Code produit
-             * @example 309
+             * Format: iri-reference
+             * @example https://example.com/
              */
-            product_code: string;
-            /**
-             * @description Numéro de lot
-             * @example GDE050528
-             */
-            product_name: string;
-            /**
-             * @description Spécificité du produit. En fonction de la catégorie de stock concernée, peut être un code de lot (GDE), une sous catégorie des stocks matières premières (F, C...) ou bien un type d'emballage (boite ou couvercle)
-             * @example 43
-             */
-            product_specificity: string;
+            user?: string;
         };
-        filter_params_join_product_category: {
+        "UserPreference-preferences.write": Record<string, never>;
+        "UserPreference-preferences.write.jsonMergePatch": Record<string, never>;
+        "UserPreference.jsonld-preferences.read": components["schemas"]["HydraItemBaseSchema"] & {
             /**
-             * @description Code produit
-             * @example 309
+             * Format: iri-reference
+             * @example https://example.com/
              */
-            product_code?: string;
-            /**
-             * @description Numéro de lot
-             * @example GDE050528
-             */
-            lot_number?: string;
-            /**
-             * @description Quantité
-             * @example 43
-             */
-            quantity?: number;
-            /**
-             * Format: date
-             * @description Date d'expiration
-             * @example 2028-05-05
-             */
-            expiration_date?: string;
-            /**
-             * @description Product real name
-             * @example Gésiers de dinde
-             */
-            product_name?: string;
-            /**
-             * @description Differs depending on stock category : can be a product lot code, a stock category, or a type of content
-             * @example GDE | F | Boite
-             */
-            product_specificity?: string;
-        };
-        /**
-         * @example {
-         *       "errors_in_stocks": {
-         *         "309": {
-         *           "GDE040428": {
-         *             "react_ids": [
-         *               1,
-         *               8
-         *             ],
-         *             "error_message": "Incorrect quantity value : -45"
-         *           }
-         *         },
-         *         "993": {
-         *           "ADR020228": {
-         *             "react_ids": [
-         *               3,
-         *               45,
-         *               5
-         *             ],
-         *             "error_message": "Incorrect quantity value : -49"
-         *           },
-         *           "ADR050529": {
-         *             "react_ids": [
-         *               4
-         *             ],
-         *             "error_message": "Incorrect quantity value : -2"
-         *           }
-         *         }
-         *       },
-         *       "blocking_errors": {
-         *         "127": {
-         *           "FDC020222": {
-         *             "react_ids": [
-         *               35,
-         *               36,
-         *               38
-         *             ],
-         *             "error_message": "Errors..."
-         *           }
-         *         },
-         *         "001": {
-         *           "CDA030230": {
-         *             "react_ids": [
-         *               11,
-         *               14
-         *             ],
-         *             "error_message": "Unable to find an expiration date for actual product"
-         *           }
-         *         }
-         *       }
-         *     }
-         */
-        ErrorResponse: {
-            /** @description Code produit */
-            errors_in_stocks?: {
-                [key: string]: components["schemas"]["LotNumberAssociateErrors"];
-            };
-            /** @description Code produits */
-            blocking_errors?: {
-                [key: string]: components["schemas"]["LotNumberAssociateErrors"];
-            };
-        };
-        /** @description Numéro de lot */
-        LotNumberAssociateErrors: {
-            [key: string]: components["schemas"]["ErrorDetail"];
-        };
-        ErrorDetail: {
-            /**
-             * @example [
-             *       5,
-             *       6
-             *     ]
-             */
-            react_ids?: number[];
-            /** @example Incorrect quantity value : -85 */
-            error_message?: string;
-        };
-        newActions: (components["schemas"]["Action"] | components["schemas"]["Action"] | components["schemas"]["Action"])[];
-        Wrong_actions: {
-            error_in_stock?: components["schemas"]["Action"][];
-            error_in_insert?: components["schemas"]["Action"][];
-        };
-        AimDate: {
-            /**
-             * Format: date-time
-             * @example 2025-04-04 14:54:12
-             */
-            aimdate: string;
-        };
-        Stock_content: (components["schemas"]["Stock"] | components["schemas"]["Stock"])[];
-        Error_manager_informations_to_modify_array: {
-            /** @example 309 */
-            product_code?: string;
-            /** @example GDE050528 */
-            lot_number?: string;
-            /** @example 45 */
-            quantity?: number;
-            /** @example 2 */
-            action_id?: number;
-            /** @example 34009 */
-            transaction?: string;
-        };
-        Error_manager_corrupted_data: {
-            /** @example 3 */
-            id?: number;
-            /** @example 309 */
-            product_code?: string;
-            /** @example GDE050528 */
-            lot_number?: string;
-        };
-        Error_manager_add_corrupted_data: (components["schemas"]["Error_manager_corrupted_data"] | components["schemas"]["Error_manager_corrupted_data"])[];
-        Error_manager_expiration_date: {
-            /** @example 309 */
-            product_code?: string;
-            /** @example GDE050528 */
-            lot_number?: string;
-            /**
-             * Format: date
-             * @example 2028-05-05
-             */
-            expiration_date?: string;
-        };
-        Error_manager_correct_expiration_date: (components["schemas"]["Error_manager_expiration_date"] | components["schemas"]["Error_manager_expiration_date"])[];
-        /**
-         * @description Objet associatif dont les clés sont des identifiants uniques de lignes SQL (ex : 3, 6, 42). Les valeurs respectent le schéma Error_manager_informations_to_modify_array.
-         * @example {
-         *       "4": {
-         *         "product_code": "207IGP",
-         *         "lot_number": "CC130529",
-         *         "quantity": 39,
-         *         "action_id": 1,
-         *         "transaction": "25009"
-         *       },
-         *       "9": {
-         *         "product_code": "309",
-         *         "lot_number": "GDE130529",
-         *         "quantity": 43,
-         *         "action_id": 2,
-         *         "transaction": "43898"
-         *       }
-         *     }
-         */
-        Error_manager_informations_to_modify: {
-            [key: string]: components["schemas"]["Error_manager_informations_to_modify_array"];
+            user?: string;
         };
     };
     responses: never;
@@ -859,1363 +1079,58 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    "86e64a4131204bb66d918ef847fc3367": {
+    api_actions_get_collection: {
         parameters: {
             query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "created_at" | "created_by_id" | "id" | "comment" | "lot_number" | "product_code" | "action_id" | "quantity" | "transaction" | "first_name" | "last_name" | "user_id";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Select which data we want to fetch */
-                required_elts?: components["schemas"]["actions_and_user_selected_elts"];
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["actions_and_user_filter_params"];
+                /** @description The collection page number */
+                page?: number;
+                /** @example PF_G */
+                stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
             };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Actions fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Actions fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"][];
-                    };
-                    "application/xml": {
-                        /** @example Actions fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "331b62c6cfe39ae53eb55c4b5f423c9c": {
-        parameters: {
-            query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "created_at" | "created_by_id" | "id" | "comment" | "lot_number" | "product_code" | "action_id" | "quantity" | "transaction";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Select which data we want to fetch */
-                required_elts?: components["schemas"]["actions_selected_elts"];
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["actions_filter_params"];
-            };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Actions fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Actions fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"][];
-                    };
-                    "application/xml": {
-                        /** @example Actions fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "460f76563da78d49cac27d90f6280ff4": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Action"][];
-                "application/xml": components["schemas"]["Action"][];
-            };
-        };
-        responses: {
-            /** @description New actions have been inserted successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example New actions have been inserted successfully */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        /** @example New actions have been inserted successfully */
-                        message?: string;
-                    };
-                };
-            };
-            /** @description Some actions have led to errors in stocks */
-            207: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ErrorResponse"][];
-                    "application/xml": components["schemas"]["ErrorResponse"][];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-            /** @description Unprocessable Entity - Incorrect or Invalid data format */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unprocessable entity */
-                        message?: string;
-                        data?: {
-                            errors_in_stocks?: string[];
-                            blocking_errors?: {
-                                [key: string]: {
-                                    react_ids?: number[];
-                                    error_message?: string;
-                                };
-                            };
-                        };
-                    };
-                    "application/xml": {
-                        /** @example Unprocessable entity */
-                        message?: string;
-                        data?: {
-                            errors_in_stocks?: string[];
-                            blocking_errors?: {
-                                [key: string]: {
-                                    react_ids?: number[];
-                                    error_message?: string;
-                                };
-                            };
-                        };
-                    };
-                };
-            };
-        };
-    };
-    "0860d0739a5643134ee5b943ccf40bd3": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-                actionID: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Action fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Action fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"];
-                    };
-                    "application/xml": {
-                        /** @example Action fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    fe6544959270bd59edaecbc87ce09a4c: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /**
-                     * Format: email
-                     * @example admin.minad@mail.com
-                     */
-                    email: string;
-                    /**
-                     * Format: password
-                     * @example password
-                     */
-                    password: string;
-                };
-                "application/xml": {
-                    /**
-                     * Format: email
-                     * @example admin.minad@mail.com
-                     */
-                    email: string;
-                    /**
-                     * Format: password
-                     * @example password
-                     */
-                    password: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Successful login */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Successful login */
-                        message?: string;
-                        data?: {
-                            jwt?: string;
-                            expireAt?: number;
-                            user_info?: {
-                                user_id?: number;
-                                email?: string;
-                                /** @enum {unknown} */
-                                role?: "admin" | "user";
-                                username?: string;
-                                first_name?: string;
-                                last_name?: string;
-                            };
-                            user_preferences?: {
-                                /** @enum {unknown|null} */
-                                theme?: "light" | "dark" | "system" | null;
-                                tint_color?: string | null;
-                                /** @enum {unknown|null} */
-                                language?: "EN" | "EU" | "FR" | null;
-                            };
-                        };
-                    };
-                    "application/xml": {
-                        /** @example Successful login */
-                        message?: string;
-                        data?: {
-                            jwt?: string;
-                            expireAt?: number;
-                            user_info?: {
-                                user_id?: number;
-                                email?: string;
-                                role?: string;
-                                username?: string;
-                                first_name?: string;
-                                last_name?: string;
-                            };
-                            user_preferences?: {
-                                theme?: string | null;
-                                tint_color?: string | null;
-                                language?: string | null;
-                            };
-                        };
-                    };
-                };
-            };
-            /** @description Missing email or password */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Login failed. Incorrect password or user not registered. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    ad26345d7319f72aa2ba8872e27fc3c7: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Error_manager_informations_to_modify"];
-            };
-        };
-        responses: {
-            /** @description Stocks updated without detected new errors */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Stocks updated without detected new errors */
-                        message?: string;
-                    };
-                };
-            };
-            /** @description Stocks updated with potential new errors */
-            207: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Wrong_actions"];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "67cf18badd8d1e56bcc93ea516184d4f": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Error_manager_add_corrupted_data"];
-            };
-        };
-        responses: {
-            /** @description New corrupted products have been referenced successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example New corrupted products have been referenced successfully */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        /** @example New corrupted products have been referenced successfully */
-                        message?: string;
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    f3767d2b95e3d9782fd7d64dae6a3cb7: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    to_correct_products: components["schemas"]["Error_manager_correct_expiration_date"];
-                };
-            };
-        };
-        responses: {
-            /** @description Expiration date updated successfuly */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Expiration date updated successfuly */
-                        message?: string;
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "19a26d65d36aef8861a50d4e0046f618": {
-        parameters: {
-            query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "id" | "product_code" | "lot_number";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Select which data we want to fetch */
-                required_elts?: components["schemas"]["known_errors_selected_elts"];
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["known_errors_filter_params"];
-            };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Errors fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Errors fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Error_manager_corrupted_data"][];
-                    };
-                    "application/xml": {
-                        /** @example Errors fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Error_manager_corrupted_data"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "4ed90574a84499604f4752508d514d14": {
-        parameters: {
-            query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "product_code" | "lot_number" | "quantity";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["known_errors_quantities_filter_params"];
-            };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Errors fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Errors fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Error_manager_corrupted_data"][];
-                    };
-                    "application/xml": {
-                        /** @example Errors fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Error_manager_corrupted_data"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    ec2ea90dc22cd101d430e4e75bd71abc: {
-        parameters: {
-            query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "product_code" | "product_name" | "product_specificity";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Select which data we want to fetch */
-                required_elts?: components["schemas"]["product_category_selected_elts"];
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["filter_params_PC"];
-            };
-            header?: never;
-            path: {
-                stock_global_category: "PF" | "MP" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product Category data retrieved successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Stock data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["filter_params_PC"][];
-                    };
-                    "application/xml": {
-                        /** @example Product Category data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["filter_params_PC"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Stock not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "5168e82022c69e25a348f7ecc7e247ab": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                qr_code_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Qr code fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Actions fetched successfully */
-                        message?: string;
-                        data?: {
-                            id?: number;
-                            product_code?: string;
-                            lot_number?: string;
-                            quantity?: number;
-                            /** Format: date */
-                            expiration_date?: string;
-                        };
-                    };
-                    "application/xml": {
-                        /** @example Actions fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "743db6fca556baab5f4ec0e12d1a1ad6": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The ID of the QR code to delete */
-                qr_code_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description QR code deleted successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example QR code deleted successfully */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        message?: string;
-                    };
-                };
-            };
-            /** @description Invalid request data */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Invalid request data */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "5d2f667d45dbd8aa74304236f1ca00c8": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                product_code: string;
-                lot_number: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Quantity fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Actions fetched successfully */
-                        message?: string;
-                        data?: {
-                            quantity?: number;
-                        };
-                    };
-                    "application/xml": {
-                        /** @example Actions fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["Action"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-            /** @description QR code not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example QR code not found */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "243f9d365ae979ae09c642f27dda1a4f": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                stock_category: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @example PRD12345 */
-                    product_code?: string;
-                    /** @example LOT98765 */
-                    lot_number?: string;
-                    /** @example 100 */
-                    quantity?: number;
-                    /**
-                     * Format: date-time
-                     * @example 2025-12-31T00:00:00Z
-                     */
-                    expiration_date?: string;
-                };
-                "application/xml": {
-                    product_code?: string;
-                    lot_number?: string;
-                    quantity?: number;
-                    /** Format: date-time */
-                    expiration_date?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description QR code created successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example QR code created successfully */
-                        message?: string;
-                        data?: {
-                            id?: number;
-                        };
-                    };
-                    "application/xml": {
-                        message?: string;
-                        data?: {
-                            id?: number;
-                        };
-                    };
-                };
-            };
-            /** @description Invalid request data */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Invalid request data */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    a23be3f6247b5d045575fe593e651e07: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The ID of the QR code to modify */
-                qr_code_id: number;
-                stock_category: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @example 993 */
-                    product_code?: string;
-                    /** @example GDE050525 */
-                    lot_number?: string;
-                    /** @example 150 */
-                    quantity?: number;
-                    /** Format: date */
-                    expiration_date?: string;
-                };
-                "application/xml": {
-                    /** @example 993 */
-                    product_code?: string;
-                    /** @example GDE050525 */
-                    lot_number?: string;
-                    /** @example 150 */
-                    quantity?: number;
-                    /** Format: date */
-                    expiration_date?: string;
-                };
-            };
-        };
-        responses: {
-            /** @description QR code updated successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example QR code updated successfully */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        message?: string;
-                    };
-                };
-            };
-            /** @description Invalid request data */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Invalid request data */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        error?: string;
-                    };
-                };
-            };
-            /** @description QR code not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example QR code not found */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "0bb5a5bbcbc2e960a88873cee7034c97": {
-        parameters: {
-            query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Select which data we want to fetch */
-                required_elts?: components["schemas"]["qr_code_selected_elts"];
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["filter_params"];
-            };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Qr code data retrieved successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Qr code data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock"][];
-                    };
-                    "application/xml": {
-                        /** @example Qr code data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Qr code not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "3affd2f60f651f8329274f7b8d06c203": {
-        parameters: {
-            query?: {
-                date?: string;
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Select which data we want to fetch */
-                required_elts?: components["schemas"]["stock_selected_elts"];
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["filter_params"];
-            };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Stock data retrieved successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Stock data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock"][];
-                    };
-                    "application/xml": {
-                        /** @example Stock data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Stock not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "1988dd14be8f06b9096f02e3b5ad82a6": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description New actions have been inserted successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example New stock has been successfully saved in database */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        /** @example New stock has been successfully saved in database */
-                        message?: string;
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized */
-                        error?: string;
-                    };
-                };
-            };
-        };
-    };
-    "270886d50fc8c945e01a672f4a1eadd3": {
-        parameters: {
-            query?: {
-                /** @description Maximum number of results to return */
-                limit?: number;
-                /** @description Number of items to skip (for pagination) */
-                offset?: number;
-                /** @description Order by column */
-                order_by?: "id" | "product_code" | "lot_number" | "quantity" | "expiration_date";
-                /** @description Sort order: asc or desc */
-                sort?: "asc" | "desc";
-                /** @description Filter value that appeared multiple times */
-                distinct?: boolean;
-                /** @description Select which data we want to fetch */
-                required_elts?: components["schemas"]["stock_selected_elts_join_product_category_table"];
-                /** @description Add conditions in where clause to filter data */
-                filter_params?: components["schemas"]["filter_params_join_product_category"];
-            };
-            header?: never;
-            path: {
-                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Stock and product_category data retrieved successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Stock and product_category data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock_join_product_category"][];
-                    };
-                    "application/xml": {
-                        /** @example Stock and product_category data retrieved successfully */
-                        message?: string;
-                        data?: components["schemas"]["Stock_join_product_category"][];
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Stock not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "21374aa54f8c94a3dfd9abf9efe9ac86": {
-        parameters: {
-            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Users fetched successfully */
+            /** @description Action collection */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @example Users fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["User"][];
-                    };
-                    "application/xml": {
-                        /** @example Users fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["User"][];
-                    };
-                };
-            };
-            /** @description Unauthorized, login required */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Login required */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Login required */
-                        error?: string;
+                    "application/json": components["schemas"]["Action"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["Action.jsonld"][];
                     };
                 };
             };
         };
     };
-    c23061913c7f3c33a5e8f57461149771: {
+    api_actions_post: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
+        /** @description The new Action resource */
         requestBody: {
             content: {
-                "application/json": {
-                    first_name?: string;
-                    last_name?: string;
-                    username: string;
-                    email: string;
-                    password: string;
-                    role?: string;
-                    user_preferences?: {
-                        theme?: string | null;
-                        tint_color?: string | null;
-                        language?: string | null;
-                    };
-                };
+                "application/json": components["schemas"]["Action"];
+                "application/ld+json": components["schemas"]["Action"];
             };
         };
         responses: {
-            /** @description User created successfully */
+            /** @description Action resource created */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @example User created successfully */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        /** @example User created successfully */
-                        message?: string;
-                    };
+                    "application/json": components["schemas"]["Action"];
+                    "application/ld+json": components["schemas"]["Action.jsonld"];
                 };
             };
             /** @description Invalid input */
@@ -2223,197 +1138,158 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
             };
-            /** @description Unauthorized, login required */
-            401: {
+            /** @description An error occurred */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @example Login required */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Login required */
-                        error?: string;
-                    };
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
                 };
-            };
-            /** @description Failed to create user */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
-    cd7cf90bd70793032e47d1fee7bc665a: {
+    api_actionsbatch_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new Action resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Action.ActionBatchInput"];
+                "application/ld+json": components["schemas"]["Action.ActionBatchInput"];
+            };
+        };
+        responses: {
+            /** @description Action resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Action"];
+                    "application/ld+json": components["schemas"]["Action.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_actions_id_get: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                user_ID: number;
+                /** @description Action identifier */
+                id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description User fetched successfully */
+            /** @description Action resource */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @example User fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["User"];
-                    };
-                    "application/xml": {
-                        /** @example User fetched successfully */
-                        message?: string;
-                        data?: components["schemas"]["User"];
-                    };
+                    "application/json": components["schemas"]["Action"];
+                    "application/ld+json": components["schemas"]["Action.jsonld"];
                 };
             };
-            /** @description Unauthorized, login required */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Login required */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Login required */
-                        error?: string;
-                    };
-                };
-            };
-            /** @description User not found */
+            /** @description Not found */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
             };
         };
     };
-    "97fd6c75f1cdb47d086d2fa8a7063640": {
+    api_action_categories_get_collection: {
         parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                user_ID: number;
+            query?: {
+                /** @description The collection page number */
+                page?: number;
             };
+            header?: never;
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description User deleted successfully */
+            /** @description ActionCategory collection */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @example User deleted successfully */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        /** @example User deleted successfully */
-                        message?: string;
+                    "application/json": components["schemas"]["ActionCategory"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["ActionCategory.jsonld"][];
                     };
                 };
-            };
-            /** @description Unauthorized, login required */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Login required */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Login required */
-                        error?: string;
-                    };
-                };
-            };
-            /** @description Unauthorized */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example Unauthorized: You can only delete your own profile */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Unauthorized: You can only delete your own profile */
-                        error?: string;
-                    };
-                };
-            };
-            /** @description Failed to delete user */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
-    d34c02a1e3276e417eb75f2b6e91cf26: {
+    api_action_categories_post: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                user_ID: number;
-            };
+            path?: never;
             cookie?: never;
         };
+        /** @description The new ActionCategory resource */
         requestBody: {
             content: {
-                "application/json": {
-                    user_preferences?: {
-                        theme?: string | null;
-                        tint_color?: string | null;
-                        language?: string | null;
-                    };
-                    user_info?: {
-                        first_name?: string;
-                        last_name?: string;
-                        username?: string;
-                        email?: string;
-                        role?: string;
-                    };
-                };
+                "application/json": components["schemas"]["ActionCategory"];
+                "application/ld+json": components["schemas"]["ActionCategory"];
             };
         };
         responses: {
-            /** @description User updated successfully */
-            200: {
+            /** @description ActionCategory resource created */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @example User updated successfully */
-                        message?: string;
-                    };
-                    "application/xml": {
-                        /** @example User updated successfully */
-                        message?: string;
-                    };
+                    "application/json": components["schemas"]["ActionCategory"];
+                    "application/ld+json": components["schemas"]["ActionCategory.jsonld"];
                 };
             };
             /** @description Invalid input */
@@ -2421,37 +1297,1475 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_action_categories_id_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ActionCategory identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ActionCategory resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActionCategory"];
+                    "application/ld+json": components["schemas"]["ActionCategory.jsonld"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_action_categories_id_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ActionCategory identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ActionCategory resource deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content?: never;
             };
-            /** @description Unauthorized, login required */
-            401: {
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_action_categories_id_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ActionCategory identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The updated ActionCategory resource */
+        requestBody: {
+            content: {
+                "application/merge-patch+json": components["schemas"]["ActionCategory.jsonMergePatch"];
+            };
+        };
+        responses: {
+            /** @description ActionCategory resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActionCategory"];
+                    "application/ld+json": components["schemas"]["ActionCategory.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_actions_controllers_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ActionsController collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActionsController"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["ActionsController.jsonld"][];
+                    };
+                };
+            };
+        };
+    };
+    api_actions_controllers_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new ActionsController resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ActionsController"];
+                "application/ld+json": components["schemas"]["ActionsController"];
+            };
+        };
+        responses: {
+            /** @description ActionsController resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActionsController"];
+                    "application/ld+json": components["schemas"]["ActionsController.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_actions_controllers_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description ActionsController resource deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_actions_controllers_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The updated ActionsController resource */
+        requestBody: {
+            content: {
+                "application/merge-patch+json": components["schemas"]["ActionsController.jsonMergePatch"];
+            };
+        };
+        responses: {
+            /** @description ActionsController resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActionsController"];
+                    "application/ld+json": components["schemas"]["ActionsController.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_known_errorsfix_errors_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new KnownError resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["KnownError"];
+                "application/ld+json": components["schemas"]["KnownError"];
+            };
+        };
+        responses: {
+            /** @description KnownError resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnownError"];
+                    "application/ld+json": components["schemas"]["KnownError.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_known_errorsshow_errors_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+                /** @example PF_G */
+                stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description KnownError collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnownError"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["KnownError.jsonld"][];
+                    };
+                };
+            };
+        };
+    };
+    login_check_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The login data */
+        requestBody: {
+            content: {
+                "application/json": {
+                    username: string;
+                    password: string;
+                };
+            };
+        };
+        responses: {
+            /** @description User token created */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @example Login required */
-                        error?: string;
-                    };
-                    "application/xml": {
-                        /** @example Login required */
-                        error?: string;
+                        readonly token: string;
                     };
                 };
             };
-            /** @description No sufficient permissions */
-            403: {
+        };
+    };
+    api_products_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+                /** @example PF */
+                stock_group?: "PF" | "MP" | "EMB";
+                "stock_group[]"?: ("PF" | "MP" | "EMB")[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Product"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["Product.jsonld"][];
+                    };
+                };
+            };
+        };
+    };
+    api_products_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new Product resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Product"];
+                "application/ld+json": components["schemas"]["Product"];
+            };
+        };
+        responses: {
+            /** @description Product resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Product"];
+                    "application/ld+json": components["schemas"]["Product.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_products_id_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Product"];
+                    "application/ld+json": components["schemas"]["Product.jsonld"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_products_id_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product resource deleted */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Failed to update user */
-            500: {
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_products_id_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The updated Product resource */
+        requestBody: {
+            content: {
+                "application/merge-patch+json": components["schemas"]["Product.jsonMergePatch"];
+            };
+        };
+        responses: {
+            /** @description Product resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Product"];
+                    "application/ld+json": components["schemas"]["Product.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_qr_codes_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description QrCode collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QrCode"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["QrCode.jsonld"][];
+                    };
+                };
+            };
+        };
+    };
+    api_qr_codes_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new QrCode resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QrCode"];
+                "application/ld+json": components["schemas"]["QrCode"];
+            };
+        };
+        responses: {
+            /** @description QrCode resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QrCode"];
+                    "application/ld+json": components["schemas"]["QrCode.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_qr_codes_id_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description QrCode identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description QrCode resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QrCode"];
+                    "application/ld+json": components["schemas"]["QrCode.jsonld"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_qr_codes_id_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description QrCode identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description QrCode resource deleted */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_qr_codes_id_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description QrCode identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The updated QrCode resource */
+        requestBody: {
+            content: {
+                "application/merge-patch+json": components["schemas"]["QrCode.jsonMergePatch"];
+            };
+        };
+        responses: {
+            /** @description QrCode resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QrCode"];
+                    "application/ld+json": components["schemas"]["QrCode.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_stockadd_new_stocks_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new Stock resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Stock"];
+                "application/ld+json": components["schemas"]["Stock"];
+            };
+        };
+        responses: {
+            /** @description Stock resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Stock"];
+                    "application/ld+json": components["schemas"]["Stock.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_stockget_actual_stocks_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+                /** @example PF_G */
+                stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Stock collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Stock"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["Stock.jsonld"][];
+                    };
+                };
+            };
+        };
+    };
+    api_stock_at_date_date_get: {
+        parameters: {
+            query?: {
+                /** @description StockSnapshot date */
+                date?: string;
+            };
+            header?: never;
+            path: {
+                /** @description StockSnapshot identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description StockSnapshot resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StockSnapshot"];
+                    "application/ld+json": components["schemas"]["StockSnapshot.jsonld"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_stock_at_date_date_post: {
+        parameters: {
+            query?: {
+                /** @description StockSnapshot date */
+                date?: string;
+            };
+            header?: never;
+            path: {
+                /** @description StockSnapshot identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The new StockSnapshot resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StockSnapshot"];
+                "application/ld+json": components["schemas"]["StockSnapshot"];
+            };
+        };
+        responses: {
+            /** @description StockSnapshot resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StockSnapshot"];
+                    "application/ld+json": components["schemas"]["StockSnapshot.jsonld"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_users_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User-user.read"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["User.jsonld-user.read"][];
+                    };
+                };
+            };
+        };
+    };
+    api_users_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new User resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["User-user.create_user.update"];
+                "application/ld+json": components["schemas"]["User-user.create_user.update"];
+            };
+        };
+        responses: {
+            /** @description User resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User-user.read"];
+                    "application/ld+json": components["schemas"]["User.jsonld-user.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_users_id_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User-user.read"];
+                    "application/ld+json": components["schemas"]["User.jsonld-user.read"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_users_id_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The updated User resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["User-user.create_user.update"];
+                "application/ld+json": components["schemas"]["User-user.create_user.update"];
+            };
+        };
+        responses: {
+            /** @description User resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User-user.read"];
+                    "application/ld+json": components["schemas"]["User.jsonld-user.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_users_id_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User resource deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_users_id_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The updated User resource */
+        requestBody: {
+            content: {
+                "application/merge-patch+json": components["schemas"]["User-user.create_user.update.jsonMergePatch"];
+            };
+        };
+        responses: {
+            /** @description User resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User-user.read"];
+                    "application/ld+json": components["schemas"]["User.jsonld-user.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_user_preferences_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description UserPreference collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserPreference-preferences.read"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["UserPreference.jsonld-preferences.read"][];
+                    };
+                };
+            };
+        };
+    };
+    api_user_preferences_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new UserPreference resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserPreference-preferences.write"];
+                "application/ld+json": components["schemas"]["UserPreference-preferences.write"];
+            };
+        };
+        responses: {
+            /** @description UserPreference resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserPreference-preferences.read"];
+                    "application/ld+json": components["schemas"]["UserPreference.jsonld-preferences.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_user_preferences_id_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UserPreference identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description UserPreference resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserPreference-preferences.read"];
+                    "application/ld+json": components["schemas"]["UserPreference.jsonld-preferences.read"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_user_preferences_id_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UserPreference identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description UserPreference resource deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_user_preferences_id_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description UserPreference identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The updated UserPreference resource */
+        requestBody: {
+            content: {
+                "application/merge-patch+json": components["schemas"]["UserPreference-preferences.write.jsonMergePatch"];
+            };
+        };
+        responses: {
+            /** @description UserPreference resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserPreference-preferences.read"];
+                    "application/ld+json": components["schemas"]["UserPreference.jsonld-preferences.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
             };
         };
     };

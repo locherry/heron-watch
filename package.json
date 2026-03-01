@@ -13,7 +13,7 @@
     "translate": "node ./scripts/updateTranslation.mjs",
     "ip_config": "node ./scripts/updateIpConfig.mjs",
     "swagger": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts",
-    "update_api_interface": "npx openapi-typescript http://localhost/Swagger/swagger.yaml --output ./lib/swagger.ts"
+    "update_api_interface": "npx openapi-typescript http://localhost:8000/api/docs.json --output ./lib/swagger.ts"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",

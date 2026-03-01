@@ -32,12 +32,12 @@ export default function LoginScreen() {
     isLoading: loginIsLoading,
     isError: loginIsError,
   } = useFetchQuery(
-    "/login",
+    "/api/login",
     "post",
     {},
-    { email, password },
+    { username: email, password },
     isLoginTriggered, // Only enable this when login is triggered
-    { retry: false } // disables retries for login
+    { retry: false }, // disables retries for login
   );
 
   if (loginError) {
@@ -87,14 +87,14 @@ export default function LoginScreen() {
             email: string;
             jwt: string;
             role: "admin" | "user";
-          }
+          },
         );
         SecureStorage.set(
           "userPreferences",
           userPreferences as {
             theme: "dark" | "light" | "system";
             language: "EN" | "FR" | "EU";
-          }
+          },
         );
         // Store user info and then :
         router.push("/home");
@@ -120,7 +120,9 @@ export default function LoginScreen() {
         </Text>
 
         {error && (
-          <Text className="text-destructive text-sm text-center mb-4">{error}</Text>
+          <Text className="text-destructive text-sm text-center mb-4">
+            {error}
+          </Text>
         )}
 
         {/* Email Input */}

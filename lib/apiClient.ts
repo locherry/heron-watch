@@ -17,20 +17,19 @@ import { SecureStorage } from "./classes/SecureStorage";
 import { capitalizeFirst } from "./utils";
 
 // Base URL for API requests
-
-console.log(process.env)
-
-const endpoint = `http://${process.env.EXPO_PUBLIC_SERVER_IP}`;
+const protocol =
+  process.env.EXPO_PUBLIC_HTTPS_ENABLED === "true" ? "https" : "http";
+const endpoint = `${protocol}://${process.env.EXPO_PUBLIC_SERVER_IP}:${process.env.EXPO_PUBLIC_SERVER_PORT}`;
 
 // List of API routes that do not require JWT authentication
 // Due to limitation in openapi-typescript
 // (security schemes not transfered from the yaml file)
-const guestRoutes: readonly ApiPath[] = ["/login"];
+const guestRoutes: readonly ApiPath[] = ["/api/login"];
 
 // Returns headers for API requests, adding JWT if needed
 async function getAuthHeaders(
   url: string,
-  guestRoutes: readonly string[]
+  guestRoutes: readonly string[],
 ): Promise<HeadersInit> {
   let headers: HeadersInit = {
     "Content-Type": "application/json",
@@ -49,7 +48,7 @@ async function getAuthHeaders(
 // Replaces path parameters like /users/{id} with actual values
 function substitutePath(
   url: string,
-  pathParams?: Record<string, string | number>
+  pathParams?: Record<string, string | number>,
 ) {
   if (pathParams) {
     for (const [key, value] of Object.entries(pathParams)) {
@@ -76,7 +75,7 @@ function buildQueryString(queryParams?: Record<string, any>) {
         } else {
           return [[k, String(v)]];
         }
-      })
+      }),
   ).toString();
   return qs ? `?${qs}` : "";
 }
@@ -89,7 +88,7 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
   url: P,
   method: M,
   params?: ApiRequestParams<P, M>,
-  body?: ApiRequestBody<P, M>
+  body?: ApiRequestBody<P, M>,
 ): Promise<ApiResponse<P, M>> {
   const httpMethod = method.toUpperCase() as Uppercase<M>;
 
