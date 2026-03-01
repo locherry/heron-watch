@@ -1,6 +1,8 @@
 import { components } from "~/lib/swagger";
 
-export type Action = components["schemas"]["Action"];
+export type ActionWrite = components["schemas"]["Action-action.write"];
+
+export type ActionRead = components["schemas"]["Action-action.read"];
 
 export type ActionSortState = {
   order_by:

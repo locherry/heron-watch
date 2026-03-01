@@ -20,10 +20,14 @@ export const constants = {
     EMB: Package,
   },
   actionTypes: [
-    { value: "1", label: "actions.1", icon: Package, additionRule: "+" },
-    { value: "2", label: "actions.2", icon: Tag, additionRule: "-" },
-    { value: "3", label: "actions.3", icon: Gift, additionRule: "-" },
-    { value: "4", label: "actions.4", icon: Store, additionRule: "-" },
+    { value: "1", label: "I stock", icon: Package, additionRule: "+" },
+    { value: "2", label: "I sell", icon: Tag, additionRule: "-" },
+    { value: "3", label: "I Give", icon: Gift, additionRule: "-" },
+    {
+      value: "4",
+      label: "I Transfer to the shop",
+      icon: Store,
+      additionRule: "-",
+    },
   ],
-  appName: "Heron Watch",
 } as const;

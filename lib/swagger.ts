@@ -512,8 +512,26 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        Action: {
+        "Action-action.read": {
             readonly id?: number;
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
+            stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            quantity?: number;
+            comment?: string | null;
+            product: components["schemas"]["Product-action.read"];
+            batch_number: string;
+            created_by_id: components["schemas"]["User-action.read"];
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            expire_at?: string;
+            action_category: components["schemas"]["ActionCategory-action.read"];
+            transaction_code?: string | null;
+        };
+        "Action-action.write": {
             /**
              * @example PF_G
              * @enum {string}
@@ -527,13 +545,6 @@ export interface components {
              */
             product: string;
             batch_number: string;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            created_by_id: string;
-            /** Format: date-time */
-            created_at: string;
             /** Format: date-time */
             expire_at?: string;
             /**
@@ -542,75 +553,23 @@ export interface components {
              */
             action_category: string;
             transaction_code?: string | null;
-            /** @enum {string} */
-            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            batchNumber?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            actionCategory?: string | null;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            createdById?: string | null;
-            readonly productCode?: string | null;
-            transactionCode?: string | null;
-            /** Format: date-time */
-            expireAt?: string;
         };
-        "Action.ActionBatchInput": {
-            actions: components["schemas"]["Action"][];
-        };
-        "Action.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+        "Action.ActionBatchInput-action.write": Record<string, never>;
+        "Action.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
             /** @enum {string} */
             stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             quantity?: number;
             comment?: string | null;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            product: string;
+            product: components["schemas"]["Product.jsonld-action.read"];
             batch_number: string;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            created_by_id: string;
+            created_by_id: components["schemas"]["User.jsonld-action.read"];
             /** Format: date-time */
             created_at: string;
             /** Format: date-time */
             expire_at?: string;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            action_category: string;
+            action_category: components["schemas"]["ActionCategory.jsonld-action.read"];
             transaction_code?: string | null;
-            /** @enum {string} */
-            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            batchNumber?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            actionCategory?: string | null;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            createdById?: string | null;
-            readonly productCode?: string | null;
-            transactionCode?: string | null;
-            /** Format: date-time */
-            expireAt?: string;
         };
         ActionCategory: {
             readonly id?: number;
@@ -620,6 +579,12 @@ export interface components {
             actionName?: string;
             /** @enum {string} */
             additionRule?: "+" | "-";
+        };
+        "ActionCategory-action.read": {
+            readonly id?: number;
+            action_name: string;
+            /** @enum {string} */
+            addition_rule: "+" | "-";
         };
         "ActionCategory.jsonMergePatch": {
             readonly id?: number;
@@ -638,6 +603,12 @@ export interface components {
             actionName?: string;
             /** @enum {string} */
             additionRule?: "+" | "-";
+        };
+        "ActionCategory.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            action_name: string;
+            /** @enum {string} */
+            addition_rule: "+" | "-";
         };
         ActionsController: {
             container?: components["schemas"]["ContainerInterface"];
@@ -879,6 +850,10 @@ export interface components {
             /** @enum {string} */
             stockGroup?: "PF" | "MP" | "EMB";
         };
+        "Product-action.read": {
+            product_code: string;
+            product_name: string;
+        };
         "Product.jsonMergePatch": {
             readonly id?: number;
             product_code?: string;
@@ -907,6 +882,10 @@ export interface components {
             productspecificity?: string;
             /** @enum {string} */
             stockGroup?: "PF" | "MP" | "EMB";
+        };
+        "Product.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
+            product_code: string;
+            product_name: string;
         };
         QrCode: {
             readonly id?: number;
@@ -1028,6 +1007,11 @@ export interface components {
             /** Format: date-time */
             snapshotDate?: string;
         };
+        "User-action.read": {
+            readonly id?: number;
+            first_name: string;
+            last_name: string;
+        };
         "User-user.create_user.update": {
             /** Format: email */
             email: string;
@@ -1054,8 +1038,13 @@ export interface components {
             readonly id?: number;
             /** Format: email */
             email: string;
-            /** @description The user roles */
-            roles?: ("ROLE_USER" | "ROLE_ADMIN")[];
+            /**
+             * @description The user roles
+             * @default [
+             *       "ROLE_USER"
+             *     ]
+             */
+            roles: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name: string;
             last_name: string;
             /**
@@ -1064,12 +1053,22 @@ export interface components {
              */
             preferences?: string | null;
         };
+        "User.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
+            first_name: string;
+            last_name: string;
+        };
         "User.jsonld-user.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
             /** Format: email */
             email: string;
-            /** @description The user roles */
-            roles?: ("ROLE_USER" | "ROLE_ADMIN")[];
+            /**
+             * @description The user roles
+             * @default [
+             *       "ROLE_USER"
+             *     ]
+             */
+            roles: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name: string;
             last_name: string;
             /**
@@ -1124,9 +1123,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Action"][];
+                    "application/json": components["schemas"]["Action-action.read"][];
                     "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
-                        member: components["schemas"]["Action.jsonld"][];
+                        member: components["schemas"]["Action.jsonld-action.read"][];
                     };
                 };
             };
@@ -1142,8 +1141,8 @@ export interface operations {
         /** @description The new Action resource */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Action"];
-                "application/ld+json": components["schemas"]["Action"];
+                "application/json": components["schemas"]["Action-action.write"];
+                "application/ld+json": components["schemas"]["Action-action.write"];
             };
         };
         responses: {
@@ -1153,8 +1152,8 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Action"];
-                    "application/ld+json": components["schemas"]["Action.jsonld"];
+                    "application/json": components["schemas"]["Action-action.read"];
+                    "application/ld+json": components["schemas"]["Action.jsonld-action.read"];
                 };
             };
             /** @description Invalid input */
@@ -1191,8 +1190,8 @@ export interface operations {
         /** @description The new Action resource */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Action.ActionBatchInput"];
-                "application/ld+json": components["schemas"]["Action.ActionBatchInput"];
+                "application/json": components["schemas"]["Action.ActionBatchInput-action.write"];
+                "application/ld+json": components["schemas"]["Action.ActionBatchInput-action.write"];
             };
         };
         responses: {
@@ -1202,8 +1201,8 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Action"];
-                    "application/ld+json": components["schemas"]["Action.jsonld"];
+                    "application/json": components["schemas"]["Action-action.read"];
+                    "application/ld+json": components["schemas"]["Action.jsonld-action.read"];
                 };
             };
             /** @description Invalid input */
@@ -1248,8 +1247,8 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Action"];
-                    "application/ld+json": components["schemas"]["Action.jsonld"];
+                    "application/json": components["schemas"]["Action-action.read"];
+                    "application/ld+json": components["schemas"]["Action.jsonld-action.read"];
                 };
             };
             /** @description Not found */

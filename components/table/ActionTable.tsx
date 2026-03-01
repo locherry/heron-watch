@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
-import { Action } from "~/@types/action";
+import { ActionRead } from "~/@types/action";
 import { BaseTableProps } from "~/@types/table";
 import { constants } from "~/lib/constants";
 import { capitalizeFirst } from "~/lib/utils";
@@ -9,14 +9,24 @@ import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
 import { BaseTable } from "./BaseTable";
 
-export function ActionTable(props: Omit<BaseTableProps<Action>, "columns">) {
+export function ActionTable(
+  props: Omit<BaseTableProps<ActionRead>, "columns">,
+) {
   const [t] = useTranslation();
 
-  const columns: ColumnDef<Action>[] = [
+  const columns: ColumnDef<ActionRead>[] = [
     {
-      id: "product_code",
-      accessorKey: "product_code",
+      id: "product",
+      accessorKey: "product",
       header: () => capitalizeFirst(t("actions.product_code")),
+      cell: ({ getValue }) => {
+        const product = getValue<ActionRead["product"]>();
+        return (
+          <Text>
+            {product.product_code} — {product.product_name}
+          </Text>
+        );
+      },
     },
     {
       id: "quantity",
@@ -42,29 +52,53 @@ export function ActionTable(props: Omit<BaseTableProps<Action>, "columns">) {
       id: "created_by_id",
       accessorKey: "created_by_id",
       header: () => capitalizeFirst(t("actions.created_by_id")),
-    },
-    {
-      id: "action_id",
-      accessorKey: "action_id",
-      header: () => capitalizeFirst(t("actions.action_id")),
-      cell: (item) => {
-        const currentActionType = constants.actionTypes.find(
-          (actionType) => actionType.value == item.getValue()
-        );
+      cell: ({ getValue }) => {
+        const created_by_id = getValue<ActionRead["created_by_id"]>();
         return (
-          <Row gap={8}>
-            {currentActionType?.icon && <Icon as={currentActionType.icon} />}
-            <Text>
-              {currentActionType?.label &&
-                capitalizeFirst(t(currentActionType.label))}
-            </Text>
-          </Row>
+          <Text>
+            {/* TODO */}
+            {/* <Link href={`/users/${created_by_id.id}`}> */}
+            {created_by_id.first_name} {created_by_id.last_name}
+            {/* </Link> */}
+          </Text>
         );
       },
     },
     {
-      id: "transaction",
-      accessorKey: "transaction",
+      id: "action_category",
+      accessorKey: "action_category",
+      header: () => capitalizeFirst(t("actions.action_id")),
+
+      cell: ({ getValue }) => {
+        const action_category = getValue<ActionRead["action_category"]>();
+        const currentActionType = constants.actionTypes.find(
+          (actionType) => actionType.label == action_category.action_name,
+        );
+        return (
+          <Row gap={8}>
+            {currentActionType?.icon && <Icon as={currentActionType.icon} />}
+            <Text>{t(action_category.action_name as "I stock")}</Text>
+          </Row>
+        );
+      },
+      // cell: (item) => {
+      //   const currentActionType = constants.actionTypes.find(
+      //     (actionType) => actionType.value == item.getValue(),
+      //   );
+      //   return (
+      //     <Row gap={8}>
+      //       {currentActionType?.icon && <Icon as={currentActionType.icon} />}
+      //       <Text>
+      //         {currentActionType?.label &&
+      //           capitalizeFirst(t(currentActionType.label))}
+      //       </Text>
+      //     </Row>
+      //   );
+      // },
+    },
+    {
+      id: "transaction_code",
+      accessorKey: "transaction_code",
       header: () => capitalizeFirst(t("actions.transaction")),
     },
   ];
