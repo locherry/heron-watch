@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef } from "@tanstack/react-table";
 
 export interface TableFeatures {
   sorting?: boolean;
@@ -19,7 +19,11 @@ export interface BaseTableProps<T> extends ViewProps {
   onEdit?: (item: T) => void;
   onDelete?: (item: T) => void;
   fetchNextPage?: () => void;
+  // Pagination
+  page?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
   className?: string;
-  fixedWidth? : number;
-  onPress? : (...args : any[]) => void;
+  fixedWidth?: number;
+  onPress?: (...args: any[]) => void;
 }

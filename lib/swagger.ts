@@ -152,6 +152,26 @@ export interface paths {
         patch: operations["api_actions_controllers_patch"];
         trace?: never;
     };
+    "/api/known_errors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the collection of KnownError resources.
+         * @description Retrieves the collection of KnownError resources.
+         */
+        get: operations["api_known_errors_get_collection"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/known_errors/fix_errors": {
         parameters: {
             query?: never;
@@ -225,43 +245,11 @@ export interface paths {
          */
         get: operations["api_products_get_collection"];
         put?: never;
-        /**
-         * Creates a Product resource.
-         * @description Creates a Product resource.
-         */
-        post: operations["api_products_post"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
-        trace?: never;
-    };
-    "/api/products/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves a Product resource.
-         * @description Retrieves a Product resource.
-         */
-        get: operations["api_products_id_get"];
-        put?: never;
-        post?: never;
-        /**
-         * Removes the Product resource.
-         * @description Removes the Product resource.
-         */
-        delete: operations["api_products_id_delete"];
-        options?: never;
-        head?: never;
-        /**
-         * Updates the Product resource.
-         * @description Updates the Product resource.
-         */
-        patch: operations["api_products_id_patch"];
         trace?: never;
     };
     "/api/qr_codes": {
@@ -860,22 +848,6 @@ export interface components {
             product_name: string;
             product_specificity: string;
         };
-        "Product.jsonMergePatch": {
-            readonly id?: number;
-            product_code?: string;
-            product_name?: string;
-            product_specificity?: string;
-            /**
-             * @example PF
-             * @enum {string}
-             */
-            stock_group?: "PF" | "MP" | "EMB";
-            productCode?: string;
-            productName?: string;
-            productspecificity?: string;
-            /** @enum {string} */
-            stockGroup?: "PF" | "MP" | "EMB";
-        };
         "Product.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
             product_code: string;
@@ -1117,6 +1089,8 @@ export interface operations {
             query?: {
                 /** @description The collection page number */
                 page?: number;
+                /** @description The number of items per page */
+                itemsPerPage?: number;
                 /** @example PF_G */
                 stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
@@ -1641,6 +1615,37 @@ export interface operations {
             };
         };
     };
+    api_known_errors_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+                /** @description The number of items per page */
+                itemsPerPage?: number;
+                /** @example PF_G */
+                stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description KnownError collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KnownError"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["KnownError.jsonld"][];
+                    };
+                };
+            };
+        };
+    };
     api_known_errorsfix_errors_post: {
         parameters: {
             query?: never;
@@ -1754,6 +1759,8 @@ export interface operations {
             query?: {
                 /** @description The collection page number */
                 page?: number;
+                /** @description The number of items per page */
+                itemsPerPage?: number;
                 /** @example PF */
                 stock_group?: "PF" | "MP" | "EMB";
                 "stock_group[]"?: ("PF" | "MP" | "EMB")[];
@@ -1774,184 +1781,6 @@ export interface operations {
                     "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
                         member: components["schemas"]["Product.jsonld"][];
                     };
-                };
-            };
-        };
-    };
-    api_products_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description The new Product resource */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Product"];
-                "application/ld+json": components["schemas"]["Product"];
-            };
-        };
-        responses: {
-            /** @description Product resource created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Product"];
-                    "application/ld+json": components["schemas"]["Product.jsonld"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description An error occurred */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
-                    "application/problem+json": components["schemas"]["ConstraintViolation"];
-                    "application/json": components["schemas"]["ConstraintViolation"];
-                };
-            };
-        };
-    };
-    api_products_id_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product identifier */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product resource */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Product"];
-                    "application/ld+json": components["schemas"]["Product.jsonld"];
-                };
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-        };
-    };
-    api_products_id_delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product identifier */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product resource deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-        };
-    };
-    api_products_id_patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product identifier */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /** @description The updated Product resource */
-        requestBody: {
-            content: {
-                "application/merge-patch+json": components["schemas"]["Product.jsonMergePatch"];
-            };
-        };
-        responses: {
-            /** @description Product resource updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Product"];
-                    "application/ld+json": components["schemas"]["Product.jsonld"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description An error occurred */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
-                    "application/problem+json": components["schemas"]["ConstraintViolation"];
-                    "application/json": components["schemas"]["ConstraintViolation"];
                 };
             };
         };
@@ -2165,6 +1994,8 @@ export interface operations {
             query?: {
                 /** @description The collection page number */
                 page?: number;
+                /** @description The number of items per page */
+                itemsPerPage?: number;
                 /** @example PF_G */
                 stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
@@ -2368,6 +2199,8 @@ export interface operations {
             query?: {
                 /** @description The collection page number */
                 page?: number;
+                /** @description The number of items per page */
+                itemsPerPage?: number;
             };
             header?: never;
             path?: never;

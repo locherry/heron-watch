@@ -6,7 +6,18 @@ import { capitalizeFirst } from "~/lib/utils";
 import { Text } from "../ui/text";
 import { BaseTable } from "./BaseTable";
 
-export function StockTable(props: Omit<BaseTableProps<StockRead>, "columns">) {
+type StockTableProps = Omit<BaseTableProps<StockRead>, "columns"> & {
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+};
+
+export function StockTable({
+  page,
+  totalPages,
+  onPageChange,
+  ...props
+}: StockTableProps) {
   const [t] = useTranslation();
 
   const columns: ColumnDef<StockRead>[] = [
@@ -41,7 +52,6 @@ export function StockTable(props: Omit<BaseTableProps<StockRead>, "columns">) {
       id: "expire_at",
       accessorKey: "expire_at",
       header: () => capitalizeFirst(t("stocks.expiration_date")),
-      // cell: ({ getValue }) => <Text>{getValue<StockRead["expire_at"]>()}</Text>,
     },
   ];
 
@@ -51,6 +61,10 @@ export function StockTable(props: Omit<BaseTableProps<StockRead>, "columns">) {
       data={props.data ?? []}
       columns={columns}
       features={{ sorting: props.sorting, edition: props.editEnabled }}
+      onPageChange={onPageChange}
+      page={page}
+      totalPages={totalPages}
+      // page, totalPages, onPageChange flow through via {...props}
     />
   );
 }

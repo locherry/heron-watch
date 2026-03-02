@@ -1,9 +1,5 @@
-/**
- * Stock type refers to the type of stock, whether it is "raw_materials" or "finished_products"
- * Stock category refers to the category of stock, e.g. "PF_G" | "MP_F"
- */
 import { useLocalSearchParams } from "expo-router"; // Hook to read URL parameters
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next"; // For internationalization and translations
 import { ActivityIndicator } from "react-native"; // Loading spinner
 import { StockCategory, StockSortState } from "~/@types/stock"; // Type definitions for stock category and sorting
@@ -20,7 +16,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip"; // Tooltip UI components
 import { constants } from "~/lib/constants"; // Constants like stock category icons
-import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery"; // Custom hook for infinite scroll data fetching
+import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils"; // Utility function to capitalize the first letter
 
 export default function ViewStocks() {
@@ -42,24 +38,30 @@ export default function ViewStocks() {
     date.toISOString().split("T")[0],
   );
 
-  // Fetch stock data with infinite scroll, and filter by date and sorting if necessary
-  const { data, error, isLoading, isError, fetchNextPage } =
-    useInfiniteFetchQuery(
-      "/api/stock/current_stock", // API endpoint to fetch stock data
-      "get", // HTTP method
-      {
-        query: {
-          stock_category: stockCategory,
-          limit: 10, // Pagination limit
-          ...(isDateToday
-            ? {} // If the selected date is today, do not add date to the query
-            : { date: date.toISOString().split("T")[0] + " 00:00:00" }), // If date is not today, format date with time part
-          ...(sorting
-            ? { sort: sorting.sort, order_by: sorting.order_by }
-            : {}), // Add sorting parameters if set
-        },
+  const [page, setPage] = useState(1);
+
+  // Reset page when category, date, or sorting changes
+  useEffect(() => {
+    setPage(1);
+  }, [stockCategory, date, sorting]);
+
+  const { data, isLoading, isError, error } = useFetchQuery(
+    "/api/stock/current_stock",
+    "get",
+    {
+      query: {
+        stock_category: stockCategory,
+        page,
+        ...(isDateToday
+          ? {}
+          : { date: date.toISOString().split("T")[0] + " 00:00:00" }),
+        ...(sorting ? { sort: sorting.sort, order_by: sorting.order_by } : {}),
       },
-    );
+    },
+  );
+
+  const totalItems = data?.["totalItems"] ?? 0;
+  const totalPages = Math.ceil(totalItems / 10);
 
   // If an error occurs during data fetching, log it
   if (isError) {
@@ -110,10 +112,12 @@ export default function ViewStocks() {
         // Display stock data table when data is available
         <StockTable
           className="z-0"
-          data={data?.pages.flatMap((page) => page ?? []) ?? []} // Flatten the data from infinite fetch query
-          fetchNextPage={fetchNextPage} // Function to fetch next page of data
-          sorting={sorting} // Current sorting state
-          onSortingChange={setSorting} // Function to handle sorting changes
+          data={data?.["member"] ?? []}
+          sorting={sorting}
+          onSortingChange={setSorting}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
         />
       )}
     </RootView>

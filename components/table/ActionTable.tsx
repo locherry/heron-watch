@@ -32,6 +32,14 @@ export function ActionTable(
       id: "quantity",
       accessorKey: "quantity",
       header: () => capitalizeFirst(t("actions.quantity")),
+      cell: ({ row }) => {
+        const quantity = row.original.quantity ?? 0;
+        const additionRule = row.original.action_category.addition_rule;
+
+        const displayQuantity = additionRule === "+" ? quantity : -quantity;
+
+        return <Text>{displayQuantity}</Text>;
+      },
     },
     {
       id: "batch_number",

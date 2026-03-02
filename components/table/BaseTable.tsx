@@ -1,5 +1,12 @@
 import { flexRender } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, Pencil, X } from "lucide-react-native";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Pencil,
+  X,
+} from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, ScrollView, View } from "react-native";
 import { BaseTableProps } from "~/@types/table";
@@ -21,6 +28,9 @@ export function BaseTable<T>({
   features = { sorting: false, edition: false },
   fixedWidth,
   onPress = () => {},
+  page,
+  totalPages,
+  onPageChange,
   ...props
 }: BaseTableProps<T>) {
   const [t] = useTranslation();
@@ -30,6 +40,7 @@ export function BaseTable<T>({
     columns,
     ...props,
   });
+
   let columnWidths = useColumnWidths({ columns });
   if (fixedWidth) {
     const count = columns.length;
@@ -37,6 +48,11 @@ export function BaseTable<T>({
       .fill(0)
       .map(() => Math.max(140, fixedWidth / count));
   }
+
+  const isPaginated =
+    page !== undefined &&
+    totalPages !== undefined &&
+    onPageChange !== undefined;
 
   const renderHeader = () => (
     <View className="flex-row border-b border-border bg-background">
@@ -79,7 +95,6 @@ export function BaseTable<T>({
         className={cn(
           "flex-row",
           index % 2 === 0 ? "bg-muted" : "bg-background",
-          "dark:bg-muted-dark dark:odd:bg-background-dark",
         )}
       >
         {item.getVisibleCells().map((cell: any, cellIndex: number) => (
@@ -94,8 +109,6 @@ export function BaseTable<T>({
             </Text>
           </View>
         ))}
-
-        {/* Edit and Delete Buttons (conditionally rendered) */}
         {features.edition && (
           <View className="flex-row items-center space-x-2 p-2">
             <Button onPress={() => onEdit?.(item)} variant={"outline"}>
@@ -115,6 +128,7 @@ export function BaseTable<T>({
       </View>
     </Pressable>
   );
+
   return (
     <View className={cn("flex-1", className)}>
       <ScrollView horizontal>
@@ -124,16 +138,41 @@ export function BaseTable<T>({
             data={tableInstance.getRowModel().rows}
             keyExtractor={(row) => row.id}
             renderItem={renderRow}
-            onEndReached={fetchNextPage}
+            // Only use infinite scroll when not paginating
+            onEndReached={!isPaginated ? fetchNextPage : undefined}
             onEndReachedThreshold={0.5}
           />
         </View>
       </ScrollView>
 
       {totalRow && (
-        <View className="flex-row justify-between p-2 border-t border-border bg-background dark:bg-background-dark">
+        <View className="flex-row justify-between p-2 border-t border-border bg-background">
           <Text>{capitalizeFirst(t("common.total"))}</Text>
           <Text>{data.length}</Text>
+        </View>
+      )}
+
+      {isPaginated && (
+        <View className="flex-row items-center justify-center gap-4 py-3 border-t border-border bg-background">
+          <Button
+            variant="outline"
+            onPress={() => onPageChange(page - 1)}
+            disabled={page <= 1}
+          >
+            <Icon as={ChevronLeft} />
+          </Button>
+
+          <Text className="text-foreground">
+            {page} / {totalPages}
+          </Text>
+
+          <Button
+            variant="outline"
+            onPress={() => onPageChange(page + 1)}
+            disabled={page >= totalPages}
+          >
+            <Icon as={ChevronRight} />
+          </Button>
         </View>
       )}
     </View>

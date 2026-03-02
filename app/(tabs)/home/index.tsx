@@ -18,7 +18,7 @@ import {
   Store,
   Sun,
 } from "lucide-react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, View } from "react-native";
 import { ActionSortState } from "~/@types/action";
@@ -34,7 +34,7 @@ import {
 } from "~/components/ui/material-tabs";
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Text } from "~/components/ui/text";
-import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
+import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
 export default function MaterialTabsExample() {
@@ -88,15 +88,27 @@ export default function MaterialTabsExample() {
   }
 
   const [sorting, setSorting] = useState<ActionSortState | null>(null);
+  const [page, setPage] = useState(1);
 
-  const { data, error, isLoading, isError, fetchNextPage } =
-    useInfiniteFetchQuery("/api/actions", "get", {
+  // Reset page when category, or sorting changes
+  useEffect(() => {
+    setPage(1);
+  }, [currentStockCategory[currentStockType], sorting]);
+
+  const { data, isLoading, isError, error } = useFetchQuery(
+    "/api/actions",
+    "get",
+    {
       query: {
-        limit: 10,
-        ...(sorting ? { sort: sorting.sort, order_by: sorting.order_by } : {}),
         stock_category: currentStockCategory[currentStockType],
+        page,
+        ...(sorting ? { sort: sorting.sort, order_by: sorting.order_by } : {}),
       },
-    });
+    },
+  );
+
+  const totalItems = data?.["totalItems"] ?? 0;
+  const totalPages = Math.ceil(totalItems / 10);
 
   if (isError) {
     console.error(error.message);
@@ -225,10 +237,13 @@ export default function MaterialTabsExample() {
           <ActivityIndicator />
         ) : (
           <ActionTable
-            data={data?.pages.flatMap((page) => page ?? []) ?? []}
-            fetchNextPage={fetchNextPage}
+            className="z-0"
+            data={data?.["member"] ?? []}
             sorting={sorting}
             onSortingChange={setSorting}
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
           />
         )}
       </View>
