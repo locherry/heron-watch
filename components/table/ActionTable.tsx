@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ActionRead } from "~/@types/action";
 import { BaseTableProps } from "~/@types/table";
 import { constants } from "~/lib/constants";
+import { useFormatDate } from "~/lib/hooks/useformatDate";
 import { capitalizeFirst } from "~/lib/utils";
 import Row from "../layout/Row";
 import { Icon } from "../ui/icon";
@@ -13,6 +14,7 @@ export function ActionTable(
   props: Omit<BaseTableProps<ActionRead>, "columns">,
 ) {
   const [t] = useTranslation();
+  const formatDate = useFormatDate();
 
   const columns: ColumnDef<ActionRead>[] = [
     {
@@ -50,6 +52,14 @@ export function ActionTable(
       id: "created_at",
       accessorKey: "created_at",
       header: () => capitalizeFirst(t("actions.created_at")),
+
+      cell: ({ getValue }) => {
+        const raw = getValue<ActionRead["created_at"]>();
+        if (!raw) return <Text>-</Text>;
+
+        const date = new Date(raw);
+        return <Text>{formatDate(date)}</Text>;
+      },
     },
     {
       id: "comment",

@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { StockRead } from "~/@types/stock";
 import { BaseTableProps } from "~/@types/table";
+import { useFormatDate } from "~/lib/hooks/useformatDate";
 import { capitalizeFirst } from "~/lib/utils";
 import { Text } from "../ui/text";
 import { BaseTable } from "./BaseTable";
@@ -19,6 +20,7 @@ export function StockTable({
   ...props
 }: StockTableProps) {
   const [t] = useTranslation();
+  const formatDate = useFormatDate();
 
   const columns: ColumnDef<StockRead>[] = [
     {
@@ -52,6 +54,13 @@ export function StockTable({
       id: "expire_at",
       accessorKey: "expire_at",
       header: () => capitalizeFirst(t("stocks.expiration_date")),
+      cell: ({ getValue }) => {
+        const raw = getValue<StockRead["expire_at"]>();
+        if (!raw) return <Text>-</Text>;
+
+        const date = new Date(raw);
+        return <Text>{formatDate(date)}</Text>;
+      },
     },
   ];
 
