@@ -1,4 +1,3 @@
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router"; // For navigation
 import { Eye, EyeClosed } from "lucide-react-native";
 import * as React from "react";
@@ -15,6 +14,7 @@ import {
   DefaultSecureStorageData,
   SecureStorage,
 } from "~/lib/classes/SecureStorage";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function LoginScreen() {
@@ -25,24 +25,15 @@ export default function LoginScreen() {
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
 
-  const { mutate: login, isPending } = useMutation({
-    mutationFn: () =>
-      apiFetch("/api/login", "post", undefined, {
-        username: email,
-        password,
-      }),
-
+  const { mutate: login, isPending } = useFetchMutation("/api/login", "post", {
     onSuccess: async (data) => {
-      // Save token first so apiFetch can use it for the /me request
       await SecureStorage.set("userSession", {
         ...DefaultSecureStorageData.userSession,
         jwt: data.token,
       });
 
-      // Fetch user info
       const me = await apiFetch("/api/me", "get");
 
-      // Save complete session
       await SecureStorage.set("userSession", {
         jwt: data.token,
         id: me.id ?? DefaultSecureStorageData.userSession.id,
@@ -54,10 +45,7 @@ export default function LoginScreen() {
 
       router.push("/home");
     },
-
-    onError: (err: Error) => {
-      setError(err.message);
-    },
+    onError: (err) => setError(err.message),
   });
 
   const handleLogin = () => {
@@ -65,8 +53,15 @@ export default function LoginScreen() {
       setError(capitalizeFirst(t("errors.fillBothFields")));
       return;
     }
+
     setError(null);
-    login();
+
+    login({
+      body: {
+        username: email,
+        password,
+      },
+    });
   };
 
   return (
