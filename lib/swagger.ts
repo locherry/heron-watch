@@ -1091,6 +1091,12 @@ export interface operations {
                 page?: number;
                 /** @description The number of items per page */
                 itemsPerPage?: number;
+                "order[created_at]"?: "asc" | "desc";
+                "order[expire_at]"?: "asc" | "desc";
+                "order[quantity]"?: "asc" | "desc";
+                "order[stock_category]"?: "asc" | "desc";
+                "order[batch_number]"?: "asc" | "desc";
+                "order[transaction_code]"?: "asc" | "desc";
                 /** @example PF_G */
                 stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
@@ -1996,6 +2002,10 @@ export interface operations {
                 page?: number;
                 /** @description The number of items per page */
                 itemsPerPage?: number;
+                "order[batch_number]"?: "asc" | "desc";
+                "order[expire_at]"?: "asc" | "desc";
+                "order[quantity]"?: "asc" | "desc";
+                "order[stock_category]"?: "asc" | "desc";
                 /** @example PF_G */
                 stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];

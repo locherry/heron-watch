@@ -55,7 +55,7 @@ export default function ViewStocks() {
         ...(isDateToday
           ? {}
           : { date: date.toISOString().split("T")[0] + " 00:00:00" }),
-        ...(sorting ? { sort: sorting.sort, order_by: sorting.order_by } : {}),
+        ...(sorting ? { [`order[${sorting.order_by}]`]: sorting.sort } : {}),
       },
     },
   );

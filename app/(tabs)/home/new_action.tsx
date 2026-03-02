@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { Action } from "~/@types/action";
+import { ActionWrite } from "~/@types/action";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -13,18 +13,18 @@ import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
@@ -44,10 +44,10 @@ export default function NewAction() {
     editActionId?: string;
   };
 
-  const existingActions: Action[] = React.useMemo(() => {
+  const existingActions: ActionWrite[] = React.useMemo(() => {
     if (!actionsJsonEncoded) return [];
     try {
-      return JSON.parse(actionsJsonEncoded) as Action[];
+      return JSON.parse(actionsJsonEncoded) as ActionWrite[];
     } catch (err) {
       console.error("Invalid actionsJsonEncoded:", err);
       return [];
@@ -156,7 +156,7 @@ export default function NewAction() {
   }, [formData]);
 
   const handleSaveNewAction = () => {
-    let updatedActions: Action[];
+    let updatedActions: ActionWrite[];
 
     if (editActionId) {
       // Edit mode: replace the action in the array
@@ -167,7 +167,7 @@ export default function NewAction() {
               ...formData,
               action_id: actionId,
               id: a.id,
-            } as Action)
+            } as ActionWrite)
           : a,
       );
     } else {
@@ -177,7 +177,7 @@ export default function NewAction() {
           ? Math.max(...existingActions.map((a) => a.id ?? 0))
           : 0;
 
-      const newAction: Action = {
+      const newAction: ActionWrite = {
         id: maxId + 1,
         quantity: Number(formData.quantity) || 0,
         comment: (formData.comment as string) || "",

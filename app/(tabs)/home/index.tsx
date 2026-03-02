@@ -102,7 +102,7 @@ export default function MaterialTabsExample() {
       query: {
         stock_category: currentStockCategory[currentStockType],
         page,
-        ...(sorting ? { sort: sorting.sort, order_by: sorting.order_by } : {}),
+        ...(sorting ? { [`order[${sorting.order_by}]`]: sorting.sort } : {}),
       },
     },
   );
