@@ -1,12 +1,7 @@
 import { Plus } from "lucide-react-native";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ActivityIndicator,
-  ScrollView,
-  useWindowDimensions,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ActivityIndicator, ScrollView } from "react-native";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { Button } from "~/components/ui/button";
@@ -26,18 +21,7 @@ import { capitalizeFirst } from "~/lib/utils";
 export default function App() {
   const [t] = useTranslation();
 
-  const { data, isLoading, isError } = useFetchQuery("/users", "get");
-  const { width } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
-
-  // Calculate the column widths dynamically based on screen width
-  const columnWidths = React.useMemo(() => {
-    const minColumnWidths = [120, 120, 180, 180];
-    return minColumnWidths.map((minWidth) => {
-      const evenWidth = width / minColumnWidths.length;
-      return evenWidth > minWidth ? evenWidth : minWidth;
-    });
-  }, [width]);
+  const { data, isLoading, isError } = useFetchQuery("/api/users", "get");
 
   if (isError) {
     return <Text>Error loading users</Text>;
@@ -66,44 +50,47 @@ export default function App() {
           <Table aria-labelledby="user-table">
             <TableHeader>
               <TableRow>
-                <TableHead style={{ width: columnWidths[0] }}>
+                <TableHead>
                   <Text>{capitalizeFirst(t("user.firstName"))}</Text>
                 </TableHead>
-                <TableHead style={{ width: columnWidths[1] }}>
+                <TableHead>
                   <Text>{capitalizeFirst(t("user.lastName"))}</Text>
                 </TableHead>
-                <TableHead style={{ width: columnWidths[2] }}>
+                <TableHead>
                   <Text>{capitalizeFirst(t("user.email"))}</Text>
                 </TableHead>
-                <TableHead style={{ width: columnWidths[3] }}>
+                <TableHead>
                   <Text>{capitalizeFirst(t("user.role"))}</Text>
                 </TableHead>
               </TableRow>
             </TableHeader>
 
             <TableBody>
-              {/* Using map to render each user row */}
-              {data?.data?.map((user, index) => (
+              {data?.map((user, index) => (
                 <TableRow
                   key={user.id}
                   className={index % 2 ? "bg-muted/40" : ""}
                 >
-                  <TableCell style={{ width: columnWidths[0] }}>
+                  <TableCell>
                     <Text>{user.first_name}</Text>
                   </TableCell>
-                  <TableCell style={{ width: columnWidths[1] }}>
+                  <TableCell>
                     <Text>{user.last_name}</Text>
                   </TableCell>
-                  <TableCell style={{ width: columnWidths[2] }}>
+                  <TableCell>
                     <Text>{user.email}</Text>
                   </TableCell>
-                  <TableCell style={{ width: columnWidths[3] }}>
+                  <TableCell>
                     <Text>
-                      {t(
-                        ("user." + user.role) as [
-                          "user.admin",
-                          "user.user",
-                        ][number]
+                      {user.roles.map(
+                        (role, index) =>
+                          capitalizeFirst(
+                            t(
+                              ("user." + role) as
+                                | "user.ROLE_USER"
+                                | "user.ROLE_ADMIN",
+                            ),
+                          ) + (index < user.roles.length - 1 ? ", " : ""),
                       )}
                     </Text>
                   </TableCell>
@@ -117,13 +104,7 @@ export default function App() {
                   <Text className="text-foreground">{t("Total users")}</Text>
                 </TableCell>
                 <TableCell className="items-end pr-8">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onPress={() => t("Total users") + data?.data?.length}
-                  >
-                    <Text>{data?.data?.length}</Text>
-                  </Button>
+                  <Text>{data?.length}</Text>
                 </TableCell>
               </TableRow>
             </TableFooter>

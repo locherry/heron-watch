@@ -55,8 +55,8 @@
     "password": "password",
     "role": "role",
     "addUser": "add user",
-    "admin": "admin",
-    "user": "user",
+    "ROLE_USER": "user",
+    "ROLE_ADMIN": "admin",
     "logout": "logout",
     "login": "login"
   },
