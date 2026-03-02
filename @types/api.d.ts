@@ -133,30 +133,31 @@ export type ApiResponse<
 > = paths[P][M]["responses"] extends infer R
   ? {
       [K in keyof R & SuccessStatus]: R[K] extends {
-        content: { "application/json": infer JSON };
+        content: { "application/ld+json": infer LDJSON }; // prefer ld+json
       }
-        ? JSON
-        : never;
+        ? LDJSON
+        : R[K] extends { content: { "application/json": infer JSON } } // fallback to json
+          ? JSON
+          : never;
     }[keyof R & SuccessStatus]
   : never;
 
 /**
- * Detect paginated responses following this structure:
+ * Detect paginated LD+JSON responses following API Platform's structure:
  *
  * {
- *   data: T[]
- *   meta: ...
+ *   member: T[]
+ *   totalItems: number
+ *   view: { first, last, next, previous }
  * }
- *
- * Returns the full response type if paginated, otherwise `never`.
  */
 export type PaginatedApiResponse<
   P extends ApiPath,
   M extends ApiPathMethod<P>,
 > =
   ApiResponse<P, M> extends {
-    data: infer D;
-    meta: unknown;
+    member: infer D;
+    totalItems: unknown;
   }
     ? D extends unknown[]
       ? ApiResponse<P, M>

@@ -33,7 +33,7 @@ async function getAuthHeaders(
 ): Promise<HeadersInit> {
   let headers: HeadersInit = {
     "Content-Type": "application/json",
-    Accept: "application/json",
+    Accept: "application/ld+json",
   };
   // Add Authorization header if the route is not a guest route
   if (!guestRoutes.includes(url)) {
