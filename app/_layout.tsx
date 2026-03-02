@@ -3,8 +3,11 @@ import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { useColorScheme } from "nativewind";
 import * as React from "react";
 import { Appearance, Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ToastProvider } from "~/components/ui/toast";
 import "~/global.css";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { NAV_THEME } from "~/lib/theme";
@@ -19,16 +22,22 @@ import "../translations/i18n";
 /* -------------------------------------------------------------------------- */
 /*                Ignore specific deprecation warnings from dependencies      */
 /* -------------------------------------------------------------------------- */
-import { useColorScheme } from "nativewind";
 import { LogBox } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { ToastProvider } from "~/components/ui/toast";
 
 LogBox.ignoreLogs([
   '"shadow*" style props are deprecated. Use "boxShadow".', // Ignore shadow* style deprecations
   "props.pointerEvents is deprecated. Use style.pointerEvents", // Ignore pointerEvents deprecations
   "Image: style.tintColor is deprecated. Please use props.tintColor.",
 ]);
+if (Platform.OS === "web") {
+  const originalWarn = console.warn;
+  console.warn = (...args) => {
+    if (args[0]?.includes?.("pointerEvents is deprecated")) {
+      return;
+    }
+    originalWarn(...args);
+  };
+}
 
 /* Export ErrorBoundary for catching runtime errors in the navigation layout */
 export { ErrorBoundary } from "expo-router";
