@@ -107,6 +107,7 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
   });
 
   if (response.ok) {
+    if (response.status === 204) return undefined as ApiResponse<P, M>;
     return response.json();
   }
 

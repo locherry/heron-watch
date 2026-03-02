@@ -1,25 +1,37 @@
-import { useMutation } from "@tanstack/react-query";
-import { ApiPath, ApiPathMethod, ApiRequestBody, ApiRequestParams, ApiResponse } from "~/@types/api";
-import { apiFetch } from "../apiClient";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import {
+  ApiPath,
+  ApiPathMethod,
+  ApiRequestBody,
+  ApiRequestParams,
+  ApiResponse,
+} from "~/@types/api";
+import { apiFetch } from "~/lib/apiClient";
 
-export const useFetchMutation = <
-  P extends ApiPath,
-  M extends ApiPathMethod<P>
->(
+export const useFetchMutation = <P extends ApiPath, M extends ApiPathMethod<P>>(
   url: P,
-  method: M
+  method: M,
+  options?: Omit<
+    UseMutationOptions<
+      ApiResponse<P, M>,
+      Error,
+      {
+        params?: ApiRequestParams<P, M>;
+        body?: ApiRequestBody<P, M>;
+      }
+    >,
+    "mutationFn"
+  >,
 ) => {
-  // React Query mutation hook
-  const { mutate } = useMutation<
+  return useMutation<
     ApiResponse<P, M>,
     Error,
-    { pathParams?: Record<string, string | number>; queryParams?: Record<string, any>; body?: ApiRequestBody<P, M> } // mutate variables
+    {
+      params?: ApiRequestParams<P, M>;
+      body?: ApiRequestBody<P, M>;
+    }
   >({
-    mutationFn: async ({ pathParams, queryParams, body }) => {
-      // Call the centralized apiFetch function
-      return apiFetch(url, method, { path: pathParams, query: queryParams } as ApiRequestParams<P, M>, body);
-    },
+    mutationFn: ({ params, body }) => apiFetch<P, M>(url, method, params, body),
+    ...options,
   });
-
-  return { mutate };
 };
