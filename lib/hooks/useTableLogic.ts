@@ -32,10 +32,13 @@ export function useTableLogic<T>({
 }: UseTableLogicProps<T>) {
   // --- Filter columns (respect hiddenColumns) ---
   const filteredColumns = useMemo(
-    () => columns.filter((col) => !hiddenColumns?.includes(col.id)),
-    [columns, hiddenColumns]
+    () =>
+      columns.filter(
+        (col): col is typeof col & { id: string } =>
+          col.id !== undefined && !hiddenColumns?.includes(col.id),
+      ),
+    [columns, hiddenColumns],
   );
-
   // --- Controlled or local sorting state ---
   const [localSorting, setLocalSorting] = useState<SortingState>([]);
 
@@ -64,13 +67,13 @@ export function useTableLogic<T>({
                 order_by: first.id as ActionSortState["order_by"],
                 sort: first.desc ? "desc" : "asc",
               }
-            : null
+            : null,
         );
       } else {
         setLocalSorting(newSorting);
       }
     },
-    [onSortingChange, currentSorting]
+    [onSortingChange, currentSorting],
   );
 
   // --- Create the table instance ---
@@ -92,7 +95,7 @@ export function useTableLogic<T>({
       const column = tableInstance.getColumn(columnId);
       column?.toggleSorting(column.getIsSorted() === "asc");
     },
-    [tableInstance]
+    [tableInstance],
   );
 
   // --- Optional row handler ---
@@ -102,7 +105,7 @@ export function useTableLogic<T>({
         // You can call onEdit(item) or onDelete(item) here if needed
       }
     },
-    [features?.edition, onEdit, onDelete]
+    [features?.edition, onEdit, onDelete],
   );
 
   return {

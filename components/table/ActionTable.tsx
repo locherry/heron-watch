@@ -81,20 +81,6 @@ export function ActionTable(
           </Row>
         );
       },
-      // cell: (item) => {
-      //   const currentActionType = constants.actionTypes.find(
-      //     (actionType) => actionType.value == item.getValue(),
-      //   );
-      //   return (
-      //     <Row gap={8}>
-      //       {currentActionType?.icon && <Icon as={currentActionType.icon} />}
-      //       <Text>
-      //         {currentActionType?.label &&
-      //           capitalizeFirst(t(currentActionType.label))}
-      //       </Text>
-      //     </Row>
-      //   );
-      // },
     },
     {
       id: "transaction_code",

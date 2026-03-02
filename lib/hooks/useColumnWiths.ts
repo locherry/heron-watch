@@ -1,4 +1,3 @@
-// hooks/useColumnWidths.ts
 import { useMemo } from "react";
 import { useWindowDimensions } from "react-native";
 import { BaseColumnDef } from "~/@types/table";
