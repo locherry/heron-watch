@@ -39,17 +39,17 @@ export default function ViewStocks() {
     "Selected date:",
     date,
     isDateToday,
-    date.toISOString().split("T")[0]
+    date.toISOString().split("T")[0],
   );
 
   // Fetch stock data with infinite scroll, and filter by date and sorting if necessary
   const { data, error, isLoading, isError, fetchNextPage } =
     useInfiniteFetchQuery(
-      "/stocks/{stock_category}", // API endpoint to fetch stock data
+      "/api/stock/current_stock", // API endpoint to fetch stock data
       "get", // HTTP method
       {
-        path: { stock_category: stockCategory }, // Path parameter for stock category
         query: {
+          stock_category: stockCategory,
           limit: 10, // Pagination limit
           ...(isDateToday
             ? {} // If the selected date is today, do not add date to the query
@@ -58,7 +58,7 @@ export default function ViewStocks() {
             ? { sort: sorting.sort, order_by: sorting.order_by }
             : {}), // Add sorting parameters if set
         },
-      }
+      },
     );
 
   // If an error occurs during data fetching, log it
@@ -98,7 +98,7 @@ export default function ViewStocks() {
           {isDateToday
             ? capitalizeFirst(t("Current stock"))
             : capitalizeFirst(
-                t("Stock as of") + " : " + date?.toLocaleDateString()
+                t("Stock as of") + " : " + date?.toLocaleDateString(),
               )}
         </Text>
       </Row>
@@ -110,7 +110,7 @@ export default function ViewStocks() {
         // Display stock data table when data is available
         <StockTable
           className="z-0"
-          data={data?.pages.flatMap((page) => page.data ?? []) ?? []} // Flatten the data from infinite fetch query
+          data={data?.pages.flatMap((page) => page ?? []) ?? []} // Flatten the data from infinite fetch query
           fetchNextPage={fetchNextPage} // Function to fetch next page of data
           sorting={sorting} // Current sorting state
           onSortingChange={setSorting} // Function to handle sorting changes

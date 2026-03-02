@@ -1,34 +1,56 @@
+import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
-import { Stock } from "~/@types/stock";
-import { BaseColumnDef, BaseTableProps } from "~/@types/table";
+import { StockRead } from "~/@types/stock";
+import { BaseTableProps } from "~/@types/table";
 import { capitalizeFirst } from "~/lib/utils";
+import { Text } from "../ui/text";
 import { BaseTable } from "./BaseTable";
 
-// Define default columns for the stock table
-const STOCK_TABLE_COLUMNS: (keyof Stock)[] = [
-  "id",
-  "product_code",
-  "batch_number",
-  "quantity",
-  "expiration_date",
-];
-
-export function StockTable(props: Omit<BaseTableProps<Stock>, "columns">) {
+export function StockTable(props: Omit<BaseTableProps<StockRead>, "columns">) {
   const [t] = useTranslation();
 
-  // Generate BaseColumnDef dynamically from the STOCK_TABLE_COLUMNS array
-  const columns: BaseColumnDef<Stock>[] = STOCK_TABLE_COLUMNS.map((key) => ({
-    id: key,
-    accessorKey: key,
-    header: () => capitalizeFirst(t(`stocks.${key}`)),
-  }));
+  const columns: ColumnDef<StockRead>[] = [
+    {
+      id: "product",
+      accessorKey: "product",
+      header: () => capitalizeFirst(t("stocks.product_code")),
+      cell: ({ getValue }) => {
+        const product = getValue<StockRead["product"]>();
+        return (
+          <Text>
+            {product.product_code} — {product.product_name}
+          </Text>
+        );
+      },
+    },
+    {
+      id: "batch_number",
+      accessorKey: "batch_number",
+      header: () => capitalizeFirst(t("stocks.batch_number")),
+      cell: ({ getValue }) => (
+        <Text>{getValue<StockRead["batch_number"]>()}</Text>
+      ),
+    },
+    {
+      id: "quantity",
+      accessorKey: "quantity",
+      header: () => capitalizeFirst(t("stocks.quantity")),
+      cell: ({ getValue }) => <Text>{getValue<StockRead["quantity"]>()}</Text>,
+    },
+    {
+      id: "expire_at",
+      accessorKey: "expire_at",
+      header: () => capitalizeFirst(t("stocks.expiration_date")),
+      // cell: ({ getValue }) => <Text>{getValue<StockRead["expire_at"]>()}</Text>,
+    },
+  ];
 
   return (
     <BaseTable
       {...props}
       data={props.data ?? []}
       columns={columns}
-      features={{ sorting: true, edition: false }} // enable/disable features as needed
+      features={{ sorting: props.sorting, edition: props.editEnabled }}
     />
   );
 }
