@@ -7,6 +7,7 @@ export interface TableFeatures {
   edition?: boolean;
 }
 
+import { Row } from "@tanstack/react-table";
 export interface BaseTableProps<T> extends ViewProps {
   data: T[];
   columns: ColumnDef<T>[];
@@ -16,8 +17,8 @@ export interface BaseTableProps<T> extends ViewProps {
   sorting?: ActionSortState | null;
   onSortingChange?: (newSorting: ActionSortState | null) => void;
   editEnabled?: boolean;
-  onEdit?: (item: T) => void;
-  onDelete?: (item: T) => void;
+  onDelete?: (item: Row<T>) => void;
+  onEdit?: (item: Row<T>) => void;
   fetchNextPage?: () => void;
   // Pagination
   page?: number;

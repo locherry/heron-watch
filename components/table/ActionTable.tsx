@@ -76,7 +76,12 @@ export function ActionTable(
           <Text>
             {/* TODO */}
             {/* <Link href={`/users/${created_by_id.id}`}> */}
-            {created_by_id.first_name} {created_by_id.last_name}
+            {!created_by_id && t("user.unknownUser")}
+            {created_by_id && (
+              <>
+                {created_by_id.first_name} {created_by_id.last_name}
+              </>
+            )}
             {/* </Link> */}
           </Text>
         );

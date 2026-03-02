@@ -73,7 +73,6 @@ export function StockTable({
       onPageChange={onPageChange}
       page={page}
       totalPages={totalPages}
-      // page, totalPages, onPageChange flow through via {...props}
     />
   );
 }

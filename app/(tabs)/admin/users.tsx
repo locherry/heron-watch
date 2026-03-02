@@ -1,31 +1,67 @@
+import { Row } from "@tanstack/react-table";
 import { Plus } from "lucide-react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, ScrollView } from "react-native";
+import { ActivityIndicator } from "react-native";
+import { UserRead, UsersSortState } from "~/@types/user";
+import { Alert } from "~/components/alert/Alert";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
+import { UserTable } from "~/components/table/UserTable";
 import { Button } from "~/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/table";
 import { Text } from "~/components/ui/text";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function App() {
   const [t] = useTranslation();
 
-  const { data, isLoading, isError } = useFetchQuery("/api/users", "get");
+  const [sorting, setSorting] = useState<UsersSortState | null>(null); // State for sorting order and criteria
+  const [page, setPage] = useState(1);
+
+  // Reset page when category, date, or sorting changes
+  useEffect(() => {
+    setPage(1);
+  }, [sorting]);
+
+  const { data, isLoading, isError, error, refetch } = useFetchQuery(
+    "/api/users",
+    "get",
+    {
+      query: {
+        page,
+        ...(sorting ? { [`order[${sorting.order_by}]`]: sorting.sort } : {}),
+      },
+    },
+  );
+
+  const { mutate: deleteUser } = useFetchMutation("/api/users/{id}", "delete", {
+    onSuccess: () => refetch(),
+  });
+
+  const totalItems = data?.["totalItems"] ?? 0;
+  const totalPages = Math.ceil(totalItems / 10);
 
   if (isError) {
     return <Text>Error loading users</Text>;
   }
+
+  const handleDelete = (row: Row<UserRead>) => {
+    const id = row.original.id;
+    Alert.alert(t("Please confirm"), t("user.confirmDelete"), [
+      {
+        text: t("common.cancel"),
+        onPress: () => {},
+        style: "cancel",
+      },
+      {
+        text: t("common.OK"),
+        onPress: () =>
+          id && deleteUser({ params: { path: { id: id.toString() } } }),
+      },
+    ]);
+  };
 
   return (
     <RootView>
@@ -36,80 +72,28 @@ export default function App() {
           icon={Plus}
           onPress={() => console.log("Add User")}
           disabled
-        />
+        >
+          <Text>{capitalizeFirst(t("user.addUser"))}</Text>
+        </Button>
       </Header>
 
+      {/* Loading spinner while data is being fetched */}
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-        <ScrollView
-          horizontal
-          bounces={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          <Table aria-labelledby="user-table">
-            <TableHeader>
-              <TableRow>
-                <TableHead>
-                  <Text>{capitalizeFirst(t("user.firstName"))}</Text>
-                </TableHead>
-                <TableHead>
-                  <Text>{capitalizeFirst(t("user.lastName"))}</Text>
-                </TableHead>
-                <TableHead>
-                  <Text>{capitalizeFirst(t("user.email"))}</Text>
-                </TableHead>
-                <TableHead>
-                  <Text>{capitalizeFirst(t("user.role"))}</Text>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {data?.map((user, index) => (
-                <TableRow
-                  key={user.id}
-                  className={index % 2 ? "bg-muted/40" : ""}
-                >
-                  <TableCell>
-                    <Text>{user.first_name}</Text>
-                  </TableCell>
-                  <TableCell>
-                    <Text>{user.last_name}</Text>
-                  </TableCell>
-                  <TableCell>
-                    <Text>{user.email}</Text>
-                  </TableCell>
-                  <TableCell>
-                    <Text>
-                      {user.roles.map(
-                        (role, index) =>
-                          capitalizeFirst(
-                            t(
-                              ("user." + role) as
-                                | "user.ROLE_USER"
-                                | "user.ROLE_ADMIN",
-                            ),
-                          ) + (index < user.roles.length - 1 ? ", " : ""),
-                      )}
-                    </Text>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-
-            <TableFooter>
-              <TableRow>
-                <TableCell className="flex-1 justify-center">
-                  <Text className="text-foreground">{t("Total users")}</Text>
-                </TableCell>
-                <TableCell className="items-end pr-8">
-                  <Text>{data?.length}</Text>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </ScrollView>
+        // Display stock data table when data is available
+        <UserTable
+          className="z-0"
+          data={data?.["member"] ?? []}
+          sorting={sorting}
+          onSortingChange={setSorting}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+          editEnabled={true}
+          onEdit={(row) => console.log("Edit", row)}
+          onDelete={handleDelete}
+        />
       )}
     </RootView>
   );
