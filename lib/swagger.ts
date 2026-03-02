@@ -316,7 +316,27 @@ export interface paths {
         patch: operations["api_qr_codes_id_patch"];
         trace?: never;
     };
-    "/api/stock/add_new_stocks": {
+    "/api/stock/current_stock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the collection of Stock resources.
+         * @description Retrieves the collection of Stock resources.
+         */
+        get: operations["api_stockcurrent_stock_get_collection"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/stock/new_stock": {
         parameters: {
             query?: never;
             header?: never;
@@ -329,27 +349,7 @@ export interface paths {
          * Creates a Stock resource.
          * @description Creates a Stock resource.
          */
-        post: operations["api_stockadd_new_stocks_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/stock/get_actual_stocks": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves the collection of Stock resources.
-         * @description Retrieves the collection of Stock resources.
-         */
-        get: operations["api_stockget_actual_stocks_get_collection"];
-        put?: never;
-        post?: never;
+        post: operations["api_stocknew_stock_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -853,6 +853,12 @@ export interface components {
         "Product-action.read": {
             product_code: string;
             product_name: string;
+            product_specificity: string;
+        };
+        "Product-stock.read": {
+            product_code: string;
+            product_name: string;
+            product_specificity: string;
         };
         "Product.jsonMergePatch": {
             readonly id?: number;
@@ -886,6 +892,12 @@ export interface components {
         "Product.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             product_code: string;
             product_name: string;
+            product_specificity: string;
+        };
+        "Product.jsonld-stock.read": components["schemas"]["HydraItemBaseSchema"] & {
+            product_code: string;
+            product_name: string;
+            product_specificity: string;
         };
         QrCode: {
             readonly id?: number;
@@ -923,8 +935,20 @@ export interface components {
             /** Format: date-time */
             expirationDate?: string;
         };
-        Stock: {
+        "Stock-stock.read": {
             readonly id?: number;
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
+            stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            product: components["schemas"]["Product-stock.read"];
+            batch_number: string;
+            quantity?: number;
+            /** Format: date-time */
+            expire_at?: string;
+        };
+        "Stock-stock.write": {
             /**
              * @example PF_G
              * @enum {string}
@@ -939,30 +963,16 @@ export interface components {
             quantity?: number;
             /** Format: date-time */
             expire_at?: string;
-            /** @enum {string} */
-            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            batchNumber?: string;
-            /** Format: date-time */
-            expireAt?: string;
         };
-        "Stock.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+        "Stock.jsonld-stock.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
             /** @enum {string} */
             stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            product: string;
+            product: components["schemas"]["Product.jsonld-stock.read"];
             batch_number: string;
             quantity?: number;
             /** Format: date-time */
             expire_at?: string;
-            /** @enum {string} */
-            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            batchNumber?: string;
-            /** Format: date-time */
-            expireAt?: string;
         };
         StockSnapshot: {
             readonly id?: number;
@@ -2150,7 +2160,36 @@ export interface operations {
             };
         };
     };
-    api_stockadd_new_stocks_post: {
+    api_stockcurrent_stock_get_collection: {
+        parameters: {
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+                /** @example PF_G */
+                stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Stock collection */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Stock-stock.read"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["Stock.jsonld-stock.read"][];
+                    };
+                };
+            };
+        };
+    };
+    api_stocknew_stock_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -2160,8 +2199,8 @@ export interface operations {
         /** @description The new Stock resource */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Stock"];
-                "application/ld+json": components["schemas"]["Stock"];
+                "application/json": components["schemas"]["Stock-stock.write"];
+                "application/ld+json": components["schemas"]["Stock-stock.write"];
             };
         };
         responses: {
@@ -2171,8 +2210,8 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Stock"];
-                    "application/ld+json": components["schemas"]["Stock.jsonld"];
+                    "application/json": components["schemas"]["Stock-stock.read"];
+                    "application/ld+json": components["schemas"]["Stock.jsonld-stock.read"];
                 };
             };
             /** @description Invalid input */
@@ -2195,35 +2234,6 @@ export interface operations {
                     "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
                     "application/problem+json": components["schemas"]["ConstraintViolation"];
                     "application/json": components["schemas"]["ConstraintViolation"];
-                };
-            };
-        };
-    };
-    api_stockget_actual_stocks_get_collection: {
-        parameters: {
-            query?: {
-                /** @description The collection page number */
-                page?: number;
-                /** @example PF_G */
-                stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-                "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Stock collection */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Stock"][];
-                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
-                        member: components["schemas"]["Stock.jsonld"][];
-                    };
                 };
             };
         };

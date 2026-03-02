@@ -56,6 +56,11 @@ export type ApiPathMethod<P extends ApiPath> = Extract<
 >;
 
 /**
+ * Helper: resolves to T if T is not `never`, otherwise `Fallback`
+ */
+type IfNotNever<T, Fallback> = [T] extends [never] ? Fallback : T;
+
+/**
  * Extract request parameters (path/query) for a given endpoint.
  *
  * Fully preserves OpenAPI schema typing:
@@ -66,14 +71,26 @@ export type ApiPathMethod<P extends ApiPath> = Extract<
 export type ApiRequestParams<
   P extends ApiPath,
   M extends ApiPathMethod<P>,
-> = paths[P][M] extends { parameters?: infer Params }
-  ? Params extends object
-    ? {
-        path?: Params extends { path: infer Path } ? Path : undefined;
-        query?: Params extends { query: infer Query } ? Query : undefined;
-      }
-    : { path?: undefined; query?: undefined }
-  : { path?: undefined; query?: undefined };
+> = paths[P][M] extends { parameters: infer Params }
+  ? Params & {
+      path?: IfNotNever<
+        Params extends { path?: infer Path } ? NonNullable<Path> : never,
+        Record<string, string | number>
+      >;
+      query?: IfNotNever<
+        Params extends { query?: infer Query } ? NonNullable<Query> : never,
+        Record<string, string | number | boolean | string[] | null | undefined>
+      >;
+      header?: never;
+      cookie?: never;
+    }
+  : {
+      path?: Record<string, string | number>;
+      query?: Record<
+        string,
+        string | number | boolean | string[] | null | undefined
+      >;
+    };
 
 /**
  * Extract JSON request body type for a given endpoint.

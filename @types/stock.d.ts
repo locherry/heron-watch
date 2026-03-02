@@ -1,10 +1,7 @@
-export type Stock = {
-  id: number;
-  product_code: string;
-  batch_number: string;
-  quantity: number;
-  expiration_date: string; // ISO string or any date representation
-};
+import { components } from "~/lib/swagger";
+
+export type StockRead = components["schemas"]["Stock-stock.read"];
+export type StockWrite = components["schemas"]["Stock-stock.write"];
 
 export type StockSortState = {
   order_by:
