@@ -81,8 +81,6 @@ export type ApiRequestParams<
         Params extends { query?: infer Query } ? NonNullable<Query> : never,
         Record<string, string | number | boolean | string[] | null | undefined>
       >;
-      header?: never;
-      cookie?: never;
     }
   : {
       path?: Record<string, string | number>;
@@ -102,12 +100,14 @@ export type ApiRequestBody<
   M extends ApiPathMethod<P>,
 > = paths[P][M] extends {
   requestBody?: {
-    content: {
-      "application/json": infer R;
-    };
+    content: infer C;
   };
 }
-  ? R
+  ? C extends { "application/json": infer R }
+    ? R
+    : C extends { "application/merge-patch+json": infer R2 }
+      ? R2
+      : never
   : never;
 
 /**
