@@ -123,7 +123,7 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
     errorData?.error || `HTTP error! status: ${response.status}`;
 
   if (response.status === 401) {
-    if (errorData?.message === "Invalid or expired token") {
+    if (errorData?.message === "Expired JWT Token") {
       Toast.show({
         type: "error",
         text1: capitalizeFirst(t("errors.loginExpired")),
