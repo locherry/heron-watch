@@ -368,26 +368,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves a User resource.
-         * @description Retrieves a User resource.
-         */
-        get: operations["api_me_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/users": {
         parameters: {
             query?: never;
@@ -410,6 +390,30 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/users/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a User resource.
+         * @description Retrieves a User resource.
+         */
+        get: operations["api_usersme_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Updates the User resource.
+         * @description Updates the User resource.
+         */
+        patch: operations["api_usersme_patch"];
         trace?: never;
     };
     "/api/users/{id}": {
@@ -444,58 +448,6 @@ export interface paths {
         patch: operations["api_users_id_patch"];
         trace?: never;
     };
-    "/api/user_preferences": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves the collection of UserPreference resources.
-         * @description Retrieves the collection of UserPreference resources.
-         */
-        get: operations["api_user_preferences_get_collection"];
-        put?: never;
-        /**
-         * Creates a UserPreference resource.
-         * @description Creates a UserPreference resource.
-         */
-        post: operations["api_user_preferences_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/user_preferences/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves a UserPreference resource.
-         * @description Retrieves a UserPreference resource.
-         */
-        get: operations["api_user_preferences_id_get"];
-        put?: never;
-        post?: never;
-        /**
-         * Removes the UserPreference resource.
-         * @description Removes the UserPreference resource.
-         */
-        delete: operations["api_user_preferences_id_delete"];
-        options?: never;
-        head?: never;
-        /**
-         * Updates the UserPreference resource.
-         * @description Updates the UserPreference resource.
-         */
-        patch: operations["api_user_preferences_id_patch"];
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -511,7 +463,7 @@ export interface components {
             comment?: string | null;
             product: components["schemas"]["Product-action.read"];
             batch_number: string;
-            created_by_id: components["schemas"]["User-action.read"];
+            created_by_id?: components["schemas"]["User-action.read"] | null;
             /** Format: date-time */
             created_at: string;
             /** Format: date-time */
@@ -551,7 +503,7 @@ export interface components {
             comment?: string | null;
             product: components["schemas"]["Product.jsonld-action.read"];
             batch_number: string;
-            created_by_id: components["schemas"]["User.jsonld-action.read"];
+            created_by_id?: components["schemas"]["User.jsonld-action.read"] | null;
             /** Format: date-time */
             created_at: string;
             /** Format: date-time */
@@ -1004,6 +956,7 @@ export interface components {
             plainPassword: string;
             first_name: string;
             last_name: string;
+            preferences?: components["schemas"]["UserPreference-user.create_user.update"] | null;
         };
         "User-user.create_user.update.jsonMergePatch": {
             /** Format: email */
@@ -1015,6 +968,7 @@ export interface components {
             plainPassword?: string;
             first_name?: string;
             last_name?: string;
+            preferences?: components["schemas"]["UserPreference-user.create_user.update"] | null;
         };
         "User-user.read": {
             readonly id?: number;
@@ -1029,11 +983,7 @@ export interface components {
             roles: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name: string;
             last_name: string;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            preferences?: string | null;
+            preferences?: components["schemas"]["UserPreference-user.read"] | null;
         };
         "User.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
@@ -1053,27 +1003,43 @@ export interface components {
             roles: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name: string;
             last_name: string;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            preferences?: string | null;
+            preferences?: components["schemas"]["UserPreference.jsonld-user.read"] | null;
         };
-        "UserPreference-preferences.read": {
+        "UserPreference-user.create_user.update": {
             /**
-             * Format: iri-reference
-             * @example https://example.com/
+             * @default system
+             * @enum {string}
              */
-            user?: string;
+            theme: "system" | "dark" | "light";
+            /**
+             * @default EN
+             * @enum {string}
+             */
+            language: "EU" | "FR" | "EN" | "DE" | "ES";
         };
-        "UserPreference-preferences.write": Record<string, never>;
-        "UserPreference-preferences.write.jsonMergePatch": Record<string, never>;
-        "UserPreference.jsonld-preferences.read": components["schemas"]["HydraItemBaseSchema"] & {
+        "UserPreference-user.read": {
             /**
-             * Format: iri-reference
-             * @example https://example.com/
+             * @default system
+             * @enum {string}
              */
-            user?: string;
+            theme: "system" | "dark" | "light";
+            /**
+             * @default EN
+             * @enum {string}
+             */
+            language: "EU" | "FR" | "EN" | "DE" | "ES";
+        };
+        "UserPreference.jsonld-user.read": {
+            /**
+             * @default system
+             * @enum {string}
+             */
+            theme: "system" | "dark" | "light";
+            /**
+             * @default EN
+             * @enum {string}
+             */
+            language: "EU" | "FR" | "EN" | "DE" | "ES";
         };
     };
     responses: never;
@@ -2172,38 +2138,6 @@ export interface operations {
             };
         };
     };
-    api_me_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description User resource */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["User-user.read"];
-                    "application/ld+json": components["schemas"]["User.jsonld-user.read"];
-                };
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-        };
-    };
     api_users_get_collection: {
         parameters: {
             query?: {
@@ -2259,6 +2193,97 @@ export interface operations {
             };
             /** @description Invalid input */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_usersme_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User-user.read"];
+                    "application/ld+json": components["schemas"]["User.jsonld-user.read"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_usersme_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The updated User resource */
+        requestBody: {
+            content: {
+                "application/merge-patch+json": components["schemas"]["User-user.create_user.update.jsonMergePatch"];
+            };
+        };
+        responses: {
+            /** @description User resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User-user.read"];
+                    "application/ld+json": components["schemas"]["User.jsonld-user.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2436,210 +2461,6 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["User-user.read"];
                     "application/ld+json": components["schemas"]["User.jsonld-user.read"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description An error occurred */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
-                    "application/problem+json": components["schemas"]["ConstraintViolation"];
-                    "application/json": components["schemas"]["ConstraintViolation"];
-                };
-            };
-        };
-    };
-    api_user_preferences_get_collection: {
-        parameters: {
-            query?: {
-                /** @description The collection page number */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description UserPreference collection */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserPreference-preferences.read"][];
-                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
-                        member: components["schemas"]["UserPreference.jsonld-preferences.read"][];
-                    };
-                };
-            };
-        };
-    };
-    api_user_preferences_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description The new UserPreference resource */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UserPreference-preferences.write"];
-                "application/ld+json": components["schemas"]["UserPreference-preferences.write"];
-            };
-        };
-        responses: {
-            /** @description UserPreference resource created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserPreference-preferences.read"];
-                    "application/ld+json": components["schemas"]["UserPreference.jsonld-preferences.read"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description An error occurred */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
-                    "application/problem+json": components["schemas"]["ConstraintViolation"];
-                    "application/json": components["schemas"]["ConstraintViolation"];
-                };
-            };
-        };
-    };
-    api_user_preferences_id_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description UserPreference identifier */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description UserPreference resource */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserPreference-preferences.read"];
-                    "application/ld+json": components["schemas"]["UserPreference.jsonld-preferences.read"];
-                };
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-        };
-    };
-    api_user_preferences_id_delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description UserPreference identifier */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description UserPreference resource deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-        };
-    };
-    api_user_preferences_id_patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description UserPreference identifier */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /** @description The updated UserPreference resource */
-        requestBody: {
-            content: {
-                "application/merge-patch+json": components["schemas"]["UserPreference-preferences.write.jsonMergePatch"];
-            };
-        };
-        responses: {
-            /** @description UserPreference resource updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserPreference-preferences.read"];
-                    "application/ld+json": components["schemas"]["UserPreference.jsonld-preferences.read"];
                 };
             };
             /** @description Invalid input */
