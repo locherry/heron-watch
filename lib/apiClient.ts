@@ -30,11 +30,17 @@ const guestRoutes: readonly ApiPath[] = ["/api/login"];
 async function getAuthHeaders(
   url: string,
   guestRoutes: readonly string[],
+  method: string,
 ): Promise<HeadersInit> {
-  let headers: HeadersInit = {
-    "Content-Type": "application/json",
+  const headers: HeadersInit = {
     Accept: "application/ld+json",
   };
+
+  if (method?.toUpperCase() === "PATCH") {
+    headers["Content-Type"] = "application/merge-patch+json";
+  } else {
+    headers["Content-Type"] = "application/json";
+  }
   // Add Authorization header if the route is not a guest route
   if (!guestRoutes.includes(url)) {
     const { jwt } = (await SecureStorage.get("userSession")) || {};
@@ -98,7 +104,7 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
     fullUrl += buildQueryString(params?.query);
   }
 
-  const headers = await getAuthHeaders(url, guestRoutes);
+  const headers = await getAuthHeaders(url, guestRoutes, httpMethod);
 
   const response = await fetch(fullUrl, {
     method: httpMethod,
@@ -124,7 +130,6 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
         text2: capitalizeFirst(t("errors.redirectToLogin")),
       });
 
-      await SecureStorage.remove("userSession");
       router.replace("/login");
     }
   }
