@@ -124,7 +124,10 @@ export default function MaterialTabsExample() {
         }
       >
         <MaterialTabsList>
-          <MaterialTabsTrigger value="raw_materials" disabled>
+          <MaterialTabsTrigger
+            value="raw_materials"
+            disabled={process.env.EXPO_MP_DISABLED === "true"}
+          >
             {capitalizeFirst(t("stocks.rawMaterials"))}
           </MaterialTabsTrigger>
           <MaterialTabsTrigger value="finished_products">
