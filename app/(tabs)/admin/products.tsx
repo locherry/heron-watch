@@ -1,137 +1,101 @@
-import { Link } from "expo-router";
-import { Cylinder, Forklift, Plus, Snowflake } from "lucide-react-native";
-import React, { useState } from "react";
+import { Row } from "@tanstack/react-table";
+import { Plus } from "lucide-react-native";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator } from "react-native";
+import { ProductRead } from "~/@types/product";
+import { UsersSortState } from "~/@types/user";
+import { Alert } from "~/components/alert/Alert";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
-import Row from "~/components/layout/Row";
-import { ProductCategoryTable } from "~/components/table/ProductCategoryTable";
+import { ProductTable } from "~/components/table/ProductTable";
 import { Button } from "~/components/ui/button";
-import { Icon } from "~/components/ui/icon";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
-import { useInfiniteFetchQuery } from "~/lib/hooks/useInfiniteFetchQuery";
+import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
+import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
-
-type stockGlobalCategory = "PF" | "MP" | "EMB";
 
 export default function App() {
   const [t] = useTranslation();
 
-  const [stockGlobalCategory, setStockGlobalCategory] =
-    useState<stockGlobalCategory>("PF");
-  const GENERAL_STOCK_CATEGORIES = [
-    { value: "PF", label: t("stocks.finishedProducts"), icon: Forklift },
-    { value: "MP", label: t("stocks.rawMaterials"), icon: Snowflake },
-    { value: "EMB", label: t("stocks.packaging"), icon: Cylinder },
-  ] as const;
+  const [sorting, setSorting] = useState<UsersSortState | null>(null); // State for sorting order and criteria
+  const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError, fetchNextPage } = useInfiniteFetchQuery(
-    "/productCategory/{stock_global_category}",
+  // Reset page when category, date, or sorting changes
+  useEffect(() => {
+    setPage(1);
+  }, [sorting]);
+
+  const { data, isLoading, isError, error, refetch } = useFetchQuery(
+    "/api/products",
     "get",
     {
-      path: { stock_global_category: stockGlobalCategory },
-      query: { limit: 10 },
-    }
+      query: {
+        page,
+        ...(sorting ? { [`order[${sorting.order_by}]`]: sorting.sort } : {}),
+      },
+    },
   );
 
+  const { mutate: deleteUser } = useFetchMutation("/api/users/{id}", "delete", {
+    onSuccess: () => refetch(),
+  });
+
+  const totalItems = data?.["totalItems"] ?? 0;
+  const totalPages = Math.ceil(totalItems / 10);
+
   if (isError) {
-    return <Text>Error loading products</Text>;
+    return <Text>Error loading users</Text>;
   }
+
+  const handleDelete = (row: Row<ProductRead>) => {
+    const id = row.original.id;
+    Alert.alert(t("Please confirm"), t("product.confirmDelete"), [
+      {
+        text: t("common.cancel"),
+        onPress: () => {},
+        style: "cancel",
+      },
+      {
+        text: t("common.OK"),
+        onPress: () =>
+          id && deleteUser({ params: { path: { id: id.toString() } } }),
+      },
+    ]);
+  };
 
   return (
     <RootView>
-      {/* Products */}
-      <View className="gap-y-10">
-        <Row className="justify-between">
-          <Header title={capitalizeFirst(t("common.products"))} className="" />
-          <Select
-            defaultValue={GENERAL_STOCK_CATEGORIES[0]}
-            value={GENERAL_STOCK_CATEGORIES.find(
-              (option) => option.value == stockGlobalCategory
-            )}
-            onValueChange={(option) =>
-              setStockGlobalCategory(
-                option?.value as (typeof GENERAL_STOCK_CATEGORIES)[number]["value"]
-              )
-            }
-            className=""
-          >
-            <SelectTrigger>
-              <SelectValue
-                placeholder={capitalizeFirst(
-                  t("product_category.selectStockGeneralCategory")
-                )}
-              >
-                <View className="mr-2 flex flex-row items-center">
-                  {(() => {
-                    const selectedOption = GENERAL_STOCK_CATEGORIES.find(
-                      (option) => option.value === stockGlobalCategory
-                    );
-                    if (selectedOption?.icon) {
-                      return (
-                        <Icon
-                          as={selectedOption.icon}
-                          className="mr-2"
-                          size={16}
-                        />
-                      );
-                    }
-                    return null;
-                  })()}
-                  <Text className="capitalize">
-                    {
-                      GENERAL_STOCK_CATEGORIES.find(
-                        (option) => option.value == stockGlobalCategory
-                      )?.label
-                    }
-                  </Text>
-                </View>
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {GENERAL_STOCK_CATEGORIES.map((stock) => (
-                <SelectItem
-                  key={stock.value}
-                  value={String(stock.value)}
-                  label={capitalizeFirst(stock.label)}
-                >
-                  <Icon as={stock.icon} />
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Row>
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <ProductCategoryTable
-            // className="flex-1 h-full border-destructive border-4"
-            data={data?.pages.flatMap((page) => page.data ?? []) ?? []}
-            fetchNextPage={fetchNextPage}
-          />
-        )}
-      </View>
-      <View>
-        <Link
-          href={{
-            pathname: "/admin/add_new_product",
-            params: { stockCategory: stockGlobalCategory },
-          }}
-          asChild
+      <Header title={capitalizeFirst(t("common.products"))}>
+        <Button
+          className="ml-auto"
+          variant="outline"
+          icon={Plus}
+          onPress={() => console.log("Add Product")}
+          disabled
         >
-          <Button icon={Plus} className="flex-1">
-            {capitalizeFirst(t("product_category.new_product"))}
-          </Button>
-        </Link>
-      </View>
+          <Text>{capitalizeFirst(t("product.newProduct"))}</Text>
+        </Button>
+      </Header>
+
+      {/* Loading spinner while data is being fetched */}
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        // Display stock data table when data is available
+        <ProductTable
+          className="z-0"
+          data={data?.["member"] ?? []}
+          sorting={sorting}
+          onSortingChange={setSorting}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+          editEnabled={true}
+          onEdit={(row) => console.log("Edit", row)}
+          onDelete={handleDelete}
+        />
+      )}
     </RootView>
   );
 }

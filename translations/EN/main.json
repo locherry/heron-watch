@@ -109,12 +109,13 @@
     "MP_C": "frozen",
     "EMB": "packaging"
   },
-  "product_category": {
+  "product": {
+    "confirmDelete": "Are you sure you want to delete this product ? The actions created with this product will not be deleted but will be attributed to an 'unknown product'",
     "product_code": "product code",
     "product_name": "product name",
     "product_specificity": "product specificity",
     "selectStockGeneralCategory": "Select a stock general category",
-    "new_product": "new product"
+    "newProduct": "new product"
   },
   "common": {
     "view": "view",

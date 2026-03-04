@@ -120,38 +120,6 @@ export interface paths {
         patch: operations["api_action_categories_id_patch"];
         trace?: never;
     };
-    "/api/actions_controllers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves the collection of ActionsController resources.
-         * @description Retrieves the collection of ActionsController resources.
-         */
-        get: operations["api_actions_controllers_get_collection"];
-        put?: never;
-        /**
-         * Creates a ActionsController resource.
-         * @description Creates a ActionsController resource.
-         */
-        post: operations["api_actions_controllers_post"];
-        /**
-         * Removes the ActionsController resource.
-         * @description Removes the ActionsController resource.
-         */
-        delete: operations["api_actions_controllers_delete"];
-        options?: never;
-        head?: never;
-        /**
-         * Updates the ActionsController resource.
-         * @description Updates the ActionsController resource.
-         */
-        patch: operations["api_actions_controllers_patch"];
-        trace?: never;
-    };
     "/api/known_errors": {
         parameters: {
             query?: never;
@@ -245,11 +213,43 @@ export interface paths {
          */
         get: operations["api_products_get_collection"];
         put?: never;
-        post?: never;
+        /**
+         * Creates a Product resource.
+         * @description Creates a Product resource.
+         */
+        post: operations["api_products_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/products/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a Product resource.
+         * @description Retrieves a Product resource.
+         */
+        get: operations["api_products_id_get"];
+        put?: never;
+        post?: never;
+        /**
+         * Removes the Product resource.
+         * @description Removes the Product resource.
+         */
+        delete: operations["api_products_id_delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Updates the Product resource.
+         * @description Updates the Product resource.
+         */
+        patch: operations["api_products_id_patch"];
         trace?: never;
     };
     "/api/qr_codes": {
@@ -550,21 +550,6 @@ export interface components {
             /** @enum {string} */
             addition_rule: "+" | "-";
         };
-        ActionsController: {
-            container?: components["schemas"]["ContainerInterface"];
-            readonly actions?: unknown;
-            readonly subscribedServices?: unknown;
-        };
-        "ActionsController.jsonMergePatch": {
-            container?: components["schemas"]["ContainerInterface"];
-            readonly actions?: unknown;
-            readonly subscribedServices?: unknown;
-        };
-        "ActionsController.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
-            container?: components["schemas"]["ContainerInterface.jsonld"];
-            readonly actions?: unknown;
-            readonly subscribedServices?: unknown;
-        };
         /** @description Unprocessable entity */
         ConstraintViolation: {
             /** @default 422 */
@@ -612,8 +597,6 @@ export interface components {
             readonly title?: string | null;
             readonly instance?: string | null;
         };
-        ContainerInterface: Record<string, never>;
-        "ContainerInterface.jsonld": Record<string, never>;
         /** @description A representation of common errors. */
         Error: {
             /** @description A short, human-readable summary of the problem. */
@@ -774,7 +757,7 @@ export interface components {
              */
             dissmissedBy?: string | null;
         };
-        Product: {
+        "Product-action.read": {
             readonly id?: number;
             product_code: string;
             product_name: string;
@@ -784,44 +767,72 @@ export interface components {
              * @enum {string}
              */
             stock_group: "PF" | "MP" | "EMB";
-            productCode?: string;
-            productName?: string;
-            productspecificity?: string;
-            /** @enum {string} */
-            stockGroup?: "PF" | "MP" | "EMB";
         };
-        "Product-action.read": {
+        "Product-product.create_product.update_product.patch": {
             product_code: string;
             product_name: string;
             product_specificity: string;
+            /**
+             * @example PF
+             * @enum {string}
+             */
+            stock_group: "PF" | "MP" | "EMB";
+        };
+        "Product-product.create_product.update_product.patch.jsonMergePatch": {
+            product_code?: string;
+            product_name?: string;
+            product_specificity?: string;
+            /**
+             * @example PF
+             * @enum {string}
+             */
+            stock_group?: "PF" | "MP" | "EMB";
+        };
+        "Product-product.read": {
+            readonly id?: number;
+            product_code: string;
+            product_name: string;
+            product_specificity: string;
+            /**
+             * @example PF
+             * @enum {string}
+             */
+            stock_group: "PF" | "MP" | "EMB";
         };
         "Product-stock.read": {
+            readonly id?: number;
             product_code: string;
             product_name: string;
             product_specificity: string;
+            /**
+             * @example PF
+             * @enum {string}
+             */
+            stock_group: "PF" | "MP" | "EMB";
         };
-        "Product.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+        "Product.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
             product_code: string;
             product_name: string;
             product_specificity: string;
             /** @enum {string} */
             stock_group: "PF" | "MP" | "EMB";
-            productCode?: string;
-            productName?: string;
-            productspecificity?: string;
-            /** @enum {string} */
-            stockGroup?: "PF" | "MP" | "EMB";
         };
-        "Product.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
+        "Product.jsonld-product.read": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
             product_code: string;
             product_name: string;
             product_specificity: string;
+            /** @enum {string} */
+            stock_group: "PF" | "MP" | "EMB";
         };
         "Product.jsonld-stock.read": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
             product_code: string;
             product_name: string;
             product_specificity: string;
+            /** @enum {string} */
+            stock_group: "PF" | "MP" | "EMB";
         };
         QrCode: {
             readonly id?: number;
@@ -943,10 +954,10 @@ export interface components {
         };
         "User-action.read": {
             readonly id?: number;
-            first_name: string;
-            last_name: string;
+            first_name?: string;
+            last_name?: string;
         };
-        "User-user.create_user.update": {
+        "User-user.create_user.update_user.patch": {
             /** Format: email */
             email: string;
             /**
@@ -956,10 +967,9 @@ export interface components {
             plainPassword: string;
             first_name: string;
             last_name: string;
-            preferences?: components["schemas"]["UserPreference-user.create_user.update"] | null;
+            preferences?: components["schemas"]["UserPreference-user.create_user.update_user.patch"] | null;
         };
-        "User-user.create_user.update.jsonMergePatch": {
-            /** Format: email */
+        "User-user.create_user.update_user.patch.jsonMergePatch": {
             email?: string;
             /**
              * @description A temporary variable, used when creating/updating a user password
@@ -968,12 +978,12 @@ export interface components {
             plainPassword?: string;
             first_name?: string;
             last_name?: string;
-            preferences?: components["schemas"]["UserPreference-user.create_user.update"] | null;
+            preferences?: components["schemas"]["UserPreference-user.create_user.update_user.patch"] | null;
         };
         "User-user.read": {
             readonly id?: number;
             /** Format: email */
-            email: string;
+            email?: string;
             /**
              * @description The user roles
              * @default [
@@ -981,19 +991,19 @@ export interface components {
              *     ]
              */
             roles: ("ROLE_ADMIN" | "ROLE_USER")[];
-            first_name: string;
-            last_name: string;
+            first_name?: string;
+            last_name?: string;
             preferences?: components["schemas"]["UserPreference-user.read"] | null;
         };
         "User.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
-            first_name: string;
-            last_name: string;
+            first_name?: string;
+            last_name?: string;
         };
         "User.jsonld-user.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
             /** Format: email */
-            email: string;
+            email?: string;
             /**
              * @description The user roles
              * @default [
@@ -1001,11 +1011,11 @@ export interface components {
              *     ]
              */
             roles: ("ROLE_ADMIN" | "ROLE_USER")[];
-            first_name: string;
-            last_name: string;
+            first_name?: string;
+            last_name?: string;
             preferences?: components["schemas"]["UserPreference.jsonld-user.read"] | null;
         };
-        "UserPreference-user.create_user.update": {
+        "UserPreference-user.create_user.update_user.patch": {
             /**
              * @default system
              * @enum {string}
@@ -1424,169 +1434,6 @@ export interface operations {
             };
         };
     };
-    api_actions_controllers_get_collection: {
-        parameters: {
-            query?: {
-                /** @description The collection page number */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description ActionsController collection */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ActionsController"][];
-                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
-                        member: components["schemas"]["ActionsController.jsonld"][];
-                    };
-                };
-            };
-        };
-    };
-    api_actions_controllers_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description The new ActionsController resource */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ActionsController"];
-                "application/ld+json": components["schemas"]["ActionsController"];
-            };
-        };
-        responses: {
-            /** @description ActionsController resource created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ActionsController"];
-                    "application/ld+json": components["schemas"]["ActionsController.jsonld"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description An error occurred */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
-                    "application/problem+json": components["schemas"]["ConstraintViolation"];
-                    "application/json": components["schemas"]["ConstraintViolation"];
-                };
-            };
-        };
-    };
-    api_actions_controllers_delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description ActionsController resource deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-        };
-    };
-    api_actions_controllers_patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description The updated ActionsController resource */
-        requestBody: {
-            content: {
-                "application/merge-patch+json": components["schemas"]["ActionsController.jsonMergePatch"];
-            };
-        };
-        responses: {
-            /** @description ActionsController resource updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ActionsController"];
-                    "application/ld+json": components["schemas"]["ActionsController.jsonld"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description An error occurred */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
-                    "application/problem+json": components["schemas"]["ConstraintViolation"];
-                    "application/json": components["schemas"]["ConstraintViolation"];
-                };
-            };
-        };
-    };
     api_known_errors_get_collection: {
         parameters: {
             query?: {
@@ -1749,10 +1596,188 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Product"][];
+                    "application/json": components["schemas"]["Product-product.read"][];
                     "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
-                        member: components["schemas"]["Product.jsonld"][];
+                        member: components["schemas"]["Product.jsonld-product.read"][];
                     };
+                };
+            };
+        };
+    };
+    api_products_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The new Product resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Product-product.create_product.update_product.patch"];
+                "application/ld+json": components["schemas"]["Product-product.create_product.update_product.patch"];
+            };
+        };
+        responses: {
+            /** @description Product resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Product-product.read"];
+                    "application/ld+json": components["schemas"]["Product.jsonld-product.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
+                };
+            };
+        };
+    };
+    api_products_id_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Product-product.read"];
+                    "application/ld+json": components["schemas"]["Product.jsonld-product.read"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_products_id_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product resource deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_products_id_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The updated Product resource */
+        requestBody: {
+            content: {
+                "application/merge-patch+json": components["schemas"]["Product-product.create_product.update_product.patch.jsonMergePatch"];
+            };
+        };
+        responses: {
+            /** @description Product resource updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Product-product.read"];
+                    "application/ld+json": components["schemas"]["Product.jsonld-product.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
                 };
             };
         };
@@ -2176,8 +2201,8 @@ export interface operations {
         /** @description The new User resource */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["User-user.create_user.update"];
-                "application/ld+json": components["schemas"]["User-user.create_user.update"];
+                "application/json": components["schemas"]["User-user.create_user.update_user.patch"];
+                "application/ld+json": components["schemas"]["User-user.create_user.update_user.patch"];
             };
         };
         responses: {
@@ -2257,7 +2282,7 @@ export interface operations {
         /** @description The updated User resource */
         requestBody: {
             content: {
-                "application/merge-patch+json": components["schemas"]["User-user.create_user.update.jsonMergePatch"];
+                "application/merge-patch+json": components["schemas"]["User-user.create_user.update_user.patch.jsonMergePatch"];
             };
         };
         responses: {
@@ -2354,8 +2379,8 @@ export interface operations {
         /** @description The updated User resource */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["User-user.create_user.update"];
-                "application/ld+json": components["schemas"]["User-user.create_user.update"];
+                "application/json": components["schemas"]["User-user.create_user.update_user.patch"];
+                "application/ld+json": components["schemas"]["User-user.create_user.update_user.patch"];
             };
         };
         responses: {
@@ -2449,7 +2474,7 @@ export interface operations {
         /** @description The updated User resource */
         requestBody: {
             content: {
-                "application/merge-patch+json": components["schemas"]["User-user.create_user.update.jsonMergePatch"];
+                "application/merge-patch+json": components["schemas"]["User-user.create_user.update_user.patch.jsonMergePatch"];
             };
         };
         responses: {
