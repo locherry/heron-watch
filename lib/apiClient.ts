@@ -120,7 +120,7 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
   // ---- Handle errors ----
   const errorData = await response.json().catch(() => null);
   const errorMessage =
-    errorData?.error || `HTTP error! status: ${response.status}`;
+    errorData?.title || `HTTP error! status: ${response.status}`;
 
   if (response.status === 401) {
     if (errorData?.message === "Expired JWT Token") {
@@ -132,6 +132,14 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
 
       router.replace("/login");
     }
+  } else {
+    Toast.show({
+      type: "error",
+      text1: capitalizeFirst(t("errors.apiError")),
+      text2:
+        errorMessage +
+        (errorData?.detail ? `: ${JSON.stringify(errorData.detail)}` : ""),
+    });
   }
 
   throw new Error(errorMessage);
