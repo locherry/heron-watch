@@ -31,7 +31,7 @@ const TOAST_CONFIG: ToastConfig = {
     <Pressable onPress={onPress} className="w-full max-w-xl px-6">
       <Alert icon={icon} variant="success">
         <Row className="justify-between">
-          <Column>
+          <Column className="flex-1">
             <AlertTitle>{text1}</AlertTitle>
             <AlertDescription>{text2}</AlertDescription>
           </Column>
@@ -46,7 +46,7 @@ const TOAST_CONFIG: ToastConfig = {
     <Pressable onPress={onPress} className="w-full max-w-xl px-6">
       <Alert icon={icon} variant="destructive">
         <Row className="justify-between">
-          <Column>
+          <Column className="flex-1">
             <AlertTitle>{text1}</AlertTitle>
             <AlertDescription>{text2}</AlertDescription>
           </Column>
@@ -61,7 +61,7 @@ const TOAST_CONFIG: ToastConfig = {
     <Pressable onPress={onPress} className="w-full max-w-xl px-6">
       <Alert icon={icon} variant="info">
         <Row className="justify-between">
-          <Column>
+          <Column className="flex-1">
             <AlertTitle>{text1}</AlertTitle>
             <AlertDescription>{text2}</AlertDescription>
           </Column>
@@ -76,7 +76,7 @@ const TOAST_CONFIG: ToastConfig = {
     <Pressable onPress={onPress} className="w-full max-w-xl px-6">
       <Alert icon={icon} variant="default">
         <Row className="justify-between">
-          <Column>
+          <Column className="flex-1">
             <AlertTitle>{text1}</AlertTitle>
             <AlertDescription>{text2}</AlertDescription>
           </Column>
