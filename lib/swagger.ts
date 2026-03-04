@@ -1787,6 +1787,10 @@ export interface operations {
             query?: {
                 /** @description The collection page number */
                 page?: number;
+                product_code?: string;
+                "product_code[]"?: string[];
+                batch_number?: string;
+                "batch_number[]"?: string[];
             };
             header?: never;
             path?: never;
@@ -2000,6 +2004,10 @@ export interface operations {
                 /** @example PF_G */
                 stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
+                "product.product_code"?: string;
+                "product.product_code[]"?: string[];
+                batch_number?: string;
+                "batch_number[]"?: string[];
             };
             header?: never;
             path?: never;
