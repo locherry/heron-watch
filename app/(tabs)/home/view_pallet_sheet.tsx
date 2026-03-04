@@ -1,14 +1,14 @@
 import { Link, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    FlatList,
-    Keyboard,
-    LayoutChangeEvent,
-    Pressable,
-    TouchableOpacity,
-    useWindowDimensions,
-    View,
+  FlatList,
+  Keyboard,
+  LayoutChangeEvent,
+  Pressable,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import Header from "~/components/Header";
@@ -20,16 +20,23 @@ import { Text } from "~/components/ui/text";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
+type QrCodeItem = {
+  id?: number;
+  product_code?: string;
+  batch_number?: string;
+  quantity?: number;
+};
+
 export default function App() {
   const PALLET_CARD_WIDTH = 170;
   const [numCol, setNumCol] = useState(0);
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
-    setNumCol(Math.floor(width / (PALLET_CARD_WIDTH + 30))); //We take in account the 10px of left margin
+    setNumCol(Math.floor(width / (PALLET_CARD_WIDTH + 30)));
   };
   const [t] = useTranslation();
 
-  const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
+  const rawParams = useLocalSearchParams();
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_C" | "MP_S" | "EMB";
   };
@@ -39,106 +46,92 @@ export default function App() {
   const [dynamic_product_code_value, setDynamicProductCodeValue] = useState("");
   const [dynamic_batch_number_value, setDynamicbatchNumberValue] = useState("");
 
-  const {
-    data: PCData,
-    error: PCError,
-    isLoading: PCIsLoading,
-    isError: PCIsError,
-  } = useFetchQuery("/qr-code/list/{stock_category}", "get", {
-    path: { stock_category: stockCategory },
+  const isSelectingPC = useRef(false);
+  const isSelectingLN = useRef(false);
+
+  const { data: PCData } = useFetchQuery("/api/qr_codes", "get", {
     query:
-      batch_number_value !== ""
-        ? {
-            required_elts: ["product_code"],
-            distinct: true,
-            filter_params: {
-              batch_number: batch_number_value,
-            },
-          }
-        : {
-            required_elts: ["product_code"],
-            distinct: true,
-          },
+      batch_number_value !== "" ? { batch_number: batch_number_value } : {},
   });
 
-  const {
-    data: LNData,
-    error: LNError,
-    isLoading: LNIsLoading,
-    isError: LNIsError,
-  } = useFetchQuery("/qr-code/list/{stock_category}", "get", {
-    path: { stock_category: stockCategory },
+  const { data: LNData } = useFetchQuery("/api/qr_codes", "get", {
     query:
-      product_code_value !== ""
-        ? {
-            required_elts: ["batch_number"],
-            distinct: true,
-            filter_params: {
-              product_code: product_code_value,
-            },
-          }
-        : {
-            required_elts: ["batch_number"],
-            distinct: true,
-          },
+      product_code_value !== "" ? { product_code: product_code_value } : {},
   });
 
-  const {
-    data: selectedPalletsData,
-    error: palletError,
-    isLoading: palletIsLoading,
-    isError: palletIsError,
-  } = useFetchQuery(
-    "/qr-code/list/{stock_category}",
+  const { data: selectedPalletsData } = useFetchQuery(
+    "/api/qr_codes",
     "get",
     {
-      path: { stock_category: stockCategory },
       query: {
-        required_elts: ["id", "quantity"],
-        filter_params: {
-          product_code: product_code_value,
-          batch_number: batch_number_value,
-        },
+        product_code: product_code_value,
+        batch_number: batch_number_value,
       },
     },
     undefined,
-    product_code_value && batch_number_value ? true : false,
+    product_code_value !== "" && batch_number_value !== "",
   );
 
-  const { height, width } = useWindowDimensions();
-  const { rowNameWidth, rowsHeight } = {
-    rowNameWidth: Math.round(width / 5),
-    rowsHeight: Math.round(height / 12),
-  };
+  const { width } = useWindowDimensions();
+
   const [isProductCodeFocus, setIsProductCodeFocus] = useState(true);
   const [isbatchNumberFocus, setIsbatchNumberFocus] = useState(true);
-  const [PCfilteredData, setPCFilteredData] = useState(PCData?.data ?? []);
-  const [LNfilteredData, setLNFilteredData] = useState(LNData?.data ?? []);
+  const [PCfilteredData, setPCFilteredData] = useState<QrCodeItem[]>(
+    (PCData?.member as QrCodeItem[]) ?? [],
+  );
+  const [LNfilteredData, setLNFilteredData] = useState<QrCodeItem[]>(
+    (LNData?.member as QrCodeItem[]) ?? [],
+  );
+  useEffect(() => {
+    const members = (PCData?.member as QrCodeItem[]) ?? [];
+    const seen = new Set<string>();
+    const deduped = members.filter((line) => {
+      const code = line.product_code ?? "";
+      if (seen.has(code)) return false;
+      seen.add(code);
+      return true;
+    });
+    setPCFilteredData(deduped);
+  }, [PCData]);
 
   useEffect(() => {
-    if (PCData !== undefined && PCData.data !== undefined) {
-      let filteredResult = PCData?.data?.filter((line) =>
-        line.product_code.includes(dynamic_product_code_value),
-      );
-      setPCFilteredData(filteredResult);
-    } else {
-      setPCFilteredData([]);
-    }
+    setLNFilteredData((LNData?.member as QrCodeItem[]) ?? []);
+  }, [LNData]);
+
+  useEffect(() => {
+    const members = (PCData?.member as QrCodeItem[]) ?? [];
+    const seen = new Set<string>();
+    const filteredResult = members.filter((line) => {
+      const code = line.product_code ?? "";
+      if (seen.has(code) || !code.includes(dynamic_product_code_value))
+        return false;
+      seen.add(code);
+      return true;
+    });
+    setPCFilteredData(filteredResult);
   }, [dynamic_product_code_value, PCData]);
 
   useEffect(() => {
-    if (LNData !== undefined && LNData.data !== undefined) {
-      let filteredResult = LNData?.data?.filter((line) =>
-        line.batch_number.includes(dynamic_batch_number_value),
-      );
-      setLNFilteredData(filteredResult);
-    } else {
-      setLNFilteredData([]);
-    }
-  }, [dynamic_batch_number_value, LNData]);
+    const members = (PCData?.member as QrCodeItem[]) ?? [];
+    const seen = new Set<string>();
+    const filteredResult = members.filter((line) => {
+      const code = line.product_code ?? "";
+      if (seen.has(code) || !code.includes(dynamic_product_code_value))
+        return false;
+      seen.add(code);
+      return true;
+    });
+    setPCFilteredData(filteredResult);
+  }, [dynamic_product_code_value, PCData]);
 
-  let isSelectingPC = false;
-  let isSelectingLN = false;
+  useEffect(() => {
+    const members = (LNData?.member as QrCodeItem[]) ?? [];
+    setLNFilteredData(
+      members.filter((line) =>
+        line.batch_number?.includes(dynamic_batch_number_value),
+      ),
+    );
+  }, [dynamic_batch_number_value, LNData]);
 
   return (
     <RootView>
@@ -158,51 +151,48 @@ export default function App() {
                 {capitalizeFirst(t("actions.product_code"))}
               </Label>
               <Autocomplete
-                inputContainerStyle={{ borderWidth: 0 }} // remove default border
+                inputContainerStyle={{ borderWidth: 0 }}
                 containerStyle={{ width: width / 5 }}
                 hideResults={isProductCodeFocus}
                 onBlur={() => {
                   setTimeout(() => {
                     Keyboard.dismiss();
-                    if (!isProductCodeFocus && !isSelectingPC) {
+                    if (!isProductCodeFocus && !isSelectingPC.current) {
                       setIsProductCodeFocus(true);
                     } else {
-                      isSelectingPC = false;
+                      isSelectingPC.current = false;
                     }
                   }, 100);
                 }}
-                onFocus={() => {
-                  setIsProductCodeFocus(false);
-                }}
+                onFocus={() => setIsProductCodeFocus(false)}
                 data={!isProductCodeFocus ? PCfilteredData : []}
                 value={dynamic_product_code_value}
                 onChangeText={(text) => {
-                  if (product_code_value !== "") {
-                    setProductCodeValue("");
-                  }
-                  setDynamicProductCodeValue(text);
+                  if (product_code_value !== "") setProductCodeValue("");
+                  setDynamicProductCodeValue(text ?? "");
                 }}
                 renderTextInput={(props) => (
                   <Input {...props} placeholder={t("actions.product_code")} />
                 )}
-                renderResultList={(props) => (
-                  <FlatList {...props} className="border-muted-foreground" />
-                )}
                 flatListProps={{
-                  keyExtractor: (item) => item.product_code,
-                  renderItem: ({ item }) => (
-                    <TouchableOpacity
-                      className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
-                      onPressIn={() => (isSelectingPC = true)}
-                      onPress={() => {
-                        setProductCodeValue(item.product_code);
-                        setDynamicProductCodeValue(item.product_code);
-                        setIsProductCodeFocus(true);
-                      }}
-                    >
-                      <Text>{item.product_code}</Text>
-                    </TouchableOpacity>
-                  ),
+                  keyExtractor: (_item: unknown, index: number) =>
+                    `pc-${index}`,
+                  renderItem: ({ item }: { item: unknown }) => {
+                    const qr = item as QrCodeItem;
+                    return (
+                      <TouchableOpacity
+                        className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
+                        onPressIn={() => (isSelectingPC.current = true)}
+                        onPress={() => {
+                          setProductCodeValue(qr.product_code ?? "");
+                          setDynamicProductCodeValue(qr.product_code ?? "");
+                          setIsProductCodeFocus(true);
+                        }}
+                      >
+                        <Text>{qr.product_code}</Text>
+                      </TouchableOpacity>
+                    );
+                  },
                 }}
               />
             </View>
@@ -211,82 +201,86 @@ export default function App() {
                 {capitalizeFirst(t("actions.batch_number"))}
               </Label>
               <Autocomplete
-                inputContainerStyle={{ borderWidth: 0 }} // remove default border
+                inputContainerStyle={{ borderWidth: 0 }}
                 containerStyle={{ width: width / 5 }}
                 hideResults={isbatchNumberFocus}
                 onBlur={() => {
                   Keyboard.dismiss();
                   setTimeout(() => {
-                    if (!isbatchNumberFocus && !isSelectingLN) {
+                    if (!isbatchNumberFocus && !isSelectingLN.current) {
                       setIsbatchNumberFocus(true);
                     } else {
-                      isSelectingLN = false;
+                      isSelectingLN.current = false;
                     }
                   }, 100);
                 }}
                 renderTextInput={(props) => (
                   <Input {...props} placeholder={t("actions.batch_number")} />
                 )}
-                onFocus={() => {
-                  setIsbatchNumberFocus(false);
-                }}
+                onFocus={() => setIsbatchNumberFocus(false)}
                 data={!isbatchNumberFocus ? LNfilteredData : []}
                 value={dynamic_batch_number_value}
                 onChangeText={(text) => {
-                  if (batch_number_value !== "") {
-                    setbatchNumberValue("");
-                  }
+                  if (batch_number_value !== "") setbatchNumberValue("");
                   setDynamicbatchNumberValue(text);
                 }}
                 flatListProps={{
-                  keyExtractor: (item) => item.batch_number,
-                  renderItem: ({ item }) => (
-                    <TouchableOpacity
-                      className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
-                      onPressIn={() => (isSelectingLN = true)}
-                      onPress={() => {
-                        setbatchNumberValue(item.batch_number);
-                        setDynamicbatchNumberValue(item.batch_number);
-                        setIsbatchNumberFocus(true);
-                      }}
-                    >
-                      <Text>{item.batch_number}</Text>
-                    </TouchableOpacity>
-                  ),
+                  keyExtractor: (_item: unknown, index: number) =>
+                    `bn-${index}`,
+                  renderItem: ({ item }: { item: unknown }) => {
+                    const qr = item as QrCodeItem;
+                    return (
+                      <TouchableOpacity
+                        className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
+                        onPressIn={() => (isSelectingLN.current = true)}
+                        onPress={() => {
+                          setbatchNumberValue(qr.batch_number ?? "");
+                          setDynamicbatchNumberValue(qr.batch_number ?? "");
+                          setIsbatchNumberFocus(true);
+                        }}
+                      >
+                        <Text>{qr.batch_number}</Text>
+                      </TouchableOpacity>
+                    );
+                  },
                 }}
               />
             </View>
             <View className="mt-5">
               <FlatList
                 key={numCol}
-                keyExtractor={(item) => item.id.toString()}
-                data={selectedPalletsData?.data ?? null}
+                keyExtractor={(_item: unknown, index: number) =>
+                  `pallet-${index}`
+                }
+                data={(selectedPalletsData?.member as QrCodeItem[]) ?? []}
                 numColumns={numCol}
                 onLayout={handleLayout}
-                renderItem={({ item }) => (
-                  <Link
-                    href={{
-                      pathname: "/home/modify_pallet_sheet",
-                      params: {
-                        stockCategory: stockCategory,
-                        alreadySetQrId: item.id,
-                      },
-                    }}
-                    asChild
-                  >
-                    <Pressable>
-                      <PalletCard
-                        objId={item.id}
-                        objQuantity={item.quantity}
-                      ></PalletCard>
-                    </Pressable>
-                  </Link>
-                )}
+                renderItem={({ item }: { item: unknown }) => {
+                  const qr = item as QrCodeItem;
+                  return (
+                    <Link
+                      href={{
+                        pathname: "/home/modify_pallet_sheet",
+                        params: {
+                          stockCategory,
+                          alreadySetQrId: qr.id,
+                        },
+                      }}
+                      asChild
+                    >
+                      {qr.id && qr.quantity && (
+                        <Pressable>
+                          <PalletCard objId={qr.id} objQuantity={qr.quantity} />
+                        </Pressable>
+                      )}
+                    </Link>
+                  );
+                }}
               />
             </View>
           </>
         }
-      ></FlatList>
+      />
     </RootView>
   );
 }

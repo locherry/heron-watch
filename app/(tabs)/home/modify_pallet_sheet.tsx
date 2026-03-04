@@ -1,17 +1,17 @@
 import { useLocalSearchParams } from "expo-router";
 import {
-    ArrowBigRightDash,
-    MessageCircleWarning,
-    Pencil,
-    Trash,
+  ArrowBigRightDash,
+  MessageCircleWarning,
+  Pencil,
+  Trash,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    ActivityIndicator,
-    FlatList,
-    useWindowDimensions,
-    View,
+  ActivityIndicator,
+  FlatList,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -94,12 +94,12 @@ function SheetRow({
 export default function add_pallet_sheet() {
   const [t] = useTranslation();
   const { mutate: modifyQrData } = useFetchMutation(
-    "/qr-code/{stock_category}/{qr_code_id}",
+    "/api/qr_codes/{id}",
     "patch",
   );
   const { mutate: deleteQrData } = useFetchMutation(
-    "/qr-code/{qr_code_id}",
-    "patch",
+    "/api/qr_codes/{id}",
+    "delete",
   );
 
   const rawParams = useLocalSearchParams(); //We take params from url that have been used to go to this page
@@ -132,10 +132,10 @@ export default function add_pallet_sheet() {
     isLoading: isNewDataLoading = false,
     error: newDataError,
   } = useFetchQuery(
-    "/qr-code/{qr_code_id}",
+    "/api/qr_codes/{id}",
     "get",
     {
-      path: { qr_code_id: qrId ?? 0 },
+      path: { id: (qrId ?? 0).toString() },
     },
     undefined,
     qrId ? true : false,
@@ -146,14 +146,18 @@ export default function add_pallet_sheet() {
     isLoading: isLoadingPlacedQuantity = false,
     error: placedQuantityError = false,
   } = useFetchQuery(
-    "/qr-code/{stock_category}/{product_code}/{batch_number}",
+    "/api/qr_codes",
     "get",
     {
-      path: {
-        stock_category: stockCategory,
+      query: {
         product_code: completeData.product_code,
         batch_number: completeData.batch_number,
       },
+      // path: {
+      //   stock_category: stockCategory,
+      //   product_code: completeData.product_code,
+      //   batch_number: completeData.batch_number,
+      // },
     },
     undefined,
     isDataFetched,
@@ -164,43 +168,36 @@ export default function add_pallet_sheet() {
     isLoading: productStockIsLoading = false,
     isError: productStockIsError = false,
   } = useFetchQuery(
-    "/stocks/{stock_category}",
+    "/api/stock/current_stock",
     "get",
     {
-      path: { stock_category: stockCategory },
       query: {
-        required_elts: ["quantity"],
-        filter_params: {
-          product_code: completeData.product_code,
-          batch_number: completeData.batch_number,
-        },
-      },
+        stock_category: stockCategory,
+        "product.product_code": completeData?.product_code,
+        batch_number: completeData?.batch_number,
+      } as any,
     },
     undefined,
     isDataFetched,
   );
+
   const handleModifyData = () => {
     if (isDataFetched && quantityInput) {
       modifyQrData(
         {
-          pathParams: {
-            stock_category: stockCategory,
-            qr_code_id: isDataFetched ? Number(qrId) : 0,
-          },
-          body: { quantity: Number(quantityInput) }, //The only thing we can modify without deleting pallet sheet is quantity
+          params: { path: { id: (qrId ?? 0).toString() } },
+          body: { quantity: Number(quantityInput) },
         },
         {
-          onSuccess: (data) => {
-            console.log(data?.message);
+          onSuccess: () => {
             setQrId(undefined);
             setIsDataFetched(false);
           },
-          onError: (data) => {
-            console.log(data.message);
+          onError: (error) => {
+            console.log(error.message);
           },
         },
       );
-      //Reset of all parameters
       setQuantityInput(undefined);
       setIsDataFetched(false);
       setPlacedQuantity([]);
@@ -215,7 +212,7 @@ export default function add_pallet_sheet() {
     if (isDataFetched) {
       deleteQrData(
         {
-          pathParams: { qr_code_id: qrId ?? 0 },
+          params: { path: { id: (qrId ?? 0).toString() } },
         },
         {
           onSuccess: () => {
@@ -236,30 +233,34 @@ export default function add_pallet_sheet() {
 
   useEffect(() => {
     if (palletCompleteData && !Array.isArray(palletCompleteData)) {
-      setCompleteData(palletCompleteData?.data);
+      setCompleteData(palletCompleteData);
       setIsDataFetched(true);
-    } else if (!Array.isArray(completeData)) {
-      setCompleteData([]);
-      setIsDataFetched(false);
     }
-  }, [palletCompleteData]);
+  }, [
+    Array.isArray(palletCompleteData) ? undefined : palletCompleteData?.["@id"],
+  ]);
 
   useEffect(() => {
-    if (productStockQuantity && !Array.isArray(productStockQuantity)) {
-      setStockData(productStockQuantity?.data?.[0]);
-    } else if (!Array.isArray(stockData)) {
-      setStockData([]);
+    if (
+      productStockQuantity != null &&
+      (productStockQuantity.member?.length ?? 0) > 0
+    ) {
+      setStockData(productStockQuantity.member![0]);
     }
-  }, [productStockQuantity]);
+  }, [productStockQuantity?.totalItems]);
 
   useEffect(() => {
-    if (alreadyPlacedQuantity && !Array.isArray(alreadyPlacedQuantity)) {
-      setPlacedQuantity(alreadyPlacedQuantity?.data?.quantity);
-      setQuantityInput(completeData?.quantity);
-    } else if (!Array.isArray(placedQuantity)) {
-      setPlacedQuantity([]);
+    if (
+      alreadyPlacedQuantity != null &&
+      (alreadyPlacedQuantity.member?.length ?? 0) > 0
+    ) {
+      const total = (
+        alreadyPlacedQuantity.member as Array<{ quantity?: number }>
+      ).reduce((sum, qr) => sum + (qr.quantity ?? 0), 0);
+      setPlacedQuantity(total);
+      setQuantityInput(completeData?.quantity?.toString());
     }
-  }, [alreadyPlacedQuantity]);
+  }, [alreadyPlacedQuantity?.totalItems]);
 
   return (
     <RootView disableInsets={{ left: true }} className="flex gap-y-[30]">
