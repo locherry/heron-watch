@@ -32,7 +32,7 @@ export default function LoginScreen() {
         jwt: data.token,
       });
 
-      const me = await apiFetch("/api/me", "get");
+      const me = await apiFetch("/api/users/me", "get");
 
       await SecureStorage.set("userSession", {
         jwt: data.token,
