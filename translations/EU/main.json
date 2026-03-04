@@ -58,7 +58,12 @@
     "admin": "administratzailea",
     "user": "erabiltzailea",
     "logout": "irten",
-    "login": "sartu"
+    "login": "sartu",
+    "roles": "rolak",
+    "unknownUser": "erabiltzaile ezezaguna",
+    "confirmDelete": "Ziur al zaude erabiltzaile hau ezabatu nahi duzula? Erabiltzaile honek sortutako ekintzak ez dira ezabatuko, baina 'erabiltzaile ezezagun' bati egotziko zaizkio.",
+    "ROLE_USER": "erabiltzaile",
+    "ROLE_ADMIN": "administratzailea"
   },
   "color": {
     "raspberry": "marrubia",
@@ -228,5 +233,13 @@
   "I Transfer to the shop": "Dendara transferitzen naiz",
   "Select a date": "Hautatu data",
   "Current stock": "Egungo stoka",
-  "Stock as of": "Eguneroko egoera"
+  "Stock as of": "Eguneroko egoera",
+  "product": {
+    "confirmDelete": "Ziur al zaude produktu hau ezabatu nahi duzula? Produktu honekin sortutako ekintzak ez dira ezabatuko, baina 'ezezagun produktu' bati egotziko zaizkio.",
+    "product_code": "Produktuko kodea",
+    "product_name": "Produktuaren izena",
+    "product_specificity": "produktuaren espezifikotasuna",
+    "selectStockGeneralCategory": "Hautatu akzioen kategoria orokor bat",
+    "newProduct": "produktu berria"
+  }
 }

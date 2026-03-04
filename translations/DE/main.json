@@ -58,7 +58,12 @@
     "admin": "admin",
     "user": "Benutzer",
     "logout": "Abmeldung",
-    "login": "Anmeldung"
+    "login": "Anmeldung",
+    "roles": "Rollen",
+    "unknownUser": "unbekannter Benutzer",
+    "confirmDelete": "Sind Sie sicher, dass Sie diesen Benutzer löschen wollen? Die von diesem Benutzer erstellten Aktionen werden nicht gelöscht, sondern einem \"unbekannten Benutzer\" zugewiesen.",
+    "ROLE_USER": "Benutzer",
+    "ROLE_ADMIN": "admin"
   },
   "color": {
     "raspberry": "Himbeere",
@@ -228,5 +233,13 @@
   "I stock": "I Aktie",
   "I sell": "Ich verkaufe",
   "I Give": "I Geben",
-  "I Transfer to the shop": "I Transfer zum Geschäft"
+  "I Transfer to the shop": "I Transfer zum Geschäft",
+  "product": {
+    "confirmDelete": "Sind Sie sicher, dass Sie dieses Produkt löschen möchten? Die mit diesem Produkt erstellten Aktionen werden nicht gelöscht, sondern einem \"unbekannten Produkt\" zugewiesen.",
+    "product_code": "Produktcode",
+    "product_name": "Produktname",
+    "product_specificity": "Produktspezifität",
+    "selectStockGeneralCategory": "Wählen Sie eine allgemeine Aktienkategorie",
+    "newProduct": "neues Produkt"
+  }
 }
