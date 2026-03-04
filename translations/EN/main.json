@@ -75,7 +75,7 @@
     "quantity": "quantity",
     "comment": "comment",
     "product_code": "product code",
-    "batch_number": "lot number",
+    "batch_number": "batch number",
     "created_by_id": "created by",
     "created_at": "created at",
     "action_id": "action",
@@ -164,6 +164,7 @@
     "invalidProductSpecificityMP": "must be a letter between : F (frais), C (congelé), or S (sec)",
     "invalidProductSpecificityEMB": "must be a designation between 'Boite' or 'Couvercle'",
     "invalidbatchNumber": "invalid lot number, should be three capital letters + 6 digits (ddmmyy)",
+    "apiError": "an error occurred while communicating with the server",
     "loginExpired": "login expired",
     "redirectToLogin": "redirect to login",
     "quantityInputRequired": "You need to specify a new quantity to modify pallet sheet"

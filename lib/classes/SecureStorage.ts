@@ -1,7 +1,7 @@
 import { languageRessources } from "@/translations/i18n"; // Import language options from translations
 import * as SecureStore from "expo-secure-store"; // Expo's secure storage for mobile (encrypted)
 import { Platform } from "react-native"; // Detects if running on iOS, Android, or Web
-import { UserRole } from "~/@types/user";
+import { UserRead } from "~/@types/user";
 
 // Type definition for the structure of stored secure data
 export type SecureStorageData = {
@@ -11,11 +11,12 @@ export type SecureStorageData = {
     lastName: string;
     email: string;
     jwt: string;
-    roles: UserRole[];
+    roles: UserRead["roles"];
   };
   userPreferences: {
     theme: "light" | "dark" | "system";
     language: keyof typeof languageRessources;
+    fontSize: "small" | "medium" | "large";
   };
 };
 
@@ -33,6 +34,7 @@ export const DefaultSecureStorageData = {
   userPreferences: {
     theme: "system",
     language: "EN",
+    fontSize: "medium",
   },
 } satisfies SecureStorageData;
 

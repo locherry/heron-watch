@@ -5,11 +5,11 @@ import {
   MoonStar,
   Sun,
 } from "lucide-react-native";
-import { useColorScheme } from "nativewind";
+import { rem, useColorScheme } from "nativewind";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Appearance } from "react-native";
-import { userThemeValue } from "~/@types/user";
+import { UserTheme } from "~/@types/user";
 import Header from "~/components/Header";
 import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
@@ -48,7 +48,7 @@ export default function AppearanceSettings() {
   const [t] = useTranslation();
 
   const { colorScheme, setColorScheme } = useColorScheme();
-  const { mutate: updateTheme } = useFetchMutation("/users/{user_ID}", "patch");
+  const { mutate: updateTheme } = useFetchMutation("/api/users/me", "patch");
 
   const options: Option[] = [
     {
@@ -67,13 +67,12 @@ export default function AppearanceSettings() {
       icon: Laptop,
     },
   ];
-
-  const [themeValue, setThemeValue] = React.useState<userThemeValue>(
-    colorScheme ?? "system"
+  const [themeValue, setThemeValue] = React.useState<UserTheme>(
+    colorScheme ?? "system",
   ); // Default to current system theme
 
   const handleValueChange = (newValue: SelectOption) => {
-    const newThemeValue = (newValue?.value ?? "system") as userThemeValue;
+    const newThemeValue = (newValue?.value ?? "system") as UserTheme;
     setThemeValue(newThemeValue);
 
     if (newValue?.value === "light" || newValue?.value === "dark") {
@@ -89,9 +88,9 @@ export default function AppearanceSettings() {
     SecureStorage.get("userSession").then((userSession) => {
       if (userSession) {
         updateTheme({
-          pathParams: { user_ID: userSession.id },
+          pathParams: { id: userSession.id },
           body: {
-            user_preferences: {
+            preferences: {
               theme: newThemeValue,
             },
           },
@@ -104,7 +103,7 @@ export default function AppearanceSettings() {
     SecureStorage.get("userPreferences").then((userPreferences) => {
       userPreferences?.theme && setThemeValue(userPreferences?.theme);
     });
-  });
+  }, []);
 
   const selectedOption = options.find((option) => option.value === themeValue);
 
@@ -116,19 +115,31 @@ export default function AppearanceSettings() {
     "small" | "medium" | "large"
   >("medium");
   const fontSizeOptions = [
-    {
-      value: "small",
-      size: 14,
-    },
-    {
-      value: "medium",
-      size: 16,
-    },
-    {
-      value: "large",
-      size: 18,
-    },
+    { value: "small", size: 14, rem: 14 },
+    { value: "medium", size: 16, rem: 16 },
+    { value: "large", size: 18, rem: 18 },
   ] as const;
+
+  const handleFontSizeChange = (value: "small" | "medium" | "large") => {
+    setFontSizeValue(value);
+    const option = fontSizeOptions.find((o) => o.value === value);
+    if (option) {
+      rem.set(option.rem);
+      SecureStorage.modify("userPreferences", "fontSize", value);
+    }
+  };
+
+  useEffect(() => {
+    SecureStorage.get("userPreferences").then((userPreferences) => {
+      if (userPreferences?.theme) setThemeValue(userPreferences.theme);
+      if (userPreferences?.fontSize) {
+        const saved = userPreferences.fontSize as "small" | "medium" | "large";
+        setFontSizeValue(saved);
+        const option = fontSizeOptions.find((o) => o.value === saved);
+        if (option) rem.set(option.rem);
+      }
+    });
+  });
   return (
     <RootView>
       <Header title={capitalizeFirst(t("settings.appearance.name"))}></Header>
@@ -184,7 +195,7 @@ export default function AppearanceSettings() {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
-                  onPress={() => setFontSizeValue(option.value)}
+                  onPress={() => handleFontSizeChange(option.value)}
                 >
                   <Icon
                     as={CaseSensitive}
@@ -192,12 +203,14 @@ export default function AppearanceSettings() {
                     className={cn(
                       fontSizeValue === option.value
                         ? "text-background"
-                        : "text-foreground"
+                        : "text-foreground",
                     )}
                   />
                 </Button>
 
-                <Text style={{fontSize:option.size}}>{capitalizeFirst(option.value)}</Text>
+                <Text style={{ fontSize: option.size }}>
+                  {capitalizeFirst(option.value)}
+                </Text>
               </Column>
             ))}
           </Row>
