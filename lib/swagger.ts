@@ -836,39 +836,57 @@ export interface components {
         };
         QrCode: {
             readonly id?: number;
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
+            stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             product_code: string;
             batch_number: string;
             quantity?: number;
             /** Format: date-time */
-            expiration_date: string;
+            expire_at: string;
             productCode?: string;
             batchNumber?: string;
             /** Format: date-time */
-            expirationDate?: string;
+            expireAt?: string;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
         };
         "QrCode.jsonMergePatch": {
             readonly id?: number;
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
+            stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             product_code?: string;
             batch_number?: string;
             quantity?: number;
             /** Format: date-time */
-            expiration_date?: string;
+            expire_at?: string;
             productCode?: string;
             batchNumber?: string;
             /** Format: date-time */
-            expirationDate?: string;
+            expireAt?: string;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
         };
         "QrCode.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
+            /** @enum {string} */
+            stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             product_code: string;
             batch_number: string;
             quantity?: number;
             /** Format: date-time */
-            expiration_date: string;
+            expire_at: string;
             productCode?: string;
             batchNumber?: string;
             /** Format: date-time */
-            expirationDate?: string;
+            expireAt?: string;
+            /** @enum {string} */
+            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
         };
         "Stock-stock.read": {
             readonly id?: number;
@@ -961,6 +979,13 @@ export interface components {
             /** Format: email */
             email: string;
             /**
+             * @description The user roles
+             * @default [
+             *       "ROLE_USER"
+             *     ]
+             */
+            roles: ("ROLE_ADMIN" | "ROLE_USER")[];
+            /**
              * @description A temporary variable, used when creating/updating a user password
              *     The hashing is done through an event listener (useful for both API and non API contexts)
              */
@@ -971,6 +996,13 @@ export interface components {
         };
         "User-user.create_user.update_user.patch.jsonMergePatch": {
             email?: string;
+            /**
+             * @description The user roles
+             * @default [
+             *       "ROLE_USER"
+             *     ]
+             */
+            roles: ("ROLE_ADMIN" | "ROLE_USER")[];
             /**
              * @description A temporary variable, used when creating/updating a user password
              *     The hashing is done through an event listener (useful for both API and non API contexts)
@@ -1026,6 +1058,11 @@ export interface components {
              * @enum {string}
              */
             language: "EU" | "FR" | "EN" | "DE" | "ES";
+            /**
+             * @default medium
+             * @enum {string}
+             */
+            fontSize: "small" | "medium" | "large";
         };
         "UserPreference-user.read": {
             /**
@@ -1038,6 +1075,11 @@ export interface components {
              * @enum {string}
              */
             language: "EU" | "FR" | "EN" | "DE" | "ES";
+            /**
+             * @default medium
+             * @enum {string}
+             */
+            fontSize: "small" | "medium" | "large";
         };
         "UserPreference.jsonld-user.read": {
             /**
@@ -1050,6 +1092,11 @@ export interface components {
              * @enum {string}
              */
             language: "EU" | "FR" | "EN" | "DE" | "ES";
+            /**
+             * @default medium
+             * @enum {string}
+             */
+            fontSize: "small" | "medium" | "large";
         };
     };
     responses: never;
@@ -1791,6 +1838,9 @@ export interface operations {
                 "product_code[]"?: string[];
                 batch_number?: string;
                 "batch_number[]"?: string[];
+                /** @example PF_G */
+                stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
             };
             header?: never;
             path?: never;

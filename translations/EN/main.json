@@ -84,14 +84,14 @@
     "newAction": "New action",
     "newActions": "New actions",
     "newActionsCreated": "New actions created",
-    "expirationDate": "expiration date"
+    "expireAt": "expire at"
   },
   "stocks": {
     "id": "id",
     "product_code": "product code",
     "batch_number": "lot number",
     "quantity": "quantity",
-    "expiration_date": "expiration date",
+    "expire_at": "expire at",
     "finishedProducts": "finished products",
     "rawMaterials": "raw materials",
     "viewStocks": "view stocks",
@@ -156,7 +156,7 @@
   "errors": {
     "fillBothFields": "please fill both fields",
     "required": "This field is required",
-    "invalidExpirationDate": "invalid expiration date, date format is : dd-mm-yyyy eg : 2025-31-12",
+    "invalidExpirationDate": "invalid expire date, date format is : dd-mm-yyyy eg : 2025-31-12",
     "invalidQuantity": "invalid quantity, quantity sould be an integer",
     "invalidProductCode": "invalid product code, should begin with three digits",
     "invalidProductName": "invalid product name, must consist of letters or numbers",
@@ -179,7 +179,7 @@
     "client": "client",
     "product": "product",
     "batch_number": "lot number",
-    "expiration_date": "expiration date",
+    "expire_at": "expire at",
     "quantity": "quantity",
     "create_sheet": "create sheet",
     "create_qr_code": "create QR Code",

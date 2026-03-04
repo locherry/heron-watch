@@ -21,7 +21,7 @@ type PalletSheetData =
       client: string | undefined;
       product_name: string;
       batch_number: string;
-      expiration_date: string;
+      expire_at: string;
       quantity: number | undefined;
     }
   | undefined;
@@ -41,10 +41,7 @@ function CreatePalletSheet({
   const [isDataSet, setIsDataSet] = useState(false);
   const [emitAlert, setEmitAlert] = useState(false);
 
-  const { mutate: createNewQR } = useFetchMutation(
-    "/qr-code/{stock_category}",
-    "post",
-  );
+  const { mutate: createNewQR } = useFetchMutation("/api/qr_codes", "post");
 
   useEffect(() => {
     if (!data) {
@@ -59,7 +56,7 @@ function CreatePalletSheet({
       typeof data?.client === "string" &&
       typeof data?.origin === "string" &&
       typeof data?.batch_number === "string" &&
-      typeof data?.expiration_date === "string" &&
+      typeof data?.expire_at === "string" &&
       typeof data?.quantity === "number" &&
       typeof data?.product_name === "string"
     );
@@ -67,20 +64,20 @@ function CreatePalletSheet({
   const handleNewQRCreation = () => {
     createNewQR(
       {
-        pathParams: { stock_category: stockCategory },
         body: {
-          product_code: data?.product_code,
-          batch_number: data?.batch_number,
+          stock_category: stockCategory,
+          product_code: data?.product_code ?? "",
+          batch_number: data?.batch_number ?? "",
           quantity: data?.quantity,
-          expiration_date: data?.expiration_date,
+          expire_at: data?.expire_at ?? "",
         },
       },
       {
-        onSuccess: (data) => {
-          console.log(data?.data?.id);
-          setQrCodeValue(data?.data?.id);
+        onSuccess: (response) => {
+          const id = (response as any)?.id;
+          console.log(id);
+          setQrCodeValue(id);
         },
-
         onError: (error) => {
           console.log(error.message);
         },
@@ -99,7 +96,7 @@ function CreatePalletSheet({
     //Adapt font size with lentgh of the product name
     const maxLength = 22;
     let fontSizeContent = 35;
-    if (data?.product_name.length ?? 0 > maxLength) {
+    if ((data?.product_name.length ?? 0) > maxLength) {
       fontSizeContent -=
         Math.floor(data?.product_name.length ?? 0 / 2) - maxLength;
     }
@@ -189,8 +186,8 @@ function CreatePalletSheet({
       <td colspan="3" class="content">${escapeHtml(data?.batch_number ?? "")}</td>
     </tr>
     <tr>
-      <td class="label">${t("add_pallet_sheet.expiration_date")}</td>
-      <td colspan="3" class="content">${escapeHtml(data?.expiration_date ?? "")}</td>
+      <td class="label">${t("add_pallet_sheet.expire_at")}</td>
+      <td colspan="3" class="content">${escapeHtml(data?.expire_at ?? "")}</td>
     </tr>
     <tr>
       <td class="label" rowspan="2">${t("add_pallet_sheet.quantity")}</td>
@@ -313,15 +310,13 @@ function CreatePalletSheet({
                   // Ligne 5 : Expiration Date
                   [
                     {
-                      text: t("add_pallet_sheet.expiration_date").toUpperCase(),
+                      text: t("add_pallet_sheet.expire_at").toUpperCase(),
                       fontSize: 20,
                       bold: true,
                       alignment: "center",
                     },
                     {
-                      text: escapeHtml(
-                        data?.expiration_date ?? "",
-                      ).toUpperCase(),
+                      text: escapeHtml(data?.expire_at ?? "").toUpperCase(),
                       fontSize: 35,
                       alignment: "center",
                       colSpan: 3,
@@ -338,13 +333,13 @@ function CreatePalletSheet({
                       alignment: "center",
                       rowSpan: 2,
                     },
-                    { text: "UV", alignment: "center", width: 20 },
+                    { text: "UV", alignment: "center" },
                     { text: "", colSpan: 2, alignment: "center" },
                     {},
                   ],
                   [
                     {}, // cellule rowspan
-                    { text: "UV", alignment: "center", width: 20 },
+                    { text: "UV", alignment: "center" },
                     { text: "", colSpan: 2, alignment: "center" },
                     {},
                   ],

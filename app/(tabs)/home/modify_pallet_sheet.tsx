@@ -150,14 +150,10 @@ export default function add_pallet_sheet() {
     "get",
     {
       query: {
+        stock_category: stockCategory,
         product_code: completeData.product_code,
         batch_number: completeData.batch_number,
       },
-      // path: {
-      //   stock_category: stockCategory,
-      //   product_code: completeData.product_code,
-      //   batch_number: completeData.batch_number,
-      // },
     },
     undefined,
     isDataFetched,
@@ -368,7 +364,7 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 editable={false}
-                label={t("add_pallet_sheet.expiration_date")}
+                label={t("add_pallet_sheet.expire_at")}
                 value={completeData?.expiration_date ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
