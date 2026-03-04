@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { ArrowBigRightDash } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
@@ -130,24 +130,6 @@ export default function add_pallet_sheet() {
   const [isQuantityError, setIsQuantityError] = useState<boolean>(false);
 
   let {
-    data: productCompleteData,
-    isLoading: isNewDataLoading = false,
-    error: newDataError,
-  } = useFetchQuery(
-    "/api/stock/current_stock",
-    "get",
-    {
-      query: {
-        stock_category: stockCategory,
-        "product.product_code": product_code_value,
-        batch_number: batch_number_value,
-      },
-    },
-    undefined,
-    isProductCodeSelected && isbatchNumberSelected,
-  );
-
-  let {
     data: alreadyPlacedQuantity,
     isLoading: isLoadingPlacedQuantity = false,
     error: placedQuantityError,
@@ -167,9 +149,14 @@ export default function add_pallet_sheet() {
   useEffect(() => {
     if (!isProductCodeSelected && !isbatchNumberSelected) {
       if (data?.member !== undefined) {
-        const filteredResult = (data.member as StockRead[]).filter((line) =>
-          line.product?.product_code?.includes(dynamic_product_code_value),
-        );
+        const seen = new Set<string>();
+        const filteredResult = (data.member as StockRead[]).filter((line) => {
+          const code = line.product?.product_code ?? "";
+          if (seen.has(code) || !code.includes(dynamic_product_code_value))
+            return false;
+          seen.add(code);
+          return true;
+        });
         setFilteredData(filteredResult);
       }
     }
@@ -189,12 +176,23 @@ export default function add_pallet_sheet() {
   }, [dynamic_batch_number_value, product_code_value, isProductCodeSelected]);
 
   useEffect(() => {
-    if (productCompleteData && productCompleteData.member?.length > 0) {
-      setCompleteData(productCompleteData.member[0] as StockRead);
-    } else if (!isbatchNumberSelected || !isProductCodeSelected) {
+    if (isProductCodeSelected && isbatchNumberSelected && data?.member) {
+      const found = (data.member as StockRead[]).find(
+        (line) =>
+          line.product?.product_code === product_code_value &&
+          line.batch_number === batch_number_value,
+      );
+      setCompleteData(found ?? null);
+    } else {
       setCompleteData(null);
     }
-  }, [productCompleteData]);
+  }, [
+    isProductCodeSelected,
+    isbatchNumberSelected,
+    product_code_value,
+    batch_number_value,
+    data,
+  ]);
 
   useEffect(() => {
     if (alreadyPlacedQuantity && alreadyPlacedQuantity.member?.length > 0) {
@@ -221,8 +219,40 @@ export default function add_pallet_sheet() {
     }
   }, [quantityInput]);
 
-  let isSelectingPC = false;
-  let isSelectingLN = false;
+  const isSelectingProductCode = useRef(false);
+  const isSelectingBatchNumber = useRef(false);
+
+  const handleProductCodeSelect = useCallback(
+    (stock: StockRead) => {
+      const code = stock.product?.product_code ?? "";
+      setProductCodeValue(code);
+      setIsProductCodeSelected(true);
+      setDynamicProductCodeValue(code);
+      setIsProductCodeFocus(true);
+      setFilteredData(
+        ((data?.member as StockRead[]) ?? []).filter(
+          (line) => line.product?.product_code === code,
+        ),
+      );
+    },
+    [data],
+  );
+
+  const handleBatchNumberSelect = useCallback(
+    (stock: StockRead) => {
+      const batch = stock.batch_number ?? "";
+      setbatchNumberValue(batch);
+      setIsbatchNumberSelected(true);
+      setDynamicbatchNumberValue(batch);
+      setIsbatchNumberFocus(true);
+      setFilteredData(
+        ((data?.member as StockRead[]) ?? []).filter(
+          (line) => line.batch_number === batch,
+        ),
+      );
+    },
+    [data],
+  );
 
   return (
     <RootView disableInsets={{ left: true }}>
@@ -243,7 +273,7 @@ export default function add_pallet_sheet() {
                     " : "}
                 </Text>
                 {completeData !== null ? (
-                  isLoadingPlacedQuantity || isNewDataLoading ? (
+                  isLoadingPlacedQuantity || isLoading ? (
                     <ActivityIndicator
                       size="small"
                       color="hsl(var(--primary))"
@@ -302,10 +332,13 @@ export default function add_pallet_sheet() {
                 onBlur={() => {
                   setTimeout(() => {
                     Keyboard.dismiss();
-                    if (!isProductCodeFocus && !isSelectingPC) {
+                    if (
+                      !isProductCodeFocus &&
+                      !isSelectingProductCode.current
+                    ) {
                       setIsProductCodeFocus(true);
                     } else {
-                      isSelectingPC = false;
+                      isSelectingProductCode.current = false;
                     }
                   }, 100);
                 }}
@@ -337,21 +370,10 @@ export default function add_pallet_sheet() {
                     return (
                       <TouchableOpacity
                         className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
-                        onPressIn={() => (isSelectingPC = true)}
-                        onPress={() => {
-                          const code = stock.product?.product_code ?? "";
-                          setProductCodeValue(code);
-                          setIsProductCodeSelected(true);
-                          setDynamicProductCodeValue(code);
-                          setIsProductCodeFocus(true);
-                          // Pre-filter batch numbers for the selected product
-                          const batchFiltered = (
-                            (data?.member as StockRead[]) ?? []
-                          ).filter(
-                            (line) => line.product?.product_code === code,
-                          );
-                          setFilteredData(batchFiltered);
-                        }}
+                        onPressIn={() =>
+                          (isSelectingProductCode.current = true)
+                        }
+                        onPress={() => handleProductCodeSelect(stock)}
                       >
                         <Text className="text-foreground dark:text-white">
                           {stock.product?.product_code}
@@ -375,10 +397,13 @@ export default function add_pallet_sheet() {
                 onBlur={() => {
                   Keyboard.dismiss();
                   setTimeout(() => {
-                    if (!isbatchNumberFocus && !isSelectingLN) {
+                    if (
+                      !isbatchNumberFocus &&
+                      !isSelectingBatchNumber.current
+                    ) {
                       setIsbatchNumberFocus(true);
                     } else {
-                      isSelectingLN = false;
+                      isSelectingBatchNumber.current = false;
                     }
                   }, 100);
                 }}
@@ -390,7 +415,6 @@ export default function add_pallet_sheet() {
                     setIsbatchNumberFocus(false);
                   }
                 }}
-                editable={isProductCodeSelected}
                 data={!isbatchNumberFocus ? filteredData : []}
                 value={dynamic_batch_number_value}
                 onChangeText={(text) => {
@@ -408,19 +432,10 @@ export default function add_pallet_sheet() {
                     return (
                       <TouchableOpacity
                         className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
-                        onPressIn={() => (isSelectingLN = true)}
-                        onPress={() => {
-                          const batch = stock.batch_number ?? "";
-                          setbatchNumberValue(batch);
-                          setIsbatchNumberSelected(true);
-                          setDynamicbatchNumberValue(batch);
-                          setIsbatchNumberFocus(true);
-                          // Filter product codes to only those matching this batch
-                          const productFiltered = (
-                            (data?.member as StockRead[]) ?? []
-                          ).filter((line) => line.batch_number === batch);
-                          setFilteredData(productFiltered);
-                        }}
+                        onPressIn={() =>
+                          (isSelectingBatchNumber.current = true)
+                        }
+                        onPress={() => handleBatchNumberSelect(stock)}
                       >
                         <Text className="text-foreground dark:text-white">
                           {stock.batch_number}
@@ -439,7 +454,7 @@ export default function add_pallet_sheet() {
                 value={completeData?.product?.product_code}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
-                isLoading={isNewDataLoading}
+                isLoading={isLoading}
               />
               <SheetRow
                 label={t("add_pallet_sheet.origin")}
@@ -468,21 +483,21 @@ export default function add_pallet_sheet() {
                 value={completeData?.product?.product_name}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
-                isLoading={isNewDataLoading}
+                isLoading={isLoading}
               />
               <SheetRow
                 label={t("add_pallet_sheet.batch_number")}
                 value={completeData?.batch_number}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
-                isLoading={isNewDataLoading}
+                isLoading={isLoading}
               />
               <SheetRow
                 label={t("add_pallet_sheet.expiration_date")}
                 value={completeData?.expire_at}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
-                isLoading={isNewDataLoading}
+                isLoading={isLoading}
               />
               <SheetRow
                 label={t("add_pallet_sheet.quantity")}

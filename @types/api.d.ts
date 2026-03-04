@@ -111,6 +111,15 @@ export type ApiRequestBody<
   : never;
 
 /**
+ * Base LD+JSON response fields present on all API Platform responses.
+ */
+type LdJsonBase = {
+  "@id"?: string;
+  "@type"?: string;
+  "@context"?: string;
+};
+
+/**
  * Successful HTTP status codes considered valid responses.
  */
 type SuccessStatus = 200 | 201 | 202 | 203 | 204;
@@ -135,9 +144,9 @@ export type ApiResponse<
       [K in keyof R & SuccessStatus]: R[K] extends {
         content: { "application/ld+json": infer LDJSON }; // prefer ld+json
       }
-        ? LDJSON
+        ? LDJSON & LdJsonBase
         : R[K] extends { content: { "application/json": infer JSON } } // fallback to json
-          ? JSON
+          ? JSON & LdJsonBase
           : never;
     }[keyof R & SuccessStatus]
   : never;
@@ -160,6 +169,6 @@ export type PaginatedApiResponse<
     totalItems: unknown;
   }
     ? D extends unknown[]
-      ? ApiResponse<P, M>
+      ? ApiResponse<P, M> & LdJsonBase
       : never
     : never;
