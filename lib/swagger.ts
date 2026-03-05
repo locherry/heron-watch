@@ -494,6 +494,10 @@ export interface components {
             action_category: string;
             transaction_code?: string | null;
         };
+        "Action-known_error.read": {
+            product: components["schemas"]["Product-known_error.read"];
+            batch_number: string;
+        };
         "Action.ActionBatchInput-action.write": Record<string, never>;
         "Action.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
@@ -510,6 +514,10 @@ export interface components {
             expire_at?: string;
             action_category: components["schemas"]["ActionCategory.jsonld-action.read"];
             transaction_code?: string | null;
+        };
+        "Action.jsonld-known_error.read": components["schemas"]["HydraItemBaseSchema"] & {
+            product: components["schemas"]["Product.jsonld-known_error.read"];
+            batch_number: string;
         };
         ActionCategory: {
             readonly id?: number;
@@ -720,18 +728,17 @@ export interface components {
              */
             dissmissedBy?: string | null;
         };
-        "KnownError.jsonld": components["schemas"]["HydraItemBaseSchema"] & {
+        "KnownError-known_error.read": {
             readonly id?: number;
-            /** @enum {string} */
+            /**
+             * @example PF_G
+             * @enum {string}
+             */
             stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             /** Format: date-time */
             detected_at?: string;
             quantity?: number;
-            /**
-             * Format: iri-reference
-             * @example https://example.com/
-             */
-            action: string;
+            action: components["schemas"]["Action-known_error.read"];
             /**
              * Format: iri-reference
              * @example https://example.com/
@@ -742,20 +749,25 @@ export interface components {
              * @example https://example.com/
              */
             dissmissed_by: string | null;
+        };
+        "KnownError.jsonld-known_error.read": components["schemas"]["HydraItemBaseSchema"] & {
+            readonly id?: number;
             /** @enum {string} */
-            stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+            stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
             /** Format: date-time */
-            detectedAt?: string;
+            detected_at?: string;
+            quantity?: number;
+            action: components["schemas"]["Action.jsonld-known_error.read"];
             /**
              * Format: iri-reference
              * @example https://example.com/
              */
-            correctedBy?: string | null;
+            corrected_by: string | null;
             /**
              * Format: iri-reference
              * @example https://example.com/
              */
-            dissmissedBy?: string | null;
+            dissmissed_by: string | null;
         };
         "Product-action.read": {
             readonly id?: number;
@@ -767,6 +779,9 @@ export interface components {
              * @enum {string}
              */
             stock_group: "PF" | "MP" | "EMB";
+        };
+        "Product-known_error.read": {
+            product_code: string;
         };
         "Product-product.create_product.update_product.patch": {
             product_code: string;
@@ -817,6 +832,9 @@ export interface components {
             product_specificity: string;
             /** @enum {string} */
             stock_group: "PF" | "MP" | "EMB";
+        };
+        "Product.jsonld-known_error.read": components["schemas"]["HydraItemBaseSchema"] & {
+            product_code: string;
         };
         "Product.jsonld-product.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
@@ -1461,9 +1479,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["KnownError"][];
+                    "application/json": components["schemas"]["KnownError-known_error.read"][];
                     "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
-                        member: components["schemas"]["KnownError.jsonld"][];
+                        member: components["schemas"]["KnownError.jsonld-known_error.read"][];
                     };
                 };
             };
@@ -1490,8 +1508,8 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["KnownError"];
-                    "application/ld+json": components["schemas"]["KnownError.jsonld"];
+                    "application/json": components["schemas"]["KnownError-known_error.read"];
+                    "application/ld+json": components["schemas"]["KnownError.jsonld-known_error.read"];
                 };
             };
             /** @description Invalid input */
@@ -1539,9 +1557,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["KnownError"][];
+                    "application/json": components["schemas"]["KnownError-known_error.read"][];
                     "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
-                        member: components["schemas"]["KnownError.jsonld"][];
+                        member: components["schemas"]["KnownError.jsonld-known_error.read"][];
                     };
                 };
             };
