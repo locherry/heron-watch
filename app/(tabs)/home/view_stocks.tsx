@@ -1,42 +1,34 @@
-import { useLocalSearchParams } from "expo-router"; // Hook to read URL parameters
+import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next"; // For internationalization and translations
-import { ActivityIndicator } from "react-native"; // Loading spinner
-import { StockCategory, StockSortState } from "~/@types/stock"; // Type definitions for stock category and sorting
-import { Calendar } from "~/components/Calendar"; // Custom calendar component for selecting date
-import Header from "~/components/Header"; // Header component
-import RootView from "~/components/layout/RootView"; // Root view layout component
+import { useTranslation } from "react-i18next";
+import { StockCategory, StockSortState } from "~/@types/stock";
+import { Calendar } from "~/components/Calendar";
+import Header from "~/components/Header";
+import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
-import { StockTable } from "~/components/table/StockTable"; // Table component to display stock data
-import { Icon } from "~/components/ui/icon"; // Icon component for UI
-import { Text } from "~/components/ui/text"; // Text component for displaying text
+import { StockTable } from "~/components/table/StockTable";
+import { Icon } from "~/components/ui/icon";
+import { Text } from "~/components/ui/text";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "~/components/ui/tooltip"; // Tooltip UI components
-import { constants } from "~/lib/constants"; // Constants like stock category icons
+} from "~/components/ui/tooltip";
+import { constants } from "~/lib/constants";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
-import { capitalizeFirst } from "~/lib/utils"; // Utility function to capitalize the first letter
+import { capitalizeFirst } from "~/lib/utils";
 
 export default function ViewStocks() {
-  const [t] = useTranslation(); // Use translation hook to get translated text
+  const [t] = useTranslation();
 
-  const rawParams = useLocalSearchParams(); // Fetch parameters from the URL
+  const rawParams = useLocalSearchParams();
   const { stockCategory = "PF_G" } = rawParams as {
-    stockCategory: StockCategory; // Get stock category from the params, default is "PF_G"
+    stockCategory: StockCategory;
   };
-  const [sorting, setSorting] = useState<StockSortState | null>(null); // State for sorting order and criteria
-  const [date, setDate] = useState<Date>(new Date()); // State for the selected date
+  const [sorting, setSorting] = useState<StockSortState | null>(null);
+  const [date, setDate] = useState<Date>(new Date());
   const isDateToday =
-    date === undefined || date.toDateString() === new Date().toDateString(); // Check if the selected date is today
-
-  console.log(
-    "Selected date:",
-    date,
-    isDateToday,
-    date.toISOString().split("T")[0],
-  );
+    date === undefined || date.toDateString() === new Date().toDateString();
 
   const [page, setPage] = useState(1);
 
@@ -63,16 +55,14 @@ export default function ViewStocks() {
   const totalItems = data?.["totalItems"] ?? 0;
   const totalPages = Math.ceil(totalItems / 10);
 
-  // If an error occurs during data fetching, log it
   if (isError) {
     console.error(error.message);
   }
 
   return (
     <RootView disableInsets={{ left: true }}>
-      {/* Header section with tooltip and icon */}
       <Header
-        title={capitalizeFirst(t("stocks.viewStocks"))} // Title with translation
+        title={capitalizeFirst(t("stocks.viewStocks"))}
         className="justify-between"
       >
         <Tooltip>
@@ -90,7 +80,6 @@ export default function ViewStocks() {
       </Header>
 
       <Row className="items-center" gap={8}>
-        {/* Calendar component for selecting date, updates state on change */}
         <Calendar
           date={date}
           onDateChange={(date) => setDate(date as Date)}
@@ -105,21 +94,16 @@ export default function ViewStocks() {
         </Text>
       </Row>
 
-      {/* Loading spinner while data is being fetched */}
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        // Display stock data table when data is available
-        <StockTable
-          className="z-0"
-          data={data?.["member"] ?? []}
-          sorting={sorting}
-          onSortingChange={setSorting}
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
+      <StockTable
+        className="z-0"
+        data={data?.["member"] ?? []}
+        sorting={sorting}
+        onSortingChange={setSorting}
+        page={page}
+        totalPages={totalPages || 1}
+        onPageChange={setPage}
+        isLoading={isLoading}
+      />
     </RootView>
   );
 }

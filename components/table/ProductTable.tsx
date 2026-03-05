@@ -6,19 +6,9 @@ import { BaseTableProps } from "~/@types/table";
 import { capitalizeFirst } from "~/lib/utils";
 import { BaseTable } from "./BaseTable";
 
-type ProductTableProps = Omit<BaseTableProps<ProductRead>, "columns"> & {
-  page: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-};
-export function ProductTable({
-  page,
-  totalPages,
-  onPageChange,
-  onEdit,
-  onDelete,
-  ...props
-}: ProductTableProps) {
+type ProductTableProps = Omit<BaseTableProps<ProductRead>, "columns">;
+
+export function ProductTable({ ...props }: ProductTableProps) {
   const [t] = useTranslation();
 
   // --- Base columns ---
@@ -49,11 +39,6 @@ export function ProductTable({
       data={props.data ?? []}
       columns={columns}
       features={{ sorting: props.sorting, edition: props.editEnabled }}
-      onPageChange={onPageChange}
-      page={page}
-      totalPages={totalPages}
-      onEdit={onEdit}
-      onDelete={onDelete}
     />
   );
 }

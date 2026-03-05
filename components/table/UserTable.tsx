@@ -6,11 +6,7 @@ import { useFormatDate } from "~/lib/hooks/useformatDate";
 import { capitalizeFirst } from "~/lib/utils";
 import { BaseTable } from "./BaseTable";
 
-type UserTableProps = Omit<BaseTableProps<UserRead>, "columns"> & {
-  page: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-};
+type UserTableProps = Omit<BaseTableProps<UserRead>, "columns">;
 
 export function UserTable({
   page,

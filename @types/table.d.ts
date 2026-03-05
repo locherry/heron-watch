@@ -27,4 +27,5 @@ export interface BaseTableProps<T> extends ViewProps {
   className?: string;
   fixedWidth?: number;
   onPress?: (...args: any[]) => void;
+  isLoading?: boolean;
 }

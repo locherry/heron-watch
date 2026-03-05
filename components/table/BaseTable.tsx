@@ -7,6 +7,7 @@ import {
   Pencil,
   X,
 } from "lucide-react-native";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, ScrollView, View } from "react-native";
 import { BaseTableProps } from "~/@types/table";
@@ -15,7 +16,10 @@ import { useTableLogic } from "~/lib/hooks/useTableLogic";
 import { capitalizeFirst, cn } from "~/lib/utils";
 import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
+import { Skeleton } from "../ui/skeleton";
 import { Text } from "../ui/text";
+
+const SKELETON_ROW_COUNT = 10;
 
 export function BaseTable<T>({
   data,
@@ -31,8 +35,9 @@ export function BaseTable<T>({
   page,
   totalPages,
   onPageChange,
+  isLoading,
   ...props
-}: BaseTableProps<T>) {
+}: BaseTableProps<T> & { isLoading?: boolean }) {
   const [t] = useTranslation();
 
   const { tableInstance, toggleSort } = useTableLogic({
@@ -48,6 +53,12 @@ export function BaseTable<T>({
       .fill(0)
       .map(() => Math.max(140, fixedWidth / count));
   }
+
+  const knownTotalPages = useRef(totalPages ?? 1);
+  if ((totalPages ?? 1) > knownTotalPages.current) {
+    knownTotalPages.current = totalPages ?? 1;
+  }
+  const stableTotalPages = knownTotalPages.current;
 
   const isPaginated =
     page !== undefined &&
@@ -84,6 +95,26 @@ export function BaseTable<T>({
       )}
     </View>
   );
+
+  const renderSkeletonRows = () =>
+    Array.from({ length: SKELETON_ROW_COUNT }).map((_, rowIndex) => (
+      <View
+        key={rowIndex}
+        className={cn(
+          "flex-row",
+          rowIndex % 2 === 0 && !isLoading ? "bg-muted" : "bg-background",
+        )}
+      >
+        {columnWidths.map((width, colIndex) => (
+          <View key={colIndex} style={{ width }} className="p-2 justify-center">
+            <Skeleton
+              className="h-4 rounded"
+              style={{ width: `${75 + ((rowIndex + colIndex) % 3) * 10}%` }}
+            />
+          </View>
+        ))}
+      </View>
+    ));
 
   const renderRow = ({ item, index }: { item: any; index: number }) => (
     <Pressable
@@ -134,14 +165,18 @@ export function BaseTable<T>({
       <ScrollView horizontal>
         <View>
           {renderHeader()}
-          <FlatList
-            data={tableInstance.getRowModel().rows}
-            keyExtractor={(row) => row.id}
-            renderItem={renderRow}
-            // Only use infinite scroll when not paginating
-            onEndReached={!isPaginated ? fetchNextPage : undefined}
-            onEndReachedThreshold={0.5}
-          />
+
+          {isLoading ? (
+            renderSkeletonRows()
+          ) : (
+            <FlatList
+              data={tableInstance.getRowModel().rows}
+              keyExtractor={(row) => row.id}
+              renderItem={renderRow}
+              onEndReached={!isPaginated ? fetchNextPage : undefined}
+              onEndReachedThreshold={0.5}
+            />
+          )}
         </View>
       </ScrollView>
 
@@ -157,19 +192,19 @@ export function BaseTable<T>({
           <Button
             variant="outline"
             onPress={() => onPageChange(page - 1)}
-            disabled={page <= 1}
+            disabled={page <= 1 || isLoading}
           >
             <Icon as={ChevronLeft} />
           </Button>
 
           <Text className="text-foreground">
-            {page} / {totalPages}
+            {page} / {stableTotalPages}
           </Text>
 
           <Button
             variant="outline"
             onPress={() => onPageChange(page + 1)}
-            disabled={page >= totalPages}
+            disabled={page >= stableTotalPages || isLoading}
           >
             <Icon as={ChevronRight} />
           </Button>

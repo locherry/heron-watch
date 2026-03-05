@@ -2,7 +2,6 @@ import { Row } from "@tanstack/react-table";
 import { Plus } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator } from "react-native";
 import { UserRead, UsersSortState } from "~/@types/user";
 import { Alert } from "~/components/alert/Alert";
 import Header from "~/components/Header";
@@ -77,24 +76,19 @@ export default function App() {
         </Button>
       </Header>
 
-      {/* Loading spinner while data is being fetched */}
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        // Display stock data table when data is available
-        <UserTable
-          className="z-0"
-          data={data?.["member"] ?? []}
-          sorting={sorting}
-          onSortingChange={setSorting}
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-          editEnabled={true}
-          onEdit={(row) => console.log("Edit", row)}
-          onDelete={handleDelete}
-        />
-      )}
+      <UserTable
+        className="z-0"
+        data={data?.["member"] ?? []}
+        sorting={sorting}
+        onSortingChange={setSorting}
+        page={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+        editEnabled={true}
+        onEdit={(row) => console.log("Edit", row)}
+        onDelete={handleDelete}
+        isLoading={isLoading}
+      />
     </RootView>
   );
 }

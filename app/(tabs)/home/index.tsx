@@ -20,7 +20,7 @@ import {
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import { ActionSortState } from "~/@types/action";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -236,19 +236,17 @@ export default function MaterialTabsExample() {
         <Row className="flex-none">
           <Text variant="h3">{capitalizeFirst(t("common.history"))}</Text>
         </Row>
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <ActionTable
-            className="z-0"
-            data={data?.["member"] ?? []}
-            sorting={sorting}
-            onSortingChange={setSorting}
-            page={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-          />
-        )}
+
+        <ActionTable
+          className="z-0"
+          data={data?.["member"] ?? []}
+          sorting={sorting}
+          onSortingChange={setSorting}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+          isLoading={isLoading}
+        />
       </View>
     </RootView>
   );
