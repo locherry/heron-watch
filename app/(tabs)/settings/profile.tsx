@@ -33,38 +33,49 @@ export default function ProfileSettings() {
   >(null);
   const [originalUserSession, setOriginalUserSession] = useState<
     SecureStorageData["userSession"] | null
-  >(null); // Store the original user session data
+  >(null);
   const [lastName, setLastName] = useState(userSession?.lastName || "");
   const [firstName, setFirstName] = useState(userSession?.firstName || "");
   const [email, setEmail] = useState(userSession?.email || "");
-  const [role, setRole] = useState(userSession?.role || "user");
+  const primaryRole = (roles: ("ROLE_USER" | "ROLE_ADMIN")[] | undefined) =>
+    roles?.includes("ROLE_ADMIN") ? "ROLE_ADMIN" : "ROLE_USER";
+  const [role, setRole] = useState(primaryRole(userSession?.roles));
   const [isEditing, setIsEditing] = useState(false);
-  const { mutate: updateUser } = useFetchMutation("/users/{user_ID}", "patch");
+  const { mutate: updateUser } = useFetchMutation("/api/users/me", "patch");
 
   const handleSubmit = () => {
-    if (userSession) {
-      updateUser(
-        {
-          pathParams: { user_ID: userSession.id },
-          body: {
-            user_info: {
-              first_name: firstName,
-              last_name: lastName,
-              email: email,
-              role: role,
-            },
-          },
+    updateUser(
+      {
+        body: {
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
         },
-        {
-          onSuccess: () => {
-            console.log("success");
-          },
-          onError: () => {
-            console.log("error");
-          },
-        }
-      );
-    }
+      },
+      {
+        onSuccess: () => {
+          console.log("success");
+          // Update stored session with new values
+          SecureStorage.get("userSession").then((session) => {
+            if (session) {
+              SecureStorage.set("userSession", {
+                ...session,
+                firstName,
+                lastName,
+                email,
+              });
+            }
+          });
+          setOriginalUserSession((prev) =>
+            prev ? { ...prev, firstName, lastName, email } : prev,
+          );
+          setIsEditing(false);
+        },
+        onError: () => {
+          console.log("error");
+        },
+      },
+    );
   };
 
   const handleToggleEditing = (newState: boolean) => {
@@ -74,7 +85,6 @@ export default function ProfileSettings() {
         firstName !== originalUserSession?.firstName ||
         email !== originalUserSession?.email)
     ) {
-      // If there are unsaved changes, show the confirmation alert
       Alert.alert(
         t("Please confirm"),
         t("Do you really want to discard the unsaved changes?"),
@@ -87,32 +97,29 @@ export default function ProfileSettings() {
           {
             text: t("common.OK"),
             onPress: () => {
-              // Reset form fields to original user session data and exit edit mode
               if (originalUserSession) {
                 setLastName(originalUserSession.lastName);
                 setFirstName(originalUserSession.firstName);
                 setEmail(originalUserSession.email);
               }
-              setIsEditing(false); // Turn off editing mode
+              setIsEditing(false);
             },
           },
-        ]
+        ],
       );
     } else {
-      // If no changes, simply toggle the editing mode
       setIsEditing(newState);
     }
   };
 
-  // Define Option type
   type Option = {
-    value: SecureStorageData["userSession"]["role"];
+    value: "ROLE_USER" | "ROLE_ADMIN";
     label: string;
   };
 
   const ROLE_OPTIONS: Option[] = [
-    { value: "admin", label: capitalizeFirst(t("user.admin")) },
-    { value: "user", label: capitalizeFirst(t("user.user")) },
+    { value: "ROLE_ADMIN", label: capitalizeFirst(t("user.ROLE_ADMIN")) },
+    { value: "ROLE_USER", label: capitalizeFirst(t("user.ROLE_USER")) },
   ];
 
   useEffect(() => {
@@ -120,7 +127,7 @@ export default function ProfileSettings() {
       SecureStorage.get("userSession").then((userSession) => {
         if (userSession) {
           setUserSession(userSession);
-          setOriginalUserSession(userSession); // Store the initial user session as original
+          setOriginalUserSession(userSession);
         }
       });
     }
@@ -131,6 +138,7 @@ export default function ProfileSettings() {
       setLastName(userSession.lastName);
       setFirstName(userSession.firstName);
       setEmail(userSession.email);
+      setRole(primaryRole(userSession.roles));
     }
   }, [userSession]);
 
@@ -141,7 +149,7 @@ export default function ProfileSettings() {
           <TooltipTrigger asChild>
             <Toggle
               pressed={isEditing}
-              onPressedChange={handleToggleEditing} // Updated to use handleToggleEditing
+              onPressedChange={handleToggleEditing}
               aria-label="Toggle editing mode"
               variant="outline"
             >
@@ -183,21 +191,21 @@ export default function ProfileSettings() {
         className="mb-4"
         onValueChange={(option) =>
           setRole(
-            (option?.value as
-              | SecureStorageData["userSession"]["role"]
-              | undefined) ?? "user"
+            (option?.value as ("ROLE_USER" | "ROLE_ADMIN") | undefined) ??
+              "ROLE_USER",
           )
         }
         value={ROLE_OPTIONS.find((option) => option.value === role)}
         defaultValue={ROLE_OPTIONS.find(
-          (option) => option.value === userSession?.role
+          (option) => option.value === primaryRole(userSession?.roles),
         )}
       >
         <SelectTrigger className="w-full" disabled={!isEditing}>
           <SelectValue
             placeholder={
-              ROLE_OPTIONS.find((option) => option.value === userSession?.role)
-                ?.label || capitalizeFirst(t("user.role"))
+              ROLE_OPTIONS.find(
+                (option) => option.value === primaryRole(userSession?.roles),
+              )?.label || capitalizeFirst(t("user.role"))
             }
           />
         </SelectTrigger>
@@ -212,7 +220,6 @@ export default function ProfileSettings() {
         </SelectContent>
       </Select>
 
-      {/* Submit Button */}
       {isEditing && (
         <Button onPress={handleSubmit} className="mb-4" variant={"outline"}>
           <Text>{capitalizeFirst(t("common.save"))}</Text>

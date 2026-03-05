@@ -40,14 +40,11 @@ export default function LanguageSettings() {
     (typeof LANGUAGES)[number]["value"]
   >(DefaultSecureStorageData["userPreferences"]["language"]);
 
-  const { mutate: updateLanguage } = useFetchMutation(
-    "/users/{user_ID}",
-    "patch"
-  );
+  const { mutate: updateLanguage } = useFetchMutation("/api/users/me", "patch");
 
   useEffect(() => {
     SecureStorage.get("userPreferences").then(
-      (prefs) => prefs && setSelectedLanguage(prefs.language)
+      (prefs) => prefs && setSelectedLanguage(prefs.language),
     );
   }, []);
 
@@ -62,9 +59,8 @@ export default function LanguageSettings() {
     SecureStorage.get("userSession").then((userSession) => {
       if (userSession) {
         updateLanguage({
-          pathParams: { user_ID: userSession.id },
           body: {
-            user_preferences: {
+            preferences: {
               language: languageValue,
             },
           },
@@ -74,7 +70,7 @@ export default function LanguageSettings() {
   };
 
   const selectedOption = LANGUAGES.find(
-    (value) => value.value == selectedLanguage
+    (value) => value.value == selectedLanguage,
   );
 
   return (

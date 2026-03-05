@@ -30,7 +30,6 @@ import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
-// Define Option type
 type Option = {
   value: string;
   label: string;
@@ -48,7 +47,10 @@ export default function AppearanceSettings() {
   const [t] = useTranslation();
 
   const { colorScheme, setColorScheme } = useColorScheme();
-  const { mutate: updateTheme } = useFetchMutation("/api/users/me", "patch");
+  const { mutate: updateAppearance } = useFetchMutation(
+    "/api/users/me",
+    "patch",
+  );
 
   const options: Option[] = [
     {
@@ -67,53 +69,47 @@ export default function AppearanceSettings() {
       icon: Laptop,
     },
   ];
+
   const [themeValue, setThemeValue] = React.useState<UserTheme>(
     colorScheme ?? "system",
-  ); // Default to current system theme
+  );
 
   const handleValueChange = (newValue: SelectOption) => {
     const newThemeValue = (newValue?.value ?? "system") as UserTheme;
     setThemeValue(newThemeValue);
 
     if (newValue?.value === "light" || newValue?.value === "dark") {
-      setColorScheme(newValue.value); // Update the color scheme based on user selection
+      setColorScheme(newValue.value);
       SecureStorage.modify("userPreferences", "theme", newValue.value);
     } else {
       const resolvedSystemTheme = Appearance.getColorScheme();
-      setColorScheme(resolvedSystemTheme ?? "system"); // Set to system's theme when "system" is selected
+      setColorScheme(resolvedSystemTheme ?? "system");
       SecureStorage.modify("userPreferences", "theme", "system");
     }
 
-    // Update the theme preference in the database
-    SecureStorage.get("userSession").then((userSession) => {
-      if (userSession) {
-        updateTheme({
-          pathParams: { id: userSession.id },
-          body: {
-            preferences: {
-              theme: newThemeValue,
-            },
-          },
-        });
-      }
+    updateAppearance({
+      body: {
+        preferences: {
+          theme: newThemeValue,
+        },
+      },
     });
   };
 
   useEffect(() => {
     SecureStorage.get("userPreferences").then((userPreferences) => {
-      userPreferences?.theme && setThemeValue(userPreferences?.theme);
+      userPreferences?.theme && setThemeValue(userPreferences.theme);
     });
   }, []);
 
   const selectedOption = options.find((option) => option.value === themeValue);
 
-  // TODO : implement real behavior
   const [animationEnabled, setAnimationEnabled] = React.useState(true);
 
-  // TODO : implement real behavior
   const [fontSizeValue, setFontSizeValue] = React.useState<
     "small" | "medium" | "large"
   >("medium");
+
   const fontSizeOptions = [
     { value: "small", size: 14, rem: 14 },
     { value: "medium", size: 16, rem: 16 },
@@ -127,6 +123,14 @@ export default function AppearanceSettings() {
       rem.set(option.rem);
       SecureStorage.modify("userPreferences", "fontSize", value);
     }
+
+    updateAppearance({
+      body: {
+        preferences: {
+          fontSize: value,
+        },
+      },
+    });
   };
 
   useEffect(() => {
@@ -139,7 +143,8 @@ export default function AppearanceSettings() {
         if (option) rem.set(option.rem);
       }
     });
-  });
+  }, []);
+
   return (
     <RootView>
       <Header title={capitalizeFirst(t("settings.appearance.name"))}></Header>
@@ -199,7 +204,7 @@ export default function AppearanceSettings() {
                 >
                   <Icon
                     as={CaseSensitive}
-                    size={(option.size * 3 - 16) * 0.6} // 60% of button size
+                    size={(option.size * 3 - 16) * 0.6}
                     className={cn(
                       fontSizeValue === option.value
                         ? "text-background"

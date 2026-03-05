@@ -324,7 +324,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/stock/new_stock": {
+    "/api/stocks": {
         parameters: {
             query?: never;
             header?: never;
@@ -337,7 +337,7 @@ export interface paths {
          * Creates a Stock resource.
          * @description Creates a Stock resource.
          */
-        post: operations["api_stocknew_stock_post"];
+        post: operations["api_stocks_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -978,13 +978,8 @@ export interface components {
         "User-user.create_user.update_user.patch": {
             /** Format: email */
             email: string;
-            /**
-             * @description The user roles
-             * @default [
-             *       "ROLE_USER"
-             *     ]
-             */
-            roles: ("ROLE_ADMIN" | "ROLE_USER")[];
+            /** @description The user roles */
+            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             /**
              * @description A temporary variable, used when creating/updating a user password
              *     The hashing is done through an event listener (useful for both API and non API contexts)
@@ -992,17 +987,19 @@ export interface components {
             plainPassword: string;
             first_name: string;
             last_name: string;
-            preferences?: components["schemas"]["UserPreference-user.create_user.update_user.patch"] | null;
+            preferences?: {
+                /** @enum {string} */
+                theme?: "system" | "light" | "dark";
+                /** @enum {string} */
+                language?: "EN" | "FR" | "DE" | "EU" | "ES";
+                /** @enum {string} */
+                fontSize?: "small" | "medium" | "large";
+            };
         };
         "User-user.create_user.update_user.patch.jsonMergePatch": {
             email?: string;
-            /**
-             * @description The user roles
-             * @default [
-             *       "ROLE_USER"
-             *     ]
-             */
-            roles: ("ROLE_ADMIN" | "ROLE_USER")[];
+            /** @description The user roles */
+            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             /**
              * @description A temporary variable, used when creating/updating a user password
              *     The hashing is done through an event listener (useful for both API and non API contexts)
@@ -1010,22 +1007,31 @@ export interface components {
             plainPassword?: string;
             first_name?: string;
             last_name?: string;
-            preferences?: components["schemas"]["UserPreference-user.create_user.update_user.patch"] | null;
+            preferences?: {
+                /** @enum {string} */
+                theme?: "system" | "light" | "dark";
+                /** @enum {string} */
+                language?: "EN" | "FR" | "DE" | "EU" | "ES";
+                /** @enum {string} */
+                fontSize?: "small" | "medium" | "large";
+            };
         };
         "User-user.read": {
             readonly id?: number;
             /** Format: email */
             email?: string;
-            /**
-             * @description The user roles
-             * @default [
-             *       "ROLE_USER"
-             *     ]
-             */
-            roles: ("ROLE_ADMIN" | "ROLE_USER")[];
+            /** @description The user roles */
+            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name?: string;
             last_name?: string;
-            preferences?: components["schemas"]["UserPreference-user.read"] | null;
+            preferences?: {
+                /** @enum {string} */
+                theme?: "system" | "light" | "dark";
+                /** @enum {string} */
+                language?: "EN" | "FR" | "DE" | "EU" | "ES";
+                /** @enum {string} */
+                fontSize?: "small" | "medium" | "large";
+            };
         };
         "User.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
@@ -1036,67 +1042,18 @@ export interface components {
             readonly id?: number;
             /** Format: email */
             email?: string;
-            /**
-             * @description The user roles
-             * @default [
-             *       "ROLE_USER"
-             *     ]
-             */
-            roles: ("ROLE_ADMIN" | "ROLE_USER")[];
+            /** @description The user roles */
+            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name?: string;
             last_name?: string;
-            preferences?: components["schemas"]["UserPreference.jsonld-user.read"] | null;
-        };
-        "UserPreference-user.create_user.update_user.patch": {
-            /**
-             * @default system
-             * @enum {string}
-             */
-            theme: "system" | "dark" | "light";
-            /**
-             * @default EN
-             * @enum {string}
-             */
-            language: "EU" | "FR" | "EN" | "DE" | "ES";
-            /**
-             * @default medium
-             * @enum {string}
-             */
-            fontSize: "small" | "medium" | "large";
-        };
-        "UserPreference-user.read": {
-            /**
-             * @default system
-             * @enum {string}
-             */
-            theme: "system" | "dark" | "light";
-            /**
-             * @default EN
-             * @enum {string}
-             */
-            language: "EU" | "FR" | "EN" | "DE" | "ES";
-            /**
-             * @default medium
-             * @enum {string}
-             */
-            fontSize: "small" | "medium" | "large";
-        };
-        "UserPreference.jsonld-user.read": {
-            /**
-             * @default system
-             * @enum {string}
-             */
-            theme: "system" | "dark" | "light";
-            /**
-             * @default EN
-             * @enum {string}
-             */
-            language: "EU" | "FR" | "EN" | "DE" | "ES";
-            /**
-             * @default medium
-             * @enum {string}
-             */
-            fontSize: "small" | "medium" | "large";
+            preferences?: {
+                /** @enum {string} */
+                theme?: "system" | "light" | "dark";
+                /** @enum {string} */
+                language?: "EN" | "FR" | "DE" | "EU" | "ES";
+                /** @enum {string} */
+                fontSize?: "small" | "medium" | "large";
+            };
         };
     };
     responses: never;
@@ -2079,7 +2036,7 @@ export interface operations {
             };
         };
     };
-    api_stocknew_stock_post: {
+    api_stocks_post: {
         parameters: {
             query?: never;
             header?: never;
