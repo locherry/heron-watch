@@ -1,12 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-    FlatList,
-    LayoutChangeEvent,
-    useWindowDimensions,
-    View,
-} from "react-native";
+import { FlatList, LayoutChangeEvent, View } from "react-native";
 import { StockCategory } from "~/@types/stock";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -19,32 +14,32 @@ import { capitalizeFirst, cn } from "~/lib/utils";
 export default function App() {
   const [t] = useTranslation();
   const specificProduct = useLocalSearchParams();
-  const dimensions = useWindowDimensions();
   const { product_code, batch_number, stock_category } = specificProduct as {
     product_code: string;
     batch_number: string;
     stock_category: StockCategory;
   };
-  const { data, isLoading, isError } = useFetchQuery(
-    "/actions_and_users/{stock_category}",
-    "get",
-    {
-      path: { stock_category: stock_category },
-      query: {
-        filter_params: {
-          product_code: product_code,
-          batch_number: batch_number,
-        },
-        required_elts: [
-          "id",
-          "first_name",
-          "last_name",
-          "quantity",
-          "created_at",
-        ],
-      },
+
+  console.log("Params received:", {
+    product_code,
+    batch_number,
+    stock_category,
+  });
+
+  const { data, isLoading, isError } = useFetchQuery("/api/actions", "get", {
+    query: {
+      stock_category: stock_category,
+      batch_number: batch_number,
     },
+  });
+
+  // Filter client-side by product_code and batch_number
+  const filteredActions = data?.member?.filter(
+    (item) =>
+      item.product?.product_code === product_code &&
+      item.batch_number === batch_number,
   );
+
   const [errorListDimension, setErrorListDimension] = useState<
     undefined | number
   >(undefined);
@@ -53,53 +48,43 @@ export default function App() {
     { [id: number]: [string, boolean] } | undefined
   >(undefined);
   const [totalStockQuantity, setTotalStockQuantity] = useState<number>(0);
-  //Array to stock all error's inputs
+
   useEffect(() => {
     setErrorsInput((previousState) => {
       const newTab = { ...previousState };
-      for (let i = 0; i < (data?.data?.length ?? 0); i++) {
-        if (data?.data) {
-          newTab[i] = data?.data[i]?.quantity ?? 0;
+      for (let i = 0; i < (filteredActions?.length ?? 0); i++) {
+        if (filteredActions) {
+          newTab[i] = filteredActions[i]?.quantity ?? 0;
         }
       }
       return newTab;
     });
-    console.log(data);
   }, [data]);
+
   useEffect(() => {
-    let newStockQuantity: number = 0;
+    let newStockQuantity = 0;
     for (var value in errorsInput) {
-      if (errorsInput) {
-        if (errorsInput[value]) {
-          if (errorsInput[value]?.toString() == "-") {
-            newStockQuantity += 0;
-          } else {
-            newStockQuantity += Number(errorsInput[value]);
-          }
-        } else {
-          newStockQuantity += 0;
-        }
-      } else {
+      if (errorsInput[value]?.toString() === "-") {
         newStockQuantity += 0;
+      } else {
+        newStockQuantity += Number(errorsInput[value] ?? 0);
       }
     }
     setTotalStockQuantity(newStockQuantity);
   }, [errorsInput]);
+
   const handleLayout = (nativeEvent: LayoutChangeEvent) => {
     setErrorListDimension(nativeEvent.nativeEvent.layout.width);
   };
+
   const handleTypeInput = (text: string): boolean => {
-    //Apply regexp
-    let number_pattern: RegExp = /^-?\d+$/;
-    let just_negative: RegExp = /^-?$/;
-    if (number_pattern.test(text) || just_negative.test(text)) {
-      return true;
-    } else {
-      return false;
-    }
+    const number_pattern = /^-?\d+$/;
+    const just_negative = /^-?$/;
+    return number_pattern.test(text) || just_negative.test(text);
   };
+
   const handleDataFormating = (data: string): string => {
-    let dataFormated: Date = new Date(data);
+    const dataFormated = new Date(data);
     const formatter = new Intl.DateTimeFormat("fr-FR", {
       day: "2-digit",
       month: "2-digit",
@@ -108,9 +93,9 @@ export default function App() {
       minute: "2-digit",
       second: "2-digit",
     });
-
     return formatter.format(dataFormated);
   };
+
   const renderItem = ({ item, index }: { item: any; index: number }) => (
     <View
       className={cn(
@@ -122,46 +107,37 @@ export default function App() {
     >
       <Text>{handleDataFormating(item.created_at)}</Text>
       <Text>
-        {capitalizeFirst(item.first_name) +
+        {capitalizeFirst(item.created_by_id?.first_name ?? "") +
           " " +
-          capitalizeFirst(item.last_name)}
+          capitalizeFirst(item.created_by_id?.last_name ?? "")}
       </Text>
       <Input
         className={cn(
           "text-xl text-center",
-          textInput
-            ? textInput[index]
-              ? !textInput[index][1]
-                ? "border-destructive"
-                : ""
-              : ""
+          textInput?.[index] && !textInput[index][1]
+            ? "border-destructive"
             : "",
         )}
         style={{ width: (errorListDimension ?? 0) / 6 }}
         value={
-          textInput
-            ? textInput[index]
-              ? textInput[index][0]
-              : errorsInput[index]?.toString()
+          textInput?.[index]
+            ? textInput[index][0]
             : errorsInput[index]?.toString()
         }
         onChangeText={(text) => {
           if (handleTypeInput(text)) {
-            //Change de previous correct text
             const newTextInput = { ...textInput };
             newTextInput[index] = [text, true];
             setTextInput(newTextInput);
 
-            //Change inputs to the new corrects one, and calculate the new stock quantity displayed.
             const newTab = { ...errorsInput };
             newTab[index] = Number(text);
-            setErrorsInput((previousState) => newTab);
+            setErrorsInput(() => newTab);
           } else {
             const newTextInput = { ...textInput };
             if (newTextInput[index]) {
               newTextInput[index][1] = false;
             }
-
             setTextInput(newTextInput);
           }
         }}
@@ -169,6 +145,7 @@ export default function App() {
       />
     </View>
   );
+
   return (
     <RootView>
       <Header
@@ -194,8 +171,8 @@ export default function App() {
         </View>
         <View>
           <FlatList
-            data={data?.data}
-            keyExtractor={(row) => row.id.toString()}
+            data={filteredActions}
+            keyExtractor={(row) => String(row.id)}
             renderItem={renderItem}
           />
         </View>

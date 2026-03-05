@@ -27,8 +27,8 @@ export function ErrorsTable({
     router.push({
       pathname: "/home/specific_product_error_management",
       params: {
-        product_code: product_code,
-        batch_number: batch_number,
+        product_code,
+        batch_number,
         stock_category: stockCategory,
       },
     });
@@ -67,6 +67,11 @@ export function ErrorsTable({
       header: () => capitalizeFirst(t("actions.quantity")),
     },
   ];
+  const flattenedData = filteredData?.map((item) => ({
+    ...item,
+    product_code: item.action?.product?.product_code,
+    batch_number: item.action?.batch_number,
+  }));
 
   return (
     <View onLayout={handleLayout}>
@@ -74,15 +79,10 @@ export function ErrorsTable({
         <ActivityIndicator />
       ) : (
         <BaseTable
-          data={(filteredData as BaseTableProps<KnownErrorRow>["data"]) ?? []}
+          data={(flattenedData as BaseTableProps<KnownErrorRow>["data"]) ?? []}
           columns={columns}
           fixedWidth={fixedWidth}
-          onPress={(row) =>
-            onPress(
-              row.action?.product?.product_code ?? "",
-              row.action?.batch_number ?? "",
-            )
-          }
+          onPress={onPress}
         />
       )}
     </View>

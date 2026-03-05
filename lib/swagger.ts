@@ -1098,6 +1098,8 @@ export interface operations {
                 /** @example PF_G */
                 stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
+                batch_number?: string;
+                "batch_number[]"?: string[];
             };
             header?: never;
             path?: never;
