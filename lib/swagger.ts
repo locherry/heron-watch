@@ -498,7 +498,9 @@ export interface components {
             product: components["schemas"]["Product-known_error.read"];
             batch_number: string;
         };
-        "Action.ActionBatchInput-action.write": Record<string, never>;
+        "Action.ActionBatchInput-action.write": {
+            actions: components["schemas"]["Action-action.write"][];
+        };
         "Action.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
             /** @enum {string} */

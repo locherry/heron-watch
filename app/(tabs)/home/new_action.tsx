@@ -3,7 +3,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { ActionWrite } from "~/@types/action";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -13,197 +12,129 @@ import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
+import { useDraftActionsStore } from "~/lib/stores/useDraftActionsStore";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function NewAction() {
   const [t] = useTranslation();
+  const { addAction, editAction, actions, stockCategory } =
+    useDraftActionsStore();
+  const { editActionId } = useLocalSearchParams<{ editActionId?: string }>();
 
-  const rawParams = useLocalSearchParams();
-  const {
-    actionsJsonEncoded,
-    stockCategory = "PF_G",
-    editActionId,
-  } = rawParams as {
-    actionsJsonEncoded?: string;
-    stockCategory?: "PF_G" | "PF_M";
-    editActionId?: string;
-  };
+  const actionToEdit = editActionId
+    ? actions.find((a) => a.id === Number(editActionId))
+    : undefined;
 
-  const existingActions: ActionWrite[] = React.useMemo(() => {
-    if (!actionsJsonEncoded) return [];
-    try {
-      return JSON.parse(actionsJsonEncoded) as ActionWrite[];
-    } catch (err) {
-      console.error("Invalid actionsJsonEncoded:", err);
-      return [];
-    }
-  }, [actionsJsonEncoded]);
-
-  const [actionId, setActionId] = React.useState<string | number>(
-    constants.actionTypes[0].value,
+  const [actionCategoryId, setActionCategoryId] = React.useState<string>(
+    actionToEdit?.action_category?.toString() ??
+      String(constants.actionTypes[0].value),
   );
-  const [errors, setErrors] = React.useState<Record<string, string>>({});
 
   const INPUT_FIELDS = [
     {
       label: capitalizeFirst(t("actions.product_code")),
-      value: "product_code",
+      key: "product_code" as const,
       regex: /^\d{3}.*$/,
       required: true,
       errorMessage: capitalizeFirst(t("errors.invalidProductCode")),
     },
     {
       label: capitalizeFirst(t("actions.batch_number")),
-      value: "batch_number",
+      key: "batch_number" as const,
       regex: /^[A-Z]{3}\d{6}$/,
       required: true,
       errorMessage: capitalizeFirst(t("errors.invalidbatchNumber")),
     },
     {
       label: capitalizeFirst(t("actions.quantity")),
-      value: "quantity",
+      key: "quantity" as const,
       regex: /^\d+$/,
       required: true,
       errorMessage: capitalizeFirst(t("errors.invalidQuantity")),
     },
     {
-      label: capitalizeFirst(t("actions.expirationDate")),
-      value: "expiration_date",
-      regex: /^\d{4}-(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])$/,
+      label: capitalizeFirst(t("actions.expireAt")),
+      key: "expire_at" as const,
+      regex: /^\d{4}-(0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])$/,
       required: true,
       errorMessage: capitalizeFirst(t("errors.invalidExpirationDate")),
     },
     {
       label: capitalizeFirst(t("actions.transaction")),
-      value: "transaction",
+      key: "transaction_code" as const,
       regex: /^.*$/,
       required: false,
       errorMessage: "",
     },
     {
       label: capitalizeFirst(t("actions.comment")),
-      value: "comment",
+      key: "comment" as const,
       regex: /^.*$/,
       required: false,
       errorMessage: "",
     },
   ] as const;
 
+  const [formData, setFormData] = React.useState<Record<string, string>>({
+    product_code: actionToEdit?.product_code ?? "",
+    batch_number: actionToEdit?.batch_number ?? "",
+    quantity: actionToEdit?.quantity?.toString() ?? "",
+    expire_at: actionToEdit?.expire_at ?? "",
+    transaction_code: actionToEdit?.transaction_code ?? "",
+    comment: actionToEdit?.comment ?? "",
+  });
+
+  const [errors, setErrors] = React.useState<Record<string, string>>({});
+
   const validateField = (key: string, value: string) => {
-    const field = INPUT_FIELDS.find((f) => f.value === key);
+    const field = INPUT_FIELDS.find((f) => f.key === key);
     if (!field) return "";
     if (field.required && !value) return t("errors.required");
-    if (value && field.regex && !field.regex.test(value))
-      return field.errorMessage;
+    if (value && !field.regex.test(value)) return field.errorMessage;
     return "";
   };
 
-  const [formData, setFormData] = React.useState<
-    Record<string, string | number | null | undefined>
-  >({
-    ...INPUT_FIELDS.reduce(
-      (acc, field) => {
-        acc[field.value] = "";
-        return acc;
-      },
-      {} as Record<string, string | number | null | undefined>, // Update here to allow null
-    ),
-    action_id: actionId,
-    id: 0,
-  });
   const handleChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
     setErrors((prev) => ({ ...prev, [key]: validateField(key, value) }));
   };
 
-  // Prefill form if editing
-  React.useEffect(() => {
-    if (!editActionId) return;
+  const isFormValid = INPUT_FIELDS.every(
+    (field) => !validateField(field.key, formData[field.key] ?? ""),
+  );
 
-    const actionToEdit = existingActions.find(
-      (a) => String(a.id) === editActionId,
-    );
+  const handleSave = () => {
+    const draft = {
+      product_code: formData.product_code ?? "",
+      batch_number: formData.batch_number ?? "",
+      quantity: Number(formData.quantity),
+      expire_at: formData.expire_at ?? "",
+      action_category: Number(actionCategoryId),
+      transaction_code: formData.transaction_code || undefined,
+      comment: formData.comment || undefined,
+    };
+
     if (actionToEdit) {
-      setFormData((prev) => ({
-        ...prev,
-        ...actionToEdit,
-        action_id: actionToEdit.id,
-      }));
-      setActionId(actionToEdit.action_id.toString());
-    }
-  }, [editActionId, existingActions]);
-
-  const isFormValid = React.useMemo(() => {
-    return INPUT_FIELDS.every((field) => {
-      const value = formData[field.value]?.toString() ?? "";
-      return !validateField(field.value, value);
-    });
-  }, [formData]);
-
-  const handleSaveNewAction = () => {
-    let updatedActions: ActionWrite[];
-
-    if (editActionId) {
-      // Edit mode: replace the action in the array
-      updatedActions = existingActions.map((a) =>
-        String(a.id) === editActionId
-          ? ({
-              ...a, // keep all original fields
-              ...formData,
-              action_id: actionId,
-              id: a.id,
-            } as ActionWrite)
-          : a,
-      );
+      editAction(actionToEdit.id, draft);
     } else {
-      // Add new action
-      const maxId =
-        existingActions.length > 0
-          ? Math.max(...existingActions.map((a) => a.id ?? 0))
-          : 0;
-
-      const newAction: ActionWrite = {
-        id: maxId + 1,
-        quantity: Number(formData.quantity) || 0,
-        comment: (formData.comment as string) || "",
-        product_code: (formData.product_code as string) || "000",
-        batch_number: (formData.batch_number as string) || "",
-        created_at: new Date().toISOString(),
-        action_id: Number(actionId),
-        transaction: (formData.transaction as string) || "",
-        expiration_date: (formData.expiration_date as string) || undefined,
-      };
-
-      updatedActions = [...existingActions, newAction];
+      addAction(draft);
     }
 
-    router.push({
-      pathname: "/home/new_actions",
-      params: {
-        actionsJsonEncoded: JSON.stringify(updatedActions),
-        stockCategory,
-      },
-    });
-  };
-
-  const handleCancel = () => {
     router.back();
   };
+
+  // QR Code
+  const [qrCodeId, setQrCodeId] = React.useState<number | null>(null);
 
   const onScan = (data: string) => {
     const int = parseInt(data);
@@ -211,47 +142,36 @@ export default function NewAction() {
       Toast.show({
         type: "error",
         text1: "Invalid data",
-        text2: data + "is not a number.",
+        text2: data + " is not a number.",
       });
     } else {
       setQrCodeId(int);
     }
   };
-  const [qrCodeId, setQrCodeId] = React.useState<number | null>(null);
 
   const qrCodeResults = useFetchQuery(
-    "/qr-code/{qr_code_id}",
+    "/api/qr_codes/{id}",
     "get",
-    {
-      path: {
-        qr_code_id: qrCodeId ?? 0,
-      },
-    },
+    { path: { id: (qrCodeId ?? 0).toString() } },
     undefined,
     !!qrCodeId,
   );
 
   React.useEffect(() => {
     if (qrCodeResults.data) {
-      const qrData = qrCodeResults.data.data;
-      Toast.show({
-        type: "success",
-        text1: t("QR Code loaded"),
-      });
-
-      // Prefill form fields if they exist in API data
+      const qrData = qrCodeResults.data;
+      Toast.show({ type: "success", text1: t("QR Code loaded") });
       setFormData((prev) => ({
         ...prev,
-        id: qrData?.id ?? prev.id,
         product_code: qrData?.product_code ?? prev.product_code,
-        quantity: qrData?.quantity ?? prev.quantity,
-        expiration_date: qrData?.expiration_date ?? prev.expiration_date,
+        quantity: qrData?.quantity?.toString() ?? prev.quantity ?? "",
+        expire_at: qrData?.expire_at ?? prev.expire_at ?? "",
       }));
     }
   }, [qrCodeResults.data]);
 
   const selectedOption = constants.actionTypes.find(
-    (option) => option.value === actionId,
+    (o) => String(o.value) === actionCategoryId,
   );
 
   return (
@@ -261,20 +181,9 @@ export default function NewAction() {
           title={capitalizeFirst(t("actions.newAction"))}
           className="justify-between"
         >
-          <Tooltip>
-            <TooltipTrigger>
-              <Icon as={constants.stockCategoryIcon[stockCategory]} />
-            </TooltipTrigger>
-            <TooltipContent>
-              <Text>
-                {capitalizeFirst(t("stocks.finishedProducts"))}
-                {" - "}
-                {t(("stocks." + stockCategory) as "stocks.PF_G")}
-              </Text>
-            </TooltipContent>
-          </Tooltip>
+          <Icon as={constants.stockCategoryIcon[stockCategory]} />
         </Header>
-        {/* action type select... */}
+
         <Label>{capitalizeFirst(t("actions.actionType"))}</Label>
         <Row gap={8} className="mb-4">
           <Select
@@ -282,9 +191,7 @@ export default function NewAction() {
             defaultValue={constants.actionTypes[0]}
             value={selectedOption}
             onValueChange={(option) =>
-              setActionId(
-                option?.value as (typeof constants.actionTypes)[number]["value"],
-              )
+              setActionCategoryId(String(option?.value ?? ""))
             }
           >
             <SelectTrigger className="w-full">
@@ -301,7 +208,7 @@ export default function NewAction() {
                   {capitalizeFirst(t("common.add"))} (+)
                 </SelectLabel>
                 {constants.actionTypes
-                  .filter((action) => action.additionRule == "+")
+                  .filter((a) => a.additionRule === "+")
                   .map((action) => (
                     <SelectItem
                       key={action.value}
@@ -317,7 +224,7 @@ export default function NewAction() {
                   {capitalizeFirst(t("common.substract"))} (-)
                 </SelectLabel>
                 {constants.actionTypes
-                  .filter((action) => action.additionRule == "-")
+                  .filter((a) => a.additionRule === "-")
                   .map((action) => (
                     <SelectItem
                       key={action.value}
@@ -333,30 +240,33 @@ export default function NewAction() {
           <QrScannerButton onScan={onScan} />
         </Row>
 
-        {INPUT_FIELDS.map((field) => {
-          const error = errors[field.value];
-          return (
-            <View key={field.value} className="mb-2">
-              <Label>{capitalizeFirst(field.label)}</Label>
-              <Input
-                className={`w-full ${error ? "border-destructive" : ""}`}
-                value={(formData[field.value] ?? "").toString()}
-                onChangeText={(text) => handleChange(field.value, text)}
-              />
-              {error ? (
-                <Text className="text-destructive text-xs mt-1">{error}</Text>
-              ) : null}
-            </View>
-          );
-        })}
+        {INPUT_FIELDS.map((field) => (
+          <View key={field.key} className="mb-2">
+            <Label>{field.label}</Label>
+            <Input
+              className={`w-full ${errors[field.key] ? "border-destructive" : ""}`}
+              value={formData[field.key] ?? ""}
+              onChangeText={(text) => handleChange(field.key, text)}
+            />
+            {errors[field.key] ? (
+              <Text className="text-destructive text-xs mt-1">
+                {errors[field.key]}
+              </Text>
+            ) : null}
+          </View>
+        ))}
 
         <Row className="flex-none w-full" gap={8}>
-          <Button className="flex-1" variant={"outline"} onPress={handleCancel}>
+          <Button
+            className="flex-1"
+            variant="outline"
+            onPress={() => router.back()}
+          >
             <Text>{capitalizeFirst(t("common.cancel"))}</Text>
           </Button>
           <Button
             className="flex-1"
-            onPress={handleSaveNewAction}
+            onPress={handleSave}
             disabled={!isFormValid}
           >
             <Text>{capitalizeFirst(t("common.save"))}</Text>
