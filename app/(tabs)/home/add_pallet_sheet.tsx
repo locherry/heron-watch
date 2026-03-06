@@ -5,13 +5,11 @@ import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   FlatList,
-  Keyboard,
-  TouchableOpacity,
   useWindowDimensions,
-  View,
+  View
 } from "react-native";
-import Autocomplete from "react-native-autocomplete-input";
 import { StockRead } from "~/@types/stock";
+import { AutocompleteInput } from "~/components/AutoCompleteInput";
 import { CreatePalletSheet } from "~/components/create-pallet-sheet";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -326,27 +324,11 @@ export default function add_pallet_sheet() {
               <Label className="text-base">
                 {capitalizeFirst(t("actions.product_code"))}
               </Label>
-              <Autocomplete
-                inputContainerStyle={{ borderWidth: 0 }}
-                containerStyle={{ width: width / 5 }}
-                hideResults={isProductCodeFocus}
-                onBlur={() => {
-                  setTimeout(() => {
-                    Keyboard.dismiss();
-                    if (
-                      !isProductCodeFocus &&
-                      !isSelectingProductCode.current
-                    ) {
-                      setIsProductCodeFocus(true);
-                    } else {
-                      isSelectingProductCode.current = false;
-                    }
-                  }, 100);
-                }}
-                onFocus={() => {
-                  setIsProductCodeFocus(false);
-                }}
-                data={!isProductCodeFocus ? filteredData : []}
+              <AutocompleteInput
+                data={filteredData.map((s) => ({
+                  label: s.product?.product_code ?? "",
+                  value: s.product?.product_code ?? "",
+                }))}
                 value={dynamic_product_code_value}
                 onChangeText={(text) => {
                   if (product_code_value !== "") {
@@ -360,29 +342,14 @@ export default function add_pallet_sheet() {
                   setDynamicProductCodeValue(text ?? "");
                   setIsProductCodeSelected(false);
                 }}
-                renderTextInput={(props) => (
-                  <Input {...props} placeholder={t("actions.product_code")} />
-                )}
-                flatListProps={{
-                  keyExtractor: (item: unknown, index: number) =>
-                    `pc-${(item as StockRead).product?.product_code ?? index}-${index}`,
-                  renderItem: ({ item }: { item: unknown }) => {
-                    const stock = item as StockRead;
-                    return (
-                      <TouchableOpacity
-                        className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
-                        onPressIn={() =>
-                          (isSelectingProductCode.current = true)
-                        }
-                        onPress={() => handleProductCodeSelect(stock)}
-                      >
-                        <Text className="text-foreground dark:text-white">
-                          {stock.product?.product_code}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  },
-                }}
+                onSelect={(item) =>
+                  handleProductCodeSelect(
+                    filteredData.find(
+                      (s) => s.product?.product_code === item.value,
+                    )!,
+                  )
+                }
+                placeholder={t("actions.product_code")}
               />
             </Row>
 
@@ -391,32 +358,11 @@ export default function add_pallet_sheet() {
               <Label className="text-base">
                 {capitalizeFirst(t("actions.batch_number"))}
               </Label>
-              <Autocomplete
-                inputContainerStyle={{ borderWidth: 0 }}
-                containerStyle={{ width: width / 5 }}
-                hideResults={isbatchNumberFocus}
-                onBlur={() => {
-                  Keyboard.dismiss();
-                  setTimeout(() => {
-                    if (
-                      !isbatchNumberFocus &&
-                      !isSelectingBatchNumber.current
-                    ) {
-                      setIsbatchNumberFocus(true);
-                    } else {
-                      isSelectingBatchNumber.current = false;
-                    }
-                  }, 100);
-                }}
-                renderTextInput={(props) => (
-                  <Input {...props} placeholder={t("actions.batch_number")} />
-                )}
-                onFocus={() => {
-                  if (isbatchNumberFocus) {
-                    setIsbatchNumberFocus(false);
-                  }
-                }}
-                data={!isbatchNumberFocus ? filteredData : []}
+              <AutocompleteInput
+                data={filteredData.map((s) => ({
+                  label: s.batch_number ?? "",
+                  value: s.batch_number ?? "",
+                }))}
                 value={dynamic_batch_number_value}
                 onChangeText={(text) => {
                   if (batch_number_value !== "") {
@@ -425,26 +371,12 @@ export default function add_pallet_sheet() {
                   }
                   setDynamicbatchNumberValue(text);
                 }}
-                flatListProps={{
-                  keyExtractor: (item: unknown, index: number) =>
-                    `bn-${(item as StockRead).batch_number ?? index}`,
-                  renderItem: ({ item }: { item: unknown }) => {
-                    const stock = item as StockRead;
-                    return (
-                      <TouchableOpacity
-                        className="flex-row justify-center border bg-background border-muted-foreground hover:bg-muted"
-                        onPressIn={() =>
-                          (isSelectingBatchNumber.current = true)
-                        }
-                        onPress={() => handleBatchNumberSelect(stock)}
-                      >
-                        <Text className="text-foreground dark:text-white">
-                          {stock.batch_number}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  },
-                }}
+                onSelect={(item) =>
+                  handleBatchNumberSelect(
+                    filteredData.find((s) => s.batch_number === item.value)!,
+                  )
+                }
+                placeholder={t("actions.batch_number")}
               />
             </Row>
 
