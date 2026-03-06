@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ActionRead } from "~/@types/action";
 import { BaseTableProps } from "~/@types/table";
 import { constants } from "~/lib/constants";
-import { useFormatDate } from "~/lib/hooks/useformatDate";
+import { useFormatDate } from "~/lib/hooks/useFormatDate";
 import { capitalizeFirst } from "~/lib/utils";
 import Row from "../layout/Row";
 import { Icon } from "../ui/icon";

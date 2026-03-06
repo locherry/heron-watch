@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { StockRead } from "~/@types/stock";
 import { BaseTableProps } from "~/@types/table";
-import { useFormatDate } from "~/lib/hooks/useformatDate";
+import { useFormatDate } from "~/lib/hooks/useFormatDate";
 import { capitalizeFirst } from "~/lib/utils";
 import { Text } from "../ui/text";
 import { BaseTable } from "./BaseTable";

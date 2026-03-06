@@ -24,6 +24,7 @@ import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
+import { useFormatDate } from "~/lib/hooks/useFormatDate";
 import { capitalizeFirst, cn } from "~/lib/utils";
 
 interface SheetRowProps {
@@ -52,6 +53,7 @@ function SheetRow({
   classNameText = "",
 }: SheetRowProps) {
   const [t] = useTranslation();
+  const formatDate = useFormatDate();
 
   return (
     <Row
@@ -93,6 +95,8 @@ function SheetRow({
 
 export default function add_pallet_sheet() {
   const [t] = useTranslation();
+  const formatDate = useFormatDate();
+
   const { mutate: modifyQrData } = useFetchMutation(
     "/api/qr_codes/{id}",
     "patch",
@@ -349,7 +353,7 @@ export default function add_pallet_sheet() {
               <SheetRow
                 editable={false}
                 label={t("add_pallet_sheet.product")}
-                value={completeData?.product_name ?? ""}
+                value={completeData?.product?.product_name ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isNewDataLoading}
@@ -365,7 +369,7 @@ export default function add_pallet_sheet() {
               <SheetRow
                 editable={false}
                 label={t("add_pallet_sheet.expire_at")}
-                value={completeData?.expiration_date ?? ""}
+                value={formatDate(completeData?.expire_at ?? "")}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isNewDataLoading}
