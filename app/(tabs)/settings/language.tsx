@@ -16,9 +16,9 @@ import {
   SecureStorage,
   SecureStorageData,
 } from "~/lib/classes/SecureStorage";
+import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
-import i18n from "~/translations/i18n";
 
 // Define Option type
 type Option = {
@@ -49,6 +49,7 @@ export default function LanguageSettings() {
         userSession && setSelectedLanguage(userSession.preferences.language),
     );
   }, []);
+  const { applyPreferences } = useApplyUserPreferences();
 
   const applyLanguageToApp = (languageOption: Option | undefined) => {
     if (!languageOption) return;
@@ -60,7 +61,7 @@ export default function LanguageSettings() {
         language: languageValue,
       },
     });
-    i18n.changeLanguage(languageValue);
+    applyPreferences({ language: languageValue });
 
     SecureStorage.get("userSession").then((userSession) => {
       if (userSession) {

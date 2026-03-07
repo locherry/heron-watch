@@ -5,11 +5,10 @@ import { Stack } from "expo-router";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { useColorScheme } from "nativewind";
 import * as React from "react";
-import { Appearance, Platform } from "react-native";
+import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToastProvider } from "~/components/ui/toast";
 import "~/global.css";
-import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { NAV_THEME } from "~/lib/theme";
 
 /* -------------------------------------------------------------------------- */
@@ -23,6 +22,7 @@ import "../translations/i18n";
 /*                Ignore specific deprecation warnings from dependencies      */
 /* -------------------------------------------------------------------------- */
 import { LogBox } from "react-native";
+import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
 
 LogBox.ignoreLogs([
   '"shadow*" style props are deprecated. Use "boxShadow".', // Ignore shadow* style deprecations
@@ -61,24 +61,17 @@ export default function RootLayout() {
   // Access i18n instance to handle language switching
   const { i18n } = useTranslation();
 
+  const { applyPreferences } = useApplyUserPreferences();
+
   // useIsomorphicLayoutEffect runs synchronously on native and asynchronously on web
   useIsomorphicLayoutEffect(() => {
     // Load user preferences (language, theme) from secure storage asynchronously
-    SecureStorage.get("userPreferences").then((prefs) => {
-      // If preferences exist, change language and set theme accordingly
-      prefs && i18n.changeLanguage(prefs.language);
-      const resolvedSystemTheme = Appearance.getColorScheme();
-      const actualTheme =
-        prefs?.theme !== undefined && prefs.theme !== "system"
-          ? prefs.theme
-          : (resolvedSystemTheme ?? "system");
-      prefs && setColorScheme(actualTheme);
+    applyPreferences().then(() => {
+      setIsColorSchemeLoaded(true);
     });
 
     // Avoid running the rest of the effect on subsequent renders
-    if (hasMounted.current) {
-      return;
-    }
+    if (hasMounted.current) return;
 
     // On web, add a background color class to the html element to prevent white flicker on overscroll
     if (Platform.OS === "web") {
@@ -86,21 +79,14 @@ export default function RootLayout() {
       document.title = "Heron Watch";
     }
 
-    // Mark color scheme as loaded and component as mounted
-    setIsColorSchemeLoaded(true);
     hasMounted.current = true;
 
     // This pattern ensures that the screen orientation is unlocked when the component mounts,
     // allowing it to respond dynamically to the device’s orientation.
     if (Platform.OS !== "web") {
-      const unlockScreenOrientation = async () => {
-        try {
-          await ScreenOrientation.unlockAsync();
-        } catch (err) {
-          console.warn("Could not unlock screen orientation:", err);
-        }
-      };
-      unlockScreenOrientation();
+      ScreenOrientation.unlockAsync().catch((err) =>
+        console.warn("Could not unlock screen orientation:", err),
+      );
     }
   }, []);
 

@@ -14,6 +14,7 @@ import {
   DefaultSecureStorageData,
   SecureStorage,
 } from "~/lib/classes/SecureStorage";
+import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -24,6 +25,7 @@ export default function LoginScreen() {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
+  const { applyPreferences } = useApplyUserPreferences();
 
   const { mutate: login, isPending } = useFetchMutation("/api/login", "post", {
     onSuccess: async (data) => {
@@ -34,6 +36,18 @@ export default function LoginScreen() {
 
       const me = await apiFetch("/api/users/me", "get");
 
+      const preferences = {
+        fontSize:
+          me.preferences?.fontSize ??
+          DefaultSecureStorageData.userSession.preferences.fontSize,
+        language:
+          me.preferences?.language ??
+          DefaultSecureStorageData.userSession.preferences.language,
+        theme:
+          me.preferences?.theme ??
+          DefaultSecureStorageData.userSession.preferences.theme,
+      };
+
       await SecureStorage.set("userSession", {
         jwt: data.token,
         id: me.id ?? DefaultSecureStorageData.userSession.id,
@@ -42,19 +56,10 @@ export default function LoginScreen() {
         lastName: me.last_name ?? DefaultSecureStorageData.userSession.lastName,
         email: me.email ?? DefaultSecureStorageData.userSession.email,
         roles: me.roles ?? DefaultSecureStorageData.userSession.roles,
-        preferences: {
-          fontSize:
-            me.preferences?.fontSize ??
-            DefaultSecureStorageData.userSession.preferences.fontSize,
-          language:
-            me.preferences?.language ??
-            DefaultSecureStorageData.userSession.preferences.language,
-          theme:
-            me.preferences?.theme ??
-            DefaultSecureStorageData.userSession.preferences.theme,
-        },
+        preferences: preferences,
       });
-      console.log(me);
+
+      await applyPreferences(preferences);
 
       router.push("/home");
     },

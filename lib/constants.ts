@@ -31,4 +31,9 @@ export const constants = {
       additionRule: "-",
     },
   ],
+  fontSizeOptions: [
+    { value: "small", size: 14 },
+    { value: "medium", size: 16 },
+    { value: "large", size: 18 },
+  ] as const,
 } as const;
