@@ -8,7 +8,7 @@ import {
 import { rem, useColorScheme } from "nativewind";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Appearance } from "react-native";
+import { Appearance, Platform } from "react-native";
 import { UserTheme } from "~/@types/user";
 import Header from "~/components/Header";
 import Column from "~/components/layout/Column";
@@ -78,21 +78,18 @@ export default function AppearanceSettings() {
     const newThemeValue = (newValue?.value ?? "system") as UserTheme;
     setThemeValue(newThemeValue);
 
-    if (newValue?.value === "light" || newValue?.value === "dark") {
-      setColorScheme(newValue.value);
-      SecureStorage.modify("userPreferences", "theme", newValue.value);
+    if (Platform.OS === "web" && newThemeValue === "system") {
+      // On web, resolve system theme manually to avoid mixed rendering
+      const resolvedSystemTheme = Appearance.getColorScheme() ?? "light";
+      setColorScheme(resolvedSystemTheme);
     } else {
-      const resolvedSystemTheme = Appearance.getColorScheme();
-      setColorScheme(resolvedSystemTheme ?? "system");
-      SecureStorage.modify("userPreferences", "theme", "system");
+      // On native, "system" works correctly and follows changes dynamically
+      setColorScheme(newThemeValue ?? "system");
     }
 
+    SecureStorage.modify("userPreferences", "theme", newThemeValue ?? "system");
     updateAppearance({
-      body: {
-        preferences: {
-          theme: newThemeValue,
-        },
-      },
+      body: { preferences: { theme: newThemeValue } },
     });
   };
 
