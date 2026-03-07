@@ -14,12 +14,12 @@ import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { constants } from "~/lib/constants";
@@ -353,7 +353,6 @@ export default function NewAction() {
         <View className="mb-2 z-10">
           <Label>{capitalizeFirst(t("actions.batch_number"))}</Label>
           <AutocompleteInput
-            className="flex-1"
             data={filteredBatchNumbers.map((s) => ({
               label: s.batch_number ?? "",
               value: s.batch_number ?? "",
