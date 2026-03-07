@@ -140,7 +140,7 @@ export async function apiFetch<P extends ApiPath, M extends ApiPathMethod<P>>(
         errorMessage +
         (errorData?.detail ? `: ${JSON.stringify(errorData.detail)}` : ""),
     });
+    console.error(errorMessage);
   }
-  console.error(errorMessage);
   return Promise.reject(new Error(errorMessage));
 }
