@@ -1,8 +1,8 @@
 import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useTranslation } from "react-i18next";
 import { FlatList } from "react-native";
@@ -35,7 +35,7 @@ export function ErrorsAccordion({
           (item) => item.action?.product?.product_code != null,
         )}
         keyExtractor={(item) =>
-          item.action?.product.product_code ?? String(item.id ?? Math.random())
+          item.action?.product.product_code + item.action?.batch_number
         }
         renderItem={({ item, index }) => (
           <>

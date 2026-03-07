@@ -50,7 +50,6 @@ export function ErrorsTable({
     product_code ? true : false,
   );
 
-  // Filter by product_code client-side since the API filters by stock_category only
   const filteredData = data?.member?.filter(
     (item) => item.action?.product?.product_code === product_code,
   );
