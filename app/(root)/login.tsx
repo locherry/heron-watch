@@ -42,7 +42,19 @@ export default function LoginScreen() {
         lastName: me.last_name ?? DefaultSecureStorageData.userSession.lastName,
         email: me.email ?? DefaultSecureStorageData.userSession.email,
         roles: me.roles ?? DefaultSecureStorageData.userSession.roles,
+        preferences: {
+          fontSize:
+            me.preferences?.fontSize ??
+            DefaultSecureStorageData.userSession.preferences.fontSize,
+          language:
+            me.preferences?.language ??
+            DefaultSecureStorageData.userSession.preferences.language,
+          theme:
+            me.preferences?.theme ??
+            DefaultSecureStorageData.userSession.preferences.theme,
+        },
       });
+      console.log(me);
 
       router.push("/home");
     },

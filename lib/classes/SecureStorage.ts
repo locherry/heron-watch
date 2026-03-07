@@ -1,9 +1,12 @@
-import { languageRessources } from "@/translations/i18n"; // Import language options from translations
-import * as SecureStore from "expo-secure-store"; // Expo's secure storage for mobile (encrypted)
-import { Platform } from "react-native"; // Detects if running on iOS, Android, or Web
+import { languageRessources } from "@/translations/i18n";
+import * as SecureStore from "expo-secure-store";
+import { Platform } from "react-native";
 import { UserRead } from "~/@types/user";
 
-// Type definition for the structure of stored secure data
+/* -------------------------------------------------------------------------- */
+/*                                   Types                                    */
+/* -------------------------------------------------------------------------- */
+
 export type SecureStorageData = {
   userSession: {
     id: number;
@@ -12,15 +15,22 @@ export type SecureStorageData = {
     email: string;
     jwt: string;
     roles: UserRead["roles"];
-  };
-  userPreferences: {
-    theme: "light" | "dark" | "system";
-    language: keyof typeof languageRessources;
-    fontSize: "small" | "medium" | "large";
+    preferences: {
+      theme: "light" | "dark" | "system";
+      language: keyof typeof languageRessources;
+      fontSize: "small" | "medium" | "large";
+    };
   };
 };
 
-// Default values for secure storage (e.g., when nothing is saved yet)
+// Utility type: deeply mark all properties as optional for partial updates
+type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
+};
+
+/* -------------------------------------------------------------------------- */
+/*                               Default Values                               */
+/* -------------------------------------------------------------------------- */
 
 export const DefaultSecureStorageData = {
   userSession: {
@@ -29,99 +39,241 @@ export const DefaultSecureStorageData = {
     lastName: "name",
     email: "user.name@mail.com",
     jwt: "",
-    roles: ["ROLE_USER"],
-  },
-  userPreferences: {
-    theme: "system",
-    language: "EN",
-    fontSize: "medium",
+    roles: ["ROLE_USER"] as UserRead["roles"],
+    preferences: {
+      theme: "system",
+      language: "EN",
+      fontSize: "medium",
+    },
   },
 } satisfies SecureStorageData;
 
-// Class for handling secure storage operations
+/* -------------------------------------------------------------------------- */
+/*                             Storage Adapters                               */
+/* -------------------------------------------------------------------------- */
+
+interface StorageAdapter {
+  getItem(key: string): Promise<string | null>;
+  setItem(key: string, value: string): Promise<void>;
+  removeItem(key: string): Promise<void>;
+}
+
+const webAdapter: StorageAdapter = {
+  getItem: async (key) => sessionStorage.getItem(key),
+  setItem: async (key, value) => sessionStorage.setItem(key, value),
+  removeItem: async (key) => sessionStorage.removeItem(key),
+};
+
+const nativeAdapter: StorageAdapter = {
+  getItem: async (key) => SecureStore.getItemAsync(key),
+  setItem: async (key, value) => SecureStore.setItemAsync(key, value),
+  removeItem: async (key) => SecureStore.deleteItemAsync(key),
+};
+
+const adapter: StorageAdapter =
+  Platform.OS === "web" ? webAdapter : nativeAdapter;
+
+/* -------------------------------------------------------------------------- */
+/*                               SecureStorage                                */
+/* -------------------------------------------------------------------------- */
+
+// In-memory cache to avoid redundant async reads in the same session
+const cache = new Map<
+  keyof SecureStorageData,
+  SecureStorageData[keyof SecureStorageData]
+>();
+
 export class SecureStorage {
-  // Store a key-value pair securely
+  /**
+   * Store a value securely. Updates the in-memory cache immediately.
+   */
   static set = async <K extends keyof SecureStorageData>(
     key: K,
     value: SecureStorageData[K],
-  ) => {
+  ): Promise<void> => {
     try {
-      const value_str = JSON.stringify(value); // Convert object to string
-
-      if (Platform.OS === "web") {
-        // On web: store in sessionStorage
-        await sessionStorage.setItem(key, value_str);
-      } else {
-        // On mobile: store using encrypted SecureStore
-        await SecureStore.setItemAsync(key, value_str);
-      }
-      console.info("Data stored securely");
+      const serialized = JSON.stringify(value);
+      await adapter.setItem(key, serialized);
+      cache.set(key, value);
+      console.info(`[SecureStorage] set "${key}"`);
     } catch (error) {
-      console.error("Error storing secure data", error);
+      console.error(`[SecureStorage] Failed to set "${key}"`, error);
+      throw error;
     }
   };
 
-  // Retrieve a stored value by key
+  /**
+   * Retrieve a stored value. Returns from cache if available,
+   * otherwise reads from storage and seeds the cache.
+   * Returns null if the key has never been set.
+   */
   static get = async <K extends keyof SecureStorageData>(
     key: K,
   ): Promise<SecureStorageData[K] | null> => {
-    let value = null;
     try {
-      if (Platform.OS === "web") {
-        if (sessionStorage) {
-          const res = await sessionStorage.getItem(key);
-          value = res != null ? JSON.parse(res) : res;
-        }
-      } else {
-        value = await SecureStore.getItemAsync(key).then((res) =>
-          res != null ? JSON.parse(res) : null,
-        );
+      // Return from cache if available
+      if (cache.has(key)) {
+        return cache.get(key) as SecureStorageData[K];
       }
+
+      const raw = await adapter.getItem(key);
+      if (raw === null) return null;
+
+      const parsed = JSON.parse(raw) as SecureStorageData[K];
+      cache.set(key, parsed);
+      return parsed;
     } catch (error) {
-      console.error("Error retrieving secure data", error);
+      console.error(`[SecureStorage] Failed to get "${key}"`, error);
+      return null;
     }
-    return value;
   };
 
-  // Modify one property of an object stored in secure storage
+  /**
+   * Retrieve a stored value, falling back to the default if not set.
+   * Guaranteed to never return null.
+   */
+  static getOrDefault = async <K extends keyof SecureStorageData>(
+    key: K,
+  ): Promise<SecureStorageData[K]> => {
+    const value = await SecureStorage.get(key);
+    return value ?? (DefaultSecureStorageData[key] as SecureStorageData[K]);
+  };
+
+  /**
+   * Deeply merge a partial update into an existing stored object.
+   * Safe to call on nested objects like `preferences`.
+   *
+   * @example
+   * await SecureStorage.merge("userSession", { preferences: { theme: "dark" } });
+   */
+  static merge = async <K extends keyof SecureStorageData>(
+    key: K,
+    partial: DeepPartial<SecureStorageData[K]>,
+  ): Promise<void> => {
+    try {
+      const existing = await SecureStorage.getOrDefault(key);
+      const merged = deepMerge(existing, partial) as SecureStorageData[K];
+      await SecureStorage.set(key, merged);
+      console.info(`[SecureStorage] merged "${key}"`);
+    } catch (error) {
+      console.error(`[SecureStorage] Failed to merge "${key}"`, error);
+      throw error;
+    }
+  };
+
+  /**
+   * Shallow-update a single top-level key within a stored object.
+   * For nested updates (e.g. preferences), use `merge` instead.
+   *
+   * @example
+   * await SecureStorage.modify("userSession", "email", "new@mail.com");
+   */
   static modify = async <
-    K extends keyof SecureStorageData, // Main key (e.g., "userSession")
-    K2 extends keyof SecureStorageData[K], // Nested key (e.g., "email")
+    K extends keyof SecureStorageData,
+    K2 extends keyof SecureStorageData[K],
   >(
     key: K,
     key2: K2,
     value: SecureStorageData[K][K2],
-  ) => {
+  ): Promise<void> => {
     try {
-      const oldData = await this.get(key); // Get existing data
-
-      if (oldData) {
-        // Spread the old data and replace only the specified property
-        const updatedData = {
-          ...oldData,
-          [key2]: value,
-        };
-
-        await this.set(key, updatedData);
-      }
-
-      console.info("Data modified securely");
+      const existing = await SecureStorage.getOrDefault(key);
+      const updated: SecureStorageData[K] = { ...existing, [key2]: value };
+      await SecureStorage.set(key, updated);
+      console.info(`[SecureStorage] modified "${key}.${String(key2)}"`);
     } catch (error) {
-      console.error("Error storing secure data", error);
+      console.error(
+        `[SecureStorage] Failed to modify "${key}.${String(key2)}"`,
+        error,
+      );
+      throw error;
     }
   };
 
-  // Remove a stored key
-  static remove = async <K extends keyof SecureStorageData>(key: K) => {
+  /**
+   * Remove a key from storage and invalidate the cache entry.
+   */
+  static remove = async <K extends keyof SecureStorageData>(
+    key: K,
+  ): Promise<void> => {
     try {
-      if (Platform.OS === "web") {
-        await sessionStorage.removeItem(key);
-      } else {
-        await SecureStore.deleteItemAsync(key);
-      }
-      console.info("Data removed successfully");
+      await adapter.removeItem(key);
+      cache.delete(key);
+      console.info(`[SecureStorage] removed "${key}"`);
     } catch (error) {
-      console.error("Error removing secure data", error);
+      console.error(`[SecureStorage] Failed to remove "${key}"`, error);
+      throw error;
     }
   };
+
+  /**
+   * Clear all keys from storage and wipe the in-memory cache.
+   * Useful on logout.
+   */
+  static clear = async (): Promise<void> => {
+    try {
+      const keys = Object.keys(DefaultSecureStorageData) as Array<
+        keyof SecureStorageData
+      >;
+      await Promise.all(keys.map((key) => adapter.removeItem(key)));
+      cache.clear();
+      console.info("[SecureStorage] cleared all keys");
+    } catch (error) {
+      console.error("[SecureStorage] Failed to clear storage", error);
+      throw error;
+    }
+  };
+
+  /**
+   * Invalidate the in-memory cache for a specific key,
+   * forcing the next `get` to re-read from storage.
+   */
+  static invalidate = <K extends keyof SecureStorageData>(key: K): void => {
+    cache.delete(key);
+  };
+
+  /**
+   * Seed the cache from storage for all known keys.
+   * Call this once on app startup to warm the cache.
+   */
+  static preload = async (): Promise<void> => {
+    const keys = Object.keys(DefaultSecureStorageData) as Array<
+      keyof SecureStorageData
+    >;
+    await Promise.all(keys.map((key) => SecureStorage.get(key)));
+    console.info("[SecureStorage] preloaded all keys into cache");
+  };
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               Utilities                                    */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Recursively merges `partial` into `base`.
+ * Plain objects are merged deeply; all other values are overwritten.
+ */
+function deepMerge<T extends object>(base: T, partial: DeepPartial<T>): T {
+  const result = { ...base };
+  for (const key in partial) {
+    const partialVal = partial[key];
+    const baseVal = base[key];
+    if (
+      partialVal !== undefined &&
+      isPlainObject(partialVal) &&
+      isPlainObject(baseVal)
+    ) {
+      result[key] = deepMerge(
+        baseVal as object,
+        partialVal as DeepPartial<object>,
+      ) as T[typeof key];
+    } else if (partialVal !== undefined) {
+      result[key] = partialVal as T[typeof key];
+    }
+  }
+  return result;
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }

@@ -87,15 +87,18 @@ export default function AppearanceSettings() {
       setColorScheme(newThemeValue ?? "system");
     }
 
-    SecureStorage.modify("userPreferences", "theme", newThemeValue ?? "system");
+    SecureStorage.merge("userSession", {
+      preferences: { theme: newThemeValue },
+    });
     updateAppearance({
       body: { preferences: { theme: newThemeValue } },
     });
   };
 
   useEffect(() => {
-    SecureStorage.get("userPreferences").then((userPreferences) => {
-      userPreferences?.theme && setThemeValue(userPreferences.theme);
+    SecureStorage.get("userSession").then((userSession) => {
+      userSession?.preferences?.theme &&
+        setThemeValue(userSession.preferences.theme);
     });
   }, []);
 
@@ -118,7 +121,11 @@ export default function AppearanceSettings() {
     const option = fontSizeOptions.find((o) => o.value === value);
     if (option) {
       rem.set(option.rem);
-      SecureStorage.modify("userPreferences", "fontSize", value);
+      SecureStorage.merge("userSession", {
+        preferences: {
+          fontSize: value,
+        },
+      });
     }
 
     updateAppearance({
@@ -131,10 +138,14 @@ export default function AppearanceSettings() {
   };
 
   useEffect(() => {
-    SecureStorage.get("userPreferences").then((userPreferences) => {
-      if (userPreferences?.theme) setThemeValue(userPreferences.theme);
-      if (userPreferences?.fontSize) {
-        const saved = userPreferences.fontSize as "small" | "medium" | "large";
+    SecureStorage.get("userSession").then((userSession) => {
+      if (userSession?.preferences?.theme)
+        setThemeValue(userSession.preferences.theme);
+      if (userSession?.preferences?.fontSize) {
+        const saved = userSession.preferences.fontSize as
+          | "small"
+          | "medium"
+          | "large";
         setFontSizeValue(saved);
         const option = fontSizeOptions.find((o) => o.value === saved);
         if (option) rem.set(option.rem);

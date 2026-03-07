@@ -22,7 +22,7 @@ import i18n from "~/translations/i18n";
 
 // Define Option type
 type Option = {
-  value: SecureStorageData["userPreferences"]["language"];
+  value: SecureStorageData["userSession"]["preferences"]["language"];
   label: string;
 };
 
@@ -34,17 +34,19 @@ export default function LanguageSettings() {
     { value: "EU", label: "Euskera" },
     { value: "FR", label: "Français" },
     { value: "DE", label: "Deutsch" },
+    { value: "ES", label: "Español" },
   ];
 
   const [selectedLanguage, setSelectedLanguage] = useState<
     (typeof LANGUAGES)[number]["value"]
-  >(DefaultSecureStorageData["userPreferences"]["language"]);
+  >(DefaultSecureStorageData["userSession"]["preferences"]["language"]);
 
   const { mutate: updateLanguage } = useFetchMutation("/api/users/me", "patch");
 
   useEffect(() => {
-    SecureStorage.get("userPreferences").then(
-      (prefs) => prefs && setSelectedLanguage(prefs.language),
+    SecureStorage.get("userSession").then(
+      (userSession) =>
+        userSession && setSelectedLanguage(userSession.preferences.language),
     );
   }, []);
 
@@ -53,7 +55,11 @@ export default function LanguageSettings() {
 
     const languageValue = languageOption.value;
     setSelectedLanguage(languageValue);
-    SecureStorage.modify("userPreferences", "language", languageValue);
+    SecureStorage.merge("userSession", {
+      preferences: {
+        language: languageValue,
+      },
+    });
     i18n.changeLanguage(languageValue);
 
     SecureStorage.get("userSession").then((userSession) => {
