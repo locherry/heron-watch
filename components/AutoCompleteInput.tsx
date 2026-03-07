@@ -1,11 +1,11 @@
 import { Portal } from "@rn-primitives/portal";
 import { useRef, useState } from "react";
 import {
-    Platform,
-    TextInput,
-    TextInputProps,
-    TouchableOpacity,
-    View,
+  Platform,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
@@ -32,6 +32,8 @@ export function AutocompleteInput<T extends { label: string; value: string }>({
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPos, setDropdownPos] = useState({ x: 0, y: 0, width: 0 });
   const inputRef = useRef<View>(null);
+  // Track whether pointer is over the dropdown to prevent onBlur closing it
+  const isPointerOverDropdown = useRef(false);
 
   const openDropdown = () => {
     if (data.length === 0) return;
@@ -43,18 +45,30 @@ export function AutocompleteInput<T extends { label: string; value: string }>({
 
   const handleSelect = (item: T) => {
     onSelect(item);
+    isPointerOverDropdown.current = false;
     setIsOpen(false);
   };
 
   const handleChangeText = (text: string) => {
     onChangeText?.(text);
-    // Re-measure and open on next tick (data may change)
     setTimeout(() => {
       inputRef.current?.measure((_fx, _fy, width, height, px, py) => {
         setDropdownPos({ x: px, y: py + height + 4, width });
         setIsOpen(true);
       });
     }, 0);
+  };
+
+  const handleBlur = () => {
+    // On web: delay so onPress on a dropdown item can fire first.
+    // If pointer is over the dropdown, don't close — the item press will close it.
+    if (Platform.OS === "web") {
+      setTimeout(() => {
+        if (!isPointerOverDropdown.current) setIsOpen(false);
+      }, 150);
+    } else {
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -67,18 +81,19 @@ export function AutocompleteInput<T extends { label: string; value: string }>({
         placeholderClassName={placeholderClassName}
         onChangeText={handleChangeText}
         onFocus={openDropdown}
-        onBlur={() => {
-          setIsOpen(false);
-        }}
+        onBlur={handleBlur}
       />
 
       {isOpen && data.length > 0 && (
         <Portal name="portalHost">
-          <TouchableOpacity
-            style={{ position: "absolute", inset: 0, zIndex: 9998 }}
-            onPress={() => setIsOpen(false)}
-            activeOpacity={1}
-          />
+          {/* Backdrop — only used on native; on web the blur+delay handles dismissal */}
+          {Platform.OS !== "web" && (
+            <TouchableOpacity
+              style={{ position: "absolute", inset: 0, zIndex: 9998 }}
+              onPress={() => setIsOpen(false)}
+              activeOpacity={1}
+            />
+          )}
           <View
             style={{
               position: "absolute",
@@ -96,15 +111,24 @@ export function AutocompleteInput<T extends { label: string; value: string }>({
                 android: { elevation: 8 },
               }),
             }}
+            // Web: track pointer entering/leaving the dropdown
+            {...(Platform.OS === "web"
+              ? {
+                  onPointerEnter: () => {
+                    isPointerOverDropdown.current = true;
+                  },
+                  onPointerLeave: () => {
+                    isPointerOverDropdown.current = false;
+                  },
+                }
+              : {})}
           >
             {data.map((item, index) => (
               <TouchableOpacity
                 key={`ac-${index}`}
                 onPress={() => handleSelect(item)}
                 className={cn(
-                  "px-3 py-2 bg-background border-x border-b border-border focus:bg-muted hover:bg-muted",
-                  "px-3 py-2 border-x border-b border-border active:bg-muted bg-white dark:bg-zinc-950",
-
+                  "px-3 py-2 border-x border-b border-border hover:bg-muted active:bg-muted bg-background",
                   index === 0 && "border-t rounded-t-md",
                   index === data.length - 1 && "rounded-b-md",
                 )}
