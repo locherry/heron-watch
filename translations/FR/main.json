@@ -90,7 +90,8 @@
     "newAction": "nouvelle action",
     "newActions": "nouvelles actions",
     "newActionsCreated": "nouvelles actions créées",
-    "expirationDate": "date d'expiration"
+    "expirationDate": "date d'expiration",
+    "expireAt": "expirent à"
   },
   "stocks": {
     "id": "id",
@@ -113,7 +114,8 @@
     "MP_F": "frais",
     "MP_S": "sec",
     "MP_C": "congelé",
-    "EMB": "emballage"
+    "EMB": "emballage",
+    "expire_at": "expirent à"
   },
   "product_category": {
     "product_code": "code produit",
@@ -171,7 +173,8 @@
     "loginExpired": "connexion expirée",
     "redirectToLogin": "rediriger vers la connexion",
     "quantityInputRequired": "Vous devez spécifier une nouvelle quantité pour modifier la fiche palette",
-    "fillBothFields": "Veuillez remplir les deux champs"
+    "fillBothFields": "Veuillez remplir les deux champs",
+    "apiError": "une erreur s'est produite lors de la communication avec le serveur"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "ajouter une fiche palette",
@@ -188,7 +191,8 @@
     "create_sheet": "créer une fiche",
     "create_qr_code": "créer un QR Code",
     "alert_unable_to_create_qr": "impossible de créer un QR Code",
-    "alert_field_missing": "certains champs sont vides"
+    "alert_field_missing": "certains champs sont vides",
+    "expire_at": "expirent à"
   },
   "view_pallet_sheet": {
     "view_pallet_sheet": "voir les fiches palettes"

@@ -1,0 +1,233 @@
+{
+  "tabBar": {
+    "home": "Inicio",
+    "admin": "admin",
+    "settings": "ajustes",
+    "menu": "menú"
+  },
+  "admin": {
+    "tabName": "panel de administración",
+    "users": {
+      "name": "gestionar usuarios"
+    },
+    "product_category": {
+      "name": "gestionar productos"
+    },
+    "exports": {
+      "name": "Exportar a hoja de cálculo"
+    }
+  },
+  "settings": {
+    "profile": {
+      "name": "perfil",
+      "userInfo": "información de usuario",
+      "deleteUser": "eliminar usuario",
+      "userRole": {
+        "admin": "usuario administrador",
+        "user": "usuario"
+      }
+    },
+    "language": {
+      "appLanguage": "app Idioma",
+      "name": "idioma"
+    },
+    "legal": {
+      "name": "Menciones legales",
+      "termsOfService": "condiciones del servicio",
+      "license": "licencia"
+    },
+    "appearance": {
+      "name": "aparición",
+      "tintColor": "color de tinte",
+      "theme": "tema",
+      "lightTheme": "tema luminoso",
+      "darkTheme": "tema oscuro",
+      "systemDefault": "sistema por defecto",
+      "animations": "animaciones",
+      "fontSize": "tamaño de letra"
+    }
+  },
+  "user": {
+    "firstName": "Nombre de pila",
+    "lastName": "apellido",
+    "username": "nombre de usuario",
+    "email": "correo electrónico",
+    "password": "contraseña",
+    "role": "papel",
+    "addUser": "añadir usuario",
+    "roles": "papeles",
+    "unknownUser": "usuario desconocido",
+    "confirmDelete": "¿Está seguro de que desea eliminar este usuario? Las acciones creadas por este usuario no se eliminarán, sino que se atribuirán a un \"usuario desconocido\".",
+    "ROLE_USER": "usuario",
+    "ROLE_ADMIN": "admin",
+    "logout": "cierre de sesión",
+    "login": "inicio de sesión"
+  },
+  "color": {
+    "raspberry": "frambuesa",
+    "ocean": "océano",
+    "sage": "salvia",
+    "sunny": "soleado",
+    "rust": "óxido"
+  },
+  "actions": {
+    "id": "id",
+    "quantity": "cantidad",
+    "comment": "comentario",
+    "product_code": "código del producto",
+    "batch_number": "número de lote",
+    "created_by_id": "creado por",
+    "created_at": "creado en",
+    "action_id": "acción",
+    "transaction": "transacción",
+    "actionType": "Tipo de acción",
+    "newAction": "Nueva acción",
+    "newActions": "Nuevas acciones",
+    "newActionsCreated": "Nuevas acciones creadas",
+    "expireAt": "expiran en"
+  },
+  "stocks": {
+    "id": "id",
+    "product_code": "código del producto",
+    "batch_number": "número de lote",
+    "quantity": "cantidad",
+    "expire_at": "expiran en",
+    "finishedProducts": "productos acabados",
+    "rawMaterials": "materias primas",
+    "viewStocks": "ver existencias",
+    "newActions": "nuevas acciones",
+    "fresh": "fresco",
+    "frozen": "congelado",
+    "dry": "seco",
+    "packaging": "envasado",
+    "cannery": "conservera",
+    "store": "tienda",
+    "PF_G": "general",
+    "PF_M": "tienda",
+    "MP_F": "fresco",
+    "MP_S": "seco",
+    "MP_C": "congelado",
+    "EMB": "envasado"
+  },
+  "product": {
+    "confirmDelete": "¿Está seguro de que desea eliminar este producto? Las acciones creadas con este producto no se eliminarán, sino que se atribuirán a un \"producto desconocido\".",
+    "product_code": "código del producto",
+    "product_name": "nombre del producto",
+    "product_specificity": "especificidad del producto",
+    "selectStockGeneralCategory": "Seleccione una categoría general de stock",
+    "newProduct": "nuevo producto"
+  },
+  "common": {
+    "view": "ver",
+    "total": "total",
+    "open": "abra",
+    "goBack": "volver",
+    "exports": "exportaciones",
+    "user": "usuario",
+    "users": "usuarios",
+    "settings": "ajustes",
+    "delete": "borrar",
+    "edit": "editar",
+    "save": "guardar",
+    "add": "añada",
+    "substract": "reste",
+    "back": "volver",
+    "next": "siguiente",
+    "done": "hecho",
+    "close": "cerrar",
+    "history": "historia",
+    "loading": "cargando",
+    "error": "error",
+    "success": "éxito",
+    "action": "acción",
+    "actions": "acciones",
+    "date": "fecha",
+    "product": "producto",
+    "products": "productos",
+    "cancel": "cancelar",
+    "OK": "OK",
+    "sell": "vender",
+    "stock": "stock",
+    "give": "dé",
+    "discard": "descarte",
+    "product_category": "categoría de productos",
+    "submit_modifications": "presentar modificaciones"
+  },
+  "errors": {
+    "fillBothFields": "rellene ambos campos",
+    "required": "Este campo es obligatorio",
+    "invalidExpirationDate": "fecha de caducidad no válida, el formato de fecha es : dd-mm-aaaa ej : 2025-31-12",
+    "invalidQuantity": "cantidad no válida, la cantidad debe ser un número entero",
+    "invalidProductCode": "código de producto no válido, debe empezar por tres dígitos",
+    "invalidProductName": "nombre de producto no válido, debe constar de letras o números",
+    "invalidProductSpecificityPF": "debe ser una disgnación de 3 letras como máximo",
+    "invalidProductSpecificityMP": "debe ser una letra entre : F (frais), C (congelé), o S (sec)",
+    "invalidProductSpecificityEMB": "debe ser una designación entre \"Boite\" o \"Couvercle\".",
+    "invalidbatchNumber": "número de lote inválido, debe ser tres mayúsculas + 6 dígitos (ddmmyy)",
+    "apiError": "se ha producido un error en la comunicación con el servidor",
+    "loginExpired": "login expirado",
+    "redirectToLogin": "redirigir al inicio de sesión",
+    "quantityInputRequired": "Es necesario especificar una nueva cantidad para modificar la hoja de paleta"
+  },
+  "add_pallet_sheet": {
+    "add_pallet_sheet": "añadir hoja de paleta",
+    "remains_to_be_placed": "restos por colocar",
+    "select_a_product": "seleccione un producto",
+    "modify_existing_pallet_sheet": "modificar la hoja de paleta existente",
+    "product_code": "código",
+    "origin": "origen",
+    "client": "cliente",
+    "product": "producto",
+    "batch_number": "número de lote",
+    "expire_at": "expiran en",
+    "quantity": "cantidad",
+    "create_sheet": "crear hoja",
+    "create_qr_code": "Crear un código QR",
+    "alert_unable_to_create_qr": "no se puede crear un código qr",
+    "alert_field_missing": "algunos archivos están vacíos"
+  },
+  "view_pallet_sheet": {
+    "view_pallet_sheet": "ver hojas de paleta"
+  },
+  "modify_pallet_sheet": {
+    "modify_existing_pallet_sheet": "modificar la hoja de paleta existente",
+    "scan_existing_sheet": "escanear la hoja existente",
+    "delete_pallet_sheet": "borrar hoja de paleta"
+  },
+  "error_management_menu": {
+    "title": "gestión de errores",
+    "kown_errors": "errores conocidos",
+    "not_found": "no encontrado",
+    "resolve_error": "resolver error",
+    "list_actions_wrong_product": "lista de todas las acciones relativas al producto",
+    "new_quantity_after_update": "nueva cantidad tras la actualización :"
+  },
+  "I stock": "I acciones",
+  "I sell": "Vendo",
+  "I Give": "Doy",
+  "I Transfer to the shop": "Me traslado a la tienda",
+  "Select a date": "Seleccione una fecha",
+  "Current stock": "Existencias actuales",
+  "Stock as of": "Existencias a",
+  "QR Code loaded": "Código QR cargado",
+  "Toggle editing mode": "Conmutar el modo de edición",
+  "Total users": "Total de usuarios",
+  "Total actions": "Acciones totales",
+  "Total products": "total productos",
+  "Please confirm": "Por favor, confirme",
+  "Do you really want to discard the unsaved changes?": "¿Realmente quieres descartar los cambios no guardados?",
+  "Do you really want to log out ?": "¿De verdad quieres cerrar la sesión?",
+  "Scan Qr code": "Escanear código Qr",
+  "transfer to the shop": "traslado a la tienda",
+  "welcome home !": "bienvenido a casa",
+  "Finished products": "Productos acabados",
+  "Your all in one solution for:": "Su solución todo en uno para:",
+  "Real-Time Tracking": "Seguimiento en tiempo real",
+  "Error management": "Gestión de errores",
+  "Manage Errors": "Gestión de errores",
+  "manage_pallet_sheet": "gestionar hoja de paleta",
+  "Generate a new pallet sheet": "Generar una nueva hoja de paleta",
+  "Inventory Alerts": "Alertas de inventario",
+  "Get right where you left :": "Llega justo donde lo dejaste :",
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Hecho con ❤️ por Ellande & Aloys || Todos los derechos reservados"
+}

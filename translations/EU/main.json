@@ -90,7 +90,8 @@
     "newAction": "ekintza berria",
     "newActions": "ekintza berriak",
     "newActionsCreated": "ekintza berriak sortuta",
-    "expirationDate": "iraungitze data"
+    "expirationDate": "iraungitze data",
+    "expireAt": "iraungi"
   },
   "stocks": {
     "id": "id",
@@ -113,7 +114,8 @@
     "MP_F": "freskoa",
     "MP_S": "lehorra",
     "MP_C": "izoztua",
-    "EMB": "ontziratzea"
+    "EMB": "ontziratzea",
+    "expire_at": "iraungi"
   },
   "product_category": {
     "product_code": "produktu kodea",
@@ -171,7 +173,8 @@
     "loginExpired": "saioa iraungi da",
     "redirectToLogin": "saioa hasteko birbideratu",
     "quantityInputRequired": "Pale txartela aldatzeko kantitate berria zehaztu behar duzu",
-    "fillBothFields": "Mesedez, bete bi eremuak."
+    "fillBothFields": "Mesedez, bete bi eremuak.",
+    "apiError": "zerbitzariarekin komunikatzean akats bat gertatu da"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "pale txartela gehitu",
@@ -188,7 +191,8 @@
     "create_sheet": "txartela sortu",
     "create_qr_code": "QR kodea sortu",
     "alert_unable_to_create_qr": "ezin izan da QR kodea sortu",
-    "alert_field_missing": "eremu batzuk hutsik daude"
+    "alert_field_missing": "eremu batzuk hutsik daude",
+    "expire_at": "iraungi"
   },
   "view_pallet_sheet": {
     "view_pallet_sheet": "pale txartelak ikusi"

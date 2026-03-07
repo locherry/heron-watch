@@ -90,7 +90,8 @@
     "newAction": "Neue Aktion",
     "newActions": "Neue Aktionen",
     "newActionsCreated": "Neue Aktionen erstellt",
-    "expirationDate": "Verfallsdatum"
+    "expirationDate": "Verfallsdatum",
+    "expireAt": "verfallen am"
   },
   "stocks": {
     "id": "id",
@@ -113,7 +114,8 @@
     "MP_F": "frisch",
     "MP_S": "trocken",
     "MP_C": "gefroren",
-    "EMB": "Verpackung"
+    "EMB": "Verpackung",
+    "expire_at": "verfallen am"
   },
   "product_category": {
     "product_code": "Produktcode",
@@ -171,7 +173,8 @@
     "loginExpired": "Anmeldung verfallen",
     "redirectToLogin": "zur Anmeldung umleiten",
     "quantityInputRequired": "Sie müssen eine neue Menge angeben, um das Palettenblatt zu ändern",
-    "fillBothFields": "bitte beide Felder ausfüllen"
+    "fillBothFields": "bitte beide Felder ausfüllen",
+    "apiError": "bei der Kommunikation mit dem Server ist ein Fehler aufgetreten"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "Palettenblatt hinzufügen",
@@ -188,7 +191,8 @@
     "create_sheet": "Blatt erstellen",
     "create_qr_code": "QR-Code erstellen",
     "alert_unable_to_create_qr": "QR-Code nicht erstellen können",
-    "alert_field_missing": "einige Felder sind leer"
+    "alert_field_missing": "einige Felder sind leer",
+    "expire_at": "verfallen am"
   },
   "view_pallet_sheet": {
     "view_pallet_sheet": "Palettenblätter ansehen"
