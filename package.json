@@ -10,10 +10,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "translate": "node ./scripts/updateTranslation.mjs",
-    "ip_config": "node ./scripts/updateIpConfig.mjs",
-    "swagger": "npx openapi-typescript http://localhost:8000/api/docs.json --output ./lib/swagger.ts",
-    "update_api_interface": "npm run swagger"
+    "update:translations": "node ./scripts/updateTranslation.mjs",
+    "update:ip": "node ./scripts/updateIpConfig.mjs",
+    "update:openapi": "npx openapi-typescript http://localhost:8000/api/docs.json --output ./lib/swagger.ts"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",
