@@ -2,7 +2,7 @@ import { useRouter } from "expo-router"; // For navigation
 import { Eye, EyeClosed } from "lucide-react-native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { KeyboardAvoidingView } from "react-native";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
@@ -37,9 +37,10 @@ export default function LoginScreen() {
       await SecureStorage.set("userSession", {
         jwt: data.token,
         id: me.id ?? DefaultSecureStorageData.userSession.id,
-        firstName: me.first_name,
-        lastName: me.last_name,
-        email: me.email,
+        firstName:
+          me.first_name ?? DefaultSecureStorageData.userSession.firstName,
+        lastName: me.last_name ?? DefaultSecureStorageData.userSession.lastName,
+        email: me.email ?? DefaultSecureStorageData.userSession.email,
         roles: me.roles ?? DefaultSecureStorageData.userSession.roles,
       });
 
@@ -65,7 +66,10 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center p-6">
+    <KeyboardAvoidingView
+      className="flex-1 justify-center items-center"
+      behavior="padding"
+    >
       <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
         <Text className="text-2xl font-semibold mb-4 text-center">
           {capitalizeFirst(t("user.login"))}
@@ -108,6 +112,6 @@ export default function LoginScreen() {
           </Text>
         </Button>
       </Card>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
