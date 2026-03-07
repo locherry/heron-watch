@@ -47,10 +47,10 @@ export default function NewActions() {
         body: {
           actions: actions.map((a) => ({
             stock_category: stockCategory,
-            product: a.product_code,
+            product_code: a.product_code,
             batch_number: a.batch_number,
             quantity: a.quantity,
-            action_category: String(a.action_category),
+            action_category: a.action_category,
             expire_at: a.expire_at,
             comment: a.comment,
             transaction_code: a.transaction_code,

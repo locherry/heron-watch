@@ -1,16 +1,21 @@
 import { useRef, useState } from "react";
-import { Keyboard, TouchableOpacity, useWindowDimensions } from "react-native";
+import {
+    Keyboard,
+    TextInput,
+    TextInputProps,
+    TouchableOpacity,
+    useWindowDimensions,
+} from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 
-type Props<T extends { label: string; value: string }> = {
-  data: T[];
-  value: string;
-  onChangeText: (text: string) => void;
-  onSelect: (item: T) => void;
-  placeholder?: string;
-};
+type Props<T extends { label: string; value: string }> = TextInputProps &
+  React.RefAttributes<TextInput> & {
+    data: T[];
+    onSelect: (item: T) => void;
+    containerStyle?: import("react-native").ViewStyle;
+  };
 
 export function AutocompleteInput<T extends { label: string; value: string }>({
   data,
@@ -18,6 +23,10 @@ export function AutocompleteInput<T extends { label: string; value: string }>({
   onChangeText,
   onSelect,
   placeholder,
+  className,
+  placeholderClassName,
+  containerStyle,
+  ...rest
 }: Props<T>) {
   const { width } = useWindowDimensions();
   const [isFocused, setIsFocused] = useState(true);
@@ -26,7 +35,7 @@ export function AutocompleteInput<T extends { label: string; value: string }>({
   return (
     <Autocomplete
       inputContainerStyle={{ borderWidth: 0 }}
-      containerStyle={{ width: width / 5 }}
+      containerStyle={containerStyle}
       hideResults={isFocused}
       onBlur={() => {
         setTimeout(() => {
@@ -40,10 +49,16 @@ export function AutocompleteInput<T extends { label: string; value: string }>({
       }}
       onFocus={() => setIsFocused(false)}
       data={!isFocused ? data : []}
-      value={value}
+      value={value as string}
       onChangeText={onChangeText}
       renderTextInput={(props) => (
-        <Input {...props} placeholder={placeholder} />
+        <Input
+          {...props}
+          {...rest}
+          placeholder={placeholder}
+          className={className}
+          placeholderClassName={placeholderClassName}
+        />
       )}
       flatListProps={{
         style: {

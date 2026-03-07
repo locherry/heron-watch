@@ -3,6 +3,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
+import { StockRead } from "~/@types/stock";
+import { AutocompleteInput } from "~/components/AutoCompleteInput";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -40,21 +42,35 @@ export default function NewAction() {
       String(constants.actionTypes[0].value),
   );
 
-  const INPUT_FIELDS = [
-    {
-      label: capitalizeFirst(t("actions.product_code")),
-      key: "product_code" as const,
-      regex: /^\d{3}.*$/,
-      required: true,
-      errorMessage: capitalizeFirst(t("errors.invalidProductCode")),
-    },
-    {
-      label: capitalizeFirst(t("actions.batch_number")),
-      key: "batch_number" as const,
-      regex: /^[A-Z]{3}\d{6}$/,
-      required: true,
-      errorMessage: capitalizeFirst(t("errors.invalidbatchNumber")),
-    },
+  // Stock data for autocomplete
+  const { data: stockData } = useFetchQuery("/api/stock/current_stock", "get", {
+    query: { stock_category: stockCategory },
+  });
+  const stockMembers = (stockData?.member as StockRead[]) ?? [];
+
+  // Filtered autocomplete data
+  const [filteredProductCodes, setFilteredProductCodes] = React.useState<
+    StockRead[]
+  >([]);
+  const [filteredBatchNumbers, setFilteredBatchNumbers] = React.useState<
+    StockRead[]
+  >([]);
+
+  React.useEffect(() => {
+    if (stockMembers.length > 0) {
+      const seen = new Set<string>();
+      setFilteredProductCodes(
+        stockMembers.filter((s) => {
+          const code = s.product?.product_code ?? "";
+          if (seen.has(code)) return false;
+          seen.add(code);
+          return true;
+        }),
+      );
+    }
+  }, [stockData]);
+
+  const OTHER_INPUT_FIELDS = [
     {
       label: capitalizeFirst(t("actions.quantity")),
       key: "quantity" as const,
@@ -65,7 +81,7 @@ export default function NewAction() {
     {
       label: capitalizeFirst(t("actions.expireAt")),
       key: "expire_at" as const,
-      regex: /^\d{4}-(0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])$/,
+      validate: (value: string) => !isNaN(new Date(value).getTime()),
       required: true,
       errorMessage: capitalizeFirst(t("errors.invalidExpirationDate")),
     },
@@ -97,10 +113,32 @@ export default function NewAction() {
   const [errors, setErrors] = React.useState<Record<string, string>>({});
 
   const validateField = (key: string, value: string) => {
-    const field = INPUT_FIELDS.find((f) => f.key === key);
+    const allFields = [
+      {
+        key: "product_code",
+        regex: /^\d{3}.*$/,
+        required: true,
+        errorMessage: capitalizeFirst(t("errors.invalidProductCode")),
+      },
+      {
+        key: "batch_number",
+        regex: /^[A-Z]{3}\d{6}$/,
+        required: true,
+        errorMessage: capitalizeFirst(t("errors.invalidbatchNumber")),
+      },
+      ...OTHER_INPUT_FIELDS,
+    ];
+    const field = allFields.find((f) => f.key === key);
     if (!field) return "";
     if (field.required && !value) return t("errors.required");
-    if (value && !field.regex.test(value)) return field.errorMessage;
+    if (value) {
+      if ("validate" in field && !field.validate(value)) {
+        console.error("Validation failed for", key, value);
+        return field.errorMessage;
+      }
+      if ("regex" in field && !field.regex.test(value))
+        return field.errorMessage;
+    }
     return "";
   };
 
@@ -109,16 +147,67 @@ export default function NewAction() {
     setErrors((prev) => ({ ...prev, [key]: validateField(key, value) }));
   };
 
-  const isFormValid = INPUT_FIELDS.every(
-    (field) => !validateField(field.key, formData[field.key] ?? ""),
-  );
+  const isFormValid = [
+    "product_code",
+    "batch_number",
+    ...OTHER_INPUT_FIELDS.map((f) => f.key),
+  ].every((key) => !validateField(key, formData[key] ?? ""));
+
+  const handleProductCodeSelect = (item: { label: string; value: string }) => {
+    handleChange("product_code", item.value);
+    // Reset batch number and filter batches for selected product
+    handleChange("batch_number", "");
+    const batches = stockMembers.filter(
+      (s) => s.product?.product_code === item.value,
+    );
+    setFilteredBatchNumbers(batches);
+  };
+
+  const handleBatchNumberSelect = (item: { label: string; value: string }) => {
+    handleChange("batch_number", item.value);
+    // Prefill expire_at from stock data
+    const stock = stockMembers.find(
+      (s) =>
+        s.product?.product_code === formData.product_code &&
+        s.batch_number === item.value,
+    );
+    if (stock?.expire_at) {
+      handleChange("expire_at", stock.expire_at);
+    }
+  };
+
+  const handleProductCodeChange = (text: string) => {
+    handleChange("product_code", text);
+    handleChange("batch_number", "");
+    const seen = new Set<string>();
+    setFilteredProductCodes(
+      stockMembers.filter((s) => {
+        const code = s.product?.product_code ?? "";
+        if (seen.has(code) || !code.includes(text)) return false;
+        seen.add(code);
+        return true;
+      }),
+    );
+    setFilteredBatchNumbers([]);
+  };
+
+  const handleBatchNumberChange = (text: string) => {
+    handleChange("batch_number", text);
+    setFilteredBatchNumbers(
+      stockMembers.filter(
+        (s) =>
+          s.product?.product_code === formData.product_code &&
+          (s.batch_number ?? "").includes(text),
+      ),
+    );
+  };
 
   const handleSave = () => {
     const draft = {
       product_code: formData.product_code ?? "",
       batch_number: formData.batch_number ?? "",
       quantity: Number(formData.quantity),
-      expire_at: formData.expire_at ?? "",
+      expire_at: new Date(formData.expire_at ?? "").toISOString(),
       action_category: Number(actionCategoryId),
       transaction_code: formData.transaction_code || undefined,
       comment: formData.comment || undefined,
@@ -240,7 +329,49 @@ export default function NewAction() {
           <QrScannerButton onScan={onScan} />
         </Row>
 
-        {INPUT_FIELDS.map((field) => (
+        {/* Product code autocomplete */}
+        <View className="mb-2 z-20">
+          <Label>{capitalizeFirst(t("actions.product_code"))}</Label>
+          <AutocompleteInput
+            data={filteredProductCodes.map((s) => ({
+              label: s.product?.product_code ?? "",
+              value: s.product?.product_code ?? "",
+            }))}
+            value={formData.product_code ?? ""}
+            onChangeText={handleProductCodeChange}
+            onSelect={handleProductCodeSelect}
+            placeholder={t("actions.product_code")}
+          />
+          {errors.product_code ? (
+            <Text className="text-destructive text-xs mt-1">
+              {errors.product_code}
+            </Text>
+          ) : null}
+        </View>
+
+        {/* Batch number autocomplete */}
+        <View className="mb-2 z-10">
+          <Label>{capitalizeFirst(t("actions.batch_number"))}</Label>
+          <AutocompleteInput
+            className="flex-1"
+            data={filteredBatchNumbers.map((s) => ({
+              label: s.batch_number ?? "",
+              value: s.batch_number ?? "",
+            }))}
+            value={formData.batch_number ?? ""}
+            onChangeText={handleBatchNumberChange}
+            onSelect={handleBatchNumberSelect}
+            placeholder={t("actions.batch_number")}
+          />
+          {errors.batch_number ? (
+            <Text className="text-destructive text-xs mt-1">
+              {errors.batch_number}
+            </Text>
+          ) : null}
+        </View>
+
+        {/* Remaining fields */}
+        {OTHER_INPUT_FIELDS.map((field) => (
           <View key={field.key} className="mb-2">
             <Label>{field.label}</Label>
             <Input

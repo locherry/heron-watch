@@ -499,7 +499,17 @@ export interface components {
             batch_number: string;
         };
         "Action.ActionBatchInput-action.write": {
-            actions: components["schemas"]["Action-action.write"][];
+            actions: {
+                product_code: string;
+                batch_number: string;
+                stock_category: string;
+                quantity: number;
+                action_category: number;
+                /** Format: date-time */
+                expire_at?: string | null;
+                comment?: string | null;
+                transaction_code?: string | null;
+            }[];
         };
         "Action.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
