@@ -245,5 +245,14 @@
     "product_specificity": "Produktspezifität",
     "selectStockGeneralCategory": "Wählen Sie eine allgemeine Aktienkategorie",
     "newProduct": "neues Produkt"
+  },
+  "validation": {
+    "productCodeInDb": "Produktcode registriert",
+    "batchNumberInDb": "Chargennummer registriert",
+    "batchNumberNew": "neue Charge - wird beim Speichern erstellt",
+    "expireDateAutoFilled": "Das Verfallsdatum wurde automatisch aus der Datenbank übernommen.",
+    "expireDateMismatch": "das Verfallsdatum weicht vom Aktienregister ab",
+    "expireDateWillBeLinkedToNewBatchNumber": "Das Verfallsdatum wird mit der neu erstellten Chargennummer verknüpft.",
+    "productCodeNotInDb": "Produktcode nicht in der Datenbank registriert, bitte fügen Sie dieses Produkt über das entsprechende Menü hinzu"
   }
 }

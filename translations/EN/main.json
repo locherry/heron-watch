@@ -203,11 +203,13 @@
     "new_quantity_after_update": "new quantity after update :"
   },
   "validation": {
-    "productCodeInDb": "product code registered",
-    "batchNumberInDb": "batch number registered",
+    "productCodeInDb": "product code registered in database",
+    "productCodeNotInDb": "product code not registered in database, please add this product using the dedicated menu",
+    "batchNumberInDb": "batch number registered in database",
     "batchNumberNew": "new batch — will be created on save",
-    "expireDateMatchesDb": "expiration date matches stock",
-    "expireDateMismatch": "expiration date differs from stock record"
+    "expireDateAutoFilled": "expiration date was automatically filled from the database",
+    "expireDateMismatch": "expiration date differs from stock record",
+    "expireDateWillBeLinkedToNewBatchNumber": "expiration date will be linked to the newly created batch number"
   },
   "I stock": "I stock",
   "I sell": "I sell",

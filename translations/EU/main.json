@@ -245,5 +245,14 @@
     "product_specificity": "produktuaren espezifikotasuna",
     "selectStockGeneralCategory": "Hautatu akzioen kategoria orokor bat",
     "newProduct": "produktu berria"
+  },
+  "validation": {
+    "productCodeInDb": "Produktuko kodea erregistratuta",
+    "batchNumberInDb": "Lote-zenbakia erregistratuta",
+    "batchNumberNew": "multzo berria — gordetzean sortuko da",
+    "expireDateAutoFilled": "iraungitze-data automatikoki bete zen datu-basean",
+    "expireDateMismatch": "Epe-muga akzioen erregistroan agertzen denetik desberdina da",
+    "expireDateWillBeLinkedToNewBatchNumber": "Eskuketa-epea sortu berri den lote-zenbakiari lotuta egongo da.",
+    "productCodeNotInDb": "Produktuko kodea ez dago datu-basean erregistratuta, mesedez gehitu produktu hau horretarako menua erabiliz."
   }
 }

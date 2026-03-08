@@ -245,5 +245,14 @@
     "product_specificity": "spécificité du produit",
     "selectStockGeneralCategory": "Sélectionner une catégorie générale de stock",
     "newProduct": "nouveau produit"
+  },
+  "validation": {
+    "batchNumberNew": "nouveau lot - sera créé lors de l'enregistrement",
+    "expireDateAutoFilled": "la date d'expiration a été automatiquement remplie à partir de la base de données",
+    "expireDateMismatch": "la date d'expiration diffère de celle de l'enregistrement des actions",
+    "expireDateWillBeLinkedToNewBatchNumber": "la date d'expiration sera liée au numéro de lot nouvellement créé",
+    "productCodeInDb": "code produit enregistré dans la base de données",
+    "batchNumberInDb": "numéro de lot enregistré dans la base de données",
+    "productCodeNotInDb": "le code du produit n'est pas enregistré dans la base de données, veuillez ajouter ce produit en utilisant le menu dédié"
   }
 }

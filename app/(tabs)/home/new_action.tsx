@@ -215,7 +215,10 @@ export default function NewAction() {
   });
 
   const [errors, setErrors] = React.useState<FormErrors>({});
-
+  const [isExpireLocked, setIsExpireLocked] = React.useState(
+    // Lock on edit if the date came from an existing stock entry
+    !!actionToEdit?.expire_at,
+  );
   const [actionCategoryId, setActionCategoryId] = React.useState(
     actionToEdit?.action_category?.toString() ??
       String(constants.actionTypes[0].value),
@@ -242,10 +245,6 @@ export default function NewAction() {
   const isBatchNumberInDb = stockMembers.some(
     (s) => s.batch_number === formData.batch_number,
   );
-  const isDateLinkedToBatchNumber = stockMembers.some((s) => {
-    console.log(s.expire_at, formData.expire_at, new Date(s.expire_at ?? ""));
-    return new Date(s.expire_at ?? "") === formData.expire_at;
-  });
 
   /* ------------------------------ Validation ------------------------------- */
 
@@ -301,10 +300,11 @@ export default function NewAction() {
   const { onScan } = useQrScanner(patchForm);
 
   /* -------------------------- Autocomplete handlers ------------------------ */
-
   const handleProductCodeChange = (text: string) => {
     updateField("product_code", text);
     updateField("batch_number", "");
+    updateField("expire_at", null);
+    setIsExpireLocked(false);
     filterProductCodes(text);
     clearBatchNumbers();
   };
@@ -312,11 +312,14 @@ export default function NewAction() {
   const handleProductCodeSelect = (item: { value: string }) => {
     updateField("product_code", item.value);
     updateField("batch_number", "");
+    updateField("expire_at", null);
+    setIsExpireLocked(false);
     filterBatchNumbers(item.value);
   };
 
   const handleBatchNumberChange = (text: string) => {
     updateField("batch_number", text);
+    setIsExpireLocked(false);
     filterBatchNumbers(formData.product_code, text);
   };
 
@@ -329,7 +332,11 @@ export default function NewAction() {
     );
     if (stock?.expire_at) {
       const d = new Date(stock.expire_at);
-      updateField("expire_at", isNaN(d.getTime()) ? null : d);
+      const validDate = isNaN(d.getTime()) ? null : d;
+      updateField("expire_at", validDate);
+      setIsExpireLocked(validDate !== null);
+    } else {
+      setIsExpireLocked(false);
     }
   };
 
@@ -355,7 +362,7 @@ export default function NewAction() {
           transaction_code: formData.transaction_code || undefined,
           comment: formData.comment || undefined,
         });
-    router.back();
+    router.replace("/home/new_actions");
   };
 
   /* --------------------------------- JSX ----------------------------------- */
@@ -443,6 +450,11 @@ export default function NewAction() {
               type="success"
               message={capitalizeFirst(t("validation.productCodeInDb"))}
             />
+          ) : formData.product_code && !isProductCodeInDb ? (
+            <FieldFeedback
+              type="error"
+              message={capitalizeFirst(t("validation.productCodeNotInDb"))}
+            />
           ) : null}
         </View>
 
@@ -497,21 +509,23 @@ export default function NewAction() {
             value={formData.expire_at ?? undefined}
             onChange={(date) => updateField("expire_at", date)}
             placeholder={t("actions.expireAt")}
-            invalid={formData.expire_at === null}
+            disabled={isExpireLocked} // ← pass disabled prop
           />
           {errors.expire_at ? (
             <FieldFeedback type="error" message={errors.expire_at} />
-          ) : isDateLinkedToBatchNumber ? (
+          ) : isExpireLocked ? (
             <FieldFeedback
-              type="error"
-              message={t("validation.expireDateMatchesDb")}
+              type="success"
+              message={capitalizeFirst(t("validation.expireDateAutoFilled"))}
             />
-          ) : (
+          ) : !isNaN(formData.expire_at?.getTime() ?? NaN) ? (
             <FieldFeedback
-              type="error"
-              message={t("validation.expireDateMismatch")}
+              type="warning"
+              message={capitalizeFirst(
+                t("validation.expireDateWillBeLinkedToNewBatchNumber"),
+              )}
             />
-          )}
+          ) : null}
         </View>
 
         {/* ── Transaction code (optional) ───────────────────────────────── */}

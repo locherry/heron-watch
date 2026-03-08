@@ -198,7 +198,7 @@ export default function MaterialTabsExample() {
         </Link>
         <Link
           href={{
-            pathname: "/home/new_actions",
+            pathname: "/home/new_action",
             params: { stockCategory: currentStockCategory[currentStockType] },
           }}
           asChild

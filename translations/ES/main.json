@@ -229,5 +229,14 @@
   "Generate a new pallet sheet": "Generar una nueva hoja de paleta",
   "Inventory Alerts": "Alertas de inventario",
   "Get right where you left :": "Llega justo donde lo dejaste :",
-  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Hecho con ❤️ por Ellande & Aloys || Todos los derechos reservados"
+  "Made with ❤️ by Ellande & Aloys || All rights reserved": "Hecho con ❤️ por Ellande & Aloys || Todos los derechos reservados",
+  "validation": {
+    "productCodeInDb": "código de producto registrado",
+    "batchNumberInDb": "número de lote registrado",
+    "batchNumberNew": "nuevo lote - se creará al guardar",
+    "expireDateAutoFilled": "la fecha de caducidad se rellenó automáticamente a partir de la base de datos",
+    "expireDateMismatch": "la fecha de caducidad difiere del registro de acciones",
+    "expireDateWillBeLinkedToNewBatchNumber": "la fecha de caducidad se vinculará al número de lote recién creado",
+    "productCodeNotInDb": "código de producto no registrado en la base de datos, por favor añada este producto utilizando el menú dedicado"
+  }
 }
