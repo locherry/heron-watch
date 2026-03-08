@@ -1,5 +1,11 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { Flashlight, FlashlightOff, QrCode, Scan, X } from "lucide-react-native";
+import {
+  Flashlight,
+  FlashlightOff,
+  QrCode,
+  Scan,
+  X,
+} from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Modal, Platform, View } from "react-native";
 import { Button } from "~/components/ui/button";
@@ -39,9 +45,21 @@ export default function QrScannerButton({
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: Platform.OS !== "web",
           }),
-        ])
+        ]),
       ).start();
     }
+  }, [scannerOpen]);
+
+  // Close scanner on Escape key (web only)
+  useEffect(() => {
+    if (Platform.OS !== "web" || !scannerOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setScannerOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [scannerOpen]);
 
   if (!permission) {
@@ -90,7 +108,7 @@ export default function QrScannerButton({
                 style={[
                   {
                     width: "70%", // take most of the screen width
-                    maxHeight:'70%', // do not overflow on height (useful on landscape mode)
+                    maxHeight: "70%", // do not overflow on height (useful on landscape mode)
                     aspectRatio: 1, // keep square
                     transform: [{ scale: pulseAnim }],
                     alignItems: "center",
@@ -98,7 +116,8 @@ export default function QrScannerButton({
                   },
                 ]}
               >
-                <Icon as={Scan}
+                <Icon
+                  as={Scan}
                   width="100%"
                   height="100%"
                   preserveAspectRatio="xMidYMid meet"
