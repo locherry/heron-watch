@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { BaseTableProps } from "~/@types/table";
 import { constants } from "~/lib/constants";
+import { useFormatDate } from "~/lib/hooks/useFormatDate";
 import { DraftAction } from "~/lib/stores/useDraftActionsStore";
 import { capitalizeFirst } from "~/lib/utils";
 import Row from "../layout/Row";
@@ -13,6 +14,7 @@ export function DraftActionTable(
   props: Omit<BaseTableProps<DraftAction>, "columns">,
 ) {
   const [t] = useTranslation();
+  const formatDate = useFormatDate();
 
   const columns: ColumnDef<DraftAction>[] = [
     {
@@ -34,6 +36,13 @@ export function DraftActionTable(
       id: "expire_at",
       accessorKey: "expire_at",
       header: () => capitalizeFirst(t("actions.expireAt")),
+      cell: ({ getValue }) => {
+        const raw = getValue<DraftAction["expire_at"]>();
+        if (!raw) return <Text>-</Text>;
+
+        const date = new Date(raw);
+        return <Text>{formatDate(date)}</Text>;
+      },
     },
     {
       id: "action_category",

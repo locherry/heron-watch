@@ -27,6 +27,9 @@ export default function NewActions() {
     deleteAction,
     clearActions,
   } = useDraftActionsStore();
+  if (actions.length === 0) {
+    router.push("/home/new_action");
+  }
   const { mutate: createNewActions } = useFetchMutation(
     "/api/actions/batch",
     "post",

@@ -1,8 +1,9 @@
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Platform } from "react-native";
 import { StockCategory, StockSortState } from "~/@types/stock";
-import { Calendar } from "~/components/Calendar";
+import { DateInput } from "~/components/DateInput";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -80,18 +81,17 @@ export default function ViewStocks() {
       </Header>
 
       <Row className="items-center" gap={8}>
-        <Calendar
-          date={date}
-          onDateChange={(date) => setDate(date as Date)}
-          className="z-50"
-        />
         <Text>
           {isDateToday
             ? capitalizeFirst(t("Current stock"))
-            : capitalizeFirst(
-                t("Stock as of") + " : " + date?.toLocaleDateString(),
-              )}
+            : capitalizeFirst(t("Stock as of") + " : ")}
         </Text>
+        <DateInput
+          className={Platform.OS !== "web" ? "flex-1" : ""}
+          placeholder={t("Select a date")}
+          value={date}
+          onChange={(date) => setDate(date as Date)}
+        />
       </Row>
 
       <StockTable

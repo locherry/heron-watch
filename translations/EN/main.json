@@ -202,6 +202,13 @@
     "list_actions_wrong_product": "list of all actions that concerns the product",
     "new_quantity_after_update": "new quantity after update :"
   },
+  "validation": {
+    "productCodeInDb": "product code registered",
+    "batchNumberInDb": "batch number registered",
+    "batchNumberNew": "new batch — will be created on save",
+    "expireDateMatchesDb": "expiration date matches stock",
+    "expireDateMismatch": "expiration date differs from stock record"
+  },
   "I stock": "I stock",
   "I sell": "I sell",
   "I Give": "I Give",
