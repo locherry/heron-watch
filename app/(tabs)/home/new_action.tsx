@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { StockRead } from "~/@types/stock";
+import { StockCategory, StockRead } from "~/@types/stock";
 import { AutocompleteInput } from "~/components/AutoCompleteInput";
 import { DateInput } from "~/components/DateInput";
 import Header from "~/components/Header";
@@ -193,13 +193,16 @@ function FieldFeedback(props: FeedbackProps) {
 
 export default function NewAction() {
   const [t] = useTranslation();
-  const { addAction, editAction, actions, stockCategory } =
-    useDraftActionsStore();
+  const { addAction, editAction, actions } = useDraftActionsStore();
   const { editActionId } = useLocalSearchParams<{ editActionId?: string }>();
 
   const actionToEdit = editActionId
     ? actions.find((a) => a.id === Number(editActionId))
     : undefined;
+
+  const { stockCategory } = useLocalSearchParams<{
+    stockCategory?: StockCategory;
+  }>();
 
   /* --------------------------------- State --------------------------------- */
 
@@ -378,7 +381,7 @@ export default function NewAction() {
           title={capitalizeFirst(t("actions.newAction"))}
           className="justify-between"
         >
-          <Icon as={constants.stockCategoryIcon[stockCategory]} />
+          <Icon as={constants.stockCategoryIcon[stockCategory ?? "PF_G"]} />
         </Header>
 
         {/* ── Action type + QR scanner ───────────────────────────────────── */}
