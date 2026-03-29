@@ -12,7 +12,8 @@
     "lint": "expo lint",
     "update:translations": "node ./scripts/updateTranslation.mjs",
     "update:ip": "node ./scripts/updateIpConfig.mjs",
-    "update:openapi": "npx openapi-typescript http://localhost:8000/api/docs.json --output ./lib/swagger.ts"
+    "update:openapi": "npx openapi-typescript http://localhost:8000/api/docs.json --output ./lib/swagger.ts",
+    "eas:deploy": "NODE_ENV=production npx expo export --platform web && eas deploy"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",
