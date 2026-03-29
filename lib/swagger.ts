@@ -1008,7 +1008,7 @@ export interface components {
         "User-user.create_user.update_user.patch": {
             /** Format: email */
             email: string;
-            /** @description The user roles */
+            /** @description JSON-encoded list of user roles */
             roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             /**
              * @description A temporary variable, used when creating/updating a user password
@@ -1028,7 +1028,7 @@ export interface components {
         };
         "User-user.create_user.update_user.patch.jsonMergePatch": {
             email?: string;
-            /** @description The user roles */
+            /** @description JSON-encoded list of user roles */
             roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             /**
              * @description A temporary variable, used when creating/updating a user password
@@ -1050,7 +1050,7 @@ export interface components {
             readonly id?: number;
             /** Format: email */
             email?: string;
-            /** @description The user roles */
+            /** @description JSON-encoded list of user roles */
             roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name?: string;
             last_name?: string;
@@ -1072,7 +1072,7 @@ export interface components {
             readonly id?: number;
             /** Format: email */
             email?: string;
-            /** @description The user roles */
+            /** @description JSON-encoded list of user roles */
             roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name?: string;
             last_name?: string;
