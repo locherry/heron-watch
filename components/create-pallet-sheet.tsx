@@ -4,7 +4,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, View } from "react-native";
+import { ActivityIndicator, Platform, View } from "react-native";
 import QrCode from "react-native-qrcode-svg";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
 import Row from "~/components/layout/Row";
@@ -13,6 +13,7 @@ import { Button } from "~/components/ui/button";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst, cn } from "~/lib/utils";
 import { Card } from "./ui/card";
+import { Text } from "./ui/text";
 
 type PalletSheetData =
   | {
@@ -41,7 +42,10 @@ function CreatePalletSheet({
   const [isDataSet, setIsDataSet] = useState(false);
   const [emitAlert, setEmitAlert] = useState(false);
 
-  const { mutate: createNewQR } = useFetchMutation("/api/qr_codes", "post");
+  const { mutate: createNewQR, isPending } = useFetchMutation(
+    "/api/qr_codes",
+    "post",
+  );
 
   useEffect(() => {
     if (!data) {
@@ -366,7 +370,7 @@ function CreatePalletSheet({
   return (
     <View className={cn("content-center", className)}>
       <View className={cn("items-center", isDataSet ? "hidden" : "flex")}>
-        <Button
+        {/* <Button
           onPress={() => {
             if (verifyDataIsCorrect(data)) {
               setEmitAlert(false);
@@ -378,6 +382,29 @@ function CreatePalletSheet({
           }}
         >
           {capitalizeFirst(t("add_pallet_sheet.create_qr_code"))}
+        </Button> */}
+
+        <Button
+          className="flex-1"
+          onPress={() => {
+            if (verifyDataIsCorrect(data)) {
+              setEmitAlert(false);
+              setIsDataSet(true);
+              handleNewQRCreation();
+            } else {
+              setEmitAlert(true);
+            }
+          }}
+          disabled={isPending}
+        >
+          {isPending ? (
+            <>
+              <ActivityIndicator color={"#000"} />
+              <Text>{capitalizeFirst(t("common.loading"))}</Text>
+            </>
+          ) : (
+            <Text>{capitalizeFirst(t("add_pallet_sheet.create_qr_code"))}</Text>
+          )}
         </Button>
         <Alert
           icon={AlertCircle}

@@ -2,7 +2,7 @@ import { useRouter } from "expo-router"; // For navigation
 import { Eye, EyeClosed } from "lucide-react-native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView } from "react-native";
+import { ActivityIndicator, KeyboardAvoidingView } from "react-native";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
@@ -122,11 +122,14 @@ export default function LoginScreen() {
         </Row>
 
         <Button onPress={handleLogin} disabled={isPending}>
-          <Text>
-            {isPending
-              ? capitalizeFirst(t("common.loading"))
-              : capitalizeFirst(t("user.login"))}
-          </Text>
+          {isPending ? (
+            <>
+              <ActivityIndicator color={"#000"} />
+              <Text>{capitalizeFirst(t("common.loading"))}</Text>
+            </>
+          ) : (
+            <Text>{capitalizeFirst(t("user.login"))}</Text>
+          )}
         </Button>
       </Card>
     </KeyboardAvoidingView>

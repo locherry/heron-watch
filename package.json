@@ -13,7 +13,8 @@
     "update:translations": "node ./scripts/updateTranslation.mjs",
     "update:ip": "node ./scripts/updateIpConfig.mjs",
     "update:openapi": "npx openapi-typescript http://localhost:8000/api/docs.json --output ./lib/swagger.ts",
-    "eas:deploy": "NODE_ENV=production npx expo export --platform web && eas deploy"
+    "eas:deploy:preview": "NODE_ENV=production npx expo export --platform web && eas deploy",
+    "eas:deploy:prod": "NODE_ENV=production npx expo export --platform web && eas deploy --prod"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",

@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { ActivityIndicator } from "react-native";
 import Toast from "react-native-toast-message";
 import { StockCategory } from "~/@types/stock";
 import { Alert } from "~/components/alert/Alert";
@@ -12,6 +13,7 @@ import Row from "~/components/layout/Row";
 import { DraftActionTable } from "~/components/table/DraftActionTable";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
+import { Text } from "~/components/ui/text";
 import { constants } from "~/lib/constants";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useDraftActionsStore } from "~/lib/stores/useDraftActionsStore";
@@ -28,7 +30,7 @@ export default function NewActions() {
     clearActions,
   } = useDraftActionsStore();
 
-  const { mutate: createNewActions } = useFetchMutation(
+  const { mutate: createNewActions, isPending } = useFetchMutation(
     "/api/actions/batch",
     "post",
   );
@@ -139,9 +141,16 @@ export default function NewActions() {
         <Button
           className="flex-1"
           onPress={handleSave}
-          disabled={actions.length === 0}
+          disabled={actions.length === 0 || isPending}
         >
-          {capitalizeFirst(t("common.save"))}
+          {isPending ? (
+            <>
+              <ActivityIndicator color={"#000"} />
+              <Text>{capitalizeFirst(t("common.loading"))}</Text>
+            </>
+          ) : (
+            <Text>{capitalizeFirst(t("common.save"))}</Text>
+          )}
         </Button>
       </Row>
     </RootView>
