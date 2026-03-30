@@ -1,19 +1,12 @@
-import {
-  CaseSensitive,
-  Laptop,
-  LucideIcon,
-  MoonStar,
-  Sun,
-} from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserTheme } from "~/@types/user";
+import { FontSizeSelect } from "~/components/FontSizeSelect";
 import Header from "~/components/Header";
 import Column from "~/components/layout/Column";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
-import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Label } from "~/components/ui/label";
 import {
@@ -23,19 +16,12 @@ import {
   SelectItem,
   SelectTrigger,
 } from "~/components/ui/select";
-import { Switch } from "~/components/ui/switch";
 import { Text } from "~/components/ui/text";
 import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { constants } from "~/lib/constants";
 import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
-import { capitalizeFirst, cn } from "~/lib/utils";
-
-type Option = {
-  value: string;
-  label: string;
-  icon: LucideIcon;
-};
+import { capitalizeFirst } from "~/lib/utils";
 
 type SelectOption =
   | {
@@ -52,30 +38,12 @@ export default function AppearanceSettings() {
     "patch",
   );
   const { applyPreferences } = useApplyUserPreferences();
-  const [fontSizeValue, setFontSizeValue] = useState("medium");
-
-  const options: Option[] = [
-    {
-      value: "light",
-      label: capitalizeFirst(t("settings.appearance.lightTheme")),
-      icon: Sun,
-    },
-    {
-      value: "dark",
-      label: capitalizeFirst(t("settings.appearance.darkTheme")),
-      icon: MoonStar,
-    },
-    {
-      value: "system",
-      label: capitalizeFirst(t("settings.appearance.systemDefault")),
-      icon: Laptop,
-    },
-  ];
+  const [fontSizeValue, setFontSizeValue] =
+    useState<(typeof constants.fontSizeOptions)[number]["value"]>("medium");
 
   const [themeValue, setThemeValue] = React.useState<UserTheme>(
     colorScheme ?? "system",
   );
-  const [animationEnabled, setAnimationEnabled] = React.useState(true);
 
   // Load saved preferences on mount via the shared hook
   useEffect(() => {
@@ -102,30 +70,49 @@ export default function AppearanceSettings() {
     updateAppearance({ body: { preferences: { fontSize: value } } });
   };
 
-  const selectedOption = options.find((option) => option.value === themeValue);
+  const selectedOption = constants.themeOptions.find(
+    (option) => option.value === themeValue,
+  );
 
   return (
     <RootView>
       <Header title={capitalizeFirst(t("settings.appearance.name"))} />
       <Column gap={16}>
         <Row className="justify-between mb-4">
-          <Label>{capitalizeFirst(t("settings.appearance.theme"))}</Label>
+          <Label>{capitalizeFirst(t("user.preferences.theme"))}</Label>
           <Select
             onValueChange={handleThemeChange}
-            defaultValue={options.find((option) => option.value === themeValue)}
+            defaultValue={
+              selectedOption
+                ? {
+                    value: selectedOption.value,
+                    label: capitalizeFirst(
+                      t(`user.preferences.theme_${selectedOption.value}`),
+                    ),
+                  }
+                : undefined
+            }
           >
             <SelectTrigger>
               <Row gap={8}>
                 {selectedOption?.icon && <Icon as={selectedOption.icon} />}
-                <Text>{selectedOption?.label}</Text>
+                <Text>
+                  {capitalizeFirst(
+                    t(
+                      `user.preferences.theme_${selectedOption?.value ?? "system"}`,
+                    ),
+                  )}
+                </Text>
               </Row>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {options.map((option) => (
+                {constants.themeOptions.map((option) => (
                   <SelectItem
                     key={option.value}
-                    label={option.label}
+                    label={capitalizeFirst(
+                      t(`user.preferences.theme_${option.value}`),
+                    )}
                     value={option.value}
                   >
                     <Icon as={option.icon} />
@@ -137,46 +124,11 @@ export default function AppearanceSettings() {
         </Row>
 
         <Row className="justify-between">
-          <Label>{capitalizeFirst(t("settings.appearance.animations"))}</Label>
-          <Switch
-            onCheckedChange={setAnimationEnabled}
-            checked={animationEnabled}
+          <Label>{capitalizeFirst(t("user.preferences.fontSize"))}</Label>
+          <FontSizeSelect
+            fontSize={fontSizeValue}
+            onFontSizeChange={handleFontSizeChange}
           />
-        </Row>
-
-        <Row className="justify-between">
-          <Label>{capitalizeFirst(t("settings.appearance.fontSize"))}</Label>
-          <Row gap={16}>
-            {constants.fontSizeOptions.map((option) => (
-              <Column className="items-center" key={option.value}>
-                <Button
-                  variant={
-                    fontSizeValue === option.value ? "default" : "outline"
-                  }
-                  style={{
-                    height: option.size * 3 - 16,
-                    width: option.size * 3 - 16,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  onPress={() => handleFontSizeChange(option.value)}
-                >
-                  <Icon
-                    as={CaseSensitive}
-                    size={(option.size * 3 - 16) * 0.6}
-                    className={cn(
-                      fontSizeValue === option.value
-                        ? "text-background"
-                        : "text-foreground",
-                    )}
-                  />
-                </Button>
-                <Text style={{ fontSize: option.size }}>
-                  {capitalizeFirst(option.value)}
-                </Text>
-              </Column>
-            ))}
-          </Row>
         </Row>
       </Column>
     </RootView>

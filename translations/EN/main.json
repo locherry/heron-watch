@@ -37,17 +37,11 @@
       "license": "license"
     },
     "appearance": {
-      "name": "appearance",
-      "tintColor": "tint color",
-      "theme": "theme",
-      "lightTheme": "light theme",
-      "darkTheme": "dark theme",
-      "systemDefault": "system default",
-      "animations": "animations",
-      "fontSize": "font size"
+      "name": "appearance"
     }
   },
   "user": {
+    "identity": "identity",
     "firstName": "first name",
     "lastName": "last name",
     "username": "username",
@@ -61,7 +55,17 @@
     "ROLE_USER": "user",
     "ROLE_ADMIN": "admin",
     "logout": "logout",
-    "login": "login"
+    "login": "login",
+    "preferences": {
+      "preferences": "preferences",
+      "language": "language",
+      "theme": "theme",
+      "theme_light": "light theme",
+      "theme_dark": "dark theme",
+      "theme_system": "system default",
+      "animations": "animations",
+      "fontSize": "font size"
+    }
   },
   "color": {
     "raspberry": "raspberry",
@@ -156,6 +160,7 @@
   "errors": {
     "fillBothFields": "please fill both fields",
     "required": "This field is required",
+    "invalidEmail": "invalid email",
     "invalidExpirationDate": "invalid expire date, date format is : dd-mm-yyyy eg : 2025-31-12",
     "invalidQuantity": "invalid quantity, quantity sould be an integer",
     "invalidProductCode": "invalid product code, should begin with three digits",

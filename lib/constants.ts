@@ -1,7 +1,9 @@
 import {
   Factory,
   Gift,
+  Laptop,
   Leaf,
+  MoonStar,
   Package,
   Snowflake,
   Store,
@@ -36,4 +38,25 @@ export const constants = {
     { value: "medium", size: 16 },
     { value: "large", size: 18 },
   ] as const,
+  themeOptions: [
+    {
+      value: "light",
+      icon: Sun,
+    },
+    {
+      value: "dark",
+      icon: MoonStar,
+    },
+    {
+      value: "system",
+      icon: Laptop,
+    },
+  ],
+  languageOptions: [
+    { value: "EN", label: "English" },
+    { value: "EU", label: "Euskera" },
+    { value: "FR", label: "Français" },
+    { value: "DE", label: "Deutsch" },
+    { value: "ES", label: "Español" },
+  ],
 } as const;

@@ -1,4 +1,5 @@
 import { Row } from "@tanstack/react-table";
+import { Link } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -65,15 +66,16 @@ export default function App() {
   return (
     <RootView>
       <Header title={capitalizeFirst(t("common.users"))}>
-        <Button
-          className="ml-auto"
-          variant="outline"
-          icon={Plus}
-          onPress={() => console.log("Add User")}
-          disabled
-        >
-          <Text>{capitalizeFirst(t("user.addUser"))}</Text>
-        </Button>
+        <Link href={"/admin/users/new"} asChild>
+          <Button
+            className="ml-auto"
+            variant="outline"
+            icon={Plus}
+            onPress={() => console.log("Add User")}
+          >
+            <Text>{capitalizeFirst(t("user.addUser"))}</Text>
+          </Button>
+        </Link>
       </Header>
 
       <UserTable

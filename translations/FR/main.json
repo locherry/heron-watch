@@ -63,7 +63,7 @@
     "unknownUser": "utilisateur inconnu",
     "confirmDelete": "Etes-vous sûr de vouloir supprimer cet utilisateur ? Les actions créées par cet utilisateur ne seront pas supprimées mais seront attribuées à un \"utilisateur inconnu\".",
     "ROLE_USER": "utilisateur",
-    "ROLE_ADMIN": "l'administration"
+    "ROLE_ADMIN": "administrateur"
   },
   "color": {
     "raspberry": "framboise",

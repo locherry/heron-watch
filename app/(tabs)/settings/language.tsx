@@ -16,6 +16,7 @@ import {
   SecureStorage,
   SecureStorageData,
 } from "~/lib/classes/SecureStorage";
+import { constants } from "~/lib/constants";
 import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
@@ -29,16 +30,8 @@ type Option = {
 export default function LanguageSettings() {
   const [t] = useTranslation();
 
-  const LANGUAGES: Option[] = [
-    { value: "EN", label: "English" },
-    { value: "EU", label: "Euskera" },
-    { value: "FR", label: "Français" },
-    { value: "DE", label: "Deutsch" },
-    { value: "ES", label: "Español" },
-  ];
-
   const [selectedLanguage, setSelectedLanguage] = useState<
-    (typeof LANGUAGES)[number]["value"]
+    (typeof constants.languageOptions)[number]["value"]
   >(DefaultSecureStorageData["userSession"]["preferences"]["language"]);
 
   const { mutate: updateLanguage } = useFetchMutation("/api/users/me", "patch");
@@ -76,7 +69,7 @@ export default function LanguageSettings() {
     });
   };
 
-  const selectedOption = LANGUAGES.find(
+  const selectedOption = constants.languageOptions.find(
     (value) => value.value == selectedLanguage,
   );
 
@@ -96,7 +89,7 @@ export default function LanguageSettings() {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {LANGUAGES.map((option) => (
+            {constants.languageOptions.map((option) => (
               <SelectItem
                 key={option.value}
                 label={option.label}
