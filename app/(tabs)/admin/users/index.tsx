@@ -1,5 +1,5 @@
 import { Row } from "@tanstack/react-table";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Plus } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ import { capitalizeFirst } from "~/lib/utils";
 
 export default function App() {
   const [t] = useTranslation();
+  const router = useRouter();
 
   const [sorting, setSorting] = useState<UsersSortState | null>(null); // State for sorting order and criteria
   const [page, setPage] = useState(1);
@@ -87,7 +88,12 @@ export default function App() {
         totalPages={totalPages}
         onPageChange={setPage}
         editEnabled={true}
-        onEdit={(row) => console.log("Edit", row)}
+        onEdit={(row) =>
+          router.push({
+            pathname: "/admin/users/edit",
+            params: { editUserId: row.id },
+          })
+        }
         onDelete={handleDelete}
         isLoading={isLoading}
       />

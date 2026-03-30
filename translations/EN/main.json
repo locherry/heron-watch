@@ -41,12 +41,14 @@
     }
   },
   "user": {
+    "editUser": "edit user",
     "identity": "identity",
     "firstName": "first name",
     "lastName": "last name",
     "username": "username",
     "email": "email",
     "password": "password",
+    "passwordOptional": "optional password",
     "role": "role",
     "addUser": "add user",
     "roles": "roles",

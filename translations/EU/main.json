@@ -63,7 +63,20 @@
     "unknownUser": "erabiltzaile ezezaguna",
     "confirmDelete": "Ziur al zaude erabiltzaile hau ezabatu nahi duzula? Erabiltzaile honek sortutako ekintzak ez dira ezabatuko, baina 'erabiltzaile ezezagun' bati egotziko zaizkio.",
     "ROLE_USER": "erabiltzaile",
-    "ROLE_ADMIN": "administratzailea"
+    "ROLE_ADMIN": "administratzailea",
+    "editUser": "Erabiltzailea editatu",
+    "identity": "identitate",
+    "passwordOptional": "Pasahitz aukerakoa",
+    "preferences": {
+      "preferences": "Aukerak",
+      "language": "hizkuntza",
+      "theme": "gaia",
+      "theme_light": "gaien gaia",
+      "theme_dark": "gaien iluna",
+      "theme_system": "sistemaren lehenetsia",
+      "animations": "animazioak",
+      "fontSize": "Letren tamaina"
+    }
   },
   "color": {
     "raspberry": "marrubia",
@@ -174,7 +187,8 @@
     "redirectToLogin": "saioa hasteko birbideratu",
     "quantityInputRequired": "Pale txartela aldatzeko kantitate berria zehaztu behar duzu",
     "fillBothFields": "Mesedez, bete bi eremuak.",
-    "apiError": "zerbitzariarekin komunikatzean akats bat gertatu da"
+    "apiError": "zerbitzariarekin komunikatzean akats bat gertatu da",
+    "invalidEmail": "Posta elektroniko baliogabea"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "pale txartela gehitu",

@@ -63,7 +63,20 @@
     "unknownUser": "utilisateur inconnu",
     "confirmDelete": "Etes-vous sûr de vouloir supprimer cet utilisateur ? Les actions créées par cet utilisateur ne seront pas supprimées mais seront attribuées à un \"utilisateur inconnu\".",
     "ROLE_USER": "utilisateur",
-    "ROLE_ADMIN": "administrateur"
+    "ROLE_ADMIN": "administrateur",
+    "editUser": "éditer l'utilisateur",
+    "identity": "l'identité",
+    "passwordOptional": "mot de passe facultatif",
+    "preferences": {
+      "preferences": "préférences",
+      "language": "langue",
+      "theme": "thème",
+      "theme_light": "thème lumineux",
+      "theme_dark": "thème sombre",
+      "theme_system": "défaut du système",
+      "animations": "animations",
+      "fontSize": "taille de la police"
+    }
   },
   "color": {
     "raspberry": "framboise",
@@ -174,7 +187,8 @@
     "redirectToLogin": "rediriger vers la connexion",
     "quantityInputRequired": "Vous devez spécifier une nouvelle quantité pour modifier la fiche palette",
     "fillBothFields": "Veuillez remplir les deux champs",
-    "apiError": "une erreur s'est produite lors de la communication avec le serveur"
+    "apiError": "une erreur s'est produite lors de la communication avec le serveur",
+    "invalidEmail": "courriel non valide"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "ajouter une fiche palette",

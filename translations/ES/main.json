@@ -61,7 +61,20 @@
     "ROLE_USER": "usuario",
     "ROLE_ADMIN": "admin",
     "logout": "cierre de sesión",
-    "login": "inicio de sesión"
+    "login": "inicio de sesión",
+    "editUser": "editar usuario",
+    "identity": "identidad",
+    "passwordOptional": "contraseña opcional",
+    "preferences": {
+      "preferences": "preferencias",
+      "language": "idioma",
+      "theme": "tema",
+      "theme_light": "tema luminoso",
+      "theme_dark": "tema oscuro",
+      "theme_system": "sistema por defecto",
+      "animations": "animaciones",
+      "fontSize": "tamaño de letra"
+    }
   },
   "color": {
     "raspberry": "frambuesa",
@@ -167,7 +180,8 @@
     "apiError": "se ha producido un error en la comunicación con el servidor",
     "loginExpired": "login expirado",
     "redirectToLogin": "redirigir al inicio de sesión",
-    "quantityInputRequired": "Es necesario especificar una nueva cantidad para modificar la hoja de paleta"
+    "quantityInputRequired": "Es necesario especificar una nueva cantidad para modificar la hoja de paleta",
+    "invalidEmail": "correo no válido"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "añadir hoja de paleta",

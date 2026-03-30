@@ -63,7 +63,20 @@
     "unknownUser": "unbekannter Benutzer",
     "confirmDelete": "Sind Sie sicher, dass Sie diesen Benutzer löschen wollen? Die von diesem Benutzer erstellten Aktionen werden nicht gelöscht, sondern einem \"unbekannten Benutzer\" zugewiesen.",
     "ROLE_USER": "Benutzer",
-    "ROLE_ADMIN": "admin"
+    "ROLE_ADMIN": "admin",
+    "editUser": "Benutzer bearbeiten",
+    "identity": "Identität",
+    "passwordOptional": "optionales Kennwort",
+    "preferences": {
+      "preferences": "Einstellungen",
+      "language": "Sprache",
+      "theme": "Thema",
+      "theme_light": "Lichtthema",
+      "theme_dark": "dunkles Thema",
+      "theme_system": "Systemvorgabe",
+      "animations": "Animationen",
+      "fontSize": "Schriftgröße"
+    }
   },
   "color": {
     "raspberry": "Himbeere",
@@ -174,7 +187,8 @@
     "redirectToLogin": "zur Anmeldung umleiten",
     "quantityInputRequired": "Sie müssen eine neue Menge angeben, um das Palettenblatt zu ändern",
     "fillBothFields": "bitte beide Felder ausfüllen",
-    "apiError": "bei der Kommunikation mit dem Server ist ein Fehler aufgetreten"
+    "apiError": "bei der Kommunikation mit dem Server ist ein Fehler aufgetreten",
+    "invalidEmail": "ungültige E-Mail"
   },
   "add_pallet_sheet": {
     "add_pallet_sheet": "Palettenblatt hinzufügen",
