@@ -59,6 +59,7 @@ interface FormErrors {
   email?: string;
   first_name?: string;
   last_name?: string;
+  plainPassword?: string;
 }
 
 function FormField({
@@ -86,28 +87,6 @@ function SectionTitle({ children }: { children: string }) {
         {children}
       </Text>
     </View>
-  );
-}
-
-function ToggleChip<T extends string>({
-  label,
-  value,
-  selected,
-  onPress,
-}: {
-  label: string;
-  value: T;
-  selected: boolean;
-  onPress: (value: T) => void;
-}) {
-  return (
-    <Button
-      variant={selected ? "default" : "outline"}
-      size="sm"
-      onPress={() => onPress(value)}
-    >
-      <Text>{label}</Text>
-    </Button>
   );
 }
 
@@ -151,6 +130,9 @@ export default function NewUser() {
     }
     if (!form.last_name.trim()) {
       newErrors.last_name = t("errors.required");
+    }
+    if (!form.plainPassword.trim()) {
+      newErrors.plainPassword = t("errors.required");
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -242,7 +224,7 @@ export default function NewUser() {
 
           <FormField
             label={capitalizeFirst(t("user.password"))}
-            error={errors.email}
+            error={errors.plainPassword}
           >
             <Row className="mb-2">
               <Input
@@ -263,10 +245,7 @@ export default function NewUser() {
             </Row>
           </FormField>
 
-          <FormField
-            label={capitalizeFirst(t("user.role"))}
-            error={errors.email}
-          >
+          <FormField label={capitalizeFirst(t("user.role"))}>
             {/* Roles */}
             <ToggleGroup
               value={form.selectedRole}
