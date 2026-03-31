@@ -14,6 +14,7 @@ import {
 export const constants = {
   appName: "Heron Watch",
   stockCategories: ["PF_G", "PF_M", "MP_F", "MP_S", "MP_C", "EMB"],
+  stockGroups: ["PF", "MP"],
   stockCategoryIcon: {
     PF_G: Factory,
     PF_M: Store,
