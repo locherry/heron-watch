@@ -11,7 +11,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 type HeaderProps = {
   className?: string; // Optional className prop for customization
   title: string;
-  onBack?: () => void; // 👈 new optional handler
+  onBack?: () => void;
 } & ViewProps;
 
 export default function Header({

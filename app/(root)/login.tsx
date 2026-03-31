@@ -1,8 +1,9 @@
-import { useRouter } from "expo-router"; // For navigation
+import { useRouter } from "expo-router";
 import { Eye, EyeClosed } from "lucide-react-native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, KeyboardAvoidingView } from "react-native";
+import { Alert } from "~/components/alert/Alert";
 import CattailSilhouette from "~/components/CattailSilhouette";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
@@ -19,6 +20,31 @@ import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
 
+// Module-level ref so the timeout survives re-renders and can be cleared on logout
+let expirationTimer: ReturnType<typeof setTimeout> | null = null;
+
+export function clearExpirationTimer() {
+  if (expirationTimer) {
+    clearTimeout(expirationTimer);
+    expirationTimer = null;
+  }
+}
+
+function parseJwt(
+  token: string,
+): { exp: number; iat: number; roles: string[]; username: string } | null {
+  if (!token) return null;
+  const base64Url = token.split(".")[1];
+  if (!base64Url) return null;
+  // Fix: replaceAll to handle all occurrences, not just the first
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  try {
+    return JSON.parse(atob(base64)); // atob works in React Native's Hermes engine
+  } catch {
+    return null;
+  }
+}
+
 export default function LoginScreen() {
   const [t] = useTranslation();
   const [email, setEmail] = React.useState("");
@@ -27,6 +53,58 @@ export default function LoginScreen() {
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
   const { applyPreferences } = useApplyUserPreferences();
+
+  const { mutate: renewToken } = useFetchMutation(
+    "/api/token/refresh",
+    "post",
+    {
+      onSuccess: async (data) => {
+        // Retrieve current session to preserve user info
+        const current = await SecureStorage.get("userSession");
+        await SecureStorage.modify("userSession", "jwt", data.token ?? "");
+        // Schedule the next expiration warning for the new token
+        scheduleExpirationWarning(data.token ?? "");
+      },
+      onError: async () => {
+        // Refresh failed — force logout
+        clearExpirationTimer();
+        await SecureStorage.remove("userSession");
+        router.push("/login");
+      },
+    },
+  );
+
+  function scheduleExpirationWarning(token: string) {
+    clearExpirationTimer();
+
+    const payload = parseJwt(token);
+    if (!payload) return;
+
+    const expiresAt = payload.exp * 1000; // convert seconds → ms
+    const now = Date.now();
+    // Warn 60 seconds before expiration (or immediately if already close)
+    const delay = Math.max(0, expiresAt - now - 60_000);
+
+    expirationTimer = setTimeout(() => {
+      Alert.alert(t("user.sessionExpiring"), t("user.sessionExpiringMessage"), [
+        {
+          text: t("common.cancel"),
+          style: "cancel",
+          onPress: async () => {
+            clearExpirationTimer();
+            await SecureStorage.remove("userSession");
+            router.push("/login");
+          },
+        },
+        {
+          text: t("common.OK"),
+          onPress: () => {
+            renewToken({});
+          },
+        },
+      ]);
+    }, delay);
+  }
 
   const { mutate: login, isPending } = useFetchMutation("/api/login", "post", {
     onSuccess: async (data) => {
@@ -62,6 +140,9 @@ export default function LoginScreen() {
 
       await applyPreferences(preferences);
 
+      // Start the expiration countdown after storing the session
+      scheduleExpirationWarning(data.token);
+
       router.push("/home");
     },
     onError: (err) => setError(err.message),
@@ -72,15 +153,8 @@ export default function LoginScreen() {
       setError(capitalizeFirst(t("errors.fillBothFields")));
       return;
     }
-
     setError(null);
-
-    login({
-      body: {
-        username: email,
-        password,
-      },
-    });
+    login({ body: { username: email, password } });
   };
 
   return (

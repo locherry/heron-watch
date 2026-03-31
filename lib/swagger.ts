@@ -200,6 +200,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/token/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refresh JWT token
+         * @description Returns a new JWT token for the currently authenticated user.
+         */
+        post: operations["api_token_refresh"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/products": {
         parameters: {
             query?: never;
@@ -1005,11 +1025,9 @@ export interface components {
             first_name?: string;
             last_name?: string;
         };
-        "User-user.create_user.update_user.patch": {
+        "User-user.create_user.patch": {
             /** Format: email */
             email: string;
-            /** @description JSON-encoded list of user roles */
-            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             /**
              * @description A temporary variable, used when creating/updating a user password
              *     The hashing is done through an event listener (useful for both API and non API contexts)
@@ -1025,11 +1043,10 @@ export interface components {
                 /** @enum {string} */
                 fontSize?: "small" | "medium" | "large";
             };
-        };
-        "User-user.create_user.update_user.patch.jsonMergePatch": {
-            email?: string;
-            /** @description JSON-encoded list of user roles */
             roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
+        };
+        "User-user.create_user.patch.jsonMergePatch": {
+            email?: string;
             /**
              * @description A temporary variable, used when creating/updating a user password
              *     The hashing is done through an event listener (useful for both API and non API contexts)
@@ -1045,13 +1062,12 @@ export interface components {
                 /** @enum {string} */
                 fontSize?: "small" | "medium" | "large";
             };
+            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
         };
         "User-user.read": {
             readonly id?: number;
             /** Format: email */
             email?: string;
-            /** @description JSON-encoded list of user roles */
-            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name?: string;
             last_name?: string;
             preferences?: {
@@ -1062,6 +1078,7 @@ export interface components {
                 /** @enum {string} */
                 fontSize?: "small" | "medium" | "large";
             };
+            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
         };
         "User.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
@@ -1072,8 +1089,6 @@ export interface components {
             readonly id?: number;
             /** Format: email */
             email?: string;
-            /** @description JSON-encoded list of user roles */
-            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
             first_name?: string;
             last_name?: string;
             preferences?: {
@@ -1084,6 +1099,7 @@ export interface components {
                 /** @enum {string} */
                 fontSize?: "small" | "medium" | "large";
             };
+            roles?: ("ROLE_ADMIN" | "ROLE_USER")[];
         };
     };
     responses: never;
@@ -1606,6 +1622,36 @@ export interface operations {
                         readonly token: string;
                     };
                 };
+            };
+        };
+    };
+    api_token_refresh: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description New JWT token */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example eyJ0eXAiOiJKV1Q... */
+                        token?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -2248,8 +2294,8 @@ export interface operations {
         /** @description The new User resource */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["User-user.create_user.update_user.patch"];
-                "application/ld+json": components["schemas"]["User-user.create_user.update_user.patch"];
+                "application/json": components["schemas"]["User-user.create_user.patch"];
+                "application/ld+json": components["schemas"]["User-user.create_user.patch"];
             };
         };
         responses: {
@@ -2329,7 +2375,7 @@ export interface operations {
         /** @description The updated User resource */
         requestBody: {
             content: {
-                "application/merge-patch+json": components["schemas"]["User-user.create_user.update_user.patch.jsonMergePatch"];
+                "application/merge-patch+json": components["schemas"]["User-user.create_user.patch.jsonMergePatch"];
             };
         };
         responses: {
@@ -2426,8 +2472,8 @@ export interface operations {
         /** @description The updated User resource */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["User-user.create_user.update_user.patch"];
-                "application/ld+json": components["schemas"]["User-user.create_user.update_user.patch"];
+                "application/json": components["schemas"]["User-user.create_user.patch"];
+                "application/ld+json": components["schemas"]["User-user.create_user.patch"];
             };
         };
         responses: {
@@ -2521,7 +2567,7 @@ export interface operations {
         /** @description The updated User resource */
         requestBody: {
             content: {
-                "application/merge-patch+json": components["schemas"]["User-user.create_user.update_user.patch.jsonMergePatch"];
+                "application/merge-patch+json": components["schemas"]["User-user.create_user.patch.jsonMergePatch"];
             };
         };
         responses: {

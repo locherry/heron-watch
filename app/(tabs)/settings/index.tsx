@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import { Globe, LogOut, Paintbrush, Scale, User } from "lucide-react-native";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { clearExpirationTimer } from "~/app/(root)/login";
 import { Alert } from "~/components/alert/Alert";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
@@ -10,7 +11,7 @@ import { SecureStorage } from "~/lib/classes/SecureStorage";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function SettingsScreen() {
-  const [t] = useTranslation()
+  const [t] = useTranslation();
   // Handler for the logout confirmation
   const confirmLogout = () => {
     Alert.alert(t("Please confirm"), t("Do you really want to log out ?"), [
@@ -22,8 +23,8 @@ export default function SettingsScreen() {
       {
         text: t("common.OK"),
         onPress: () => {
+          clearExpirationTimer();
           SecureStorage.remove("userSession");
-          SecureStorage.remove("userPreferences");
           router.push("/login");
         },
       },
