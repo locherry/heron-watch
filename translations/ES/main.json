@@ -74,7 +74,9 @@
       "theme_system": "sistema por defecto",
       "animations": "animaciones",
       "fontSize": "tamaño de letra"
-    }
+    },
+    "sessionExpiring": "Sesión que expira",
+    "sessionExpiringMessage": "Su sesión expira en menos de un minuto. ¿Desea renovarla?"
   },
   "color": {
     "raspberry": "frambuesa",
@@ -120,7 +122,10 @@
     "MP_F": "fresco",
     "MP_S": "seco",
     "MP_C": "congelado",
-    "EMB": "envasado"
+    "EMB": "envasado",
+    "stockGroup": "grupo de acciones",
+    "PF": "productos acabados",
+    "MP": "materias primas"
   },
   "product": {
     "confirmDelete": "¿Está seguro de que desea eliminar este producto? Las acciones creadas con este producto no se eliminarán, sino que se atribuirán a un \"producto desconocido\".",
@@ -128,7 +133,9 @@
     "product_name": "nombre del producto",
     "product_specificity": "especificidad del producto",
     "selectStockGeneralCategory": "Seleccione una categoría general de stock",
-    "newProduct": "nuevo producto"
+    "newProduct": "nuevo producto",
+    "category": "categoría",
+    "information": "información"
   },
   "common": {
     "view": "ver",

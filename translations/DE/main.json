@@ -76,7 +76,9 @@
       "theme_system": "Systemvorgabe",
       "animations": "Animationen",
       "fontSize": "Schriftgröße"
-    }
+    },
+    "sessionExpiring": "Sitzung läuft ab",
+    "sessionExpiringMessage": "Ihre Sitzung läuft in weniger als einer Minute ab. Möchten Sie sie verlängern?"
   },
   "color": {
     "raspberry": "Himbeere",
@@ -128,7 +130,10 @@
     "MP_S": "trocken",
     "MP_C": "gefroren",
     "EMB": "Verpackung",
-    "expire_at": "verfallen am"
+    "expire_at": "verfallen am",
+    "stockGroup": "Bestandsgruppe",
+    "PF": "Fertigerzeugnisse",
+    "MP": "Grundstoffe"
   },
   "product_category": {
     "product_code": "Produktcode",
@@ -258,7 +263,9 @@
     "product_name": "Produktname",
     "product_specificity": "Produktspezifität",
     "selectStockGeneralCategory": "Wählen Sie eine allgemeine Aktienkategorie",
-    "newProduct": "neues Produkt"
+    "newProduct": "neues Produkt",
+    "category": "Kategorie",
+    "information": "Informationen"
   },
   "validation": {
     "productCodeInDb": "Produktcode registriert",

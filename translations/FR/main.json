@@ -76,7 +76,9 @@
       "theme_system": "défaut du système",
       "animations": "animations",
       "fontSize": "taille de la police"
-    }
+    },
+    "sessionExpiring": "Session expirant",
+    "sessionExpiringMessage": "Votre session expire dans moins d'une minute. Voulez-vous la renouveler ?"
   },
   "color": {
     "raspberry": "framboise",
@@ -128,7 +130,10 @@
     "MP_S": "sec",
     "MP_C": "congelé",
     "EMB": "emballage",
-    "expire_at": "expirent à"
+    "expire_at": "expirent à",
+    "stockGroup": "groupe de stock",
+    "PF": "produits finis",
+    "MP": "matières premières"
   },
   "product_category": {
     "product_code": "code produit",
@@ -258,7 +263,9 @@
     "product_name": "nom du produit",
     "product_specificity": "spécificité du produit",
     "selectStockGeneralCategory": "Sélectionner une catégorie générale de stock",
-    "newProduct": "nouveau produit"
+    "newProduct": "nouveau produit",
+    "category": "catégorie",
+    "information": "l'information"
   },
   "validation": {
     "batchNumberNew": "nouveau lot - sera créé lors de l'enregistrement",

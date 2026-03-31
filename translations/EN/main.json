@@ -110,6 +110,9 @@
     "packaging": "packaging",
     "cannery": "cannery",
     "store": "store",
+    "stockGroup": "stock group",
+    "PF": "finished products",
+    "MP": "raw materials",
     "PF_G": "general",
     "PF_M": "store",
     "MP_F": "fresh",
@@ -118,6 +121,8 @@
     "EMB": "packaging"
   },
   "product": {
+    "category": "category",
+    "information": "information",
     "confirmDelete": "Are you sure you want to delete this product ? The actions created with this product will not be deleted but will be attributed to an 'unknown product'",
     "product_code": "product code",
     "product_name": "product name",
