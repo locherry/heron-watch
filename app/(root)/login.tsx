@@ -3,6 +3,7 @@ import { Eye, EyeClosed } from "lucide-react-native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, KeyboardAvoidingView } from "react-native";
+import CattailSilhouette from "~/components/CattailSilhouette";
 import Row from "~/components/layout/Row";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
@@ -87,6 +88,7 @@ export default function LoginScreen() {
       className="flex-1 justify-center items-center"
       behavior="padding"
     >
+      <CattailSilhouette />
       <Card className="w-full max-w-sm p-6 shadow-lg rounded-lg">
         <Text className="text-2xl font-semibold mb-4 text-center">
           {capitalizeFirst(t("user.login"))}
