@@ -1,17 +1,23 @@
-import { router } from "expo-router"; // Navigation handling for Expo
-import { SecureStorage } from "../classes/SecureStorage"; // Our custom secure storage utility
+import { usePathname, useRouter } from "expo-router";
+import React from "react";
+import { SecureStorage } from "../classes/SecureStorage";
 
-// Checks if the user is authenticated
-export async function useAuth() {
-    // Retrieve the stored user session from secure storage
-    const userSession = await SecureStorage.get('userSession');
+export function useAuth() {
+  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(
+    null,
+  );
+  const pathname = usePathname();
+  const router = useRouter();
 
-    // If no session is stored OR if it’s the default session (id = 0), redirect to login
-    if (userSession == null || userSession?.id == 0) {
-        router.replace('/login'); // Navigate to login page without adding to history
-    }
+  React.useEffect(() => {
+    SecureStorage.get("userSession").then((session) => {
+      if (session == null || session.id == 0) {
+        router.replace(`/login?redirect=${encodeURIComponent(pathname)}`);
+      } else {
+        setIsAuthenticated(true);
+      }
+    });
+  }, []);
 
-    // Return true if there’s a valid session (id != 0), false otherwise
-    // This ensures a "default" session still counts as unauthenticated
-    return userSession?.id != 0;
+  return isAuthenticated;
 }

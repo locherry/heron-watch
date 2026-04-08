@@ -1,4 +1,4 @@
-import { router, Tabs, usePathname } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import {
   House,
@@ -7,7 +7,7 @@ import {
   Settings,
   Shield,
 } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Animated,
@@ -46,8 +46,6 @@ export default function TabLayout() {
     setCollapsed(!collapsed);
   };
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-
   const NavigationOptions = [
     {
       title: capitalizeFirst(t("tabBar.settings")),
@@ -58,22 +56,14 @@ export default function TabLayout() {
     { title: capitalizeFirst(t("tabBar.admin")), path: "admin", icon: Shield },
   ] satisfies { title: string; path: string; icon: LucideIcon }[];
 
-  // Check authentication
-  useEffect(() => {
-    const checkAuth = async () => {
-      const authStatus = await useAuth();
-      if (!authStatus) router.push("/login");
-      setIsAuthenticated(authStatus);
-    };
-    checkAuth();
-  }, []);
-
   const pathname = usePathname(); // get current path
   const pathSegment = pathname?.split("/").pop(); // get last segment
   const currentRoute = NavigationOptions.some((opt) => opt.path === pathSegment)
     ? pathSegment
     : "home"; // fallback if path invalid
 
+  // Check authentication
+  const isAuthenticated = useAuth();
   if (isAuthenticated === null) return null;
 
   return isLargeScreen ? (
@@ -86,7 +76,7 @@ export default function TabLayout() {
           marginTop: insets.top,
           width: Platform.select({
             // native: 240,
-            native:undefined,
+            native: undefined,
             web: animatedWidth,
           }),
           flexShrink: 0,
@@ -124,7 +114,7 @@ export default function TabLayout() {
           {props.state.routes.map((route, index) => {
             const focused = index === props.state.index;
             const icon = NavigationOptions.find(
-              (opt) => opt.path === route.name
+              (opt) => opt.path === route.name,
             )?.icon as LucideIcon;
 
             return (
@@ -149,7 +139,7 @@ export default function TabLayout() {
                     }`}
                   >
                     {capitalizeFirst(
-                      t(`tabBar.${route.name}` as "tabBar.settings")
+                      t(`tabBar.${route.name}` as "tabBar.settings"),
                     )}
                   </Text>
                 )}

@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Eye, EyeClosed } from "lucide-react-native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
@@ -36,16 +36,22 @@ function parseJwt(
   if (!token) return null;
   const base64Url = token.split(".")[1];
   if (!base64Url) return null;
-  // Fix: replaceAll to handle all occurrences, not just the first
+
   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   try {
-    return JSON.parse(atob(base64)); // atob works in React Native's Hermes engine
+    return JSON.parse(atob(base64));
   } catch {
     return null;
   }
 }
 
 export default function LoginScreen() {
+  const rawParams = useLocalSearchParams();
+  const redirectTo =
+    typeof rawParams.redirect === "string"
+      ? (rawParams.redirect as Parameters<typeof router.push>[0])
+      : "/home";
+
   const [t] = useTranslation();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -80,7 +86,7 @@ export default function LoginScreen() {
     const payload = parseJwt(token);
     if (!payload) return;
 
-    const expiresAt = payload.exp * 1000; // convert seconds → ms
+    const expiresAt = payload.exp * 1000; // convert seconds to ms
     const now = Date.now();
     // Warn 60 seconds before expiration (or immediately if already close)
     const delay = Math.max(0, expiresAt - now - 60_000);
@@ -143,7 +149,7 @@ export default function LoginScreen() {
       // Start the expiration countdown after storing the session
       scheduleExpirationWarning(data.token);
 
-      router.push("/home");
+      router.push(redirectTo);
     },
     onError: (err) => setError(err.message),
   });
