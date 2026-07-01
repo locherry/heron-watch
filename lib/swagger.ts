@@ -68,6 +68,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/actions/{id}/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves a Action resource.
+         * @description Retrieves a Action resource.
+         */
+        get: operations["api_actions_idhistory_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/action_categories": {
         parameters: {
             query?: never;
@@ -364,7 +384,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/stock_at_date/{date}": {
+    "/api/stock_at_date/{stock_category}/{snapshot_date}": {
         parameters: {
             query?: never;
             header?: never;
@@ -375,13 +395,9 @@ export interface paths {
          * Retrieves a StockSnapshot resource.
          * @description Retrieves a StockSnapshot resource.
          */
-        get: operations["api_stock_at_date_date_get"];
+        get: operations["api_stock_at_date_stock_category_snapshot_date_get"];
         put?: never;
-        /**
-         * Creates a StockSnapshot resource.
-         * @description Creates a StockSnapshot resource.
-         */
-        post: operations["api_stock_at_date_date_post"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -490,6 +506,15 @@ export interface components {
             expire_at?: string;
             action_category: components["schemas"]["ActionCategory-action.read"];
             transaction_code?: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            correction_of?: string | null;
+            corrected_by_user?: components["schemas"]["User-action.read"] | null;
+            /** Format: date-time */
+            corrected_at?: string | null;
+            readonly corrected?: boolean;
         };
         "Action-action.write": {
             /**
@@ -546,6 +571,15 @@ export interface components {
             expire_at?: string;
             action_category: components["schemas"]["ActionCategory.jsonld-action.read"];
             transaction_code?: string | null;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            correction_of?: string | null;
+            corrected_by_user?: components["schemas"]["User.jsonld-action.read"] | null;
+            /** Format: date-time */
+            corrected_at?: string | null;
+            readonly corrected?: boolean;
         };
         "Action.jsonld-known_error.read": components["schemas"]["HydraItemBaseSchema"] & {
             product: components["schemas"]["Product.jsonld-known_error.read"];
@@ -984,7 +1018,11 @@ export interface components {
              * @enum {string}
              */
             stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            product_code: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            product: string;
             batch_number: string;
             quantity: number;
             /** Format: date-time */
@@ -993,7 +1031,6 @@ export interface components {
             snapshot_date: string;
             /** @enum {string} */
             stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            productCode?: string;
             batchNumber?: string;
             /** Format: date-time */
             expireAt?: string;
@@ -1004,7 +1041,11 @@ export interface components {
             readonly id?: number;
             /** @enum {string} */
             stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            product_code: string;
+            /**
+             * Format: iri-reference
+             * @example https://example.com/
+             */
+            product: string;
             batch_number: string;
             quantity: number;
             /** Format: date-time */
@@ -1013,7 +1054,6 @@ export interface components {
             snapshot_date: string;
             /** @enum {string} */
             stockCategory?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
-            productCode?: string;
             batchNumber?: string;
             /** Format: date-time */
             expireAt?: string;
@@ -1248,6 +1288,41 @@ export interface operations {
         };
     };
     api_actions_id_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Action identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Action resource */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Action-action.read"];
+                    "application/ld+json": components["schemas"]["Action.jsonld-action.read"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_actions_idhistory_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -2163,16 +2238,18 @@ export interface operations {
             };
         };
     };
-    api_stock_at_date_date_get: {
+    api_stock_at_date_stock_category_snapshot_date_get: {
         parameters: {
-            query?: {
-                /** @description StockSnapshot date */
-                date?: string;
-            };
+            query?: never;
             header?: never;
             path: {
+                /**
+                 * @description StockSnapshot identifier
+                 * @example PF_G
+                 */
+                stock_category: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 /** @description StockSnapshot identifier */
-                id: string;
+                snapshot_date: string;
             };
             cookie?: never;
         };
@@ -2197,61 +2274,6 @@ export interface operations {
                     "application/ld+json": components["schemas"]["Error.jsonld"];
                     "application/problem+json": components["schemas"]["Error"];
                     "application/json": components["schemas"]["Error"];
-                };
-            };
-        };
-    };
-    api_stock_at_date_date_post: {
-        parameters: {
-            query?: {
-                /** @description StockSnapshot date */
-                date?: string;
-            };
-            header?: never;
-            path: {
-                /** @description StockSnapshot identifier */
-                id: string;
-            };
-            cookie?: never;
-        };
-        /** @description The new StockSnapshot resource */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["StockSnapshot"];
-                "application/ld+json": components["schemas"]["StockSnapshot"];
-            };
-        };
-        responses: {
-            /** @description StockSnapshot resource created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["StockSnapshot"];
-                    "application/ld+json": components["schemas"]["StockSnapshot.jsonld"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
-                };
-            };
-            /** @description An error occurred */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
-                    "application/problem+json": components["schemas"]["ConstraintViolation"];
-                    "application/json": components["schemas"]["ConstraintViolation"];
                 };
             };
         };
