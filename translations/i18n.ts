@@ -46,6 +46,9 @@ i18n
     ns: ["main"],
     defaultNS: "main",
     debug: false, // disables logging
+    interpolation: {
+      escapeValue: false, // React/React Native already escape output; this was mangling dates & slashes
+    },
   });
 
 export default i18n;
