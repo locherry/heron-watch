@@ -92,7 +92,10 @@
     "newAction": "New action",
     "newActions": "New actions",
     "newActionsCreated": "New actions created",
-    "expireAt": "expire at"
+    "expireAt": "expire at",
+    "correction_badge": "c",
+    "correction_tooltip": "this action was created by {{user}} on {{date}} to correct another action",
+    "corrected_tooltip": "this action has been corrected by another action"
   },
   "stocks": {
     "id": "id",

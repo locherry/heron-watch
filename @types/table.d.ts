@@ -28,4 +28,11 @@ export interface BaseTableProps<T> extends ViewProps {
   fixedWidth?: number;
   onPress?: (...args: any[]) => void;
   isLoading?: boolean;
+  getRowState?: (item: T) => RowState;
 }
+
+export type RowState = {
+  muted?: boolean; // greys the row out
+  disabled?: boolean; // blocks press + edit/delete
+  tooltip?: string; // shown on hover when the row needs an explanation (eg : corrected actions)
+};

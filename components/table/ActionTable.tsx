@@ -1,5 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
+import { View } from "react-native";
 import { ActionRead } from "~/@types/action";
 import { BaseTableProps } from "~/@types/table";
 import { constants } from "~/lib/constants";
@@ -8,6 +9,7 @@ import { capitalizeFirst } from "~/lib/utils";
 import Row from "../layout/Row";
 import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { BaseTable } from "./BaseTable";
 
 export function ActionTable(
@@ -15,18 +17,44 @@ export function ActionTable(
 ) {
   const [t] = useTranslation();
   const formatDate = useFormatDate();
-
   const columns: ColumnDef<ActionRead>[] = [
     {
       id: "product",
       accessorKey: "product",
       header: () => capitalizeFirst(t("actions.product_code")),
-      cell: ({ getValue }) => {
+      cell: ({ row, getValue }) => {
         const product = getValue<ActionRead["product"]>();
+        const isCorrection = !!row.original.correction_of;
+
         return (
-          <Text>
-            {product.product_code} — {product.product_name}
-          </Text>
+          <Row gap={6}>
+            <Text>
+              {product.product_code} — {product.product_name}
+            </Text>
+            {isCorrection && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <View className="rounded-full bg-amber-100 px-2 py-0.5">
+                    <Text className="text-xs text-amber-800">
+                      {capitalizeFirst(t("actions.correction_badge"))}
+                    </Text>
+                  </View>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <Text>
+                    {t("actions.correction_tooltip", {
+                      user: row.original.corrected_by_user
+                        ? `${row.original.corrected_by_user.first_name} ${row.original.corrected_by_user.last_name}`
+                        : t("user.unknownUser"),
+                      date: row.original.corrected_at
+                        ? formatDate(new Date(row.original.corrected_at))
+                        : "-",
+                    })}
+                  </Text>
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </Row>
         );
       },
     },
@@ -117,6 +145,11 @@ export function ActionTable(
       data={props.data ?? []}
       columns={columns}
       features={{ sorting: props.sorting, edition: props.editEnabled }}
+      getRowState={(item) => ({
+        muted: item.corrected === true,
+        disabled: item.corrected === true,
+        tooltip: item.corrected ? t("actions.corrected_tooltip") : undefined,
+      })}
     />
   );
 }

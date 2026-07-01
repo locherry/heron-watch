@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import { Icon } from "../ui/icon";
 import { Skeleton } from "../ui/skeleton";
 import { Text } from "../ui/text";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const SKELETON_ROW_COUNT = 10;
 
@@ -116,49 +117,76 @@ export function BaseTable<T>({
       </View>
     ));
 
-  const renderRow = ({ item, index }: { item: any; index: number }) => (
-    <Pressable
-      onPress={() => {
-        onPress(item.original.product_code, item.original.batch_number);
-      }}
-    >
-      <View
-        className={cn(
-          "flex-row",
-          index % 2 === 0 ? "bg-muted" : "bg-background",
-        )}
+  const renderRow = ({ item, index }: { item: any; index: number }) => {
+    const { muted, disabled, tooltip } =
+      props.getRowState?.(item.original) ?? {};
+
+    const rowContent = (
+      <Pressable
+        disabled={disabled}
+        onPress={() => {
+          if (disabled) return;
+          onPress(item.original.product_code, item.original.batch_number);
+        }}
       >
-        {item.getVisibleCells().map((cell: any, cellIndex: number) => (
-          <View
-            key={cell.id}
-            style={{ width: columnWidths[cellIndex] }}
-            className="p-2"
-          >
-            <Text>
-              {flexRender(cell.column.columnDef.cell, cell.getContext()) ??
-                (cell.getValue() as string | number | null)}
-            </Text>
-          </View>
-        ))}
-        {features.edition && (
-          <View className="flex-row items-center space-x-2 p-2">
-            <Button onPress={() => onEdit?.(item)} variant={"outline"}>
-              <Icon as={Pencil} />
-              <Text className="hidden lg:inline">
-                {capitalizeFirst(t("common.edit"))}
+        <View
+          className={cn(
+            "flex-row",
+            index % 2 === 0 ? "bg-muted" : "bg-background",
+            muted && "opacity-50 line-through",
+          )}
+        >
+          {item.getVisibleCells().map((cell: any, cellIndex: number) => (
+            <View
+              key={cell.id}
+              style={{ width: columnWidths[cellIndex] }}
+              className="p-2"
+            >
+              <Text>
+                {flexRender(cell.column.columnDef.cell, cell.getContext()) ??
+                  (cell.getValue() as string | number | null)}
               </Text>
-            </Button>
-            <Button onPress={() => onDelete?.(item)} variant={"outline"}>
-              <Icon className="text-[hsl(var(--destructive))]" as={X} />
-              <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
-                {capitalizeFirst(t("common.delete"))}
-              </Text>
-            </Button>
-          </View>
-        )}
-      </View>
-    </Pressable>
-  );
+            </View>
+          ))}
+          {features.edition && (
+            <View className="flex-row items-center space-x-2 p-2">
+              <Button
+                onPress={() => onEdit?.(item)}
+                variant="outline"
+                disabled={disabled}
+              >
+                <Icon as={Pencil} />
+                <Text className="hidden lg:inline">
+                  {capitalizeFirst(t("common.edit"))}
+                </Text>
+              </Button>
+              <Button
+                onPress={() => onDelete?.(item)}
+                variant="outline"
+                disabled={disabled}
+              >
+                <Icon className="text-[hsl(var(--destructive))]" as={X} />
+                <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
+                  {capitalizeFirst(t("common.delete"))}
+                </Text>
+              </Button>
+            </View>
+          )}
+        </View>
+      </Pressable>
+    );
+
+    if (!tooltip) return rowContent;
+
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{rowContent}</TooltipTrigger>
+        <TooltipContent>
+          <Text>{tooltip}</Text>
+        </TooltipContent>
+      </Tooltip>
+    );
+  };
 
   return (
     <View className={cn("flex-1", className)}>
