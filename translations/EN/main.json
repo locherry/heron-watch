@@ -95,7 +95,9 @@
     "expireAt": "expire at",
     "correction_badge": "c",
     "correction_tooltip": "this action was created by {{user}} on {{date}} to correct another action",
-    "corrected_tooltip": "this action has been corrected by another action"
+    "corrected_tooltip": "this action has been corrected by another action",
+    "actionTable": "action table",
+    "viewActions": "view actions"
   },
   "stocks": {
     "id": "id",
@@ -167,7 +169,8 @@
     "give": "give",
     "discard": "discard",
     "product_category": "product category",
-    "submit_modifications": "submit modifications"
+    "submit_modifications": "submit modifications",
+    "viewDetails": "view details"
   },
   "errors": {
     "fillBothFields": "please fill both fields",

@@ -6,10 +6,16 @@
  */
 
 import { Link } from "expo-router";
-import { Forklift, Package, Plus, ServerCrash } from "lucide-react-native";
+import {
+  ChevronRight,
+  Forklift,
+  Package,
+  Plus,
+  ServerCrash,
+} from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { ActionSortState } from "~/@types/action";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -82,17 +88,6 @@ export default function MaterialTabsExample() {
         </Link>
         <Link
           href={{
-            pathname: "/home/new_action",
-            params: { stockCategory: stockCategory },
-          }}
-          asChild
-        >
-          <Button icon={Plus} variant="outline">
-            {capitalizeFirst(t("actions.newActions"))}
-          </Button>
-        </Link>
-        <Link
-          href={{
             pathname: "/home/manage_error_menu",
             params: { stockCategory: stockCategory },
           }}
@@ -117,8 +112,34 @@ export default function MaterialTabsExample() {
 
       {/* Action History */}
       <View className="flex-1">
-        <Row className="flex-none">
-          <Text variant="h3">{capitalizeFirst(t("common.history"))}</Text>
+        <Row className="flex-none justify-between">
+          <Text variant="h3">{capitalizeFirst(t("actions.actionTable"))}</Text>
+          <Row gap={8}>
+            <Link
+              href={{
+                pathname: "/home/new_action",
+                params: { stockCategory: stockCategory },
+              }}
+              asChild
+            >
+              <Button icon={Plus} variant="outline">
+                {Platform.OS == "web" &&
+                  capitalizeFirst(t("actions.newActions"))}
+              </Button>
+            </Link>
+            <Link
+              href={{
+                pathname: "/home/view_actions",
+                params: { stockCategory: stockCategory },
+              }}
+              asChild
+            >
+              <Button icon={ChevronRight} variant="outline">
+                {Platform.OS == "web" &&
+                  capitalizeFirst(t("common.viewDetails"))}
+              </Button>
+            </Link>
+          </Row>
         </Row>
 
         <ActionTable
