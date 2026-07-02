@@ -24,16 +24,13 @@ export default function ViewStocks() {
     stockCategory: StockCategory;
   };
   const [sorting, setSorting] = useState<StockSortState | null>(null);
-  const [date, setDate] = useState<Date>(new Date());
-  const isDateToday =
-    date === undefined || date.toDateString() === new Date().toDateString();
 
   const [page, setPage] = useState(1);
 
-  // Reset page when category, date, or sorting changes
+  // Reset page when category, or sorting changes
   useEffect(() => {
     setPage(1);
-  }, [stockCategory, date, sorting]);
+  }, [stockCategory, sorting]);
 
   const { data, isLoading, isError, error } = useFetchQuery(
     "/api/actions",
