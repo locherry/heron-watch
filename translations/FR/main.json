@@ -106,7 +106,12 @@
     "newActions": "nouvelles actions",
     "newActionsCreated": "nouvelles actions créées",
     "expirationDate": "date d'expiration",
-    "expireAt": "expirent à"
+    "expireAt": "expirent à",
+    "correction_badge": "c",
+    "correction_tooltip": "Cette action a été créée par {{user}} le {{date}} afin de corriger une autre action.",
+    "corrected_tooltip": "cette action a été corrigée par une autre action",
+    "actionTable": "tableau des actions",
+    "viewActions": "Afficher les actions"
   },
   "stocks": {
     "id": "id",
@@ -176,7 +181,8 @@
     "submit_modifications": "soumettre les modifications",
     "view": "vue",
     "total": "total",
-    "substract": "soustraire"
+    "substract": "soustraire",
+    "viewDetails": "voir les détails"
   },
   "errors": {
     "required": "Ce champ est obligatoire",

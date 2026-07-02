@@ -106,7 +106,12 @@
     "newActions": "ekintza berriak",
     "newActionsCreated": "ekintza berriak sortuta",
     "expirationDate": "iraungitze data",
-    "expireAt": "iraungi"
+    "expireAt": "iraungi",
+    "correction_badge": "ze",
+    "correction_tooltip": "Ekintza hau {{user}}-ek {{date}}-an sortu zuen beste ekintza bat zuzentzeko.",
+    "corrected_tooltip": "Ekintza hau beste ekintza batek zuzendu du.",
+    "actionTable": "Ekintza-taula",
+    "viewActions": "Ekintzak ikusi"
   },
   "stocks": {
     "id": "id",
@@ -176,7 +181,8 @@
     "submit_modifications": "aldaketak bidali",
     "view": "ikusi",
     "total": "guztira",
-    "substract": "ken"
+    "substract": "ken",
+    "viewDetails": "Ikusi xehetasunak"
   },
   "errors": {
     "required": "Eremu hau derrigorrezkoa da",

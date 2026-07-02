@@ -106,7 +106,12 @@
     "newActions": "Neue Aktionen",
     "newActionsCreated": "Neue Aktionen erstellt",
     "expirationDate": "Verfallsdatum",
-    "expireAt": "verfallen am"
+    "expireAt": "verfallen am",
+    "correction_badge": "c",
+    "correction_tooltip": "Diese Aktion wurde am {{date}} von {{user}} erstellt, um eine andere Aktion zu korrigieren.",
+    "corrected_tooltip": "Diese Aktion wurde durch eine andere Aktion korrigiert.",
+    "actionTable": "Aktionsübersicht",
+    "viewActions": "Aktionen anzeigen"
   },
   "stocks": {
     "id": "id",
@@ -176,7 +181,8 @@
     "give": "geben.",
     "discard": "verwerfen",
     "product_category": "Produktkategorie",
-    "submit_modifications": "Änderungen einreichen"
+    "submit_modifications": "Änderungen einreichen",
+    "viewDetails": "Details anzeigen"
   },
   "errors": {
     "required": "Dieses Feld ist erforderlich",

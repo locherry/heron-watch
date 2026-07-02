@@ -99,7 +99,12 @@
     "newAction": "Nueva acción",
     "newActions": "Nuevas acciones",
     "newActionsCreated": "Nuevas acciones creadas",
-    "expireAt": "expiran en"
+    "expireAt": "expiran en",
+    "correction_badge": "c",
+    "correction_tooltip": "Esta acción fue creada por {{user}} el {{date}} para corregir otra acción.",
+    "corrected_tooltip": "esta acción ha sido corregida mediante otra acción",
+    "actionTable": "tabla de acciones",
+    "viewActions": "ver acciones"
   },
   "stocks": {
     "id": "id",
@@ -171,7 +176,8 @@
     "give": "dé",
     "discard": "descarte",
     "product_category": "categoría de productos",
-    "submit_modifications": "presentar modificaciones"
+    "submit_modifications": "presentar modificaciones",
+    "viewDetails": "ver detalles"
   },
   "errors": {
     "fillBothFields": "rellene ambos campos",
