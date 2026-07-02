@@ -1,17 +1,10 @@
 import { useLocalSearchParams } from "expo-router";
-import { SlidersHorizontal } from "lucide-react-native";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, Pressable } from "react-native";
 import { StockCategory, StockSortState } from "~/@types/stock";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import { ActionTable } from "~/components/table/ActionTable";
-import {
-  BottomSheetModal,
-  BottomSheetTrigger,
-  BottomSheetView,
-} from "~/components/ui/bottom-sheet";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import {
@@ -23,7 +16,7 @@ import { constants } from "~/lib/constants";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
-export default function ViewActions() {
+export default function ViewStocks() {
   const [t] = useTranslation();
 
   const rawParams = useLocalSearchParams();
@@ -34,15 +27,8 @@ export default function ViewActions() {
 
   const [page, setPage] = useState(1);
 
-  const filterSheetRef = useRef<BottomSheetModal>(null);
-  const filterSnapPoints = useMemo(() => ["40%", "70%"], []);
-
-  const handleOpenFilters = useCallback(() => {
-    filterSheetRef.current?.present();
-  }, []);
-
   // Reset page when category, or sorting changes
-  React.useEffect(() => {
+  useEffect(() => {
     setPage(1);
   }, [stockCategory, sorting]);
 
@@ -83,13 +69,6 @@ export default function ViewActions() {
             </Text>
           </TooltipContent>
         </Tooltip>
-
-        <Pressable
-          onPress={handleOpenFilters}
-          className="p-2 rounded-full active:bg-muted"
-        >
-          <Icon as={SlidersHorizontal} />
-        </Pressable>
       </Header>
 
       <ActionTable
@@ -102,24 +81,6 @@ export default function ViewActions() {
         onPageChange={setPage}
         isLoading={isLoading}
       />
-
-      <BottomSheetModal
-        ref={filterSheetRef}
-        index={0}
-        snapPoints={filterSnapPoints}
-      >
-        {Platform.OS === "web" && (
-          <BottomSheetTrigger>Hello</BottomSheetTrigger>
-        )}
-        <BottomSheetView className="flex-1 px-4 pt-2">
-          <Text className="text-lg font-semibold mb-4">
-            {capitalizeFirst(t("actions.filters"))}
-          </Text>
-          <Text className="text-muted-foreground">
-            Filter options coming soon — UI demo only.
-          </Text>
-        </BottomSheetView>
-      </BottomSheetModal>
     </RootView>
   );
 }

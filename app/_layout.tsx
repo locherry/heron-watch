@@ -21,6 +21,7 @@ import "../translations/i18n";
 /* -------------------------------------------------------------------------- */
 /*                Ignore specific deprecation warnings from dependencies      */
 /* -------------------------------------------------------------------------- */
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { LogBox } from "react-native";
 import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
 
@@ -96,19 +97,21 @@ export default function RootLayout() {
   }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
-        {/* Provide navigation theme based on current color scheme */}
-        <ThemeProvider
-          value={colorScheme == "dark" ? NAV_THEME.dark : NAV_THEME.light}
-        >
-          {/* Render the navigation stack with header hidden */}
-          <Stack screenOptions={{ headerShown: false }} />
-          {/* PortalHost allows modals, tooltips, and other portals to render above */}
-          <PortalHost />
-          {/* Portal for react-native-toast-message */}
-          <ToastProvider />
-        </ThemeProvider>
-      </QueryClientProvider>
+      <BottomSheetModalProvider>
+        <QueryClientProvider client={queryClient}>
+          {/* Provide navigation theme based on current color scheme */}
+          <ThemeProvider
+            value={colorScheme == "dark" ? NAV_THEME.dark : NAV_THEME.light}
+          >
+            {/* Render the navigation stack with header hidden */}
+            <Stack screenOptions={{ headerShown: false }} />
+            {/* PortalHost allows modals, tooltips, and other portals to render above */}
+            <PortalHost />
+            {/* Portal for react-native-toast-message */}
+            <ToastProvider />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
