@@ -24,6 +24,11 @@ import {
   SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { useDraftActionsStore } from "~/lib/stores/useDraftActionsStore";
@@ -381,7 +386,22 @@ export default function NewAction() {
           title={capitalizeFirst(t("actions.newAction"))}
           className="justify-between"
         >
-          <Icon as={constants.stockCategoryIcon[stockCategory ?? "PF_G"]} />
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost">
+                <Icon
+                  as={constants.stockCategoryIcon[stockCategory ?? "PF_G"]}
+                />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <Text>
+                {capitalizeFirst(t("stocks.finishedProducts"))}
+                {" - "}
+                {t(("stocks." + stockCategory) as "stocks.PF_G")}
+              </Text>
+            </TooltipContent>
+          </Tooltip>
         </Header>
 
         {/* ── Action type + QR scanner ───────────────────────────────────── */}

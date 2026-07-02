@@ -142,7 +142,13 @@ export function BaseTable<T>({
               style={{ width: columnWidths[cellIndex] }}
               className="p-2"
             >
-              <Text>
+              <Text
+                className={cn(
+                  "flex-row",
+                  index % 2 === 0 ? "bg-muted" : "bg-background",
+                  muted && "opacity-50 line-through",
+                )}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext()) ??
                   (cell.getValue() as string | number | null)}
               </Text>

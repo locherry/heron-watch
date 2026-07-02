@@ -8,6 +8,7 @@ import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { StockTable } from "~/components/table/StockTable";
+import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import {
@@ -68,7 +69,9 @@ export default function ViewStocks() {
       >
         <Tooltip>
           <TooltipTrigger>
-            <Icon as={constants.stockCategoryIcon[stockCategory]} />
+            <Button variant="ghost">
+              <Icon as={constants.stockCategoryIcon[stockCategory]} />
+            </Button>
           </TooltipTrigger>
           <TooltipContent>
             <Text>

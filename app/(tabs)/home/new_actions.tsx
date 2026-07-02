@@ -14,6 +14,11 @@ import { DraftActionTable } from "~/components/table/DraftActionTable";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useDraftActionsStore } from "~/lib/stores/useDraftActionsStore";
@@ -110,7 +115,20 @@ export default function NewActions() {
         title={capitalizeFirst(t("actions.newActions"))}
         className="justify-between"
       >
-        <Icon as={constants.stockCategoryIcon[stockCategory]} />
+        <Tooltip>
+          <TooltipTrigger>
+            <Button variant="ghost">
+              <Icon as={constants.stockCategoryIcon[stockCategory ?? "PF_G"]} />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <Text>
+              {capitalizeFirst(t("stocks.finishedProducts"))}
+              {" - "}
+              {t(("stocks." + stockCategory) as "stocks.PF_G")}
+            </Text>
+          </TooltipContent>
+        </Tooltip>
       </Header>
 
       <DraftActionTable

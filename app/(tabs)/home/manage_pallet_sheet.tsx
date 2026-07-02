@@ -31,7 +31,17 @@ export default function App() {
       >
         <Tooltip>
           <TooltipTrigger>
-            <Icon as={constants.stockCategoryIcon[stockCategory]} />
+            <Button variant="ghost">
+              <Button variant="ghost">
+                <Button variant="ghost">
+                  <Button variant="ghost">
+                    <Button variant="ghost">
+                      <Icon as={constants.stockCategoryIcon[stockCategory]} />
+                    </Button>
+                  </Button>
+                </Button>
+              </Button>
+            </Button>
           </TooltipTrigger>
           <TooltipContent>
             <Text>

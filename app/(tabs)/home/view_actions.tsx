@@ -2,16 +2,18 @@ import { useLocalSearchParams } from "expo-router";
 import { SlidersHorizontal } from "lucide-react-native";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, Pressable } from "react-native";
+import { Platform } from "react-native";
 import { StockCategory, StockSortState } from "~/@types/stock";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
+import Row from "~/components/layout/Row";
 import { ActionTable } from "~/components/table/ActionTable";
 import {
   BottomSheetModal,
   BottomSheetTrigger,
   BottomSheetView,
 } from "~/components/ui/bottom-sheet";
+import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
 import {
@@ -71,25 +73,26 @@ export default function ViewActions() {
         title={capitalizeFirst(t("actions.viewActions"))}
         className="justify-between"
       >
-        <Tooltip>
-          <TooltipTrigger>
-            <Icon as={constants.stockCategoryIcon[stockCategory]} />
-          </TooltipTrigger>
-          <TooltipContent>
-            <Text>
-              {capitalizeFirst(t("stocks.finishedProducts"))}
-              {" - "}
-              {t(("stocks." + stockCategory) as "stocks.PF_G")}
-            </Text>
-          </TooltipContent>
-        </Tooltip>
+        <Row gap={8}>
+          <Button variant="ghost" onPress={handleOpenFilters}>
+            <Icon as={SlidersHorizontal} />
+          </Button>
 
-        <Pressable
-          onPress={handleOpenFilters}
-          className="p-2 rounded-full active:bg-muted"
-        >
-          <Icon as={SlidersHorizontal} />
-        </Pressable>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="ghost">
+                <Icon as={constants.stockCategoryIcon[stockCategory]} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <Text>
+                {capitalizeFirst(t("stocks.finishedProducts"))}
+                {" - "}
+                {t(("stocks." + stockCategory) as "stocks.PF_G")}
+              </Text>
+            </TooltipContent>
+          </Tooltip>
+        </Row>
       </Header>
 
       <ActionTable
