@@ -32,7 +32,7 @@ interface SheetRowProps {
   classNameText?: string;
   value?: string | number;
   editable?: boolean;
-  placeholder?: string;
+  placeholder?: string | number;
   onChangeText?: (text: string) => void;
   rowNameWidth: number;
   rowsHeight: number;
@@ -69,7 +69,7 @@ function SheetRow({
         {editable ? (
           <Input
             className="font-extrabold text-[30px] text-center flex-1"
-            placeholder={placeholder}
+            placeholder={placeholder?.toString()}
             value={value?.toString()}
             onChangeText={onChangeText}
             style={[
@@ -378,7 +378,7 @@ export default function add_pallet_sheet() {
                 editable={isDataFetched}
                 label={t("add_pallet_sheet.quantity")}
                 value={quantityInput}
-                placeholder={completeData?.quantity}
+                placeholder={completeData?.quantity?.toString()}
                 onChangeText={(text) => {
                   setQuantityInput(text === "" ? undefined : text);
                 }}

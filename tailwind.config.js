@@ -1,5 +1,6 @@
 const { hairlineWidth } = require('nativewind/theme');
- 
+const { breakpoints } = require("./lib/breakpoints");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
@@ -7,6 +8,13 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      screens: {
+        xs: `${breakpoints.xs}px`,
+        sm: `${breakpoints.sm}px`,
+        md: `${breakpoints.md}px`,
+        lg: `${breakpoints.lg}px`,
+        xl: `${breakpoints.xl}px`,
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
