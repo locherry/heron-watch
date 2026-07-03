@@ -116,7 +116,7 @@ export default function ViewActions() {
         )}
         <BottomSheetView className="flex-1 px-4 pt-2">
           <Text className="text-lg font-semibold mb-4">
-            {capitalizeFirst(t("actions.filters"))}
+            {capitalizeFirst(t("common.filters"))}
           </Text>
           <Text className="text-muted-foreground">
             Filter options coming soon — UI demo only.

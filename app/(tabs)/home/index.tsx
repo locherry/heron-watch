@@ -99,7 +99,7 @@ export default function MaterialTabsExample() {
         </Link>
         <Link
           href={{
-            pathname: "/home/manage_pallet_sheet",
+            pathname: "/home/pallet_sheets",
             params: { stockCategory: stockCategory },
           }}
           asChild
@@ -117,7 +117,7 @@ export default function MaterialTabsExample() {
           <Row gap={8}>
             <Link
               href={{
-                pathname: "/home/new_action",
+                pathname: "/home/actions/new_action",
                 params: { stockCategory: stockCategory },
               }}
               asChild
@@ -129,7 +129,7 @@ export default function MaterialTabsExample() {
             </Link>
             <Link
               href={{
-                pathname: "/home/view_actions",
+                pathname: "/home/actions",
                 params: { stockCategory: stockCategory },
               }}
               asChild

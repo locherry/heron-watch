@@ -90,7 +90,7 @@ export default function NewActions() {
 
   const handleEdit = (actionToBeEdited: any) => {
     router.push({
-      pathname: "/home/new_action",
+      pathname: "/home/actions/new_action",
       params: { editActionId: actionToBeEdited.original.id },
     });
   };
@@ -143,7 +143,7 @@ export default function NewActions() {
         className="mb-4"
         variant="outline"
         icon={Plus}
-        onPress={() => router.push("/home/new_action")}
+        onPress={() => router.push("/home/actions/new_action")}
       >
         {capitalizeFirst(t("actions.newAction"))}
       </Button>

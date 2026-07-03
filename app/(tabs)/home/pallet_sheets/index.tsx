@@ -55,7 +55,7 @@ export default function App() {
       <View className="items-center justify-center gap-3">
         <Link
           href={{
-            pathname: "/home/add_pallet_sheet",
+            pathname: "/home/pallet_sheets/new",
             params: { stockCategory: stockCategory },
           }}
           asChild
@@ -66,7 +66,7 @@ export default function App() {
         </Link>
         <Link
           href={{
-            pathname: "/home/modify_pallet_sheet",
+            pathname: "/home/pallet_sheets/edit",
             params: { stockCategory: stockCategory },
           }}
           asChild
@@ -77,7 +77,7 @@ export default function App() {
         </Link>
         <Link
           href={{
-            pathname: "/home/view_pallet_sheet",
+            pathname: "/home/pallet_sheets/view",
             params: { stockCategory: stockCategory },
           }}
           asChild

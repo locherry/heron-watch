@@ -136,6 +136,7 @@
     "newProduct": "new product"
   },
   "common": {
+    "filters": "filters",
     "view": "view",
     "total": "total",
     "open": "open",

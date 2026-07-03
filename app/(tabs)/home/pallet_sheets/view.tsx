@@ -209,7 +209,7 @@ export default function App() {
                   return (
                     <Link
                       href={{
-                        pathname: "/home/modify_pallet_sheet",
+                        pathname: "/home/pallet_sheets/edit",
                         params: {
                           stockCategory,
                           alreadySetQrId: qr.id,

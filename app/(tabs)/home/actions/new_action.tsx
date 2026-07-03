@@ -370,7 +370,7 @@ export default function NewAction() {
           transaction_code: formData.transaction_code || undefined,
           comment: formData.comment || undefined,
         });
-    router.replace("/home/new_actions");
+    router.replace("/home/actions/new_actions");
   };
 
   /* --------------------------------- JSX ----------------------------------- */
