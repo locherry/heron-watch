@@ -10,11 +10,10 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  FlatList,
   LayoutChangeEvent,
   Pressable,
   ScrollView,
-  View,
+  View
 } from "react-native";
 import { BaseTableProps } from "~/@types/table";
 import { useColumnWidths } from "~/lib/hooks/useColumnWiths";
@@ -221,29 +220,12 @@ export function BaseTable<T>({
     );
   };
 
-  const tableContent = (
-    <View
-      style={
-        containerWidth != null
-          ? { width: Math.max(rowWidth, containerWidth) }
-          : undefined
-      }
-    >
-      {renderHeader()}
-
-      {isLoading ? (
-        renderSkeletonRows()
-      ) : (
-        <FlatList
-          data={tableInstance.getRowModel().rows}
-          keyExtractor={(row) => row.id}
-          renderItem={renderRow}
-          onEndReached={!isPaginated ? fetchNextPage : undefined}
-          onEndReachedThreshold={0.5}
-        />
-      )}
-    </View>
-  );
+  const renderRows = () =>
+    tableInstance
+      .getRowModel()
+      .rows.map((row) => (
+        <View key={row.id}>{renderRow({ item: row, index: row.index })}</View>
+      ));
 
   return (
     <View className={cn("flex-1", className)} onLayout={handleContainerLayout}>
@@ -257,17 +239,7 @@ export function BaseTable<T>({
         >
           {renderHeader()}
 
-          {isLoading ? (
-            renderSkeletonRows()
-          ) : (
-            <FlatList
-              data={tableInstance.getRowModel().rows}
-              keyExtractor={(row) => row.id}
-              renderItem={renderRow}
-              onEndReached={!isPaginated ? fetchNextPage : undefined}
-              onEndReachedThreshold={0.5}
-            />
-          )}
+          {isLoading ? renderSkeletonRows() : renderRows()}
         </View>
       </ScrollView>
 
