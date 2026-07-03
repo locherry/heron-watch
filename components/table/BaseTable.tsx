@@ -7,9 +7,15 @@ import {
   Pencil,
   X,
 } from "lucide-react-native";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, Pressable, ScrollView, View } from "react-native";
+import {
+  FlatList,
+  LayoutChangeEvent,
+  Pressable,
+  ScrollView,
+  View,
+} from "react-native";
 import { BaseTableProps } from "~/@types/table";
 import { useColumnWidths } from "~/lib/hooks/useColumnWiths";
 import { useTableLogic } from "~/lib/hooks/useTableLogic";
@@ -21,6 +27,7 @@ import { Text } from "../ui/text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const SKELETON_ROW_COUNT = 10;
+const MIN_COLUMN_WIDTH = 140;
 
 export function BaseTable<T>({
   data,
@@ -31,7 +38,6 @@ export function BaseTable<T>({
   onDelete,
   onEdit,
   features = { sorting: false, edition: false },
-  fixedWidth,
   onPress = () => {},
   page,
   totalPages,
@@ -47,13 +53,28 @@ export function BaseTable<T>({
     ...props,
   });
 
-  let columnWidths = useColumnWidths({ columns });
-  if (fixedWidth) {
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
+  const intrinsicColumnWidths = useColumnWidths({ columns });
+
+  const handleContainerLayout = (e: LayoutChangeEvent) => {
+    const width = e.nativeEvent.layout.width;
+    setContainerWidth((prev) =>
+      prev !== null && Math.abs(prev - width) < 1 ? prev : width,
+    );
+  };
+
+  const columnWidths = (() => {
+    if (containerWidth == null) return intrinsicColumnWidths;
     const count = columns.length;
-    columnWidths = Array(count)
+    const evenWidth = containerWidth / count;
+    return Array(count)
       .fill(0)
-      .map(() => Math.max(140, fixedWidth / count));
-  }
+      .map(() => Math.max(MIN_COLUMN_WIDTH, evenWidth));
+  })();
+
+  const rowWidth = columnWidths.reduce((sum, w) => sum + w, 0);
+  const needsHorizontalScroll =
+    containerWidth != null && rowWidth > containerWidth + 1;
 
   const knownTotalPages = useRef(totalPages ?? 1);
 
@@ -201,9 +222,18 @@ export function BaseTable<T>({
   };
 
   return (
-    <View className={cn("flex-1", className)}>
-      <ScrollView horizontal>
-        <View>
+    <View className={cn("flex-1", className)} onLayout={handleContainerLayout}>
+      <ScrollView
+        horizontal={needsHorizontalScroll}
+        scrollEnabled={needsHorizontalScroll}
+      >
+        <View
+          style={
+            containerWidth != null
+              ? { width: Math.max(rowWidth, containerWidth) }
+              : undefined
+          }
+        >
           {renderHeader()}
 
           {isLoading ? (
