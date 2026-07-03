@@ -97,21 +97,21 @@ export default function RootLayout() {
   }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <QueryClientProvider client={queryClient}>
-          {/* Provide navigation theme based on current color scheme */}
-          <ThemeProvider
-            value={colorScheme == "dark" ? NAV_THEME.dark : NAV_THEME.light}
-          >
+      <QueryClientProvider client={queryClient}>
+        {/* Provide navigation theme based on current color scheme */}
+        <ThemeProvider
+          value={colorScheme == "dark" ? NAV_THEME.dark : NAV_THEME.light}
+        >
+          <BottomSheetModalProvider>
             {/* Render the navigation stack with header hidden */}
             <Stack screenOptions={{ headerShown: false }} />
-            {/* PortalHost allows modals, tooltips, and other portals to render above */}
-            <PortalHost />
             {/* Portal for react-native-toast-message */}
             <ToastProvider />
-          </ThemeProvider>
-        </QueryClientProvider>
-      </BottomSheetModalProvider>
+          </BottomSheetModalProvider>
+          {/* PortalHost allows modals, tooltips, and other portals to render above */}
+          <PortalHost />
+        </ThemeProvider>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 }

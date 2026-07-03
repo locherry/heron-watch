@@ -1,18 +1,12 @@
 import { useLocalSearchParams } from "expo-router";
-import { SlidersHorizontal } from "lucide-react-native";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform } from "react-native";
 import { StockCategory, StockSortState } from "~/@types/stock";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
 import { ActionTable } from "~/components/table/ActionTable";
-import {
-  BottomSheetModal,
-  BottomSheetTrigger,
-  BottomSheetView,
-} from "~/components/ui/bottom-sheet";
+import { TableFilter, TableFilterValue } from "~/components/table/TableFilter";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Text } from "~/components/ui/text";
@@ -33,15 +27,7 @@ export default function ViewActions() {
     stockCategory: StockCategory;
   };
   const [sorting, setSorting] = useState<StockSortState | null>(null);
-
   const [page, setPage] = useState(1);
-
-  const filterSheetRef = useRef<BottomSheetModal>(null);
-  const filterSnapPoints = useMemo(() => ["40%", "70%"], []);
-
-  const handleOpenFilters = useCallback(() => {
-    filterSheetRef.current?.present();
-  }, []);
 
   // Reset page when category, or sorting changes
   React.useEffect(() => {
@@ -67,6 +53,22 @@ export default function ViewActions() {
     console.error(error.message);
   }
 
+  const sortOptions = [
+    { label: capitalizeFirst(t("actions.created_at")), value: "created_at" },
+    { label: capitalizeFirst(t("actions.quantity")), value: "quantity" },
+    { label: capitalizeFirst(t("actions.product_code")), value: "product" },
+  ];
+
+  const handleApplyFilters = (value: TableFilterValue) => {
+    // TODO: wire into sorting / query params once backend filtering is ready
+    console.log("filters applied", value);
+  };
+
+  const handleResetFilters = () => {
+    // TODO: clear applied filters
+    console.log("filters reset");
+  };
+
   return (
     <RootView disableInsets={{ left: true }}>
       <Header
@@ -74,9 +76,11 @@ export default function ViewActions() {
         className="justify-between"
       >
         <Row gap={8}>
-          <Button variant="ghost" onPress={handleOpenFilters}>
-            <Icon as={SlidersHorizontal} />
-          </Button>
+          <TableFilter
+            sortOptions={sortOptions}
+            onApply={handleApplyFilters}
+            onReset={handleResetFilters}
+          />
 
           <Tooltip>
             <TooltipTrigger>
@@ -105,24 +109,6 @@ export default function ViewActions() {
         onPageChange={setPage}
         isLoading={isLoading}
       />
-
-      <BottomSheetModal
-        ref={filterSheetRef}
-        index={0}
-        snapPoints={filterSnapPoints}
-      >
-        {Platform.OS === "web" && (
-          <BottomSheetTrigger>Hello</BottomSheetTrigger>
-        )}
-        <BottomSheetView className="flex-1 px-4 pt-2">
-          <Text className="text-lg font-semibold mb-4">
-            {capitalizeFirst(t("common.filters"))}
-          </Text>
-          <Text className="text-muted-foreground">
-            Filter options coming soon — UI demo only.
-          </Text>
-        </BottomSheetView>
-      </BottomSheetModal>
     </RootView>
   );
 }

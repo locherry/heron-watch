@@ -41,7 +41,7 @@ const BottomSheetView = forwardRef<
 
         {showHandle && <Drawer.Handle className="mt-2" />}
 
-        {children}
+        <div className="flex-1 min-h-0 overflow-y-auto">{children}</div>
       </Drawer.Content>
     </Drawer.Portal>
   ),

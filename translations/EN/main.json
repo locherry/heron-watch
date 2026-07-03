@@ -136,6 +136,10 @@
     "newProduct": "new product"
   },
   "common": {
+    "sortBy": "sort by",
+    "selectOption": "select an option",
+    "apply": "apply",
+    "reset": "reset",
     "filters": "filters",
     "view": "view",
     "total": "total",
@@ -161,6 +165,9 @@
     "action": "action",
     "actions": "actions",
     "date": "date",
+    "creationDate": "creation date",
+    "startDate": "start date",
+    "endDate": "end date",
     "product": "product",
     "products": "products",
     "cancel": "cancel",
