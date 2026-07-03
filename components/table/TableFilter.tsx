@@ -1,4 +1,3 @@
-// ~/components/table/TableFilter.tsx
 import { SlidersHorizontal } from "lucide-react-native";
 import {
   forwardRef,

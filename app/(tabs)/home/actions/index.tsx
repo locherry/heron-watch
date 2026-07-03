@@ -1,7 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StockCategory, StockSortState } from "~/@types/stock";
+import { ActionSortState } from "~/@types/action";
+import { StockCategory } from "~/@types/stock";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -26,7 +27,10 @@ export default function ViewActions() {
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory: StockCategory;
   };
-  const [sorting, setSorting] = useState<StockSortState | null>(null);
+  const [sorting, setSorting] = useState<ActionSortState | null>({
+    order_by: "created_at",
+    sort: "desc",
+  });
   const [page, setPage] = useState(1);
 
   // Reset page when category, or sorting changes
