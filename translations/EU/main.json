@@ -182,7 +182,15 @@
     "view": "ikusi",
     "total": "guztira",
     "substract": "ken",
-    "viewDetails": "Ikusi xehetasunak"
+    "viewDetails": "Ikusi xehetasunak",
+    "sortBy": "Sortatu",
+    "selectOption": "Aukeratu aukera bat",
+    "apply": "aplikatu",
+    "reset": "berrezarri",
+    "filters": "iragazkiak",
+    "creationDate": "Sorkuntza-data",
+    "startDate": "Hasiera data",
+    "endDate": "amaiera data"
   },
   "errors": {
     "required": "Eremu hau derrigorrezkoa da",
@@ -281,5 +289,7 @@
     "expireDateMismatch": "Epe-muga akzioen erregistroan agertzen denetik desberdina da",
     "expireDateWillBeLinkedToNewBatchNumber": "Eskuketa-epea sortu berri den lote-zenbakiari lotuta egongo da.",
     "productCodeNotInDb": "Produktuko kodea ez dago datu-basean erregistratuta, mesedez gehitu produktu hau horretarako menua erabiliz."
-  }
+  },
+  "manage_pallet_sheets": "Paleta-orriak kudeatu",
+  "pallet_sheets": "paleteko xaflak"
 }

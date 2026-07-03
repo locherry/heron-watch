@@ -182,7 +182,15 @@
     "discard": "verwerfen",
     "product_category": "Produktkategorie",
     "submit_modifications": "Änderungen einreichen",
-    "viewDetails": "Details anzeigen"
+    "viewDetails": "Details anzeigen",
+    "sortBy": "Sortieren nach",
+    "selectOption": "Wählen Sie eine Option aus",
+    "apply": "anwenden",
+    "reset": "Zurücksetzen",
+    "filters": "Filter",
+    "creationDate": "Erstellungsdatum",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum"
   },
   "errors": {
     "required": "Dieses Feld ist erforderlich",
@@ -281,5 +289,7 @@
     "expireDateMismatch": "das Verfallsdatum weicht vom Aktienregister ab",
     "expireDateWillBeLinkedToNewBatchNumber": "Das Verfallsdatum wird mit der neu erstellten Chargennummer verknüpft.",
     "productCodeNotInDb": "Produktcode nicht in der Datenbank registriert, bitte fügen Sie dieses Produkt über das entsprechende Menü hinzu"
-  }
+  },
+  "manage_pallet_sheets": "Palettenlisten verwalten",
+  "pallet_sheets": "Palettenplatten"
 }

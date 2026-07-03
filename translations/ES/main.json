@@ -177,7 +177,15 @@
     "discard": "descarte",
     "product_category": "categoría de productos",
     "submit_modifications": "presentar modificaciones",
-    "viewDetails": "ver detalles"
+    "viewDetails": "ver detalles",
+    "sortBy": "ordenar por",
+    "selectOption": "Selecciona una opción",
+    "apply": "aplicar",
+    "reset": "restablecer",
+    "filters": "filtros",
+    "creationDate": "fecha de creación",
+    "startDate": "fecha de inicio",
+    "endDate": "fecha de finalización"
   },
   "errors": {
     "fillBothFields": "rellene ambos campos",
@@ -265,5 +273,7 @@
     "expireDateMismatch": "la fecha de caducidad difiere del registro de acciones",
     "expireDateWillBeLinkedToNewBatchNumber": "la fecha de caducidad se vinculará al número de lote recién creado",
     "productCodeNotInDb": "código de producto no registrado en la base de datos, por favor añada este producto utilizando el menú dedicado"
-  }
+  },
+  "manage_pallet_sheets": "gestionar las hojas de palés",
+  "pallet_sheets": "láminas para palés"
 }

@@ -182,7 +182,15 @@
     "view": "vue",
     "total": "total",
     "substract": "soustraire",
-    "viewDetails": "voir les détails"
+    "viewDetails": "voir les détails",
+    "sortBy": "trier par",
+    "selectOption": "choisissez une option",
+    "apply": "appliquer",
+    "reset": "réinitialiser",
+    "filters": "filtres",
+    "creationDate": "date de création",
+    "startDate": "date de début",
+    "endDate": "date de fin"
   },
   "errors": {
     "required": "Ce champ est obligatoire",
@@ -281,5 +289,7 @@
     "productCodeInDb": "code produit enregistré dans la base de données",
     "batchNumberInDb": "numéro de lot enregistré dans la base de données",
     "productCodeNotInDb": "le code du produit n'est pas enregistré dans la base de données, veuillez ajouter ce produit en utilisant le menu dédié"
-  }
+  },
+  "manage_pallet_sheets": "gérer les fiches de palettes",
+  "pallet_sheets": "plaques de palette"
 }
