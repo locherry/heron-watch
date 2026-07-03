@@ -314,7 +314,9 @@ export default function NewUser() {
               onValueChange={(v) => setPreference("language", v?.value as "EN")}
             >
               <SelectTrigger>
-                <SelectValue placeholder="" />
+                <SelectValue
+                  placeholder={capitalizeFirst(t("common.selectOption"))}
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>

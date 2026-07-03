@@ -11,18 +11,18 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import {
-    ToggleGroup,
-    ToggleGroupIcon,
-    ToggleGroupItem,
+  ToggleGroup,
+  ToggleGroupIcon,
+  ToggleGroupItem,
 } from "~/components/ui/toggle-group";
 import { constants } from "~/lib/constants";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
@@ -334,7 +334,9 @@ export default function EditUser() {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="" />
+                  <SelectValue
+                    placeholder={capitalizeFirst(t("common.selectOption"))}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>

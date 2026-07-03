@@ -85,7 +85,9 @@ export default function LanguageSettings() {
         }
       >
         <SelectTrigger>
-          <SelectValue placeholder="" />
+          <SelectValue
+            placeholder={capitalizeFirst(t("common.selectOption"))}
+          />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
