@@ -251,7 +251,7 @@
   "Your all in one solution for:": "Su solución todo en uno para:",
   "Real-Time Tracking": "Seguimiento en tiempo real",
   "Error management": "Gestión de errores",
-  "Manage Errors": "Gestión de errores",
+  "manage_errors": "Gestión de errores",
   "manage_pallet_sheet": "gestionar hoja de paleta",
   "Generate a new pallet sheet": "Generar una nueva hoja de paleta",
   "Inventory Alerts": "Alertas de inventario",

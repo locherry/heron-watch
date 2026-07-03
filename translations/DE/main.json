@@ -245,7 +245,7 @@
   "Your all in one solution for:": "Ihre All-in-One-Lösung für:",
   "Real-Time Tracking": "Verfolgung in Echtzeit",
   "Error management": "Fehlermanagement",
-  "Manage Errors": "Fehler verwalten",
+  "manage_errors": "Fehler verwalten",
   "manage_pallet_sheet": "Palettenbogen verwalten",
   "Generate a new pallet sheet": "Erzeugen eines neuen Palettenbogens",
   "Inventory Alerts": "Inventar-Warnungen",

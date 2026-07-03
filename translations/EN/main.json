@@ -254,7 +254,7 @@
   "Your all in one solution for:": "Your all in one solution for:",
   "Real-Time Tracking": "Real-Time Tracking",
   "Error management": "Error management",
-  "Manage Errors": "Manage Errors",
+  "manage_errors": "manage_errors",
   "manage_pallet_sheet": "manage pallet sheet",
   "Generate a new pallet sheet": "Generate a new pallet sheet",
   "Inventory Alerts": "Inventory Alerts",

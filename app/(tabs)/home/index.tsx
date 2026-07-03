@@ -94,7 +94,7 @@ export default function MaterialTabsExample() {
           asChild
         >
           <Button icon={ServerCrash} variant="outline">
-            {t("Manage Errors")}
+            {capitalizeFirst(t("manage_errors"))}
           </Button>
         </Link>
         <Link

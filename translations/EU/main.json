@@ -242,7 +242,7 @@
   "Your all in one solution for:": "Zure soluzio osoa honetarako:",
   "Real-Time Tracking": "Denbora errealeko jarraipena",
   "Error management": "Errore kudeaketa",
-  "Manage Errors": "Erroreak kudeatu",
+  "manage_errors": "Erroreak kudeatu",
   "manage_pallet_sheet": "pale txartelak kudeatu",
   "Generate a new pallet sheet": "Pale txartel berria sortu",
   "Inventory Alerts": "Inbentario alertak",
