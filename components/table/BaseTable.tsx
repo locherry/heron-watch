@@ -7,7 +7,7 @@ import {
   Pencil,
   X,
 } from "lucide-react-native";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, ScrollView, View } from "react-native";
 import { BaseTableProps } from "~/@types/table";
@@ -56,10 +56,16 @@ export function BaseTable<T>({
   }
 
   const knownTotalPages = useRef(totalPages ?? 1);
-  if ((totalPages ?? 1) > knownTotalPages.current) {
-    knownTotalPages.current = totalPages ?? 1;
-  }
-  const stableTotalPages = knownTotalPages.current;
+
+  useEffect(() => {
+    if (!isLoading) {
+      knownTotalPages.current = totalPages ?? 1;
+    }
+  }, [totalPages, isLoading]);
+
+  const stableTotalPages = isLoading
+    ? knownTotalPages.current
+    : (totalPages ?? 1);
 
   const isPaginated =
     page !== undefined &&
