@@ -221,12 +221,33 @@ export function BaseTable<T>({
     );
   };
 
+  const tableContent = (
+    <View
+      style={
+        containerWidth != null
+          ? { width: Math.max(rowWidth, containerWidth) }
+          : undefined
+      }
+    >
+      {renderHeader()}
+
+      {isLoading ? (
+        renderSkeletonRows()
+      ) : (
+        <FlatList
+          data={tableInstance.getRowModel().rows}
+          keyExtractor={(row) => row.id}
+          renderItem={renderRow}
+          onEndReached={!isPaginated ? fetchNextPage : undefined}
+          onEndReachedThreshold={0.5}
+        />
+      )}
+    </View>
+  );
+
   return (
     <View className={cn("flex-1", className)} onLayout={handleContainerLayout}>
-      <ScrollView
-        horizontal={needsHorizontalScroll}
-        scrollEnabled={needsHorizontalScroll}
-      >
+      <ScrollView horizontal={needsHorizontalScroll}>
         <View
           style={
             containerWidth != null
