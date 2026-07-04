@@ -20,6 +20,8 @@ type DateInputProps = {
   className?: string;
   disabled?: boolean;
   invalid?: boolean;
+  disableMobileCalendar?: boolean;
+  disableWebCalendar?: boolean;
 };
 
 // DD/MM/YYYY — swap this + parse/format helpers if you need locale-aware input
@@ -57,6 +59,8 @@ export function DateInput({
   className,
   disabled = false,
   invalid = false,
+  disableMobileCalendar = false,
+  disableWebCalendar = false,
 }: DateInputProps) {
   const [t, i18n] = useTranslation();
   const locale = i18n.language.toLowerCase();
@@ -147,7 +151,7 @@ export function DateInput({
 
       {/* Icon overlaid on top of the Input, not nested inside it */}
       <Pressable
-        disabled={disabled}
+        disabled={disabled || disableWebCalendar}
         onPress={openCalendar}
         hitSlop={8}
         style={{
@@ -167,7 +171,7 @@ export function DateInput({
         </Text>
       )}
 
-      {calendarOpen && (
+      {calendarOpen && !disableWebCalendar && (
         <Portal name="portalHost">
           <Pressable
             onPress={() => setCalendarOpen(false)}

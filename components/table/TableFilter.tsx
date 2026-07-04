@@ -124,6 +124,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
                     value={startDate}
                     onChange={setStartDate}
                     placeholder="dd/mm/yyyy"
+                    disableWebCalendar={true} // Disable the web calendar to avoid issues with the popover in the bottom sheet
                   />
                 </Column>
                 <Column gap={4} className="flex-1">
@@ -132,6 +133,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
                     value={endDate}
                     onChange={setEndDate}
                     placeholder="dd/mm/yyyy"
+                    disableWebCalendar={true} // Disable the web calendar to avoid issues with the popover in the bottom sheet
                   />
                 </Column>
               </Row>

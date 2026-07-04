@@ -14,6 +14,8 @@ type DateInputProps = {
   className?: string;
   disabled?: boolean;
   invalid?: boolean;
+  disableMobileCalendar?: boolean;
+  disableWebCalendar?: boolean;
 };
 
 export function DateInput({
@@ -23,6 +25,8 @@ export function DateInput({
   className,
   disabled = false,
   invalid = false,
+  disableMobileCalendar = false,
+  disableWebCalendar = false,
 }: DateInputProps) {
   const formatDate = useFormatDate();
   const [pickerOpen, setPickerOpen] = React.useState(false);
@@ -51,7 +55,7 @@ export function DateInput({
         <Icon as={Calendar1} className="text-muted-foreground" size={16} />
       </Pressable>
 
-      {pickerOpen && (
+      {pickerOpen && !disableMobileCalendar && (
         <DateTimePicker
           mode="date"
           value={value ?? new Date()}
