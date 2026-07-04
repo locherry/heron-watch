@@ -15,7 +15,6 @@ import {
 } from "~/components/ui/bottom-sheet";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
-import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import {
   Select,
@@ -27,6 +26,7 @@ import {
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { capitalizeFirst } from "~/lib/utils";
+import { DateInput } from "../DateInput";
 
 export type SortOption = {
   label: string;
@@ -34,8 +34,8 @@ export type SortOption = {
 };
 
 export type TableFilterValue = {
-  startDate?: string;
-  endDate?: string;
+  startDate?: Date;
+  endDate?: Date;
   sortBy?: string;
 };
 
@@ -68,8 +68,12 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
     const sheetRef = useRef<BottomSheetModal>(null);
     const snapPoints = useMemo(() => ["40%", "70%"], []);
 
-    const [startDate, setStartDate] = useState(defaultValue?.startDate ?? "");
-    const [endDate, setEndDate] = useState(defaultValue?.endDate ?? "");
+    const [startDate, setStartDate] = useState<Date | undefined>(
+      defaultValue?.startDate,
+    );
+    const [endDate, setEndDate] = useState<Date | undefined>(
+      defaultValue?.endDate,
+    );
     const [sortBy, setSortBy] = useState<string | undefined>(
       defaultValue?.sortBy,
     );
@@ -83,16 +87,16 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
 
     const handleApply = () => {
       onApply?.({
-        startDate: startDate || undefined,
-        endDate: endDate || undefined,
+        startDate,
+        endDate,
         sortBy,
       });
       sheetRef.current?.dismiss();
     };
 
     const handleReset = () => {
-      setStartDate("");
-      setEndDate("");
+      setStartDate(undefined);
+      setEndDate(undefined);
       setSortBy(undefined);
       onReset?.();
     };
@@ -116,24 +120,24 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
               <Row gap={8}>
                 <Column gap={4} className="flex-1">
                   <Label>{capitalizeFirst(t("common.startDate"))}</Label>
-                  <Input
+                  <DateInput
                     value={startDate}
-                    onChangeText={setStartDate}
-                    placeholder="YYYY-MM-DD"
+                    onChange={setStartDate}
+                    placeholder="dd/mm/yyyy"
                   />
                 </Column>
                 <Column gap={4} className="flex-1">
                   <Label>{capitalizeFirst(t("common.endDate"))}</Label>
-                  <Input
+                  <DateInput
                     value={endDate}
-                    onChangeText={setEndDate}
-                    placeholder="YYYY-MM-DD"
+                    onChange={setEndDate}
+                    placeholder="dd/mm/yyyy"
                   />
                 </Column>
               </Row>
             </Column>
 
-            <Column gap={4}>
+            <Column gap={4} className="mt-2">
               <Label>{capitalizeFirst(t("common.sortBy"))}</Label>
               <Select
                 value={
@@ -165,7 +169,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
               </Select>
             </Column>
 
-            <Row gap={8} className="mt-auto pb-4">
+            <Row gap={8} className="mt-2 pb-4">
               <Button
                 variant="outline"
                 className="flex-1"
