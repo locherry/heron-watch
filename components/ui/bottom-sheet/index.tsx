@@ -4,7 +4,9 @@ import BottomSheet, {
   BottomSheetModal as BSModal,
   BottomSheetScrollView as BSScrollView,
   BottomSheetView as BSView,
+  BottomSheetBackdrop,
   BottomSheetModalProvider,
+  type BottomSheetBackdropProps,
   type BottomSheetBackgroundProps,
   type BottomSheetHandleProps,
 } from "@gorhom/bottom-sheet";
@@ -15,8 +17,6 @@ import { BSHandleProps, BottomSheetProps, BottomSheetViewProps } from "./types";
 
 const BottomSheetTrigger = Fragment;
 
-// ---- default mobile styling, hidden from call sites ----
-
 const DefaultBackground: React.FC<BottomSheetBackgroundProps> = ({ style }) => (
   <View pointerEvents="none" style={style} className="bg-background" />
 );
@@ -25,6 +25,17 @@ const DefaultHandle: React.FC<BottomSheetHandleProps> = () => (
   <View className="bg-background items-center justify-center py-3.5 rounded-t-2xl border-t border-border">
     <View className="w-10 h-1 rounded-full bg-foreground/20" />
   </View>
+);
+
+// Dims the app behind the sheet.
+const DefaultBackdrop: React.FC<BottomSheetBackdropProps> = (props) => (
+  <BottomSheetBackdrop
+    {...props}
+    appearsOnIndex={0}
+    disappearsOnIndex={-1}
+    opacity={0.5}
+    pressBehavior="close"
+  />
 );
 
 const shadowStyles = StyleSheet.create({
@@ -54,6 +65,7 @@ const BottomSheetModal = forwardRef<
       style,
       backgroundComponent,
       handleComponent,
+      backdropComponent,
       ...rest
     }: BottomSheetProps,
     ref,
@@ -67,6 +79,7 @@ const BottomSheetModal = forwardRef<
         style={style ?? (isDark ? shadowStyles.dark : shadowStyles.light)}
         backgroundComponent={backgroundComponent ?? DefaultBackground}
         handleComponent={handleComponent ?? DefaultHandle}
+        backdropComponent={backdropComponent ?? DefaultBackdrop}
         {...rest}
       >
         {children}
