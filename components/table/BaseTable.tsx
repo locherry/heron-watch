@@ -9,12 +9,7 @@ import {
 } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  LayoutChangeEvent,
-  Pressable,
-  ScrollView,
-  View
-} from "react-native";
+import { LayoutChangeEvent, Pressable, ScrollView, View } from "react-native";
 import { BaseTableProps } from "~/@types/table";
 import { useColumnWidths } from "~/lib/hooks/useColumnWiths";
 import { useTableLogic } from "~/lib/hooks/useTableLogic";
@@ -229,18 +224,20 @@ export function BaseTable<T>({
 
   return (
     <View className={cn("flex-1", className)} onLayout={handleContainerLayout}>
-      <ScrollView horizontal={needsHorizontalScroll}>
-        <View
-          style={
-            containerWidth != null
-              ? { width: Math.max(rowWidth, containerWidth) }
-              : undefined
-          }
-        >
-          {renderHeader()}
+      <ScrollView className="flex-1">
+        <ScrollView horizontal={needsHorizontalScroll}>
+          <View
+            style={
+              containerWidth != null
+                ? { width: Math.max(rowWidth, containerWidth) }
+                : undefined
+            }
+          >
+            {renderHeader()}
 
-          {isLoading ? renderSkeletonRows() : renderRows()}
-        </View>
+            {isLoading ? renderSkeletonRows() : renderRows()}
+          </View>
+        </ScrollView>
       </ScrollView>
 
       {totalRow && (
