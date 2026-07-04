@@ -464,7 +464,7 @@ export default function NewAction() {
             value={formData.product_code}
             onChangeText={handleProductCodeChange}
             onSelect={handleProductCodeSelect}
-            placeholder={t("actions.product_code")}
+            placeholder={capitalizeFirst(t("actions.product_code"))}
           />
           {errors.product_code ? (
             <FieldFeedback type="error" message={errors.product_code} />
@@ -492,7 +492,7 @@ export default function NewAction() {
             value={formData.batch_number}
             onChangeText={handleBatchNumberChange}
             onSelect={handleBatchNumberSelect}
-            placeholder={t("actions.batch_number")}
+            placeholder={capitalizeFirst(t("actions.batch_number"))}
           />
           {errors.batch_number ? (
             <FieldFeedback type="error" message={errors.batch_number} />
@@ -513,6 +513,7 @@ export default function NewAction() {
         <View className="mb-2">
           <Label>{capitalizeFirst(t("actions.quantity"))}</Label>
           <Input
+            placeholder={capitalizeFirst(t("actions.quantity"))}
             className={errors.quantity ? "border-destructive" : ""}
             value={formData.quantity}
             onChangeText={(text) => updateField("quantity", text)}
@@ -531,7 +532,7 @@ export default function NewAction() {
           <DateInput
             value={formData.expire_at ?? undefined}
             onChange={(date) => updateField("expire_at", date)}
-            placeholder={t("actions.expireAt")}
+            placeholder={capitalizeFirst(t("actions.expireAt"))}
             disabled={isExpireLocked} // ← pass disabled prop
           />
           {errors.expire_at ? (
