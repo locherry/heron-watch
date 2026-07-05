@@ -26,12 +26,12 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { constants } from "~/lib/constants";
+import { useBreakpoint } from "~/lib/hooks/useBreakpoint";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
-import { capitalizeFirst } from "~/lib/utils";
+import { capitalizeFirst, cn } from "~/lib/utils";
 import { AutocompleteInput } from "../AutoCompleteInput";
 import { DateInput } from "../DateInput";
 
@@ -131,6 +131,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
     ref,
   ) => {
     const [t] = useTranslation();
+    const { isSmallWidth } = useBreakpoint();
 
     const sheetRef = useRef<BottomSheetModal>(null);
     const snapPoints = useMemo(() => ["40%", "70%"], []);
@@ -238,7 +239,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
       defaultValue?.productCode ||
       defaultValue?.batchNumber
     );
-
+    const Wrapper = isSmallWidth ? Column : Row;
     return (
       <>
         {showTriggerButton && (
@@ -283,42 +284,8 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
                 </Column>
               </Row>
             </Column>
-
-            {/* ── Sort by ───────────────────────────────────── */}
-            <Column gap={4} className="mt-2">
-              <Label>{capitalizeFirst(t("common.sortBy"))}</Label>
-              <Select
-                value={
-                  selectedSortOption
-                    ? {
-                        label: selectedSortOption.label,
-                        value: selectedSortOption.value,
-                      }
-                    : undefined
-                }
-                onValueChange={(v) => setSortBy(v?.value)}
-              >
-                <SelectTrigger>
-                  <SelectValue
-                    placeholder={capitalizeFirst(t("common.selectOption"))}
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {sortOptions.map((option) => (
-                      <SelectItem
-                        key={option.value}
-                        label={option.label}
-                        value={option.value}
-                      />
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </Column>
-
             {/* ── Action type ───────────────────────────────────── */}
-            <Column gap={4}>
+            <Column gap={4} className={cn("flex-1", !isSmallWidth && "w-1/2")}>
               <Label>{capitalizeFirst(t("actions.actionType"))}</Label>
               <Select
                 value={selectedActionType}
@@ -327,6 +294,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
                     option?.value ? String(option.value) : undefined,
                   )
                 }
+                className="flex-1"
               >
                 <SelectTrigger className="w-full">
                   <Row gap={8}>
@@ -365,36 +333,38 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
                 </SelectContent>
               </Select>
             </Column>
+            {/* ── Product code / Batch Number ──────────────────────────────────────────────── */}
+            <Wrapper gap={8} className="mt-2">
+              {/* ── Product code ──────────────────────────────────────────────── */}
+              <View className="z-20 flex-1">
+                <Label>{capitalizeFirst(t("actions.product_code"))}</Label>
+                <AutocompleteInput
+                  data={filteredProductCodes.map((s) => ({
+                    label: s.product?.product_code ?? "",
+                    value: s.product?.product_code ?? "",
+                  }))}
+                  value={productCode}
+                  onChangeText={handleProductCodeChange}
+                  onSelect={handleProductCodeSelect}
+                  placeholder={capitalizeFirst(t("actions.product_code"))}
+                />
+              </View>
 
-            {/* ── Product code ──────────────────────────────────────────────── */}
-            <View className="z-20">
-              <Label>{capitalizeFirst(t("actions.product_code"))}</Label>
-              <AutocompleteInput
-                data={filteredProductCodes.map((s) => ({
-                  label: s.product?.product_code ?? "",
-                  value: s.product?.product_code ?? "",
-                }))}
-                value={productCode}
-                onChangeText={handleProductCodeChange}
-                onSelect={handleProductCodeSelect}
-                placeholder={capitalizeFirst(t("actions.product_code"))}
-              />
-            </View>
-
-            {/* ── Batch number ──────────────────────────────────────────────── */}
-            <View className="z-10">
-              <Label>{capitalizeFirst(t("actions.batch_number"))}</Label>
-              <AutocompleteInput
-                data={filteredBatchNumbers.map((s) => ({
-                  label: s.batch_number ?? "",
-                  value: s.batch_number ?? "",
-                }))}
-                value={batchNumber}
-                onChangeText={handleBatchNumberChange}
-                onSelect={handleBatchNumberSelect}
-                placeholder={capitalizeFirst(t("actions.batch_number"))}
-              />
-            </View>
+              {/* ── Batch number ──────────────────────────────────────────────── */}
+              <View className="z-10 flex-1">
+                <Label>{capitalizeFirst(t("actions.batch_number"))}</Label>
+                <AutocompleteInput
+                  data={filteredBatchNumbers.map((s) => ({
+                    label: s.batch_number ?? "",
+                    value: s.batch_number ?? "",
+                  }))}
+                  value={batchNumber}
+                  onChangeText={handleBatchNumberChange}
+                  onSelect={handleBatchNumberSelect}
+                  placeholder={capitalizeFirst(t("actions.batch_number"))}
+                />
+              </View>
+            </Wrapper>
 
             {/* ── Reset/Apply buttons ─────────────────────────────────────── */}
             <Row gap={8} className="mt-2 pb-4">

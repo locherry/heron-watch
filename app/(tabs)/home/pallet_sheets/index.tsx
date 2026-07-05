@@ -3,11 +3,11 @@ import { Plus } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  FlatList,
-  LayoutChangeEvent,
-  Pressable,
-  useWindowDimensions,
-  View,
+    FlatList,
+    LayoutChangeEvent,
+    Pressable,
+    useWindowDimensions,
+    View,
 } from "react-native";
 import { StockCategory } from "~/@types/stock";
 import { AutocompleteInput } from "~/components/AutoCompleteInput";
@@ -21,12 +21,12 @@ import { Label } from "~/components/ui/label";
 import { PalletCard } from "~/components/ui/pallet-card";
 import { Text } from "~/components/ui/text";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
-import { useBreakpoint } from "~/lib/hooks/useBreakPoint";
+import { useBreakpoint } from "~/lib/hooks/useBreakpoint";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
