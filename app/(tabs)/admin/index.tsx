@@ -1,4 +1,4 @@
-import { Apple, Table2, User } from "lucide-react-native";
+import { Apple, User } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import RootView from "~/components/layout/RootView";
 import SettingsEntry from "~/components/SettingsEntry";
@@ -19,11 +19,6 @@ export default function App() {
         href={"/admin/products"}
         icon={Apple}
         title={capitalizeFirst(t("admin.product_category.name"))}
-      />
-      <SettingsEntry
-        href={"/admin/exports"}
-        icon={Table2}
-        title={capitalizeFirst(t("admin.exports.name"))}
       />
     </RootView>
   );

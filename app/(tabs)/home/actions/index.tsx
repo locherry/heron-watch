@@ -1,6 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
+import { Download } from "lucide-react-native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ActivityIndicator } from "react-native";
 import { ActionSortState } from "~/@types/action";
 import { StockCategory } from "~/@types/stock";
 import Header from "~/components/Header";
@@ -17,6 +19,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
+import { exportActionsToSpreadsheet } from "~/lib/exportActions";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
@@ -91,13 +94,34 @@ export default function ViewActions() {
     setFilters({});
   };
 
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      await exportActionsToSpreadsheet({
+        stockCategory,
+        sorting,
+        startDate: filters.startDate,
+        endDate: filters.endDate,
+        actionCategoryId: filters.actionCategoryId,
+        productCode: filters.productCode,
+        batchNumber: filters.batchNumber,
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsExporting(false);
+    }
+  };
   return (
     <RootView disableInsets={{ left: true }}>
       <Header
         title={capitalizeFirst(t("actions.viewActions"))}
+        shortTitle={capitalizeFirst(t("actions.actions"))}
         className="justify-between"
       >
-        <Row gap={8}>
+        <Row gap={0}>
           <TableFilter
             sortOptions={sortOptions}
             defaultValue={filters}
@@ -105,6 +129,10 @@ export default function ViewActions() {
             onApply={handleApplyFilters}
             onReset={handleResetFilters}
           />
+
+          <Button variant="ghost" onPress={handleExport} disabled={isExporting}>
+            {!isExporting ? <Icon as={Download} /> : <ActivityIndicator />}
+          </Button>
 
           <Tooltip>
             <TooltipTrigger>

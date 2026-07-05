@@ -79,6 +79,7 @@
     "rust": "rust"
   },
   "actions": {
+    "actions": "actions",
     "id": "id",
     "quantity": "quantity",
     "comment": "comment",
@@ -97,7 +98,8 @@
     "correction_tooltip": "this action was created by {{user}} on {{date}} to correct another action",
     "corrected_tooltip": "this action has been corrected by another action",
     "actionTable": "action table",
-    "viewActions": "view actions"
+    "viewActions": "view actions",
+    "transaction_code": "transaction code"
   },
   "stocks": {
     "id": "id",

@@ -1,3 +1,43 @@
+/* -------------------------------------------------------------------------- */
+/*                Ignore specific deprecation warnings from dependencies      */
+/* -------------------------------------------------------------------------- */
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { LogBox } from "react-native";
+import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
+
+LogBox.ignoreLogs([
+  '"shadow*" style props are deprecated. Use "boxShadow".', // Ignore shadow* style deprecations
+  "props.pointerEvents is deprecated. Use style.pointerEvents", // Ignore pointerEvents deprecations
+  "Image: style.tintColor is deprecated. Please use props.tintColor.",
+  "SafeAreaView has been deprecated and will be removed in a future release.",
+]);
+if (Platform.OS === "web") {
+  const originalWarn = console.warn;
+  console.warn = (...args) => {
+    if (args[0]?.includes?.("pointerEvents is deprecated")) {
+      return;
+    }
+    if (args[0]?.includes?.("SafeAreaView has been deprecated")) {
+      return;
+    }
+    if (
+      args[0]?.includes?.(
+        '"shadow*" style props are deprecated. Use "boxShadow".',
+      )
+    ) {
+      return;
+    }
+    originalWarn(...args);
+  };
+}
+
+/* Export ErrorBoundary for catching runtime errors in the navigation layout */
+export { ErrorBoundary } from "expo-router";
+
+/* -------------------------------------------------------------------------- */
+/*                            Standard imports                                */
+/* -------------------------------------------------------------------------- */
+
 import { ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,31 +57,6 @@ import { NAV_THEME } from "~/lib/theme";
 /* -------------------------------------------------------------------------- */
 import { useTranslation } from "react-i18next";
 import "../translations/i18n";
-
-/* -------------------------------------------------------------------------- */
-/*                Ignore specific deprecation warnings from dependencies      */
-/* -------------------------------------------------------------------------- */
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { LogBox } from "react-native";
-import { useApplyUserPreferences } from "~/lib/hooks/useApplyUserPreferences";
-
-LogBox.ignoreLogs([
-  '"shadow*" style props are deprecated. Use "boxShadow".', // Ignore shadow* style deprecations
-  "props.pointerEvents is deprecated. Use style.pointerEvents", // Ignore pointerEvents deprecations
-  "Image: style.tintColor is deprecated. Please use props.tintColor.",
-]);
-if (Platform.OS === "web") {
-  const originalWarn = console.warn;
-  console.warn = (...args) => {
-    if (args[0]?.includes?.("pointerEvents is deprecated")) {
-      return;
-    }
-    originalWarn(...args);
-  };
-}
-
-/* Export ErrorBoundary for catching runtime errors in the navigation layout */
-export { ErrorBoundary } from "expo-router";
 
 /* -------------------------------------------------------------------------- */
 /*                            Setup React Query                               */
