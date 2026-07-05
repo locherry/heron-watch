@@ -32,11 +32,18 @@ export default function ViewActions() {
     sort: "desc",
   });
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState<TableFilterValue>({});
 
-  // Reset page when category, or sorting changes
+  // Reset page when category, sorting, or filters change
   React.useEffect(() => {
     setPage(1);
-  }, [stockCategory, sorting]);
+  }, [stockCategory, sorting, filters]);
+
+  const endOfDay = (d: Date) => {
+    const copy = new Date(d);
+    copy.setHours(23, 59, 59, 999);
+    return copy;
+  };
 
   const { data, isLoading, isError, error } = useFetchQuery(
     "/api/actions",
@@ -46,6 +53,19 @@ export default function ViewActions() {
         stock_category: stockCategory,
         page,
         ...(sorting ? { [`order[${sorting.order_by}]`]: sorting.sort } : {}),
+        ...(filters.startDate
+          ? { "created_at[after]": filters.startDate.toISOString() }
+          : {}),
+        ...(filters.endDate
+          ? { "created_at[before]": endOfDay(filters.endDate).toISOString() }
+          : {}),
+        ...(filters.actionCategoryId
+          ? { action_category: filters.actionCategoryId }
+          : {}),
+        ...(filters.productCode
+          ? { "product.product_code": filters.productCode }
+          : {}),
+        ...(filters.batchNumber ? { batch_number: filters.batchNumber } : {}),
       },
     },
   );
@@ -64,13 +84,11 @@ export default function ViewActions() {
   ];
 
   const handleApplyFilters = (value: TableFilterValue) => {
-    // TODO: wire into sorting / query params once backend filtering is ready
-    console.log("filters applied", value);
+    setFilters(value);
   };
 
   const handleResetFilters = () => {
-    // TODO: clear applied filters
-    console.log("filters reset");
+    setFilters({});
   };
 
   return (
@@ -82,6 +100,8 @@ export default function ViewActions() {
         <Row gap={8}>
           <TableFilter
             sortOptions={sortOptions}
+            defaultValue={filters}
+            stockCategory={stockCategory}
             onApply={handleApplyFilters}
             onReset={handleResetFilters}
           />
