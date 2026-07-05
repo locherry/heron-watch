@@ -59,6 +59,7 @@ export default function LoginScreen() {
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
   const { applyPreferences } = useApplyUserPreferences();
+  const passwordInputRef = React.useRef<React.ComponentRef<typeof Input>>(null);
 
   const { mutate: renewToken } = useFetchMutation(
     "/api/token/refresh",
@@ -185,14 +186,19 @@ export default function LoginScreen() {
           onChangeText={setEmail}
           placeholder={capitalizeFirst(t("user.email"))}
           keyboardType="email-address"
+          returnKeyType="next"
+          onSubmitEditing={() => passwordInputRef.current?.focus()}
         />
 
         <Row className="mb-2">
           <Input
+            ref={passwordInputRef}
             value={password}
             onChangeText={setPassword}
             placeholder={capitalizeFirst(t("user.password"))}
             secureTextEntry={!passwordVisible}
+            returnKeyType="done"
+            onSubmitEditing={handleLogin}
           />
           <Button
             variant="ghost"
