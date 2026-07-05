@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { ViewProps } from "react-native";
-import { useBreakpoint } from "~/lib/hooks/useBreakPoint";
+import { useBreakpoint } from "~/lib/hooks/useBreakpoint";
 import { capitalizeFirst, cn } from "~/lib/utils";
 import Row from "./layout/Row";
 import { Button } from "./ui/button";
