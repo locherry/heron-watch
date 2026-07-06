@@ -10,11 +10,11 @@
     "users": {
       "name": "erabiltzaileak kudeatu"
     },
-    "product_category": {
-      "name": "produktuak kudeatu"
-    },
     "exports": {
       "name": "Esportatu kalkulu-orri batera"
+    },
+    "productCategory": {
+      "name": "Produktuak kudeatu"
     }
   },
   "settings": {
@@ -37,14 +37,7 @@
       "license": "lizentzia"
     },
     "appearance": {
-      "name": "itxura",
-      "tintColor": "nabarmendutako kolorea",
-      "theme": "gaia",
-      "lightTheme": "gaia argia",
-      "darkTheme": "gaia iluna",
-      "systemDefault": "sistemaren lehenetsia",
-      "animations": "animazioak",
-      "fontSize": "Letren tamaina"
+      "name": "itxura"
     }
   },
   "user": {
@@ -55,8 +48,6 @@
     "password": "pasahitza",
     "role": "rola",
     "addUser": "erabiltzaile berria gehitu",
-    "admin": "administratzailea",
-    "user": "erabiltzailea",
     "logout": "irten",
     "login": "sartu",
     "roles": "rolak",
@@ -71,54 +62,41 @@
       "preferences": "Aukerak",
       "language": "hizkuntza",
       "theme": "gaia",
-      "theme_light": "gaien gaia",
-      "theme_dark": "gaien iluna",
-      "theme_system": "sistemaren lehenetsia",
       "animations": "animazioak",
-      "fontSize": "Letren tamaina"
+      "fontSize": "Letren tamaina",
+      "themeLight": "gaia argia",
+      "themeDark": "gaien iluna",
+      "themeSystem": "sistemaren lehenetsia"
     },
     "sessionExpiring": "Saioa iraungi egingo da",
     "sessionExpiringMessage": "Zure saioa minutu bat baino gutxiagoan iraungiko da. Berritu nahi duzu?"
   },
-  "color": {
-    "raspberry": "marrubia",
-    "ocean": "ozeanoa",
-    "sage": "salbia",
-    "sunny": "eguzkitsua",
-    "rust": "herdoila"
-  },
   "actions": {
-    "1": "stockean sartzen dut",
-    "2": "saltzen dut",
-    "3": "ematen dut",
-    "4": "dendara transferitzen dut",
     "id": "id",
     "quantity": "kantitatea",
     "comment": "iruzkina",
-    "product_code": "produktu kodea",
-    "batch_number": "lote zenbakia",
-    "created_by_id": "nork sortua",
-    "created_at": "noiz sortua",
-    "action_id": "ekintza",
     "transaction": "transakzioa",
     "actionType": "ekintza mota",
     "newAction": "ekintza berria",
     "newActions": "ekintza berriak",
     "newActionsCreated": "ekintza berriak sortuta",
-    "expirationDate": "iraungitze data",
     "expireAt": "iraungi",
-    "correction_badge": "ze",
-    "correction_tooltip": "Ekintza hau {{user}}-ek {{date}}-an sortu zuen beste ekintza bat zuzentzeko.",
-    "corrected_tooltip": "Ekintza hau beste ekintza batek zuzendu du.",
     "actionTable": "Ekintza-taula",
-    "viewActions": "Ekintzak ikusi"
+    "viewActions": "Ekintzak ikusi",
+    "actions": "ekintzak",
+    "productCode": "Produktuko kodea",
+    "batchNumber": "Lote-zenbakia",
+    "createdById": "sortu du",
+    "createdAt": "sortua",
+    "actionId": "ekintza",
+    "correctionBadge": "ze",
+    "correctionTooltip": "Ekintza hau {{user}}-ek {{date}}-an sortu zuen beste ekintza bat zuzentzeko.",
+    "correctedTooltip": "Ekintza hau beste ekintza batek zuzendu du.",
+    "transactionCode": "transakzio kodea"
   },
   "stocks": {
     "id": "id",
-    "product_code": "produktu kodea",
-    "batch_number": "lote zenbakia",
     "quantity": "kantitatea",
-    "expiration_date": "iraungitze data",
     "finishedProducts": "produktu bukatuak",
     "rawMaterials": "lehengaia",
     "viewStocks": "ikus stockak",
@@ -135,17 +113,12 @@
     "MP_S": "lehorra",
     "MP_C": "izoztua",
     "EMB": "ontziratzea",
-    "expire_at": "iraungi",
     "stockGroup": "Akzio-taldea",
     "PF": "Amaitutako produktuak",
-    "MP": "Materia gordinak"
-  },
-  "product_category": {
-    "product_code": "produktu kodea",
-    "product_name": "produktu izena",
-    "product_specificity": "produktuaren zehaztasuna",
-    "selectStockGeneralCategory": "hautatu stockaren kategoria orokorra",
-    "new_product": "produktu berria"
+    "MP": "Materia gordinak",
+    "productCode": "Produktuko kodea",
+    "batchNumber": "Lote zenbakia",
+    "expireAt": "iraungi"
   },
   "common": {
     "open": "ireki",
@@ -177,8 +150,6 @@
     "stock": "stocka",
     "give": "eman",
     "discard": "baztertu",
-    "product_category": "produktu kategoria",
-    "submit_modifications": "aldaketak bidali",
     "view": "ikusi",
     "total": "guztira",
     "substract": "ken",
@@ -190,7 +161,9 @@
     "filters": "iragazkiak",
     "creationDate": "Sorkuntza-data",
     "startDate": "Hasiera data",
-    "endDate": "amaiera data"
+    "endDate": "amaiera data",
+    "productCategory": "Produktuen kategoria",
+    "submitModifications": "Aldaketak aurkeztu"
   },
   "errors": {
     "required": "Eremu hau derrigorrezkoa da",
@@ -207,33 +180,8 @@
     "quantityInputRequired": "Pale txartela aldatzeko kantitate berria zehaztu behar duzu",
     "fillBothFields": "Mesedez, bete bi eremuak.",
     "apiError": "zerbitzariarekin komunikatzean akats bat gertatu da",
-    "invalidEmail": "Posta elektroniko baliogabea"
-  },
-  "add_pallet_sheet": {
-    "add_pallet_sheet": "pale txartela gehitu",
-    "remains_to_be_placed": "kokatzeko falta da",
-    "select_a_product": "produktua aukeratu",
-    "modify_existing_pallet_sheet": "existitzen den pale txartela aldatu",
-    "product_code": "kodea",
-    "origin": "jatorria",
-    "client": "bezeroa",
-    "product": "produktua",
-    "batch_number": "lote zenbakia",
-    "expiration_date": "iraungitze data",
-    "quantity": "kantitatea",
-    "create_sheet": "txartela sortu",
-    "create_qr_code": "QR kodea sortu",
-    "alert_unable_to_create_qr": "ezin izan da QR kodea sortu",
-    "alert_field_missing": "eremu batzuk hutsik daude",
-    "expire_at": "iraungi"
-  },
-  "view_pallet_sheet": {
-    "view_pallet_sheet": "pale txartelak ikusi"
-  },
-  "modify_pallet_sheet": {
-    "modify_existing_pallet_sheet": "existitzen den pale txartela aldatu",
-    "scan_existing_sheet": "existitzen den txartela eskaneatu",
-    "delete_pallet_sheet": "pale txartela ezabatu"
+    "invalidEmail": "Posta elektroniko baliogabea",
+    "invalidDate": "Data baliogabea, data formatua: dd/mm/yyyy"
   },
   "QR Code loaded": "QR kodea kargatua",
   "Toggle editing mode": "Editatzeko modua aldatu",
@@ -250,20 +198,10 @@
   "Your all in one solution for:": "Zure soluzio osoa honetarako:",
   "Real-Time Tracking": "Denbora errealeko jarraipena",
   "Error management": "Errore kudeaketa",
-  "manage_errors": "Erroreak kudeatu",
-  "manage_pallet_sheet": "pale txartelak kudeatu",
   "Generate a new pallet sheet": "Pale txartel berria sortu",
   "Inventory Alerts": "Inbentario alertak",
   "Get right where you left :": "Utzi zenuen tokian jarraitu:",
   "Made with ❤️ by Ellande & Aloys || All rights reserved": "Ellande & Aloys-ek egina ❤️ || Eskubide guztiak erreserbatuak",
-  "error_management_menu": {
-    "title": "akatsen kudeaketa",
-    "kown_errors": "ezagutzen diren akatsak",
-    "not_found": "Ez da aurkitu",
-    "resolve_error": "Akatsa konpondu",
-    "list_actions_wrong_product": "Produktua ardatz duten ekintza guztien zerrenda",
-    "new_quantity_after_update": "Eguneratze ondorengo kopuru berria :"
-  },
   "I stock": "Nik gordetzen dut",
   "I sell": "Saltzen dut",
   "I Give": "Nik ematen dut",
@@ -273,13 +211,13 @@
   "Stock as of": "Eguneroko egoera",
   "product": {
     "confirmDelete": "Ziur al zaude produktu hau ezabatu nahi duzula? Produktu honekin sortutako ekintzak ez dira ezabatuko, baina 'ezezagun produktu' bati egotziko zaizkio.",
-    "product_code": "Produktuko kodea",
-    "product_name": "Produktuaren izena",
-    "product_specificity": "produktuaren espezifikotasuna",
     "selectStockGeneralCategory": "Hautatu akzioen kategoria orokor bat",
     "newProduct": "produktu berria",
     "category": "kategoria",
-    "information": "Informazioa"
+    "information": "Informazioa",
+    "productCode": "Produktuko kodea",
+    "productName": "Produktuaren izena",
+    "productSpecificity": "produktuaren espezifotasuna"
   },
   "validation": {
     "productCodeInDb": "Produktuko kodea erregistratuta",
@@ -290,6 +228,40 @@
     "expireDateWillBeLinkedToNewBatchNumber": "Eskuketa-epea sortu berri den lote-zenbakiari lotuta egongo da.",
     "productCodeNotInDb": "Produktuko kodea ez dago datu-basean erregistratuta, mesedez gehitu produktu hau horretarako menua erabiliz."
   },
-  "manage_pallet_sheets": "Paleta-orriak kudeatu",
-  "pallet_sheets": "paleteko xaflak"
+  "addPalletSheet": {
+    "addPalletSheet": "Paleta-xafla gehitu",
+    "remainsToBePlaced": "Jartzeko geratzen dira",
+    "selectAProduct": "Produktua hautatu",
+    "modifyExistingPalletSheet": "Egungo paleta-orri existitzen dena aldatu",
+    "productCode": "kodea",
+    "origin": "Jatorria",
+    "client": "Bezeroa",
+    "product": "Produktua",
+    "batchNumber": "Lote zenbakia",
+    "expireAt": "iraungi",
+    "quantity": "kopurua",
+    "createSheet": "Sortu orria",
+    "createQrCode": "QR kodea sortu",
+    "alertUnableToCreateQr": "QR kodea sortu ezin",
+    "alertFieldMissing": "Zenbait eremu hutsik daude."
+  },
+  "viewPalletSheet": {
+    "viewPalletSheet": "Ikusi paletarako orriak"
+  },
+  "modifyPalletSheet": {
+    "modifyExistingPalletSheet": "Egungo paleta-orri existitzen dena aldatu",
+    "scanExistingSheet": "Orri egonkorra eskaneatu",
+    "deletePalletSheet": "Paleta-orriaren ezabatzea"
+  },
+  "errorManagementMenu": {
+    "title": "akatsen kudeaketa",
+    "kownErrors": "ezagutzen diren akatsak",
+    "notFound": "Ez da aurkitu",
+    "resolveError": "Akatsa konpondu",
+    "listActionsWrongProduct": "Produktua ardatz duten ekintza guztien zerrenda",
+    "newQuantityAfterUpdate": "Eguneratze ondorengo kopuru berria :"
+  },
+  "manageErrors": "akatsak kudeatu",
+  "managePalletSheets": "Paleta-orriak kudeatu",
+  "palletSheets": "paleteko xaflak"
 }

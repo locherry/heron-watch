@@ -10,11 +10,11 @@
     "users": {
       "name": "Benutzer verwalten"
     },
-    "product_category": {
-      "name": "Produkte verwalten"
-    },
     "exports": {
       "name": "Export in Tabellenkalkulation"
+    },
+    "productCategory": {
+      "name": "Produkte verwalten"
     }
   },
   "settings": {
@@ -37,14 +37,7 @@
       "license": "Lizenz"
     },
     "appearance": {
-      "name": "Aussehen",
-      "tintColor": "Tönungsfarbe",
-      "theme": "Thema",
-      "lightTheme": "Lichtthema",
-      "darkTheme": "dunkles Thema",
-      "systemDefault": "Systemvorgabe",
-      "animations": "Animationen",
-      "fontSize": "Schriftgröße"
+      "name": "Aussehen"
     }
   },
   "user": {
@@ -55,8 +48,6 @@
     "password": "Passwort",
     "role": "Rolle",
     "addUser": "Benutzer hinzufügen",
-    "admin": "admin",
-    "user": "Benutzer",
     "logout": "Abmeldung",
     "login": "Anmeldung",
     "roles": "Rollen",
@@ -71,54 +62,41 @@
       "preferences": "Einstellungen",
       "language": "Sprache",
       "theme": "Thema",
-      "theme_light": "Lichtthema",
-      "theme_dark": "dunkles Thema",
-      "theme_system": "Systemvorgabe",
       "animations": "Animationen",
-      "fontSize": "Schriftgröße"
+      "fontSize": "Schriftgröße",
+      "themeLight": "helles Design",
+      "themeDark": "dunkles Design",
+      "themeSystem": "Systemstandard"
     },
     "sessionExpiring": "Sitzung läuft ab",
     "sessionExpiringMessage": "Ihre Sitzung läuft in weniger als einer Minute ab. Möchten Sie sie verlängern?"
   },
-  "color": {
-    "raspberry": "Himbeere",
-    "ocean": "Meer",
-    "sage": "Salbei",
-    "sunny": "sonnig",
-    "rust": "Rost"
-  },
   "actions": {
-    "1": "I Aktie",
-    "2": "Ich verkaufe",
-    "3": "I Geben",
-    "4": "I Transfer zum Geschäft",
     "id": "id",
     "quantity": "Menge",
     "comment": "Kommentar",
-    "product_code": "Produktcode",
-    "batch_number": "Losnummer",
-    "created_by_id": "erstellt von",
-    "created_at": "erstellt am",
-    "action_id": "Aktion",
     "transaction": "Transaktion",
     "actionType": "Art der Aktion",
     "newAction": "Neue Aktion",
     "newActions": "Neue Aktionen",
     "newActionsCreated": "Neue Aktionen erstellt",
-    "expirationDate": "Verfallsdatum",
     "expireAt": "verfallen am",
-    "correction_badge": "c",
-    "correction_tooltip": "Diese Aktion wurde am {{date}} von {{user}} erstellt, um eine andere Aktion zu korrigieren.",
-    "corrected_tooltip": "Diese Aktion wurde durch eine andere Aktion korrigiert.",
     "actionTable": "Aktionsübersicht",
-    "viewActions": "Aktionen anzeigen"
+    "viewActions": "Aktionen anzeigen",
+    "actions": "Maßnahmen",
+    "productCode": "Artikelnummer",
+    "batchNumber": "Chargennummer",
+    "createdById": "erstellt von",
+    "createdAt": "erstellt am",
+    "actionId": "Aktion",
+    "correctionBadge": "c",
+    "correctionTooltip": "Diese Aktion wurde am {{date}} von {{user}} erstellt, um eine andere Aktion zu korrigieren.",
+    "correctedTooltip": "Diese Aktion wurde durch eine andere Aktion korrigiert.",
+    "transactionCode": "Transaktionscode"
   },
   "stocks": {
     "id": "id",
-    "product_code": "Produktcode",
-    "batch_number": "Losnummer",
     "quantity": "Menge",
-    "expiration_date": "Verfallsdatum",
     "finishedProducts": "Fertigerzeugnisse",
     "rawMaterials": "Grundstoffe",
     "viewStocks": "Aktien ansehen",
@@ -135,17 +113,12 @@
     "MP_S": "trocken",
     "MP_C": "gefroren",
     "EMB": "Verpackung",
-    "expire_at": "verfallen am",
     "stockGroup": "Bestandsgruppe",
     "PF": "Fertigerzeugnisse",
-    "MP": "Grundstoffe"
-  },
-  "product_category": {
-    "product_code": "Produktcode",
-    "product_name": "Produktname",
-    "product_specificity": "Produktspezifität",
-    "selectStockGeneralCategory": "Wählen Sie eine allgemeine Aktienkategorie",
-    "new_product": "neues Produkt"
+    "MP": "Grundstoffe",
+    "productCode": "Artikelnummer",
+    "batchNumber": "Chargennummer",
+    "expireAt": "ablaufen am"
   },
   "common": {
     "view": "siehe",
@@ -180,8 +153,6 @@
     "stock": "Aktie",
     "give": "geben.",
     "discard": "verwerfen",
-    "product_category": "Produktkategorie",
-    "submit_modifications": "Änderungen einreichen",
     "viewDetails": "Details anzeigen",
     "sortBy": "Sortieren nach",
     "selectOption": "Wählen Sie eine Option aus",
@@ -190,7 +161,9 @@
     "filters": "Filter",
     "creationDate": "Erstellungsdatum",
     "startDate": "Startdatum",
-    "endDate": "Enddatum"
+    "endDate": "Enddatum",
+    "productCategory": "Produktkategorie",
+    "submitModifications": "Änderungen einreichen"
   },
   "errors": {
     "required": "Dieses Feld ist erforderlich",
@@ -207,33 +180,8 @@
     "quantityInputRequired": "Sie müssen eine neue Menge angeben, um das Palettenblatt zu ändern",
     "fillBothFields": "bitte beide Felder ausfüllen",
     "apiError": "bei der Kommunikation mit dem Server ist ein Fehler aufgetreten",
-    "invalidEmail": "ungültige E-Mail"
-  },
-  "add_pallet_sheet": {
-    "add_pallet_sheet": "Palettenblatt hinzufügen",
-    "remains_to_be_placed": "bleibt zu platzieren",
-    "select_a_product": "ein Produkt auswählen",
-    "modify_existing_pallet_sheet": "bestehende Palettenblätter ändern",
-    "product_code": "Code",
-    "origin": "Herkunft",
-    "client": "Kunde",
-    "product": "Produkt",
-    "batch_number": "Losnummer",
-    "expiration_date": "Verfallsdatum",
-    "quantity": "Menge",
-    "create_sheet": "Blatt erstellen",
-    "create_qr_code": "QR-Code erstellen",
-    "alert_unable_to_create_qr": "QR-Code nicht erstellen können",
-    "alert_field_missing": "einige Felder sind leer",
-    "expire_at": "verfallen am"
-  },
-  "view_pallet_sheet": {
-    "view_pallet_sheet": "Palettenblätter ansehen"
-  },
-  "modify_pallet_sheet": {
-    "modify_existing_pallet_sheet": "bestehende Palettenblätter ändern",
-    "scan_existing_sheet": "bestehendes Blatt scannen",
-    "delete_pallet_sheet": "Palettenblatt löschen"
+    "invalidEmail": "ungültige E-Mail",
+    "invalidDate": "Ungültiges Datum, das Datumsformat lautet: TT/MM/JJJJ"
   },
   "Select a date": "Wählen Sie ein Datum",
   "Current stock": "Aktueller Bestand",
@@ -253,33 +201,23 @@
   "Your all in one solution for:": "Ihre All-in-One-Lösung für:",
   "Real-Time Tracking": "Verfolgung in Echtzeit",
   "Error management": "Fehlermanagement",
-  "manage_errors": "Fehler verwalten",
-  "manage_pallet_sheet": "Palettenbogen verwalten",
   "Generate a new pallet sheet": "Erzeugen eines neuen Palettenbogens",
   "Inventory Alerts": "Inventar-Warnungen",
   "Get right where you left :": "Machen Sie genau da weiter, wo Sie aufgehört haben:",
   "Made with ❤️ by Ellande & Aloys || All rights reserved": "Hergestellt mit ❤️ von Ellande & Aloys || Alle Rechte vorbehalten",
-  "error_management_menu": {
-    "title": "Fehlermanagement",
-    "kown_errors": "bekannte Fehler",
-    "not_found": "nicht gefunden",
-    "resolve_error": "Fehler beheben",
-    "list_actions_wrong_product": "Liste aller Maßnahmen, die das Produkt betreffen",
-    "new_quantity_after_update": "neue Menge nach der Aktualisierung :"
-  },
   "I stock": "I Aktie",
   "I sell": "Ich verkaufe",
   "I Give": "I Geben",
   "I Transfer to the shop": "I Transfer zum Geschäft",
   "product": {
     "confirmDelete": "Sind Sie sicher, dass Sie dieses Produkt löschen möchten? Die mit diesem Produkt erstellten Aktionen werden nicht gelöscht, sondern einem \"unbekannten Produkt\" zugewiesen.",
-    "product_code": "Produktcode",
-    "product_name": "Produktname",
-    "product_specificity": "Produktspezifität",
     "selectStockGeneralCategory": "Wählen Sie eine allgemeine Aktienkategorie",
     "newProduct": "neues Produkt",
     "category": "Kategorie",
-    "information": "Informationen"
+    "information": "Informationen",
+    "productCode": "Artikelnummer",
+    "productName": "Produktname",
+    "productSpecificity": "Produktspezifität"
   },
   "validation": {
     "productCodeInDb": "Produktcode registriert",
@@ -290,6 +228,40 @@
     "expireDateWillBeLinkedToNewBatchNumber": "Das Verfallsdatum wird mit der neu erstellten Chargennummer verknüpft.",
     "productCodeNotInDb": "Produktcode nicht in der Datenbank registriert, bitte fügen Sie dieses Produkt über das entsprechende Menü hinzu"
   },
-  "manage_pallet_sheets": "Palettenlisten verwalten",
-  "pallet_sheets": "Palettenplatten"
+  "addPalletSheet": {
+    "addPalletSheet": "Palettenblatt hinzufügen",
+    "remainsToBePlaced": "muss noch platziert werden",
+    "selectAProduct": "Wählen Sie ein Produkt aus",
+    "modifyExistingPalletSheet": "Vorhandenes Palettenblatt bearbeiten",
+    "productCode": "Code",
+    "origin": "Herkunft",
+    "client": "Kunde",
+    "product": "Produkt",
+    "batchNumber": "Chargennummer",
+    "expireAt": "ablaufen am",
+    "quantity": "Menge",
+    "createSheet": "Blatt erstellen",
+    "createQrCode": "QR-Code erstellen",
+    "alertUnableToCreateQr": "QR-Code kann nicht erstellt werden",
+    "alertFieldMissing": "Einige Felder sind leer."
+  },
+  "viewPalletSheet": {
+    "viewPalletSheet": "Palettenblätter anzeigen"
+  },
+  "modifyPalletSheet": {
+    "modifyExistingPalletSheet": "Vorhandenes Palettenblatt bearbeiten",
+    "scanExistingSheet": "Vorhandenes Blatt scannen",
+    "deletePalletSheet": "Palettenblatt löschen"
+  },
+  "errorManagementMenu": {
+    "title": "Fehlerbehandlung",
+    "kownErrors": "bekannte Fehler",
+    "notFound": "nicht gefunden",
+    "resolveError": "Fehler beheben",
+    "listActionsWrongProduct": "Liste aller Maßnahmen, die das Produkt betreffen",
+    "newQuantityAfterUpdate": "Neue Menge nach der Aktualisierung:"
+  },
+  "manageErrors": "Fehler behandeln",
+  "managePalletSheets": "Palettenlisten verwalten",
+  "palletSheets": "Palettenplatten"
 }

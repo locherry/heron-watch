@@ -6,11 +6,11 @@ import {
   ActivityIndicator,
   FlatList,
   useWindowDimensions,
-  View
+  View,
 } from "react-native";
 import { StockRead } from "~/@types/stock";
 import { AutocompleteInput } from "~/components/AutoCompleteInput";
-import { CreatePalletSheet } from "~/components/create-pallet-sheet";
+import { CreatePalletSheet } from "~/components/CreatePalletSheet";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -256,7 +256,7 @@ export default function add_pallet_sheet() {
   return (
     <RootView disableInsets={{ left: true }}>
       <Header
-        title={capitalizeFirst(t("add_pallet_sheet.add_pallet_sheet"))}
+        title={capitalizeFirst(t("addPalletSheet.addPalletSheet"))}
       ></Header>
       <FlatList
         focusable={false}
@@ -268,7 +268,7 @@ export default function add_pallet_sheet() {
             <Text variant="h2" className="mb-2">
               <Row className="w-full justify-start" gap={10}>
                 <Text className="text-2xl font-mono">
-                  {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
+                  {capitalizeFirst(t("addPalletSheet.remainsToBePlaced")) +
                     " : "}
                 </Text>
                 {completeData !== null ? (
@@ -291,7 +291,7 @@ export default function add_pallet_sheet() {
                   )
                 ) : (
                   <Text>
-                    {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                    {capitalizeFirst(t("addPalletSheet.selectAProduct"))}
                   </Text>
                 )}
                 {quantityInput !== "" && quantityInput != undefined ? (
@@ -322,7 +322,7 @@ export default function add_pallet_sheet() {
             {/* PRODUCT CODE AUTOCOMPLETE */}
             <Row className="w-full justify-between mb-2 z-20">
               <Label className="text-base">
-                {capitalizeFirst(t("actions.product_code"))}
+                {capitalizeFirst(t("actions.productCode"))}
               </Label>
               <AutocompleteInput
                 data={filteredData.map((s) => ({
@@ -349,14 +349,14 @@ export default function add_pallet_sheet() {
                     )!,
                   )
                 }
-                placeholder={t("actions.product_code")}
+                placeholder={t("actions.productCode")}
               />
             </Row>
 
             {/* Batch NUMBER AUTOCOMPLETE */}
             <Row className="w-full justify-between mb-2 z-10">
               <Label className="text-base">
-                {capitalizeFirst(t("actions.batch_number"))}
+                {capitalizeFirst(t("actions.batchNumber"))}
               </Label>
               <AutocompleteInput
                 data={filteredData.map((s) => ({
@@ -376,21 +376,21 @@ export default function add_pallet_sheet() {
                     filteredData.find((s) => s.batch_number === item.value)!,
                   )
                 }
-                placeholder={t("actions.batch_number")}
+                placeholder={t("actions.batchNumber")}
               />
             </Row>
 
             {/* PALLET SHEET DETAILS */}
             <View className="border-2 border-[hsl(var(--border))] rounded-xl">
               <SheetRow
-                label={t("actions.product_code")}
+                label={t("actions.productCode")}
                 value={completeData?.product?.product_code}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isLoading}
               />
               <SheetRow
-                label={t("add_pallet_sheet.origin")}
+                label={t("addPalletSheet.origin")}
                 editable={isbatchNumberSelected}
                 placeholder="Origin (Ex : IGP)"
                 value={originInput}
@@ -401,7 +401,7 @@ export default function add_pallet_sheet() {
                 rowsHeight={rowsHeight}
               />
               <SheetRow
-                label={t("add_pallet_sheet.client")}
+                label={t("addPalletSheet.client")}
                 editable={isbatchNumberSelected}
                 placeholder="Client (Ex : AGRO)"
                 value={clientInput}
@@ -412,28 +412,28 @@ export default function add_pallet_sheet() {
                 rowsHeight={rowsHeight}
               />
               <SheetRow
-                label={t("add_pallet_sheet.product")}
+                label={t("addPalletSheet.product")}
                 value={completeData?.product?.product_name}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isLoading}
               />
               <SheetRow
-                label={t("add_pallet_sheet.batch_number")}
+                label={t("addPalletSheet.batchNumber")}
                 value={completeData?.batch_number}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isLoading}
               />
               <SheetRow
-                label={t("add_pallet_sheet.expire_at")}
+                label={t("addPalletSheet.expireAt")}
                 value={completeData?.expire_at}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
                 isLoading={isLoading}
               />
               <SheetRow
-                label={t("add_pallet_sheet.quantity")}
+                label={t("addPalletSheet.quantity")}
                 editable={isbatchNumberSelected}
                 placeholder="Ex : 40"
                 value={quantityInput?.toString()}

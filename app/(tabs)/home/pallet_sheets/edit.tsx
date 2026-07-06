@@ -266,7 +266,7 @@ export default function add_pallet_sheet() {
     <RootView disableInsets={{ left: true }} className="flex gap-y-[30]">
       <Header
         title={capitalizeFirst(
-          t("modify_pallet_sheet.modify_existing_pallet_sheet"),
+          t("modifyPalletSheet.modifyExistingPalletSheet"),
         )}
       ></Header>
       <FlatList
@@ -278,8 +278,7 @@ export default function add_pallet_sheet() {
           <>
             <Row>
               <Text className="text-2xl font-mono">
-                {capitalizeFirst(t("add_pallet_sheet.remains_to_be_placed")) +
-                  " : "}
+                {capitalizeFirst(t("addPalletSheet.remainsToBePlaced")) + " : "}
               </Text>
               {!Array.isArray(stockData) ? (
                 productStockIsLoading || isNewDataLoading ? (
@@ -298,7 +297,7 @@ export default function add_pallet_sheet() {
                 )
               ) : (
                 <Text>
-                  {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                  {capitalizeFirst(t("addPalletSheet.selectAProduct"))}
                 </Text>
               )}
               {quantityInput !== "" && quantityInput != undefined ? (
@@ -327,7 +326,7 @@ export default function add_pallet_sheet() {
             {/* PALLET SHEET DETAILS */}
             <View className="border-2 border-[hsl(var(--border))] rounded-xl">
               <SheetRow
-                label={t("actions.product_code")}
+                label={t("actions.productCode")}
                 editable={false}
                 value={completeData?.product_code ?? ""}
                 rowNameWidth={rowNameWidth}
@@ -335,7 +334,7 @@ export default function add_pallet_sheet() {
                 isLoading={isNewDataLoading}
               />
               <SheetRow
-                label={t("add_pallet_sheet.origin")}
+                label={t("addPalletSheet.origin")}
                 editable={false}
                 value="ORIGIN"
                 rowNameWidth={rowNameWidth}
@@ -343,7 +342,7 @@ export default function add_pallet_sheet() {
                 classNameText="text-gray-300"
               />
               <SheetRow
-                label={t("add_pallet_sheet.client")}
+                label={t("addPalletSheet.client")}
                 editable={false}
                 value="CLIENT"
                 rowNameWidth={rowNameWidth}
@@ -352,7 +351,7 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 editable={false}
-                label={t("add_pallet_sheet.product")}
+                label={t("addPalletSheet.product")}
                 value={completeData?.product?.product_name ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
@@ -360,7 +359,7 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 editable={false}
-                label={t("add_pallet_sheet.batch_number")}
+                label={t("addPalletSheet.batchNumber")}
                 value={completeData?.batch_number ?? ""}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
@@ -368,7 +367,7 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 editable={false}
-                label={t("add_pallet_sheet.expire_at")}
+                label={t("addPalletSheet.expireAt")}
                 value={formatDate(completeData?.expire_at ?? "")}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}
@@ -376,7 +375,7 @@ export default function add_pallet_sheet() {
               />
               <SheetRow
                 editable={isDataFetched}
-                label={t("add_pallet_sheet.quantity")}
+                label={t("addPalletSheet.quantity")}
                 value={quantityInput}
                 placeholder={completeData?.quantity?.toString()}
                 onChangeText={(text) => {
@@ -396,11 +395,11 @@ export default function add_pallet_sheet() {
                       icon={Pencil}
                       onPress={handleModifyData}
                     >
-                      {capitalizeFirst(t("common.submit_modifications"))}
+                      {capitalizeFirst(t("common.submitModifications"))}
                     </Button>
                     <Button icon={Trash} onPress={handleDeleteData}>
                       {capitalizeFirst(
-                        t("modify_pallet_sheet.delete_pallet_sheet"),
+                        t("modifyPalletSheet.deletePalletSheet"),
                       )}
                     </Button>
                   </Row>
@@ -411,9 +410,7 @@ export default function add_pallet_sheet() {
                     setQrId(Number(data));
                   }}
                 >
-                  {capitalizeFirst(
-                    t("modify_pallet_sheet.scan_existing_sheet"),
-                  )}
+                  {capitalizeFirst(t("modifyPalletSheet.scanExistingSheet"))}
                 </QrScannerButton>
               )}
             </View>

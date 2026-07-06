@@ -21,7 +21,7 @@ export function ActionTable(
     {
       id: "product",
       accessorKey: "product",
-      header: () => capitalizeFirst(t("actions.product_code")),
+      header: () => capitalizeFirst(t("actions.productCode")),
       cell: ({ row, getValue }) => {
         const product = getValue<ActionRead["product"]>();
         const isCorrection = !!row.original.correction_of;
@@ -36,13 +36,13 @@ export function ActionTable(
                 <TooltipTrigger asChild>
                   <View className="rounded-full bg-amber-100 px-2 py-0.5">
                     <Text className="text-xs text-amber-800">
-                      {capitalizeFirst(t("actions.correction_badge"))}
+                      {capitalizeFirst(t("actions.correctionBadge"))}
                     </Text>
                   </View>
                 </TooltipTrigger>
                 <TooltipContent>
                   <Text>
-                    {t("actions.correction_tooltip", {
+                    {t("actions.correctionTooltip", {
                       user: row.original.corrected_by_user
                         ? `${row.original.corrected_by_user.first_name} ${row.original.corrected_by_user.last_name}`
                         : t("user.unknownUser"),
@@ -74,12 +74,12 @@ export function ActionTable(
     {
       id: "batch_number",
       accessorKey: "batch_number",
-      header: () => capitalizeFirst(t("actions.batch_number")),
+      header: () => capitalizeFirst(t("actions.batchNumber")),
     },
     {
       id: "created_at",
       accessorKey: "created_at",
-      header: () => capitalizeFirst(t("actions.created_at")),
+      header: () => capitalizeFirst(t("actions.createdAt")),
 
       cell: ({ getValue }) => {
         const raw = getValue<ActionRead["created_at"]>();
@@ -97,7 +97,7 @@ export function ActionTable(
     {
       id: "created_by_id",
       accessorKey: "created_by_id",
-      header: () => capitalizeFirst(t("actions.created_by_id")),
+      header: () => capitalizeFirst(t("actions.createdById")),
       cell: ({ getValue }) => {
         const created_by_id = getValue<ActionRead["created_by_id"]>();
         return (
@@ -118,7 +118,7 @@ export function ActionTable(
     {
       id: "action_category",
       accessorKey: "action_category",
-      header: () => capitalizeFirst(t("actions.action_id")),
+      header: () => capitalizeFirst(t("actions.actionId")),
 
       cell: ({ getValue }) => {
         const action_category = getValue<ActionRead["action_category"]>();
@@ -148,7 +148,7 @@ export function ActionTable(
       getRowState={(item) => ({
         muted: item.corrected === true,
         disabled: item.corrected === true,
-        tooltip: item.corrected ? t("actions.corrected_tooltip") : undefined,
+        tooltip: item.corrected ? t("actions.correctedTooltip") : undefined,
       })}
     />
   );

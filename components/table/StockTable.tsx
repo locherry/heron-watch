@@ -17,7 +17,7 @@ export function StockTable({ ...props }: StockTableProps) {
     {
       id: "product",
       accessorKey: "product",
-      header: () => capitalizeFirst(t("stocks.product_code")),
+      header: () => capitalizeFirst(t("stocks.productCode")),
       cell: ({ getValue }) => {
         const product = getValue<StockRead["product"]>();
         return (
@@ -30,7 +30,7 @@ export function StockTable({ ...props }: StockTableProps) {
     {
       id: "batch_number",
       accessorKey: "batch_number",
-      header: () => capitalizeFirst(t("stocks.batch_number")),
+      header: () => capitalizeFirst(t("stocks.batchNumber")),
       cell: ({ getValue }) => (
         <Text>{getValue<StockRead["batch_number"]>()}</Text>
       ),
@@ -44,7 +44,7 @@ export function StockTable({ ...props }: StockTableProps) {
     {
       id: "expire_at",
       accessorKey: "expire_at",
-      header: () => capitalizeFirst(t("stocks.expire_at")),
+      header: () => capitalizeFirst(t("stocks.expireAt")),
       cell: ({ getValue }) => {
         const raw = getValue<StockRead["expire_at"]>();
         if (!raw) return <Text>-</Text>;

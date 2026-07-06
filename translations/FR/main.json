@@ -10,11 +10,11 @@
     "users": {
       "name": "gérer les utilisateurs"
     },
-    "product_category": {
-      "name": "gérer les produits"
-    },
     "exports": {
       "name": "Exporter vers une feuille de calcul"
+    },
+    "productCategory": {
+      "name": "gérer les produits"
     }
   },
   "settings": {
@@ -37,14 +37,7 @@
       "license": "licence"
     },
     "appearance": {
-      "name": "apparence",
-      "tintColor": "couleur de surbrillance",
-      "theme": "thème",
-      "lightTheme": "thème clair",
-      "darkTheme": "thème sombre",
-      "systemDefault": "par défaut du système",
-      "animations": "animations",
-      "fontSize": "taille de la police"
+      "name": "apparence"
     }
   },
   "user": {
@@ -55,8 +48,6 @@
     "password": "mot de passe",
     "role": "rôle",
     "addUser": "ajouter un utilisateur",
-    "admin": "administrateur",
-    "user": "utilisateur",
     "logout": "se déconnecter",
     "login": "se connecter",
     "roles": "rôles",
@@ -71,54 +62,41 @@
       "preferences": "préférences",
       "language": "langue",
       "theme": "thème",
-      "theme_light": "thème lumineux",
-      "theme_dark": "thème sombre",
-      "theme_system": "défaut du système",
       "animations": "animations",
-      "fontSize": "taille de la police"
+      "fontSize": "taille de la police",
+      "themeLight": "thème clair",
+      "themeDark": "thème sombre",
+      "themeSystem": "paramètres par défaut du système"
     },
     "sessionExpiring": "Session expirant",
     "sessionExpiringMessage": "Votre session expire dans moins d'une minute. Voulez-vous la renouveler ?"
   },
-  "color": {
-    "raspberry": "framboise",
-    "ocean": "océan",
-    "sage": "sauge",
-    "sunny": "ensoleillé",
-    "rust": "rouille"
-  },
   "actions": {
-    "1": "je stocke",
-    "2": "je vends",
-    "3": "je donne",
-    "4": "je transfère au magasin",
     "id": "id",
     "quantity": "quantité",
     "comment": "commentaire",
-    "product_code": "code produit",
-    "batch_number": "numéro de lot",
-    "created_by_id": "créé par",
-    "created_at": "créé le",
-    "action_id": "action",
     "transaction": "transaction",
     "actionType": "type d'action",
     "newAction": "nouvelle action",
     "newActions": "nouvelles actions",
     "newActionsCreated": "nouvelles actions créées",
-    "expirationDate": "date d'expiration",
     "expireAt": "expirent à",
-    "correction_badge": "c",
-    "correction_tooltip": "Cette action a été créée par {{user}} le {{date}} afin de corriger une autre action.",
-    "corrected_tooltip": "cette action a été corrigée par une autre action",
     "actionTable": "tableau des actions",
-    "viewActions": "Afficher les actions"
+    "viewActions": "Afficher les actions",
+    "actions": "actions",
+    "productCode": "référence produit",
+    "batchNumber": "numéro de lot",
+    "createdById": "créé par",
+    "createdAt": "créé le",
+    "actionId": "action",
+    "correctionBadge": "c",
+    "correctionTooltip": "Cette action a été créée par {{user}} le {{date}} afin de corriger une autre action.",
+    "correctedTooltip": "cette action a été corrigée par une autre action",
+    "transactionCode": "code de transaction"
   },
   "stocks": {
     "id": "id",
-    "product_code": "code produit",
-    "batch_number": "numéro de lot",
     "quantity": "quantité",
-    "expiration_date": "date d'expiration",
     "finishedProducts": "produits finis",
     "rawMaterials": "matières premières",
     "viewStocks": "voir les stocks",
@@ -135,17 +113,12 @@
     "MP_S": "sec",
     "MP_C": "congelé",
     "EMB": "emballage",
-    "expire_at": "expirent à",
     "stockGroup": "groupe de stock",
     "PF": "produits finis",
-    "MP": "matières premières"
-  },
-  "product_category": {
-    "product_code": "code produit",
-    "product_name": "nom du produit",
-    "product_specificity": "spécificité du produit",
-    "selectStockGeneralCategory": "sélectionner une catégorie générale de stock",
-    "new_product": "nouveau produit"
+    "MP": "matières premières",
+    "productCode": "référence produit",
+    "batchNumber": "numéro de lot",
+    "expireAt": "expirer le"
   },
   "common": {
     "open": "ouvrir",
@@ -177,8 +150,6 @@
     "stock": "stock",
     "give": "donner",
     "discard": "rejeter",
-    "product_category": "catégorie de produit",
-    "submit_modifications": "soumettre les modifications",
     "view": "vue",
     "total": "total",
     "substract": "soustraire",
@@ -190,7 +161,9 @@
     "filters": "filtres",
     "creationDate": "date de création",
     "startDate": "date de début",
-    "endDate": "date de fin"
+    "endDate": "date de fin",
+    "productCategory": "catégorie de produits",
+    "submitModifications": "envoyer les modifications"
   },
   "errors": {
     "required": "Ce champ est obligatoire",
@@ -207,33 +180,8 @@
     "quantityInputRequired": "Vous devez spécifier une nouvelle quantité pour modifier la fiche palette",
     "fillBothFields": "Veuillez remplir les deux champs",
     "apiError": "une erreur s'est produite lors de la communication avec le serveur",
-    "invalidEmail": "courriel non valide"
-  },
-  "add_pallet_sheet": {
-    "add_pallet_sheet": "ajouter une fiche palette",
-    "remains_to_be_placed": "reste à placer",
-    "select_a_product": "sélectionner un produit",
-    "modify_existing_pallet_sheet": "modifier une fiche palette existante",
-    "product_code": "code",
-    "origin": "origine",
-    "client": "client",
-    "product": "produit",
-    "batch_number": "numéro de lot",
-    "expiration_date": "date d'expiration",
-    "quantity": "quantité",
-    "create_sheet": "créer une fiche",
-    "create_qr_code": "créer un QR Code",
-    "alert_unable_to_create_qr": "impossible de créer un QR Code",
-    "alert_field_missing": "certains champs sont vides",
-    "expire_at": "expirent à"
-  },
-  "view_pallet_sheet": {
-    "view_pallet_sheet": "voir les fiches palettes"
-  },
-  "modify_pallet_sheet": {
-    "modify_existing_pallet_sheet": "modifier une fiche palette existante",
-    "scan_existing_sheet": "scanner une fiche existante",
-    "delete_pallet_sheet": "supprimer une fiche palette"
+    "invalidEmail": "courriel non valide",
+    "invalidDate": "Date non valide. Le format de date est : jj/mm/aaaa"
   },
   "QR Code loaded": "QR Code chargé",
   "Toggle editing mode": "Basculer en mode édition",
@@ -250,8 +198,6 @@
   "Your all in one solution for:": "Votre solution tout-en-un pour :",
   "Real-Time Tracking": "Suivi en temps réel",
   "Error management": "Gestion des erreurs",
-  "manage_errors": "Gérer les erreurs",
-  "manage_pallet_sheet": "gérer les fiches palettes",
   "Generate a new pallet sheet": "Générer une nouvelle fiche palette",
   "Inventory Alerts": "Alertes d'inventaire",
   "Get right where you left :": "Reprendre là où vous vous êtes arrêté :",
@@ -259,27 +205,19 @@
   "Select a date": "Sélectionnez une date",
   "Current stock": "Stock actuel",
   "Stock as of": "Stock au",
-  "error_management_menu": {
-    "title": "gestion des erreurs",
-    "kown_errors": "erreurs connues",
-    "not_found": "non trouvé",
-    "resolve_error": "résoudre l'erreur",
-    "list_actions_wrong_product": "liste de toutes les actions concernant le produit",
-    "new_quantity_after_update": "nouvelle quantité après mise à jour :"
-  },
   "I stock": "Je stocke",
   "I sell": "Je vends",
   "I Give": "Je donne",
   "I Transfer to the shop": "Je transfère au magasin",
   "product": {
     "confirmDelete": "Etes-vous sûr de vouloir supprimer ce produit ? Les actions créées avec ce produit ne seront pas supprimées mais seront attribuées à un \"produit inconnu\".",
-    "product_code": "code produit",
-    "product_name": "nom du produit",
-    "product_specificity": "spécificité du produit",
     "selectStockGeneralCategory": "Sélectionner une catégorie générale de stock",
     "newProduct": "nouveau produit",
     "category": "catégorie",
-    "information": "l'information"
+    "information": "l'information",
+    "productCode": "référence produit",
+    "productName": "nom du produit",
+    "productSpecificity": "spécificité du produit"
   },
   "validation": {
     "batchNumberNew": "nouveau lot - sera créé lors de l'enregistrement",
@@ -290,6 +228,40 @@
     "batchNumberInDb": "numéro de lot enregistré dans la base de données",
     "productCodeNotInDb": "le code du produit n'est pas enregistré dans la base de données, veuillez ajouter ce produit en utilisant le menu dédié"
   },
-  "manage_pallet_sheets": "gérer les fiches de palettes",
-  "pallet_sheets": "plaques de palette"
+  "addPalletSheet": {
+    "addPalletSheet": "Ajouter une feuille de palette",
+    "remainsToBePlaced": "reste à placer",
+    "selectAProduct": "choisissez un produit",
+    "modifyExistingPalletSheet": "modifier la fiche de palette existante",
+    "productCode": "code",
+    "origin": "origine",
+    "client": "client",
+    "product": "produit",
+    "batchNumber": "numéro de lot",
+    "expireAt": "expirer le",
+    "quantity": "quantité",
+    "createSheet": "Créer une feuille",
+    "createQrCode": "Créer un code QR",
+    "alertUnableToCreateQr": "Impossible de créer un code QR",
+    "alertFieldMissing": "certains champs sont vides"
+  },
+  "viewPalletSheet": {
+    "viewPalletSheet": "Consulter les fiches de palettes"
+  },
+  "modifyPalletSheet": {
+    "modifyExistingPalletSheet": "modifier la fiche de palette existante",
+    "scanExistingSheet": "numériser la feuille existante",
+    "deletePalletSheet": "Supprimer la fiche de palette"
+  },
+  "errorManagementMenu": {
+    "title": "gestion des erreurs",
+    "kownErrors": "erreurs connues",
+    "notFound": "introuvable",
+    "resolveError": "corriger l'erreur",
+    "listActionsWrongProduct": "liste de toutes les actions concernant le produit",
+    "newQuantityAfterUpdate": "nouvelle quantité après la mise à jour :"
+  },
+  "manageErrors": "gérer les erreurs",
+  "managePalletSheets": "gérer les fiches de palettes",
+  "palletSheets": "plaques de palette"
 }

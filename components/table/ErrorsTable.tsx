@@ -58,7 +58,7 @@ export function ErrorsTable({
     {
       id: "batch_number",
       accessorFn: (row) => row.action?.batch_number,
-      header: () => capitalizeFirst(t("actions.batch_number")),
+      header: () => capitalizeFirst(t("actions.batchNumber")),
     },
     {
       id: "quantity",

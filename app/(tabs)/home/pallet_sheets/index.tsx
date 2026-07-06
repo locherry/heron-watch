@@ -3,11 +3,11 @@ import { Plus } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    FlatList,
-    LayoutChangeEvent,
-    Pressable,
-    useWindowDimensions,
-    View,
+  FlatList,
+  LayoutChangeEvent,
+  Pressable,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import { StockCategory } from "~/@types/stock";
 import { AutocompleteInput } from "~/components/AutoCompleteInput";
@@ -21,9 +21,9 @@ import { Label } from "~/components/ui/label";
 import { PalletCard } from "~/components/ui/pallet-card";
 import { Text } from "~/components/ui/text";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { constants } from "~/lib/constants";
 import { useBreakpoint } from "~/lib/hooks/useBreakpoint";
@@ -135,8 +135,8 @@ export default function PalletSheetsHub() {
         ListHeaderComponent={
           <>
             <Header
-              title={capitalizeFirst(t("manage_pallet_sheets"))}
-              shortTitle={capitalizeFirst(t("pallet_sheets"))}
+              title={capitalizeFirst(t("managePalletSheets"))}
+              shortTitle={capitalizeFirst(t("palletSheets"))}
               className="justify-between mb-2"
             >
               <Row gap={8}>
@@ -177,14 +177,14 @@ export default function PalletSheetsHub() {
                   // Navigate straight into edit for the scanned sheet
                 }}
               >
-                {capitalizeFirst(t("modify_pallet_sheet.scan_existing_sheet"))}
+                {capitalizeFirst(t("modifyPalletSheet.scanExistingSheet"))}
               </QrScannerButton>
             </Row>
 
             {/* Search */}
             <View className="z-20">
               <Label className="text-base">
-                {capitalizeFirst(t("actions.product_code"))}
+                {capitalizeFirst(t("actions.productCode"))}
               </Label>
               <AutocompleteInput
                 data={PCfilteredData.map((qr) => ({
@@ -200,12 +200,12 @@ export default function PalletSheetsHub() {
                   setProductCodeValue(item.value);
                   setDynamicProductCodeValue(item.value);
                 }}
-                placeholder={t("actions.product_code")}
+                placeholder={t("actions.productCode")}
               />
             </View>
             <View className="z-10">
               <Label className="text-base">
-                {capitalizeFirst(t("actions.batch_number"))}
+                {capitalizeFirst(t("actions.batchNumber"))}
               </Label>
               <AutocompleteInput
                 data={BNfilteredData.map((qr) => ({
@@ -221,7 +221,7 @@ export default function PalletSheetsHub() {
                   setBatchNumberValue(item.value);
                   setDynamicBatchNumberValue(item.value);
                 }}
-                placeholder={t("actions.batch_number")}
+                placeholder={t("actions.batchNumber")}
               />
             </View>
 
@@ -229,7 +229,7 @@ export default function PalletSheetsHub() {
             <View className="mt-5">
               {!hasSearch ? (
                 <Text className="text-center text-muted-foreground mt-4">
-                  {capitalizeFirst(t("add_pallet_sheet.select_a_product"))}
+                  {capitalizeFirst(t("addPalletSheet.selectAProduct"))}
                 </Text>
               ) : (
                 <FlatList

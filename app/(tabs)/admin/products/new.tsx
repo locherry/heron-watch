@@ -9,9 +9,9 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import {
-    ToggleGroup,
-    ToggleGroupIcon,
-    ToggleGroupItem,
+  ToggleGroup,
+  ToggleGroupIcon,
+  ToggleGroupItem,
 } from "~/components/ui/toggle-group";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { capitalizeFirst } from "~/lib/utils";
@@ -183,11 +183,11 @@ export default function NewProduct() {
           <SectionTitle>{t("product.information")}</SectionTitle>
 
           <FormField
-            label={capitalizeFirst(t("product.product_code"))}
+            label={capitalizeFirst(t("product.productCode"))}
             error={errors.productCode}
           >
             <Input
-              placeholder={capitalizeFirst(t("product.product_code"))}
+              placeholder={capitalizeFirst(t("product.productCode"))}
               value={form.productCode}
               onChangeText={(v) => setForm((p) => ({ ...p, productCode: v }))}
               aria-invalid={!!errors.productCode}
@@ -195,11 +195,11 @@ export default function NewProduct() {
           </FormField>
 
           <FormField
-            label={capitalizeFirst(t("product.product_name"))}
+            label={capitalizeFirst(t("product.productName"))}
             error={errors.productName}
           >
             <Input
-              placeholder={capitalizeFirst(t("product.product_name"))}
+              placeholder={capitalizeFirst(t("product.productName"))}
               value={form.productName}
               onChangeText={(v) => setForm((p) => ({ ...p, productName: v }))}
               aria-invalid={!!errors.productName}
@@ -207,7 +207,7 @@ export default function NewProduct() {
           </FormField>
 
           <FormField
-            label={capitalizeFirst(t("product.product_specificity"))}
+            label={capitalizeFirst(t("product.productSpecificity"))}
             error={errors.productSpecificity}
           >
             <Input

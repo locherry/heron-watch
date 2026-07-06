@@ -81,9 +81,9 @@ export default function ViewActions() {
   }
 
   const sortOptions = [
-    { label: capitalizeFirst(t("actions.created_at")), value: "created_at" },
+    { label: capitalizeFirst(t("actions.createdAt")), value: "created_at" },
     { label: capitalizeFirst(t("actions.quantity")), value: "quantity" },
-    { label: capitalizeFirst(t("actions.product_code")), value: "product" },
+    { label: capitalizeFirst(t("actions.productCode")), value: "product" },
   ];
 
   const handleApplyFilters = (value: TableFilterValue) => {

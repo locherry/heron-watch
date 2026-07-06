@@ -316,7 +316,9 @@ export default function EditUser() {
                     <ToggleGroupIcon as={theme.icon} />
                     <Text>
                       {capitalizeFirst(
-                        t(`user.preferences.theme_${theme.value}`),
+                        t(
+                          `user.preferences.theme${capitalizeFirst(theme.value)}`,
+                        ),
                       )}
                     </Text>
                   </ToggleGroupItem>

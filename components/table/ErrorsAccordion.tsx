@@ -44,7 +44,7 @@ export function ErrorsAccordion({
                 <Text>
                   {capitalizeFirst(
                     item.action?.product.product_code ??
-                      t("error_management_menu.not_found"),
+                      t("errorManagementMenu.notFound"),
                   )}
                 </Text>
               </AccordionTrigger>

@@ -149,21 +149,19 @@ export default function App() {
   return (
     <RootView>
       <Header
-        title={capitalizeFirst(t("error_management_menu.resolve_error"))}
+        title={capitalizeFirst(t("errorManagementMenu.resolveError"))}
         className="mb4"
       />
       <View className="mr-5 ml-5">
         <Text variant={"h2"} className="flex justify-center">
-          {capitalizeFirst(
-            t("error_management_menu.list_actions_wrong_product"),
-          )}
+          {capitalizeFirst(t("errorManagementMenu.listActionsWrongProduct"))}
         </Text>
         <View className="flex-row justify-around items-center">
           <Text variant={"h4"} className="p-2">
-            {capitalizeFirst(t("actions.created_at"))}
+            {capitalizeFirst(t("actions.createdAt"))}
           </Text>
           <Text variant={"h4"} className="p-2">
-            {capitalizeFirst(t("actions.created_by_id"))}
+            {capitalizeFirst(t("actions.createdById"))}
           </Text>
           <Text variant={"h4"} className="p-2">
             {capitalizeFirst(t("actions.quantity"))}
@@ -180,9 +178,7 @@ export default function App() {
       <View className="items-center mt-20">
         <Row>
           <Text variant={"h3"}>
-            {capitalizeFirst(
-              t("error_management_menu.new_quantity_after_update"),
-            )}
+            {capitalizeFirst(t("errorManagementMenu.newQuantityAfterUpdate"))}
           </Text>
           <Text
             variant={"h3"}

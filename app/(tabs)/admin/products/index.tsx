@@ -96,7 +96,9 @@ export default function App() {
       <Text>{capitalizeFirst(t("stocks.stockGroup"))}</Text>
       <ToggleGroup
         value={stockGroup}
-        onValueChange={setStockGroup}
+        onValueChange={(val) => {
+          if (val) setStockGroup(val as typeof stockGroup);
+        }}
         variant="outline"
         type="single"
       >
@@ -108,7 +110,7 @@ export default function App() {
             isLast={i === 2}
           >
             <ToggleGroupIcon as={Package} />
-            <Text>{capitalizeFirst(t("stocks." + cat))}</Text>
+            <Text>{capitalizeFirst(t(`stocks.${cat}` as const))}</Text>
           </ToggleGroupItem>
         ))}
       </ToggleGroup>

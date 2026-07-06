@@ -20,12 +20,12 @@ export function DraftActionTable(
     {
       id: "product_code",
       accessorKey: "product_code",
-      header: () => capitalizeFirst(t("actions.product_code")),
+      header: () => capitalizeFirst(t("actions.productCode")),
     },
     {
       id: "batch_number",
       accessorKey: "batch_number",
-      header: () => capitalizeFirst(t("actions.batch_number")),
+      header: () => capitalizeFirst(t("actions.batchNumber")),
     },
     {
       id: "quantity",
@@ -47,7 +47,7 @@ export function DraftActionTable(
     {
       id: "action_category",
       accessorKey: "action_category",
-      header: () => capitalizeFirst(t("actions.action_id")),
+      header: () => capitalizeFirst(t("actions.actionId")),
       cell: ({ getValue }) => {
         const id = getValue<number>();
         const actionType = constants.actionTypes.find(

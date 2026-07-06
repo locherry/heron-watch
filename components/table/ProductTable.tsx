@@ -17,17 +17,17 @@ export function ProductTable({ ...props }: ProductTableProps) {
       {
         id: "product_code",
         accessorKey: "product_code",
-        header: () => capitalizeFirst(t("product.product_code")),
+        header: () => capitalizeFirst(t("product.productCode")),
       },
       {
         id: "product_name",
         accessorKey: "product_name",
-        header: () => capitalizeFirst(t("product.product_name")),
+        header: () => capitalizeFirst(t("product.productName")),
       },
       {
         id: "product_specificity",
         accessorKey: "product_specificity",
-        header: () => capitalizeFirst(t("product.product_specificity")),
+        header: () => capitalizeFirst(t("product.productSpecificity")),
       },
     ],
     [],

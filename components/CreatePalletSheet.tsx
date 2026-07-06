@@ -167,34 +167,34 @@ function CreatePalletSheet({
 <body>
   <table>
     <tr>
-      <td class="label">${capitalizeFirst(t("add_pallet_sheet.product_code"))}</td>
+      <td class="label">${capitalizeFirst(t("addPalletSheet.productCode"))}</td>
       <td colspan="2" class="content">${escapeHtml(data?.product_code ?? "")}</td>
       <td rowspan="2" class="qr-container">
         <img src="data:image/png;base64,${qrBase64}" alt="QR Code" >
       </td>
     </tr>
     <tr>
-      <td class="label">${t("add_pallet_sheet.origin")}</td>
+      <td class="label">${t("addPalletSheet.origin")}</td>
       <td colspan="2" class="content">${escapeHtml(data?.origin ?? "")}</td>
     </tr>
     <tr>
-      <td class="label">${t("add_pallet_sheet.client")}</td>
+      <td class="label">${t("addPalletSheet.client")}</td>
       <td colspan="3" class="content">${escapeHtml(data?.client ?? "")}</td>
     </tr>
     <tr>
-      <td class="label">${t("add_pallet_sheet.product")}</td>
+      <td class="label">${t("addPalletSheet.product")}</td>
       <td colspan="3" class="productName">${escapeHtml(data?.product_name ?? "")}</td>
     </tr>
     <tr>
-      <td class="label">${t("add_pallet_sheet.batch_number")}</td>
+      <td class="label">${t("addPalletSheet.batchNumber")}</td>
       <td colspan="3" class="content">${escapeHtml(data?.batch_number ?? "")}</td>
     </tr>
     <tr>
-      <td class="label">${t("add_pallet_sheet.expire_at")}</td>
+      <td class="label">${t("addPalletSheet.expireAt")}</td>
       <td colspan="3" class="content">${escapeHtml(data?.expire_at ?? "")}</td>
     </tr>
     <tr>
-      <td class="label" rowspan="2">${t("add_pallet_sheet.quantity")}</td>
+      <td class="label" rowspan="2">${t("addPalletSheet.quantity")}</td>
       <td class="center">UV</td>
       <td colspan="2"></td>
     </tr>
@@ -223,7 +223,7 @@ function CreatePalletSheet({
                   [
                     {
                       text: capitalizeFirst(
-                        t("add_pallet_sheet.product_code"),
+                        t("addPalletSheet.productCode"),
                       ).toUpperCase(),
                       fontSize: 20,
                       bold: true,
@@ -246,7 +246,7 @@ function CreatePalletSheet({
                   ],
                   [
                     {
-                      text: t("add_pallet_sheet.origin").toUpperCase(),
+                      text: t("addPalletSheet.origin").toUpperCase(),
                       fontSize: 20,
                       bold: true,
                       alignment: "center",
@@ -263,7 +263,7 @@ function CreatePalletSheet({
                   // Ligne 2 : Client
                   [
                     {
-                      text: t("add_pallet_sheet.client").toUpperCase(),
+                      text: t("addPalletSheet.client").toUpperCase(),
                       fontSize: 20,
                       bold: true,
                       alignment: "center",
@@ -280,7 +280,7 @@ function CreatePalletSheet({
                   // Ligne 3 : Product
                   [
                     {
-                      text: t("add_pallet_sheet.product").toUpperCase(),
+                      text: t("addPalletSheet.product").toUpperCase(),
                       fontSize: 20,
                       bold: true,
                       alignment: "center",
@@ -297,7 +297,7 @@ function CreatePalletSheet({
                   // Ligne 4 : Lot Number
                   [
                     {
-                      text: t("add_pallet_sheet.batch_number").toUpperCase(),
+                      text: t("addPalletSheet.batchNumber").toUpperCase(),
                       fontSize: 20,
                       bold: true,
                       alignment: "center",
@@ -314,7 +314,7 @@ function CreatePalletSheet({
                   // Ligne 5 : Expiration Date
                   [
                     {
-                      text: t("add_pallet_sheet.expire_at").toUpperCase(),
+                      text: t("addPalletSheet.expireAt").toUpperCase(),
                       fontSize: 20,
                       bold: true,
                       alignment: "center",
@@ -331,7 +331,7 @@ function CreatePalletSheet({
                   // Ligne 6 & 7 : Quantity UV
                   [
                     {
-                      text: t("add_pallet_sheet.quantity").toUpperCase(),
+                      text: t("addPalletSheet.quantity").toUpperCase(),
                       fontSize: 20,
                       bold: true,
                       alignment: "center",
@@ -381,7 +381,7 @@ function CreatePalletSheet({
             }
           }}
         >
-          {capitalizeFirst(t("add_pallet_sheet.create_qr_code"))}
+          {capitalizeFirst(t("addPalletSheet.create_qr_code"))}
         </Button> */}
 
         <Button
@@ -403,7 +403,7 @@ function CreatePalletSheet({
               <Text>{capitalizeFirst(t("common.loading"))}</Text>
             </>
           ) : (
-            <Text>{capitalizeFirst(t("add_pallet_sheet.create_qr_code"))}</Text>
+            <Text>{capitalizeFirst(t("addPalletSheet.createQrCode"))}</Text>
           )}
         </Button>
         <Alert
@@ -414,10 +414,10 @@ function CreatePalletSheet({
           )}
         >
           <AlertTitle className="text-destructive text-xl mt-1">
-            {capitalizeFirst(t("add_pallet_sheet.alert_unable_to_create_qr"))}
+            {capitalizeFirst(t("addPalletSheet.alertUnableToCreateQr"))}
           </AlertTitle>
           <AlertDescription className="text-destructive text-xs mt-1">
-            {capitalizeFirst(t("add_pallet_sheet.alert_field_missing"))}
+            {capitalizeFirst(t("addPalletSheet.alertFieldMissing"))}
           </AlertDescription>
         </Alert>
       </View>
@@ -432,7 +432,7 @@ function CreatePalletSheet({
           />
         </Card>
         <Button className="" onPress={makePdf} icon={Printer}>
-          {capitalizeFirst(t("add_pallet_sheet.create_sheet"))}
+          {capitalizeFirst(t("addPalletSheet.createSheet"))}
         </Button>
       </Row>
     </View>

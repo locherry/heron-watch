@@ -29,12 +29,12 @@ export default function ErrorMenu() {
   return (
     <RootView>
       <Header
-        title={capitalizeFirst(t("error_management_menu.title"))}
+        title={capitalizeFirst(t("errorManagementMenu.title"))}
         className="mb-4"
       />
       <View className="">
         <Text variant={"h4"} className="text-center">
-          {capitalizeFirst(t("error_management_menu.kown_errors"))}
+          {capitalizeFirst(t("errorManagementMenu.kownErrors"))}
         </Text>
       </View>
       <View className="border-2 rounded-xl border-[hsl(var(--border))]">

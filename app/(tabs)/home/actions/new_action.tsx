@@ -455,7 +455,7 @@ export default function NewAction() {
 
         {/* ── Product code ──────────────────────────────────────────────── */}
         <View className="mb-2 z-20">
-          <Label>{capitalizeFirst(t("actions.product_code"))}</Label>
+          <Label>{capitalizeFirst(t("actions.productCode"))}</Label>
           <AutocompleteInput
             data={filteredProductCodes.map((s) => ({
               label: s.product?.product_code ?? "",
@@ -464,7 +464,7 @@ export default function NewAction() {
             value={formData.product_code}
             onChangeText={handleProductCodeChange}
             onSelect={handleProductCodeSelect}
-            placeholder={capitalizeFirst(t("actions.product_code"))}
+            placeholder={capitalizeFirst(t("actions.productCode"))}
           />
           {errors.product_code ? (
             <FieldFeedback type="error" message={errors.product_code} />
@@ -483,7 +483,7 @@ export default function NewAction() {
 
         {/* ── Batch number ──────────────────────────────────────────────── */}
         <View className="mb-2 z-10">
-          <Label>{capitalizeFirst(t("actions.batch_number"))}</Label>
+          <Label>{capitalizeFirst(t("actions.batchNumber"))}</Label>
           <AutocompleteInput
             data={filteredBatchNumbers.map((s) => ({
               label: s.batch_number ?? "",
@@ -492,7 +492,7 @@ export default function NewAction() {
             value={formData.batch_number}
             onChangeText={handleBatchNumberChange}
             onSelect={handleBatchNumberSelect}
-            placeholder={capitalizeFirst(t("actions.batch_number"))}
+            placeholder={capitalizeFirst(t("actions.batchNumber"))}
           />
           {errors.batch_number ? (
             <FieldFeedback type="error" message={errors.batch_number} />

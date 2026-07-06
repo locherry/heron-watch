@@ -150,12 +150,12 @@ export default function App() {
         ListHeaderComponent={
           <>
             <Header
-              title={capitalizeFirst(t("view_pallet_sheet.view_pallet_sheet"))}
+              title={capitalizeFirst(t("viewPalletSheet.viewPalletSheet"))}
               className="mb-2"
             />
             <View className="z-20">
               <Label className="text-base">
-                {capitalizeFirst(t("actions.product_code"))}
+                {capitalizeFirst(t("actions.productCode"))}
               </Label>
               <AutocompleteInput
                 data={PCfilteredData.map((qr) => ({
@@ -171,12 +171,12 @@ export default function App() {
                   setProductCodeValue(item.value);
                   setDynamicProductCodeValue(item.value);
                 }}
-                placeholder={t("actions.product_code")}
+                placeholder={t("actions.productCode")}
               />
             </View>
             <View className="z-10">
               <Label className="text-base">
-                {capitalizeFirst(t("actions.batch_number"))}
+                {capitalizeFirst(t("actions.batchNumber"))}
               </Label>
               <AutocompleteInput
                 data={BNfilteredData.map((qr) => ({
@@ -192,7 +192,7 @@ export default function App() {
                   setBatchNumberValue(item.value);
                   setDynamicBatchNumberValue(item.value);
                 }}
-                placeholder={t("actions.batch_number")}
+                placeholder={t("actions.batchNumber")}
               />
             </View>
             <View className="mt-5">

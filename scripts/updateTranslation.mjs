@@ -47,28 +47,39 @@ const isLanguageSupported = (lang) => {
     return supportedLanguages.includes(lang);
 };
 
-const translate = async (text, targetLang) => {
+const translate = async (text, targetLang, retries = 5) => {
     if (!isLanguageSupported(targetLang)) {
         console.error(`Target language ${targetLang} is not supported by DeepL.`);
         return null;
     }
 
-    try {
-        const response = await axios.post('https://api-free.deepl.com/v2/translate', null, {
-            headers: {
-                'Authorization': `DeepL-Auth-Key ${DEEPLE_API_KEY}`,
-            },
-            params: {
-                text: text,
-                target_lang: targetLang,
-                source_lang: translationRef
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            const response = await axios.post('https://api-free.deepl.com/v2/translate', null, {
+                headers: {
+                    'Authorization': `DeepL-Auth-Key ${DEEPLE_API_KEY}`,
+                },
+                params: {
+                    text: text,
+                    target_lang: targetLang,
+                    source_lang: translationRef
+                }
+            });
+            return response.data.translations[0].text;
+        } catch (error) {
+            if (error.response?.status === 429) {
+                const retryAfter = error.response.headers['retry-after'];
+                const waitMs = retryAfter ? parseInt(retryAfter, 10) * 1000 : 1000 * Math.pow(2, attempt);
+                console.warn(`Rate limited by DeepL. Waiting ${waitMs}ms (attempt ${attempt + 1}/${retries})...`);
+                await new Promise(res => setTimeout(res, waitMs));
+                continue;
             }
-        });
-        return response.data.translations[0].text;
-    } catch (error) {
-        console.error('Error translating text:', error);
-        return null;
+            console.error('Error translating text:', error.message);
+            return null;
+        }
     }
+    console.error(`Failed to translate after ${retries} retries: "${text}"`);
+    return null;
 }
 
 const updateMissingKeys = async (refObj, currentObj, targetLang) => {
@@ -85,6 +96,20 @@ const updateMissingKeys = async (refObj, currentObj, targetLang) => {
             }
         } else if (typeof refObj[key] === 'object' && refObj[key] !== null) {
             await updateMissingKeys(refObj[key], currentObj[key], targetLang);
+        }
+    }
+};
+
+const removeExtraKeys = (refObj, currentObj) => {
+    for (const key in currentObj) {
+        if (!refObj.hasOwnProperty(key)) {
+            delete currentObj[key];
+        } else if (typeof refObj[key] === 'object' && refObj[key] !== null) {
+            if (typeof currentObj[key] === 'object' && currentObj[key] !== null) {
+                removeExtraKeys(refObj[key], currentObj[key]);
+            } else {
+                delete currentObj[key];
+            }
         }
     }
 };
@@ -110,6 +135,7 @@ const updateTranslations = async () => {
             const currentTranslationJson = JSON.parse(fs.readFileSync(currentTranslationFile, 'utf8'));
 
             await updateMissingKeys(refJson, currentTranslationJson, dir);
+            removeExtraKeys(refJson, currentTranslationJson);
 
             fs.writeFileSync(currentTranslationFile, JSON.stringify(currentTranslationJson, null, 2), 'utf8');
             console.info(`All translations to ${dir} successfuly implemented.`)
@@ -118,4 +144,3 @@ const updateTranslations = async () => {
 }
 
 updateTranslations().catch(error => console.error('Error updating translations:', error));
-// await fetchSupportedLanguages();

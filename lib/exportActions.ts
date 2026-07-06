@@ -97,17 +97,16 @@ function getActionCategoryLabel(action: any): string {
 
 function toRow(action: any) {
   return {
-    [capitalizeFirst(t("actions.created_at"))]: action.created_at
+    [capitalizeFirst(t("actions.createdAt"))]: action.created_at
       ? new Date(action.created_at).toLocaleString()
       : "",
-    [capitalizeFirst(t("actions.product_code"))]: getProductCode(action),
-    [capitalizeFirst(t("actions.batch_number"))]: action.batch_number ?? "",
+    [capitalizeFirst(t("actions.productCode"))]: getProductCode(action),
+    [capitalizeFirst(t("actions.batchNumber"))]: action.batch_number ?? "",
     [capitalizeFirst(t("actions.quantity"))]: action.quantity ?? "",
     [capitalizeFirst(t("actions.actionType"))]: getActionCategoryLabel(action),
-    [capitalizeFirst(t("actions.transaction_code"))]:
+    [capitalizeFirst(t("actions.transactionCode"))]:
       action.transaction_code ?? "",
-    [capitalizeFirst(t("actions.created_by_id"))]: action.created_by_id
-      .first_name
+    [capitalizeFirst(t("actions.createdById"))]: action.created_by_id.first_name
       ? action.created_by_id.first_name + " " + action.created_by_id.last_name
       : t("user.unknownUser"),
     [capitalizeFirst(t("actions.comment"))]: action.comment ?? "",

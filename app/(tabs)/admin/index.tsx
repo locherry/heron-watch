@@ -18,7 +18,7 @@ export default function App() {
       <SettingsEntry
         href={"/admin/products"}
         icon={Apple}
-        title={capitalizeFirst(t("admin.product_category.name"))}
+        title={capitalizeFirst(t("admin.productCategory.name"))}
       />
     </RootView>
   );

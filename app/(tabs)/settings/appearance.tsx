@@ -87,7 +87,9 @@ export default function AppearanceSettings() {
                 ? {
                     value: selectedOption.value,
                     label: capitalizeFirst(
-                      t(`user.preferences.theme_${selectedOption.value}`),
+                      t(
+                        `user.preferences.theme${capitalizeFirst(selectedOption.value)}`,
+                      ),
                     ),
                   }
                 : undefined
@@ -99,7 +101,7 @@ export default function AppearanceSettings() {
                 <Text>
                   {capitalizeFirst(
                     t(
-                      `user.preferences.theme_${selectedOption?.value ?? "system"}`,
+                      `user.preferences.theme${capitalizeFirst(selectedOption?.value ?? "system")}`,
                     ),
                   )}
                 </Text>
@@ -111,7 +113,9 @@ export default function AppearanceSettings() {
                   <SelectItem
                     key={option.value}
                     label={capitalizeFirst(
-                      t(`user.preferences.theme_${option.value}`),
+                      t(
+                        `user.preferences.theme${capitalizeFirst(option.value)}`,
+                      ),
                     )}
                     value={option.value}
                   >

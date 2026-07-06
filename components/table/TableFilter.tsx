@@ -1,11 +1,11 @@
 import { SlidersHorizontal } from "lucide-react-native";
 import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
+    forwardRef,
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
@@ -13,19 +13,19 @@ import { StockCategory, StockRead } from "~/@types/stock";
 import Column from "~/components/layout/Column";
 import Row from "~/components/layout/Row";
 import {
-  BottomSheetModal,
-  BottomSheetView,
+    BottomSheetModal,
+    BottomSheetView,
 } from "~/components/ui/bottom-sheet";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Label } from "~/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { constants } from "~/lib/constants";
@@ -337,7 +337,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
             <Wrapper gap={8} className="mt-2">
               {/* ── Product code ──────────────────────────────────────────────── */}
               <View className="z-20 flex-1">
-                <Label>{capitalizeFirst(t("actions.product_code"))}</Label>
+                <Label>{capitalizeFirst(t("actions.productCode"))}</Label>
                 <AutocompleteInput
                   data={filteredProductCodes.map((s) => ({
                     label: s.product?.product_code ?? "",
@@ -346,13 +346,13 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
                   value={productCode}
                   onChangeText={handleProductCodeChange}
                   onSelect={handleProductCodeSelect}
-                  placeholder={capitalizeFirst(t("actions.product_code"))}
+                  placeholder={capitalizeFirst(t("actions.productCode"))}
                 />
               </View>
 
               {/* ── Batch number ──────────────────────────────────────────────── */}
               <View className="z-10 flex-1">
-                <Label>{capitalizeFirst(t("actions.batch_number"))}</Label>
+                <Label>{capitalizeFirst(t("actions.batchNumber"))}</Label>
                 <AutocompleteInput
                   data={filteredBatchNumbers.map((s) => ({
                     label: s.batch_number ?? "",
@@ -361,7 +361,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
                   value={batchNumber}
                   onChangeText={handleBatchNumberChange}
                   onSelect={handleBatchNumberSelect}
-                  placeholder={capitalizeFirst(t("actions.batch_number"))}
+                  placeholder={capitalizeFirst(t("actions.batchNumber"))}
                 />
               </View>
             </Wrapper>
