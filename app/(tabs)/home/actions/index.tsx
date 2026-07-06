@@ -54,6 +54,7 @@ export default function ViewActions() {
     {
       query: {
         stock_category: stockCategory,
+        isCorrected: false, // Fetch only non-corrected actions
         page,
         ...(sorting ? { [`order[${sorting.order_by}]`]: sorting.sort } : {}),
         ...(filters.startDate

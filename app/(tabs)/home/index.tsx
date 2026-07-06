@@ -51,6 +51,7 @@ export default function MaterialTabsExample() {
     {
       query: {
         stock_category: stockCategory,
+        isCorrected: false, // Fetch only non-corrected actions
         page,
         ...(sorting ? { [`order[${sorting.order_by}]`]: sorting.sort } : {}),
       },

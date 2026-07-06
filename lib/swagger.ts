@@ -1175,6 +1175,11 @@ export interface operations {
                 action_category?: string;
                 "action_category[]"?: string[];
                 "product.product_code"?: string;
+                /**
+                 * @description Filter actions by whether they have been corrected. Use isCorrected=false to retrieve only current (non-superseded) actions.
+                 * @example false
+                 */
+                isCorrected?: boolean;
             };
             header?: never;
             path?: never;
