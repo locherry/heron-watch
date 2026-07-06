@@ -106,8 +106,8 @@ function toRow(action: any) {
     [capitalizeFirst(t("actions.actionType"))]: getActionCategoryLabel(action),
     [capitalizeFirst(t("actions.transactionCode"))]:
       action.transaction_code ?? "",
-    [capitalizeFirst(t("actions.createdById"))]: action.created_by_id.first_name
-      ? action.created_by_id.first_name + " " + action.created_by_id.last_name
+    [capitalizeFirst(t("actions.createdBy"))]: action.created_by?.id
+      ? action.created_by.first_name + " " + action.created_by.last_name
       : t("user.unknownUser"),
     [capitalizeFirst(t("actions.comment"))]: action.comment ?? "",
     [capitalizeFirst(t("actions.expireAt"))]: action.expire_at

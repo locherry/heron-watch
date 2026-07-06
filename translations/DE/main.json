@@ -86,7 +86,7 @@
     "actions": "Maßnahmen",
     "productCode": "Artikelnummer",
     "batchNumber": "Chargennummer",
-    "createdById": "erstellt von",
+    "createdBy": "erstellt von",
     "createdAt": "erstellt am",
     "actionId": "Aktion",
     "correctionBadge": "c",

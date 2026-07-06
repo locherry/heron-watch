@@ -86,7 +86,7 @@
     "actions": "ekintzak",
     "productCode": "Produktuko kodea",
     "batchNumber": "Lote-zenbakia",
-    "createdById": "sortu du",
+    "createdBy": "sortu du",
     "createdAt": "sortua",
     "actionId": "ekintza",
     "correctionBadge": "ze",

@@ -499,7 +499,7 @@ export interface components {
             comment?: string | null;
             product: components["schemas"]["Product-action.read"];
             batch_number: string;
-            created_by_id?: components["schemas"]["User-action.read"] | null;
+            created_by?: components["schemas"]["User-action.read"] | null;
             /** Format: date-time */
             created_at: string;
             /** Format: date-time */
@@ -564,7 +564,7 @@ export interface components {
             comment?: string | null;
             product: components["schemas"]["Product.jsonld-action.read"];
             batch_number: string;
-            created_by_id?: components["schemas"]["User.jsonld-action.read"] | null;
+            created_by?: components["schemas"]["User.jsonld-action.read"] | null;
             /** Format: date-time */
             created_at: string;
             /** Format: date-time */
@@ -1163,11 +1163,18 @@ export interface operations {
                 "order[stock_category]"?: "asc" | "desc";
                 "order[batch_number]"?: "asc" | "desc";
                 "order[transaction_code]"?: "asc" | "desc";
+                "created_at[before]"?: string;
+                "created_at[strictly_before]"?: string;
+                "created_at[after]"?: string;
+                "created_at[strictly_after]"?: string;
                 /** @example PF_G */
                 stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
                 "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
                 batch_number?: string;
                 "batch_number[]"?: string[];
+                action_category?: string;
+                "action_category[]"?: string[];
+                "product.product_code"?: string;
             };
             header?: never;
             path?: never;

@@ -78,7 +78,7 @@
     "comment": "comment",
     "productCode": "product code",
     "batchNumber": "batch number",
-    "createdById": "created by",
+    "createdBy": "created by",
     "createdAt": "created at",
     "actionId": "action",
     "transaction": "transaction",

@@ -86,7 +86,7 @@
     "actions": "actions",
     "productCode": "référence produit",
     "batchNumber": "numéro de lot",
-    "createdById": "créé par",
+    "createdBy": "créé par",
     "createdAt": "créé le",
     "actionId": "action",
     "correctionBadge": "c",

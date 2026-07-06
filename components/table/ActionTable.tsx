@@ -95,19 +95,19 @@ export function ActionTable(
       header: () => capitalizeFirst(t("actions.comment")),
     },
     {
-      id: "created_by_id",
-      accessorKey: "created_by_id",
-      header: () => capitalizeFirst(t("actions.createdById")),
+      id: "created_by",
+      accessorKey: "created_by",
+      header: () => capitalizeFirst(t("actions.createdBy")),
       cell: ({ getValue }) => {
-        const created_by_id = getValue<ActionRead["created_by_id"]>();
+        const created_by = getValue<ActionRead["created_by"]>();
         return (
           <Text>
             {/* TODO */}
-            {/* <Link href={`/users/${created_by_id.id}`}> */}
-            {!created_by_id && t("user.unknownUser")}
-            {created_by_id && (
+            {/* <Link href={`/users/${created_by.id}`}> */}
+            {!created_by && t("user.unknownUser")}
+            {created_by && (
               <>
-                {created_by_id.first_name} {created_by_id.last_name}
+                {created_by.first_name} {created_by.last_name}
               </>
             )}
             {/* </Link> */}

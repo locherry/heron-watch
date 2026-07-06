@@ -107,9 +107,9 @@ export default function App() {
     >
       <Text>{handleDataFormating(item.created_at)}</Text>
       <Text>
-        {capitalizeFirst(item.created_by_id?.first_name ?? "") +
+        {capitalizeFirst(item.createdBy?.first_name ?? "") +
           " " +
-          capitalizeFirst(item.created_by_id?.last_name ?? "")}
+          capitalizeFirst(item.createdBy?.last_name ?? "")}
       </Text>
       <Input
         className={cn(
@@ -161,7 +161,7 @@ export default function App() {
             {capitalizeFirst(t("actions.createdAt"))}
           </Text>
           <Text variant={"h4"} className="p-2">
-            {capitalizeFirst(t("actions.createdById"))}
+            {capitalizeFirst(t("actions.createdBy"))}
           </Text>
           <Text variant={"h4"} className="p-2">
             {capitalizeFirst(t("actions.quantity"))}
