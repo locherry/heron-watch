@@ -68,7 +68,7 @@ export default function ViewStocks() {
         className="justify-between"
       >
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger asChild>
             <Button variant="ghost">
               <Icon as={constants.stockCategoryIcon[stockCategory]} />
             </Button>

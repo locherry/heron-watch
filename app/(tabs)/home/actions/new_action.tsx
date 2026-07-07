@@ -387,7 +387,7 @@ export default function NewAction() {
           className="justify-between"
         >
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
               <Button variant="ghost">
                 <Icon
                   as={constants.stockCategoryIcon[stockCategory ?? "PF_G"]}
