@@ -1,11 +1,11 @@
 import { SlidersHorizontal } from "lucide-react-native";
 import {
-    forwardRef,
-    useEffect,
-    useImperativeHandle,
-    useMemo,
-    useRef,
-    useState,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
@@ -13,19 +13,19 @@ import { StockCategory, StockRead } from "~/@types/stock";
 import Column from "~/components/layout/Column";
 import Row from "~/components/layout/Row";
 import {
-    BottomSheetModal,
-    BottomSheetView,
+  BottomSheetModal,
+  BottomSheetView,
 } from "~/components/ui/bottom-sheet";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Label } from "~/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
 } from "~/components/ui/select";
 import { Text } from "~/components/ui/text";
 import { constants } from "~/lib/constants";
@@ -169,7 +169,11 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
         query: { stock_category: stockCategory },
       },
     );
-    const stockMembers = (stockData?.member as StockRead[]) ?? [];
+
+    const stockMembers = useMemo(
+      () => (stockData?.member as StockRead[]) ?? [],
+      [stockData?.member],
+    );
 
     const {
       filteredProductCodes,
