@@ -75,7 +75,6 @@ export default function TabLayout() {
           paddingLeft: insets.left,
           marginTop: insets.top,
           width: Platform.select({
-            // native: 240,
             native: undefined,
             web: animatedWidth,
           }),

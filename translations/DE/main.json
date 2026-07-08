@@ -92,7 +92,11 @@
     "correctionBadge": "c",
     "correctionTooltip": "Diese Aktion wurde am {{date}} von {{user}} erstellt, um eine andere Aktion zu korrigieren.",
     "correctedTooltip": "Diese Aktion wurde durch eine andere Aktion korrigiert.",
-    "transactionCode": "Transaktionscode"
+    "transactionCode": "Transaktionscode",
+    "noHistory": "keine Historie",
+    "historyTitle": "Entstehungsgeschichte der Aktion",
+    "longCorrectionBadge": "Korrekturmaßnahme",
+    "longCorrectedBadge": "Korrigierte Maßnahme"
   },
   "stocks": {
     "id": "id",

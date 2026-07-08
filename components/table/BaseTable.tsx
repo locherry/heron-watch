@@ -32,7 +32,7 @@ export function BaseTable<T>({
   onDelete,
   onEdit,
   features = { sorting: false, edition: false },
-  onPress = () => {},
+  onPress,
   page,
   totalPages,
   onPageChange,
@@ -142,7 +142,62 @@ export function BaseTable<T>({
     const { muted, disabled, tooltip } =
       props.getRowState?.(item.original) ?? {};
 
-    const rowContent = (
+    const isRowClickable = !!onPress;
+    const content = (
+      <View
+        className={cn(
+          "flex-row",
+          index % 2 === 0 ? "bg-muted" : "bg-background",
+          muted && "opacity-50 line-through",
+        )}
+      >
+        {item.getVisibleCells().map((cell: any, cellIndex: number) => (
+          <View
+            key={cell.id}
+            style={{ width: columnWidths[cellIndex] }}
+            className="p-2"
+          >
+            <Text
+              className={cn(
+                "flex-row",
+                // index % 2 === 0 ? "bg-muted" : "bg-background",
+                muted && "opacity-50 line-through",
+              )}
+            >
+              {flexRender(cell.column.columnDef.cell, cell.getContext()) ??
+                (cell.getValue() as string | number | null)}
+            </Text>
+          </View>
+        ))}
+        {features.edition && (
+          <View className="flex-row items-center space-x-2 p-2">
+            <Button
+              onPress={() => onEdit?.(item)}
+              variant="outline"
+              disabled={disabled}
+            >
+              <Icon as={Pencil} />
+              <Text className="hidden lg:inline">
+                {capitalizeFirst(t("common.edit"))}
+              </Text>
+            </Button>
+            <Button
+              onPress={() => onDelete?.(item)}
+              variant="outline"
+              disabled={disabled}
+            >
+              <Icon className="text-[hsl(var(--destructive))]" as={X} />
+              <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
+                {capitalizeFirst(t("common.delete"))}
+              </Text>
+            </Button>
+          </View>
+        )}
+      </View>
+    );
+    const rowContent = !isRowClickable ? (
+      content
+    ) : (
       <Pressable
         disabled={disabled}
         onPress={() => {
@@ -150,56 +205,7 @@ export function BaseTable<T>({
           onPress(item.original.product_code, item.original.batch_number);
         }}
       >
-        <View
-          className={cn(
-            "flex-row",
-            index % 2 === 0 ? "bg-muted" : "bg-background",
-            muted && "opacity-50 line-through",
-          )}
-        >
-          {item.getVisibleCells().map((cell: any, cellIndex: number) => (
-            <View
-              key={cell.id}
-              style={{ width: columnWidths[cellIndex] }}
-              className="p-2"
-            >
-              <Text
-                className={cn(
-                  "flex-row",
-                  index % 2 === 0 ? "bg-muted" : "bg-background",
-                  muted && "opacity-50 line-through",
-                )}
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext()) ??
-                  (cell.getValue() as string | number | null)}
-              </Text>
-            </View>
-          ))}
-          {features.edition && (
-            <View className="flex-row items-center space-x-2 p-2">
-              <Button
-                onPress={() => onEdit?.(item)}
-                variant="outline"
-                disabled={disabled}
-              >
-                <Icon as={Pencil} />
-                <Text className="hidden lg:inline">
-                  {capitalizeFirst(t("common.edit"))}
-                </Text>
-              </Button>
-              <Button
-                onPress={() => onDelete?.(item)}
-                variant="outline"
-                disabled={disabled}
-              >
-                <Icon className="text-[hsl(var(--destructive))]" as={X} />
-                <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
-                  {capitalizeFirst(t("common.delete"))}
-                </Text>
-              </Button>
-            </View>
-          )}
-        </View>
+        {content}
       </Pressable>
     );
 
@@ -248,7 +254,7 @@ export function BaseTable<T>({
       )}
 
       {isPaginated && (
-        <View className="flex-row items-center justify-center gap-4 py-3 border-t border-border bg-background">
+        <View className="flex-row items-center justify-center gap-4 pt-3">
           <Button
             variant="outline"
             onPress={() => onPageChange(page - 1)}

@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { ActionRead } from "~/@types/action";
 import { BaseTableProps } from "~/@types/table";
 import { constants } from "~/lib/constants";
@@ -9,7 +10,7 @@ import { capitalizeFirst } from "~/lib/utils";
 import Row from "../layout/Row";
 import { Icon } from "../ui/icon";
 import { Text } from "../ui/text";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { ActionHistoryModal } from "./ActionHistoryModal";
 import { BaseTable } from "./BaseTable";
 
 export function ActionTable(
@@ -32,27 +33,18 @@ export function ActionTable(
               {product.product_code} — {product.product_name}
             </Text>
             {isCorrection && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <View className="rounded-full bg-amber-100 px-2 py-0.5">
-                    <Text className="text-xs text-amber-800">
-                      {capitalizeFirst(t("actions.correctionBadge"))}
-                    </Text>
-                  </View>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <Text>
-                    {t("actions.correctionTooltip", {
-                      user: row.original.corrected_by_user
-                        ? `${row.original.corrected_by_user.first_name} ${row.original.corrected_by_user.last_name}`
-                        : t("user.unknownUser"),
-                      date: row.original.corrected_at
-                        ? formatDate(new Date(row.original.corrected_at))
-                        : "-",
-                    })}
+              <Pressable
+                onPress={(e) => {
+                  e.stopPropagation?.();
+                  setHistoryActionId(row.original.id ?? null);
+                }}
+              >
+                <View className="rounded-full bg-amber-100 px-2 py-0.5">
+                  <Text className="text-xs text-amber-800">
+                    {capitalizeFirst(t("actions.correctionBadge"))}
                   </Text>
-                </TooltipContent>
-              </Tooltip>
+                </View>
+              </Pressable>
             )}
           </Row>
         );
@@ -139,17 +131,25 @@ export function ActionTable(
       header: () => capitalizeFirst(t("actions.transaction")),
     },
   ];
+  const [historyActionId, setHistoryActionId] = useState<number | null>(null);
+
   return (
-    <BaseTable
-      {...props}
-      data={props.data ?? []}
-      columns={columns}
-      features={{ sorting: props.sorting, edition: props.editEnabled }}
-      getRowState={(item) => ({
-        muted: item.corrected === true,
-        disabled: item.corrected === true,
-        tooltip: item.corrected ? t("actions.correctedTooltip") : undefined,
-      })}
-    />
+    <>
+      <BaseTable
+        {...props}
+        data={props.data ?? []}
+        columns={columns}
+        features={{ sorting: props.sorting, edition: props.editEnabled }}
+        getRowState={(item) => ({
+          muted: item.corrected === true,
+          disabled: item.corrected === true,
+          tooltip: item.corrected ? t("actions.correctedTooltip") : undefined,
+        })}
+      />
+      <ActionHistoryModal
+        actionId={historyActionId}
+        onClose={() => setHistoryActionId(null)}
+      />
+    </>
   );
 }

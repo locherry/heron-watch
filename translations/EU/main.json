@@ -92,7 +92,11 @@
     "correctionBadge": "ze",
     "correctionTooltip": "Ekintza hau {{user}}-ek {{date}}-an sortu zuen beste ekintza bat zuzentzeko.",
     "correctedTooltip": "Ekintza hau beste ekintza batek zuzendu du.",
-    "transactionCode": "transakzio kodea"
+    "transactionCode": "transakzio kodea",
+    "noHistory": "Ez dago historiarik",
+    "historyTitle": "Ekintzaren historia",
+    "longCorrectionBadge": "Zuzentze-ekintza",
+    "longCorrectedBadge": "Eskuztatutako ekintza"
   },
   "stocks": {
     "id": "id",

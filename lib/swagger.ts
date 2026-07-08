@@ -76,10 +76,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Retrieves a Action resource.
-         * @description Retrieves a Action resource.
+         * Retrieves the collection of Action resources.
+         * @description Retrieves the collection of Action resources.
          */
-        get: operations["api_actions_idhistory_get"];
+        get: operations["api_actions_idhistory_get_collection"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1176,7 +1176,7 @@ export interface operations {
                 "action_category[]"?: string[];
                 "product.product_code"?: string;
                 /**
-                 * @description Filter actions by whether they have been corrected. Use isCorrected=false to retrieve only current (non-superseded) actions.
+                 * @description Filter actions by whether they have been corrected. Use isCorrected=false to retrieve only current actions.
                  * @example false
                  */
                 isCorrected?: boolean;
@@ -1334,9 +1334,35 @@ export interface operations {
             };
         };
     };
-    api_actions_idhistory_get: {
+    api_actions_idhistory_get_collection: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description The collection page number */
+                page?: number;
+                "order[created_at]"?: "asc" | "desc";
+                "order[expire_at]"?: "asc" | "desc";
+                "order[quantity]"?: "asc" | "desc";
+                "order[stock_category]"?: "asc" | "desc";
+                "order[batch_number]"?: "asc" | "desc";
+                "order[transaction_code]"?: "asc" | "desc";
+                "created_at[before]"?: string;
+                "created_at[strictly_before]"?: string;
+                "created_at[after]"?: string;
+                "created_at[strictly_after]"?: string;
+                /** @example PF_G */
+                stock_category?: "PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB";
+                "stock_category[]"?: ("PF_G" | "PF_M" | "MP_F" | "MP_S" | "MP_C" | "EMB")[];
+                batch_number?: string;
+                "batch_number[]"?: string[];
+                action_category?: string;
+                "action_category[]"?: string[];
+                "product.product_code"?: string;
+                /**
+                 * @description Filter actions by whether they have been corrected. Use isCorrected=false to retrieve only current actions.
+                 * @example false
+                 */
+                isCorrected?: boolean;
+            };
             header?: never;
             path: {
                 /** @description Action identifier */
@@ -1346,25 +1372,16 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Action resource */
+            /** @description Action collection */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Action-action.read"];
-                    "application/ld+json": components["schemas"]["Action.jsonld-action.read"];
-                };
-            };
-            /** @description Not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/ld+json": components["schemas"]["Error.jsonld"];
-                    "application/problem+json": components["schemas"]["Error"];
-                    "application/json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Action-action.read"][];
+                    "application/ld+json": components["schemas"]["HydraCollectionBaseSchema"] & {
+                        member: components["schemas"]["Action.jsonld-action.read"][];
+                    };
                 };
             };
         };
