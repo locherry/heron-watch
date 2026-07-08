@@ -15,7 +15,7 @@ import {
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { ActionSortState } from "~/@types/action";
 import RootView from "~/components/layout/RootView";
 import Row from "~/components/layout/Row";
@@ -24,11 +24,13 @@ import ToggleStock from "~/components/ToggleStock";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { constants } from "~/lib/constants";
+import { useBreakpoint } from "~/lib/hooks/useBreakpoint";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function MaterialTabsExample() {
   const [t] = useTranslation();
+  const { isSmallWidth } = useBreakpoint();
 
   const [stockGroup, setStockGroup] = useState<
     (typeof constants.stockGroups)[number]
@@ -124,8 +126,7 @@ export default function MaterialTabsExample() {
               asChild
             >
               <Button icon={Plus} variant="outline">
-                {Platform.OS == "web" &&
-                  capitalizeFirst(t("actions.newActions"))}
+                {!isSmallWidth && capitalizeFirst(t("actions.newActions"))}
               </Button>
             </Link>
             <Link
@@ -136,8 +137,7 @@ export default function MaterialTabsExample() {
               asChild
             >
               <Button icon={ChevronRight} variant="outline">
-                {Platform.OS == "web" &&
-                  capitalizeFirst(t("common.viewDetails"))}
+                {!isSmallWidth && capitalizeFirst(t("common.viewDetails"))}
               </Button>
             </Link>
           </Row>
