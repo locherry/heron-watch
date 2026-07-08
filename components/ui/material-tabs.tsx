@@ -140,7 +140,7 @@ function MaterialTabsTrigger({
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         className={cn(
-          "items-center justify-center px-4 pb-2",
+          "items-center justify-center sm:px-4 pb-2",
           disabled ? "opacity-40" : "opacity-100",
           className,
         )}

@@ -75,7 +75,7 @@ export default function MaterialTabsExample() {
         onStockGroupChange={setStockGroup}
       />
       {/* Buttons */}
-      <View className="flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 mb-4">
+      <View className="gap-1 mb-4 sm:gap-2 sm:flex-row sm:space-y-0">
         <Link
           href={{
             pathname: "/home/view_stocks",
