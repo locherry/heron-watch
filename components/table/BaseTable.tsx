@@ -9,7 +9,13 @@ import {
 } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LayoutChangeEvent, Pressable, ScrollView, View } from "react-native";
+import {
+  FlatList,
+  LayoutChangeEvent,
+  Pressable,
+  ScrollView,
+  View,
+} from "react-native";
 import { BaseTableProps } from "~/@types/table";
 import { useColumnWidths } from "~/lib/hooks/useColumnWiths";
 import { useTableLogic } from "~/lib/hooks/useTableLogic";
@@ -221,29 +227,42 @@ export function BaseTable<T>({
     );
   };
 
-  const renderRows = () =>
-    tableInstance
-      .getRowModel()
-      .rows.map((row) => (
-        <View key={row.id}>{renderRow({ item: row, index: row.index })}</View>
-      ));
+  const skeletonData = Array.from({ length: SKELETON_ROW_COUNT }, (_, i) => i);
+
+  const renderSkeletonRow = (index: number) => (
+    <View
+      className={cn("flex-row", index % 2 === 0 ? "bg-muted" : "bg-background")}
+    >
+      {columnWidths.map((width, colIndex) => (
+        <View key={colIndex} style={{ width }} className="p-2 justify-center">
+          <Skeleton
+            className="h-4 rounded"
+            style={{
+              width: `${75 + ((index + colIndex) % 3) * 10}%`,
+            }}
+          />
+        </View>
+      ))}
+    </View>
+  );
 
   return (
     <View className={cn("flex-1", className)} onLayout={handleContainerLayout}>
-      <ScrollView className="flex-1">
-        <ScrollView horizontal={needsHorizontalScroll}>
-          <View
-            style={
-              containerWidth != null
-                ? { width: Math.max(rowWidth, containerWidth) }
-                : undefined
-            }
-          >
-            {renderHeader()}
-
-            {isLoading ? renderSkeletonRows() : renderRows()}
-          </View>
-        </ScrollView>
+      <ScrollView horizontal={needsHorizontalScroll}>
+        <FlatList<any>
+          data={isLoading ? skeletonData : tableInstance.getRowModel().rows}
+          keyExtractor={(item, index) =>
+            isLoading ? `skeleton-${index}` : item.id
+          }
+          ListHeaderComponent={renderHeader}
+          stickyHeaderIndices={[0]}
+          renderItem={({ item, index }) =>
+            isLoading ? renderSkeletonRow(index) : renderRow({ item, index })
+          }
+          style={{
+            width: Math.max(rowWidth, containerWidth ?? rowWidth),
+          }}
+        />
       </ScrollView>
 
       {totalRow && (
