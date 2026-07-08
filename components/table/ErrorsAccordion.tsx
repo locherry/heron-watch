@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList } from "react-native";
 import { ApiResponse } from "~/@types/api";
@@ -27,13 +28,21 @@ export function ErrorsAccordion({
 
   //Count number of displayed items to disable separator when we arrive at the end
   const nb_items = data?.length ?? 0;
-  console.log(nb_items);
+
+  // Temp fix may be a backend issue, we filter out duplicates by product code to avoid displaying the same product multiple times in the accordion
+  const uniqueByProductCode = useMemo(() => {
+    const seen = new Set<string>();
+    return (data ?? []).filter((item) => {
+      const code = item.action?.product?.product_code;
+      if (!code || seen.has(code)) return false;
+      seen.add(code);
+      return true;
+    });
+  }, [data]);
   return (
     <Accordion type="single" defaultValue="item-1" collapsible={true}>
       <FlatList
-        data={data?.filter(
-          (item) => item.action?.product?.product_code != null,
-        )}
+        data={uniqueByProductCode}
         keyExtractor={(item) =>
           item.action?.product.product_code + item.action?.batch_number
         }

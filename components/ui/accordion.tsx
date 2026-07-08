@@ -8,6 +8,7 @@ import Animated, {
   FadeOutUp,
   LayoutAnimationConfig,
   LinearTransition,
+  ReduceMotion,
   useAnimatedStyle,
   useDerivedValue,
   withTiming,
@@ -15,9 +16,9 @@ import Animated, {
 
 function Accordion({
   children,
+  ref,
   ...props
-}: Omit<AccordionPrimitive.RootProps, 'asChild'> &
-  React.RefAttributes<AccordionPrimitive.RootRef>) {
+}: Omit<React.ComponentProps<typeof AccordionPrimitive.Root>, 'asChild'>) {
   return (
     <LayoutAnimationConfig skipEntering>
       <AccordionPrimitive.Root
@@ -34,7 +35,7 @@ function AccordionItem({
   className,
   value,
   ...props
-}: AccordionPrimitive.ItemProps & React.RefAttributes<AccordionPrimitive.ItemRef>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Item>) {
   return (
     <AccordionPrimitive.Item
       className={cn(
@@ -43,7 +44,7 @@ function AccordionItem({
         className
       )}
       value={value}
-      asChild
+      asChild={Platform.OS !== 'web'}
       {...props}>
       <Animated.View
         className="native:overflow-hidden"
@@ -60,9 +61,9 @@ function AccordionTrigger({
   className,
   children,
   ...props
-}: AccordionPrimitive.TriggerProps & {
+}: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
   children?: React.ReactNode;
-} & React.RefAttributes<AccordionPrimitive.TriggerRef>) {
+}) {
   const { isExpanded } = AccordionPrimitive.useItemContext();
 
   const progress = useDerivedValue(
@@ -116,7 +117,7 @@ function AccordionContent({
   className,
   children,
   ...props
-}: AccordionPrimitive.ContentProps & React.RefAttributes<AccordionPrimitive.ContentRef>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Content>) {
   const { isExpanded } = AccordionPrimitive.useItemContext();
   return (
     <TextClassContext.Provider value="text-sm">
@@ -129,7 +130,9 @@ function AccordionContent({
         )}
         {...props}>
         <Animated.View
-          exiting={Platform.select({ native: FadeOutUp.duration(200) })}
+          exiting={Platform.select({
+            native: FadeOutUp.duration(200).reduceMotion(ReduceMotion.System),
+          })}
           className={cn('pb-4', className)}>
           {children}
         </Animated.View>
