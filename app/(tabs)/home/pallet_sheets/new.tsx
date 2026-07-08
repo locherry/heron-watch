@@ -82,7 +82,7 @@ function SheetRow({
   );
 }
 
-export default function add_pallet_sheet() {
+export default function NewPalletSheet() {
   const [t] = useTranslation();
 
   const rawParams = useLocalSearchParams();

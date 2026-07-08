@@ -28,6 +28,17 @@ function TooltipContent({
 }: React.ComponentProps<typeof TooltipPrimitive.Content> & {
   portalHost?: string;
 }) {
+  const entering = React.useMemo(
+    () =>
+      side === "top"
+        ? FadeInDown.withInitialValues({ transform: [{ translateY: 3 }] })
+            .duration(150)
+            .reduceMotion(ReduceMotion.System)
+        : FadeInUp.withInitialValues({
+            transform: [{ translateY: -5 }],
+          }).reduceMotion(ReduceMotion.System),
+    [side],
+  );
   return (
     <TooltipPrimitive.Portal hostName={portalHost}>
       <FullWindowOverlay>
@@ -36,17 +47,7 @@ function TooltipContent({
           asChild={Platform.OS !== "web"}
         >
           <NativeOnlyAnimatedView
-            entering={
-              side === "top"
-                ? FadeInDown.withInitialValues({
-                    transform: [{ translateY: 3 }],
-                  })
-                    .duration(150)
-                    .reduceMotion(ReduceMotion.System)
-                : FadeInUp.withInitialValues({
-                    transform: [{ translateY: -5 }],
-                  }).reduceMotion(ReduceMotion.System)
-            }
+            entering={entering}
             exiting={FadeOut.reduceMotion(ReduceMotion.System)}
             as="Pressable"
           >

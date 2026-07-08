@@ -93,7 +93,7 @@ function SheetRow({
   );
 }
 
-export default function add_pallet_sheet() {
+export default function EditPalletSheet() {
   const [t] = useTranslation();
   const formatDate = useFormatDate();
 
@@ -119,15 +119,13 @@ export default function add_pallet_sheet() {
 
   //Variable that stocks user's inputs in pallet sheet
 
-  const [quantityInput, setQuantityInput] = useState<string | undefined>(
-    undefined,
-  );
+  const [quantityInput, setQuantityInput] = useState<string>("");
 
   //State depending constants
   const [isDataFetched, setIsDataFetched] = useState(false);
   const [completeData, setCompleteData] = useState<any>([]);
   const [stockData, setStockData] = useState<any>([]);
-  const [placedQuantity, setPlacedQuantity] = useState<any>([]);
+  const [placedQuantity, setPlacedQuantity] = useState<number>(0);
   const [qrId, setQrId] = useState<undefined | number>(alreadySetQrId);
   const [isQuantityInputInvalid, setIsQuantityInputInvalid] = useState(false);
 
@@ -198,9 +196,9 @@ export default function add_pallet_sheet() {
           },
         },
       );
-      setQuantityInput(undefined);
+      setQuantityInput("");
       setIsDataFetched(false);
-      setPlacedQuantity([]);
+      setPlacedQuantity(0);
       setCompleteData([]);
       setStockData([]);
     } else if (!quantityInput) {
@@ -223,9 +221,9 @@ export default function add_pallet_sheet() {
           },
         },
       );
-      setQuantityInput(undefined);
+      setQuantityInput("");
       setIsDataFetched(false);
-      setPlacedQuantity([]);
+      setPlacedQuantity(0);
       setCompleteData([]);
       setStockData([]);
     }
@@ -250,17 +248,17 @@ export default function add_pallet_sheet() {
   }, [productStockQuantity?.totalItems]);
 
   useEffect(() => {
-    if (
-      alreadyPlacedQuantity != null &&
-      (alreadyPlacedQuantity.member?.length ?? 0) > 0
-    ) {
+    if (alreadyPlacedQuantity != null) {
       const total = (
-        alreadyPlacedQuantity.member as Array<{ quantity?: number }>
+        (alreadyPlacedQuantity.member ?? []) as Array<{ quantity?: number }>
       ).reduce((sum, qr) => sum + (qr.quantity ?? 0), 0);
-      setPlacedQuantity(total);
-      setQuantityInput(completeData?.quantity?.toString());
+      setPlacedQuantity(total); // always set, even when 0
+      setQuantityInput(completeData?.quantity?.toString() ?? "");
     }
   }, [alreadyPlacedQuantity?.totalItems]);
+
+  const remaining = (stockData?.quantity ?? 0) - placedQuantity;
+  const projected = remaining - (Number(quantityInput || 0) - placedQuantity);
 
   return (
     <RootView disableInsets={{ left: true }} className="flex gap-y-[30]">
@@ -287,12 +285,10 @@ export default function add_pallet_sheet() {
                   <Text
                     className={cn(
                       "text-xl",
-                      stockData?.quantity - placedQuantity >= 0
-                        ? "text-foreground"
-                        : "text-destructive",
+                      remaining >= 0 ? "text-foreground" : "text-destructive",
                     )}
                   >
-                    {stockData?.quantity - placedQuantity}
+                    {Number.isFinite(remaining) ? remaining : "-"}
                   </Text>
                 )
               ) : (
@@ -306,17 +302,10 @@ export default function add_pallet_sheet() {
                   <Text
                     className={cn(
                       "text-xl",
-                      stockData?.quantity -
-                        placedQuantity -
-                        (Number(quantityInput) - placedQuantity) <
-                        0
-                        ? "text-destructive"
-                        : "text-foreground",
+                      projected < 0 ? "text-destructive" : "text-foreground",
                     )}
                   >
-                    {stockData?.quantity -
-                      placedQuantity -
-                      (Number(quantityInput) - placedQuantity)}
+                    {Number.isFinite(projected) ? projected : "-"}
                   </Text>
                 </>
               ) : (
@@ -379,7 +368,7 @@ export default function add_pallet_sheet() {
                 value={quantityInput}
                 placeholder={completeData?.quantity?.toString()}
                 onChangeText={(text) => {
-                  setQuantityInput(text === "" ? undefined : text);
+                  setQuantityInput(text);
                 }}
                 rowNameWidth={rowNameWidth}
                 rowsHeight={rowsHeight}

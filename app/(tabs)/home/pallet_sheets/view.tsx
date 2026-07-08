@@ -23,7 +23,7 @@ type QrCodeItem = {
   quantity?: number;
 };
 
-export default function App() {
+export default function ViewPalletSheet() {
   const PALLET_CARD_WIDTH = 170;
   const [numCol, setNumCol] = useState(0);
   const handleLayout = (event: LayoutChangeEvent) => {
