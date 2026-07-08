@@ -1,11 +1,25 @@
 import * as TabsPrimitive from "@rn-primitives/tabs";
 import { useColorScheme } from "nativewind";
 import * as React from "react";
-import { Animated, Easing, LayoutChangeEvent, Pressable } from "react-native";
+import { LayoutChangeEvent, Pressable } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 import { cn } from "~/lib/utils";
 import { Text } from "./text";
 
+type TabLayout = { x: number; width: number };
+
 const MaterialTabs = TabsPrimitive.Root;
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+// underline motion
+const UNDERLINE_SPRING = { damping: 5, stiffness: 100, mass: 0.2 };
+// press feedback
+const PRESS_SPRING = { damping: 50, stiffness: 300 };
 
 function MaterialTabsList({
   className,
@@ -16,34 +30,43 @@ function MaterialTabsList({
   children: React.ReactNode;
 }) {
   const { value } = TabsPrimitive.useRootContext();
+  const { colorScheme } = useColorScheme();
 
-  const [tabLayouts, setTabLayouts] = React.useState<
-    Record<string, { x: number; width: number }>
-  >({});
-  const underlineLeft = React.useRef(new Animated.Value(0)).current;
-  const underlineWidth = React.useRef(new Animated.Value(0)).current;
+  const tabLayouts = React.useRef<Record<string, TabLayout>>({});
+  const underlineX = useSharedValue(0);
+  const underlineWidth = useSharedValue(0);
+  const hasMeasured = useSharedValue(false);
 
-  // Animate underline whenever active tab changes
+  const measureTab = React.useCallback(
+    (tabValue: string, layout: TabLayout) => {
+      tabLayouts.current[tabValue] = layout;
+      if (tabValue === value) {
+        if (hasMeasured.value) {
+          underlineX.value = withSpring(layout.x, UNDERLINE_SPRING);
+          underlineWidth.value = withSpring(layout.width, UNDERLINE_SPRING);
+        } else {
+          underlineX.value = layout.x;
+          underlineWidth.value = layout.width;
+          hasMeasured.value = true;
+        }
+      }
+    },
+    [value],
+  );
+
   React.useEffect(() => {
-    if (tabLayouts[value]) {
-      Animated.parallel([
-        Animated.timing(underlineLeft, {
-          toValue: tabLayouts[value].x,
-          duration: 250,
-          easing: Easing.out(Easing.exp),
-          useNativeDriver: false,
-        }),
-        Animated.timing(underlineWidth, {
-          toValue: tabLayouts[value].width,
-          duration: 250,
-          easing: Easing.out(Easing.exp),
-          useNativeDriver: false,
-        }),
-      ]).start();
+    const layout = tabLayouts.current[value];
+    if (layout) {
+      underlineX.value = withSpring(layout.x, UNDERLINE_SPRING);
+      underlineWidth.value = withSpring(layout.width, UNDERLINE_SPRING);
     }
-  }, [value, tabLayouts]);
+  }, [value]);
 
-  // Wrap each child to measure its layout
+  const underlineStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: underlineX.value }],
+    width: underlineWidth.value,
+  }));
+
   const wrappedChildren = React.Children.map(children, (child) => {
     if (!React.isValidElement(child)) return child;
 
@@ -52,34 +75,32 @@ function MaterialTabsList({
 
     return React.cloneElement(tabChild, {
       onLayout: (e: LayoutChangeEvent) => {
-        const layout = e.nativeEvent.layout;
-        setTabLayouts((prev) => ({
-          ...prev,
-          [tabValue]: { x: layout.x, width: layout.width },
-        }));
-        if (tabChild.props.onLayout) tabChild.props.onLayout(e);
+        const { x, width } = e.nativeEvent.layout;
+        measureTab(tabValue, { x, width });
+        tabChild.props.onLayout?.(e);
       },
     });
   });
 
-  const { colorScheme } = useColorScheme();
-
   return (
     <TabsPrimitive.List
-      className={cn("flex-row border-muted border-b", className)}
+      className={cn("flex-row gap-4 border-muted border-b", className)}
       {...props}
     >
       {wrappedChildren}
       <Animated.View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: underlineLeft,
-          height: 2,
-          width: underlineWidth,
-          backgroundColor: colorScheme == "light" ? "black" : "white",
-          borderRadius: 1,
-        }}
+        pointerEvents="none"
+        style={[
+          {
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            height: 2,
+            borderRadius: 1,
+            backgroundColor: colorScheme === "light" ? "black" : "white",
+          },
+          underlineStyle,
+        ]}
       />
     </TabsPrimitive.List>
   );
@@ -87,45 +108,58 @@ function MaterialTabsList({
 
 function MaterialTabsTrigger({
   children,
+  className,
   disabled = false,
   value,
   ...props
-}: any) {
+}: TabsPrimitive.TriggerProps & {
+  ref?: React.RefObject<TabsPrimitive.TriggerRef>;
+  className?: string;
+}) {
   const { value: currentValue } = TabsPrimitive.useRootContext();
   const isActive = currentValue === value;
-  const content =
-    typeof children === "function" ? children({ pressed: false }) : children;
+
+  const scale = useSharedValue(1);
+
+  const pressStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  const handlePressIn = () => {
+    scale.value = withSpring(0.95, PRESS_SPRING);
+  };
+
+  const handlePressOut = () => {
+    scale.value = withSpring(1, PRESS_SPRING);
+  };
 
   return (
-    <TabsPrimitive.Trigger
-      value={value}
-      disabled={disabled}
-      // 👇 ensures RN’s accessibility + primitive’s own disabled state are in sync
-      data-disabled={disabled ? true : undefined}
-      asChild
-      {...props}
-    >
-      <Pressable
+    <TabsPrimitive.Trigger value={value} disabled={disabled} asChild {...props}>
+      <AnimatedPressable
         disabled={disabled}
-        pointerEvents={disabled ? "none" : "auto"} // 👈 actually blocks touches
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
         className={cn(
-          "items-center justify-center px-4 pb-2 transition-opacity",
-          disabled ? "opacity-40" : "opacity-100"
+          "items-center justify-center px-4 pb-2",
+          disabled ? "opacity-40" : "opacity-100",
+          className,
         )}
+        style={pressStyle}
       >
         <Text
           className={cn(
             "text-xl font-bold",
-            isActive ? "text-foreground" : "text-muted-foreground"
+            isActive ? "text-foreground" : "text-muted-foreground",
           )}
         >
-          {content}
+          {typeof children === "function"
+            ? children({ pressed: false, hovered: false })
+            : children}
         </Text>
-      </Pressable>
+      </AnimatedPressable>
     </TabsPrimitive.Trigger>
   );
 }
-
 
 function MaterialTabsContent({
   className,
@@ -137,7 +171,7 @@ function MaterialTabsContent({
     <TabsPrimitive.Content
       className={cn(
         "pt-4 px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
-        className
+        className,
       )}
       {...props}
     />
