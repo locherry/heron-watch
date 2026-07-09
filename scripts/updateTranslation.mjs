@@ -13,6 +13,18 @@ const translationDir = path.resolve(__dirname, '../translations')
 
 const translationRef = 'EN'
 
+const sortObjectKeys = (obj) => {
+    if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
+        return obj;
+    }
+    return Object.keys(obj)
+        .sort((a, b) => a.localeCompare(b))
+        .reduce((sorted, key) => {
+            sorted[key] = sortObjectKeys(obj[key]);
+            return sorted;
+        }, {});
+};
+
 const getDirectories = source =>
     fs.readdirSync(source, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
@@ -120,7 +132,11 @@ const updateTranslations = async () => {
     const refFiles = getFiles(translationDir + path.sep + translationRef)
 
     for (const refFile of refFiles) {
-        const refJson = JSON.parse(fs.readFileSync(translationDir + path.sep + translationRef + path.sep + refFile, 'utf8'));
+        const refPath = translationDir + path.sep + translationRef + path.sep + refFile;
+        const refJson = JSON.parse(fs.readFileSync(refPath, 'utf8'));
+
+        const sortedRefJson = sortObjectKeys(refJson);
+        fs.writeFileSync(refPath, JSON.stringify(sortedRefJson, null, 2), 'utf8');
 
         for (const dir of dirs) {
             if (!isLanguageSupported(dir)) {
@@ -134,10 +150,12 @@ const updateTranslations = async () => {
             }
             const currentTranslationJson = JSON.parse(fs.readFileSync(currentTranslationFile, 'utf8'));
 
-            await updateMissingKeys(refJson, currentTranslationJson, dir);
-            removeExtraKeys(refJson, currentTranslationJson);
+            await updateMissingKeys(sortedRefJson, currentTranslationJson, dir);
+            removeExtraKeys(sortedRefJson, currentTranslationJson);
 
-            fs.writeFileSync(currentTranslationFile, JSON.stringify(currentTranslationJson, null, 2), 'utf8');
+            const sortedTranslationJson = sortObjectKeys(currentTranslationJson);
+
+            fs.writeFileSync(currentTranslationFile, JSON.stringify(sortedTranslationJson, null, 2), 'utf8');
             console.info(`All translations to ${dir} successfuly implemented.`)
         }
     }
