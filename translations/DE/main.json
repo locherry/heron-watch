@@ -221,6 +221,10 @@
     "menu": "Menü",
     "settings": "Einstellungen"
   },
+  "table": {
+    "emptyDescription": "Es wurden keine Datensätze gefunden, die Ihrer aktuellen Ansicht entsprechen.",
+    "emptyTitle": "Hier steht noch nichts"
+  },
   "Toggle editing mode": "Bearbeitungsmodus umschalten",
   "Total actions": "Aktionen insgesamt",
   "Total products": "Gesamtprodukte",

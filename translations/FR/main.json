@@ -221,6 +221,10 @@
     "menu": "menu",
     "settings": "paramètres"
   },
+  "table": {
+    "emptyDescription": "Aucun enregistrement ne correspond à votre recherche actuelle.",
+    "emptyTitle": "Il n'y a encore rien ici"
+  },
   "Toggle editing mode": "Basculer en mode édition",
   "Total actions": "Nombre total d'actions",
   "Total products": "Nombre total de produits",

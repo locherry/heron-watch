@@ -25,6 +25,7 @@ import { Icon } from "../ui/icon";
 import { Skeleton } from "../ui/skeleton";
 import { Text } from "../ui/text";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import EmptyState from "./EmptyState";
 
 const SKELETON_ROW_COUNT = 10;
 const MIN_COLUMN_WIDTH = 140;
@@ -185,26 +186,30 @@ export function BaseTable<T>({
             style={{ width: EDITION_COLUMN_WIDTH }}
             className="flex-row items-center justify-end gap-2 p-2"
           >
-            <Button
-              onPress={() => onEdit?.(item)}
-              variant="outline"
-              disabled={disabled}
-            >
-              <Icon as={Pencil} />
-              <Text className="hidden lg:inline">
-                {capitalizeFirst(t("common.edit"))}
-              </Text>
-            </Button>
-            <Button
-              onPress={() => onDelete?.(item)}
-              variant="outline"
-              disabled={disabled}
-            >
-              <Icon className="text-[hsl(var(--destructive))]" as={X} />
-              <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
-                {capitalizeFirst(t("common.delete"))}
-              </Text>
-            </Button>
+            {onEdit && (
+              <Button
+                onPress={() => onEdit?.(item)}
+                variant="outline"
+                disabled={disabled}
+              >
+                <Icon as={Pencil} />
+                <Text className="hidden lg:inline">
+                  {capitalizeFirst(t("common.edit"))}
+                </Text>
+              </Button>
+            )}
+            {onDelete && (
+              <Button
+                onPress={() => onDelete?.(item)}
+                variant="outline"
+                disabled={disabled}
+              >
+                <Icon className="text-[hsl(var(--destructive))]" as={X} />
+                <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
+                  {capitalizeFirst(t("common.delete"))}
+                </Text>
+              </Button>
+            )}
           </View>
         )}
       </View>
@@ -254,6 +259,14 @@ export function BaseTable<T>({
     </View>
   );
 
+  const renderEmpty = () => (
+    <EmptyState
+      width={Math.max(rowWidth, containerWidth ?? rowWidth)}
+      title={capitalizeFirst(t("table.emptyTitle"))}
+      description={t("table.emptyDescription")}
+    />
+  );
+
   return (
     <View className={cn("flex-1", className)} onLayout={handleContainerLayout}>
       <ScrollView
@@ -267,6 +280,7 @@ export function BaseTable<T>({
             isLoading ? `skeleton-${index}` : item.id
           }
           ListHeaderComponent={renderHeader}
+          ListEmptyComponent={isLoading ? undefined : renderEmpty}
           stickyHeaderIndices={[0]}
           renderItem={({ item, index }) =>
             isLoading ? renderSkeletonRow(index) : renderRow({ item, index })

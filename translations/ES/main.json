@@ -221,6 +221,10 @@
     "menu": "menú",
     "settings": "ajustes"
   },
+  "table": {
+    "emptyDescription": "No hay registros que coincidan con tu vista actual.",
+    "emptyTitle": "De momento no hay nada aquí"
+  },
   "Toggle editing mode": "Conmutar el modo de edición",
   "Total actions": "Acciones totales",
   "Total products": "total productos",

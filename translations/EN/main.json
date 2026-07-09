@@ -221,6 +221,10 @@
     "menu": "menu",
     "settings": "settings"
   },
+  "table": {
+    "emptyDescription": "No records match your current view.",
+    "emptyTitle": "Nothing here yet"
+  },
   "Toggle editing mode": "Toggle editing mode",
   "Total actions": "Total actions",
   "Total products": "total products",

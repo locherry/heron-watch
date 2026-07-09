@@ -221,6 +221,10 @@
     "menu": "menua",
     "settings": "ezarpenak"
   },
+  "table": {
+    "emptyDescription": "Ez dago zure egungo ikuspegiari dagokion erregistroik.",
+    "emptyTitle": "Oraindik ez dago ezer hemen"
+  },
   "Toggle editing mode": "Editatzeko modua aldatu",
   "Total actions": "Ekintza kopuru osoa",
   "Total products": "Produktu kopuru osoa",
