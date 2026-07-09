@@ -10,6 +10,7 @@ import RootView from "~/components/layout/RootView";
 import { UserTable } from "~/components/table/UserTable";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
+import { useBreakpoint } from "~/lib/hooks/useBreakpoint";
 import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
@@ -17,7 +18,7 @@ import { capitalizeFirst } from "~/lib/utils";
 export default function App() {
   const [t] = useTranslation();
   const router = useRouter();
-
+  const { isSmallWidth } = useBreakpoint();
   const [sorting, setSorting] = useState<UsersSortState | null>(null); // State for sorting order and criteria
   const [page, setPage] = useState(1);
 
@@ -74,7 +75,7 @@ export default function App() {
             icon={Plus}
             onPress={() => console.log("Add User")}
           >
-            <Text>{capitalizeFirst(t("user.addUser"))}</Text>
+            {!isSmallWidth && <Text>capitalizeFirst(t("user.addUser"))</Text>}
           </Button>
         </Link>
       </Header>
