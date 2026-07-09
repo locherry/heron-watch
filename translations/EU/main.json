@@ -167,7 +167,8 @@
     "startDate": "Hasiera data",
     "endDate": "amaiera data",
     "productCategory": "Produktuen kategoria",
-    "submitModifications": "Aldaketak aurkeztu"
+    "submitModifications": "Aldaketak aurkeztu",
+    "goHome": "Etxera joan"
   },
   "errors": {
     "required": "Eremu hau derrigorrezkoa da",
@@ -185,7 +186,9 @@
     "fillBothFields": "Mesedez, bete bi eremuak.",
     "apiError": "zerbitzariarekin komunikatzean akats bat gertatu da",
     "invalidEmail": "Posta elektroniko baliogabea",
-    "invalidDate": "Data baliogabea, data formatua: dd/mm/yyyy"
+    "invalidDate": "Data baliogabea, data formatua: dd/mm/yyyy",
+    "notFoundTitle": "Mapatik kanpo",
+    "notFoundDescription": "Orrialde hau ez dago eskuragarri. Agian lekuz aldatu dute, ezabatu egin dute edo inoiz ez zen existitu."
   },
   "QR Code loaded": "QR kodea kargatua",
   "Toggle editing mode": "Editatzeko modua aldatu",

@@ -167,7 +167,8 @@
     "startDate": "Startdatum",
     "endDate": "Enddatum",
     "productCategory": "Produktkategorie",
-    "submitModifications": "Änderungen einreichen"
+    "submitModifications": "Änderungen einreichen",
+    "goHome": "Geh nach Hause"
   },
   "errors": {
     "required": "Dieses Feld ist erforderlich",
@@ -185,7 +186,9 @@
     "fillBothFields": "bitte beide Felder ausfüllen",
     "apiError": "bei der Kommunikation mit dem Server ist ein Fehler aufgetreten",
     "invalidEmail": "ungültige E-Mail",
-    "invalidDate": "Ungültiges Datum, das Datumsformat lautet: TT/MM/JJJJ"
+    "invalidDate": "Ungültiges Datum, das Datumsformat lautet: TT/MM/JJJJ",
+    "notFoundTitle": "Abseits der Landkarte",
+    "notFoundDescription": "Diese Seite ist nicht verfügbar. Sie wurde möglicherweise verschoben, gelöscht oder hat nie existiert."
   },
   "Select a date": "Wählen Sie ein Datum",
   "Current stock": "Aktueller Bestand",

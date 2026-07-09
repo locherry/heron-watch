@@ -144,6 +144,7 @@
     "total": "total",
     "open": "open",
     "goBack": "go back",
+    "goHome": "go home",
     "exports": "exports",
     "user": "user",
     "users": "users",
@@ -180,6 +181,8 @@
     "viewDetails": "view details"
   },
   "errors": {
+    "notFoundTitle": "Off the map",
+    "notFoundDescription": "This page isn't in stock. It may have been moved, deleted, or never existed.",
     "fillBothFields": "please fill both fields",
     "required": "This field is required",
     "invalidEmail": "invalid email",

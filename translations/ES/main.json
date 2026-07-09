@@ -177,7 +177,8 @@
     "startDate": "fecha de inicio",
     "endDate": "fecha de finalización",
     "productCategory": "categoría de productos",
-    "submitModifications": "enviar modificaciones"
+    "submitModifications": "enviar modificaciones",
+    "goHome": "vete a casa"
   },
   "errors": {
     "fillBothFields": "rellene ambos campos",
@@ -195,7 +196,9 @@
     "redirectToLogin": "redirigir al inicio de sesión",
     "quantityInputRequired": "Es necesario especificar una nueva cantidad para modificar la hoja de paleta",
     "invalidEmail": "correo no válido",
-    "invalidDate": "Fecha no válida; el formato de fecha es: dd/mm/aaaa"
+    "invalidDate": "Fecha no válida; el formato de fecha es: dd/mm/aaaa",
+    "notFoundTitle": "Fuera del mapa",
+    "notFoundDescription": "Esta página no está disponible. Es posible que se haya trasladado, eliminado o que nunca haya existido."
   },
   "I stock": "I acciones",
   "I sell": "Vendo",

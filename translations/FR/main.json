@@ -167,7 +167,8 @@
     "startDate": "date de début",
     "endDate": "date de fin",
     "productCategory": "catégorie de produits",
-    "submitModifications": "envoyer les modifications"
+    "submitModifications": "envoyer les modifications",
+    "goHome": "rentrer chez soi"
   },
   "errors": {
     "required": "Ce champ est obligatoire",
@@ -185,7 +186,9 @@
     "fillBothFields": "Veuillez remplir les deux champs",
     "apiError": "une erreur s'est produite lors de la communication avec le serveur",
     "invalidEmail": "courriel non valide",
-    "invalidDate": "Date non valide. Le format de date est : jj/mm/aaaa"
+    "invalidDate": "Date non valide. Le format de date est : jj/mm/aaaa",
+    "notFoundTitle": "Hors des sentiers battus",
+    "notFoundDescription": "Cette page n'est pas en stock. Elle a peut-être été déplacée, supprimée ou n'a jamais existé."
   },
   "QR Code loaded": "QR Code chargé",
   "Toggle editing mode": "Basculer en mode édition",
