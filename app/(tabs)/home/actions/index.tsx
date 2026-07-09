@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Download } from "lucide-react-native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -161,6 +161,13 @@ export default function ViewActions() {
         totalPages={totalPages}
         onPageChange={setPage}
         isLoading={isLoading}
+        editEnabled={true}
+        onEdit={(item) =>
+          router.push({
+            pathname: "/home/actions/edit",
+            params: { id: item.original.id },
+          })
+        }
       />
     </RootView>
   );

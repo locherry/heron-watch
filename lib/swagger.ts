@@ -68,6 +68,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/actions/{id}/correct": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Creates a Action resource.
+         * @description Creates a Action resource.
+         */
+        post: operations["api_actions_idcorrect_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/actions/{id}/history": {
         parameters: {
             query?: never;
@@ -555,6 +575,14 @@ export interface components {
                 comment?: string | null;
                 transaction_code?: string | null;
             }[];
+        };
+        "Action.ActionCorrectionInput-action.write": {
+            quantity?: number | null;
+            comment?: string | null;
+            /** Format: date-time */
+            expire_at?: string | null;
+            action_category: string | null;
+            transaction_code?: string | null;
         };
         "Action.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
@@ -1330,6 +1358,58 @@ export interface operations {
                     "application/ld+json": components["schemas"]["Error.jsonld"];
                     "application/problem+json": components["schemas"]["Error"];
                     "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    api_actions_idcorrect_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Action identifier */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description The new Action resource */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Action.ActionCorrectionInput-action.write"];
+                "application/ld+json": components["schemas"]["Action.ActionCorrectionInput-action.write"];
+            };
+        };
+        responses: {
+            /** @description Action resource created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Action-action.read"];
+                    "application/ld+json": components["schemas"]["Action.jsonld-action.read"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["Error.jsonld"];
+                    "application/problem+json": components["schemas"]["Error"];
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description An error occurred */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/ld+json": components["schemas"]["ConstraintViolation.jsonld"];
+                    "application/problem+json": components["schemas"]["ConstraintViolation"];
+                    "application/json": components["schemas"]["ConstraintViolation"];
                 };
             };
         };

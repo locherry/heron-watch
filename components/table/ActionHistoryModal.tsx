@@ -1,6 +1,6 @@
 import { Clock, User as UserIcon, X } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
-import { Modal, Pressable, View } from "react-native";
+import { Modal, Pressable, ScrollView, View } from "react-native";
 import { constants } from "~/lib/constants";
 import { useActionHistory } from "~/lib/hooks/useActionHistory";
 import { useFormatDate } from "~/lib/hooks/useFormatDate";
@@ -61,7 +61,10 @@ export function ActionHistoryModal({
             </Text>
           )}
 
-          <View>
+          <ScrollView
+            style={{ maxHeight: 480 }}
+            showsVerticalScrollIndicator={history.length > 0}
+          >
             {history.map((entry, index) => {
               const isLast = index === history.length - 1;
 
@@ -154,7 +157,7 @@ export function ActionHistoryModal({
                 </View>
               );
             })}
-          </View>
+          </ScrollView>
         </View>
       </View>
     </Modal>
