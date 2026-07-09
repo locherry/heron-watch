@@ -28,6 +28,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const SKELETON_ROW_COUNT = 10;
 const MIN_COLUMN_WIDTH = 140;
+const EDITION_COLUMN_WIDTH = 168; // fits 2 buttons (if edition activated)
 
 export function BaseTable<T>({
   data,
@@ -66,13 +67,17 @@ export function BaseTable<T>({
   const columnWidths = (() => {
     if (containerWidth == null) return intrinsicColumnWidths;
     const count = columns.length;
-    const evenWidth = containerWidth / count;
+    const actionsWidth = features.edition ? EDITION_COLUMN_WIDTH : 0;
+    const evenWidth = (containerWidth - actionsWidth) / count;
     return Array(count)
       .fill(0)
       .map(() => Math.max(MIN_COLUMN_WIDTH, evenWidth));
   })();
 
-  const rowWidth = columnWidths.reduce((sum, w) => sum + w, 0);
+  const rowWidth =
+    columnWidths.reduce((sum, w) => sum + w, 0) +
+    (features.edition ? EDITION_COLUMN_WIDTH : 0);
+
   const needsHorizontalScroll =
     containerWidth != null && rowWidth > containerWidth + 1;
 
@@ -176,7 +181,10 @@ export function BaseTable<T>({
           </View>
         ))}
         {features.edition && (
-          <View className="flex-row items-center space-x-2 p-2">
+          <View
+            style={{ width: EDITION_COLUMN_WIDTH }}
+            className="flex-row items-center justify-end gap-2 p-2"
+          >
             <Button
               onPress={() => onEdit?.(item)}
               variant="outline"
@@ -248,7 +256,11 @@ export function BaseTable<T>({
 
   return (
     <View className={cn("flex-1", className)} onLayout={handleContainerLayout}>
-      <ScrollView horizontal={needsHorizontalScroll}>
+      <ScrollView
+        horizontal
+        scrollEnabled={needsHorizontalScroll}
+        showsHorizontalScrollIndicator={needsHorizontalScroll}
+      >
         <FlatList<any>
           data={isLoading ? skeletonData : tableInstance.getRowModel().rows}
           keyExtractor={(item, index) =>
@@ -262,6 +274,7 @@ export function BaseTable<T>({
           style={{
             width: Math.max(rowWidth, containerWidth ?? rowWidth),
           }}
+          scrollEnabled={!isLoading} // optional: avoid vertical scroll jitter while skeleton is up, remove if not needed
         />
       </ScrollView>
 
