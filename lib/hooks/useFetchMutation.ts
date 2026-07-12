@@ -8,7 +8,22 @@ import {
 } from "~/@types/api";
 import { apiFetch } from "~/lib/apiClient";
 
-export const useFetchMutation = <P extends ApiPath, M extends ApiPathMethod<P>>(
+/**
+ * Generic hook to mutate data at an API endpoint using React Query.
+ * Uses central apiFetch() for JWT auth, param/body typing, and error handling.
+ *
+ * @param url - API path (typed from OpenAPI)
+ * @param method - HTTP method (typed for that path)
+ * @param options - Extra TanStack mutation options (onMutate/onError/onSettled, etc.)
+ *
+ * @typeParam TContext - Shape returned by `onMutate`, forwarded to `onError`/`onSettled`.
+ *   Defaults to `unknown`; pass explicitly when using optimistic updates with rollback state.
+ */
+export const useFetchMutation = <
+  P extends ApiPath,
+  M extends ApiPathMethod<P>,
+  TContext = unknown,
+>(
   url: P,
   method: M,
   options?: Omit<
@@ -18,7 +33,8 @@ export const useFetchMutation = <P extends ApiPath, M extends ApiPathMethod<P>>(
       {
         params?: ApiRequestParams<P, M>;
         body?: ApiRequestBody<P, M>;
-      }
+      },
+      TContext
     >,
     "mutationFn"
   >,
@@ -29,7 +45,8 @@ export const useFetchMutation = <P extends ApiPath, M extends ApiPathMethod<P>>(
     {
       params?: ApiRequestParams<P, M>;
       body?: ApiRequestBody<P, M>;
-    }
+    },
+    TContext
   >({
     mutationFn: ({ params, body }) => apiFetch<P, M>(url, method, params, body),
     ...options,

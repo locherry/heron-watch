@@ -1,8 +1,10 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Eye, EyeClosed, Shield, User, UserPen } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, ScrollView, View } from "react-native";
+import { UserRead } from "~/@types/user";
 import { FontSizeSelect } from "~/components/FontSizeSelect";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -34,6 +36,13 @@ type RoleSelection = "ROLE_USER" | "ROLE_ADMIN";
 type Theme = "system" | "light" | "dark";
 type Language = "EN" | "FR" | "DE" | "EU" | "ES";
 type FontSize = (typeof constants.fontSizeOptions)[number]["value"];
+
+type UsersListResponse = { member: UserRead[]; totalItems?: number };
+
+type PatchUserContext = {
+  previousQueries: [readonly unknown[], unknown][];
+  previousUser?: UserRead;
+};
 
 // Admin implicitly includes user on the backend
 const roleToBackendRoles: Record<RoleSelection, Role[]> = {
@@ -124,11 +133,79 @@ export default function EditUser() {
     });
   }, [user]);
 
-  const { mutate: patchUser, isPending } = useFetchMutation(
+  const queryClient = useQueryClient();
+
+  const { mutate: patchUser, isPending } = useFetchMutation<
     "/api/users/{id}",
     "patch",
-    { onSuccess: () => router.back() },
-  );
+    PatchUserContext
+  >("/api/users/{id}", "patch", {
+    onMutate: async (variables) => {
+      const id = variables.params?.path?.id;
+      if (!id) return { previousQueries: [] };
+
+      // Stop any in-flight refetches from clobbering the optimistic write
+      await queryClient.cancelQueries({
+        queryKey: ["/api/users", "get"],
+        exact: false,
+      });
+
+      // Snapshot every currently-cached users-list query for rollback
+      const previousQueries = queryClient.getQueriesData({
+        queryKey: ["/api/users", "get"],
+        exact: false,
+      });
+
+      // Don't leak plainPassword into cached, rendered data
+      const { plainPassword, ...update } = variables.body ?? {};
+
+      // Optimistically patch every list page/sort variant currently cached
+      queryClient.setQueriesData<UsersListResponse>(
+        { queryKey: ["/api/users", "get"], exact: false },
+        (old) => {
+          if (!old?.member) return old;
+          return {
+            ...old,
+            member: old.member.map((u) =>
+              String(u.id) === String(id) ? { ...u, ...update } : u,
+            ),
+          };
+        },
+      );
+
+      // Also patch this screen's own single-user cache, in case of a fast re-open
+      const previousUser = queryClient.getQueryData<UserRead>([
+        "/api/users/{id}",
+        "get",
+        { path: { id: editUserId } },
+        undefined,
+      ]);
+      queryClient.setQueryData<UserRead>(
+        ["/api/users/{id}", "get", { path: { id: editUserId } }, undefined],
+        (old) => old && { ...old, ...update },
+      );
+
+      return { previousQueries, previousUser };
+    },
+    onError: (_err, _variables, context) => {
+      context?.previousQueries.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
+      if (context?.previousUser) {
+        queryClient.setQueryData(
+          ["/api/users/{id}", "get", { path: { id: editUserId } }, undefined],
+          context.previousUser,
+        );
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["/api/users", "get"],
+        exact: false,
+      });
+    },
+    onSuccess: () => router.back(),
+  });
 
   const validate = (): boolean => {
     if (!form) return false;
