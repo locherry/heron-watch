@@ -28,7 +28,7 @@ import { useBreakpoint } from "~/lib/hooks/useBreakpoint";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
 import { capitalizeFirst } from "~/lib/utils";
 
-export default function MaterialTabsExample() {
+export default function Home() {
   const [t] = useTranslation();
   const { isSmallWidth } = useBreakpoint();
 
