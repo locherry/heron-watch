@@ -75,7 +75,7 @@ export default function App() {
             icon={Plus}
             onPress={() => console.log("Add User")}
           >
-            {!isSmallWidth && <Text>capitalizeFirst(t("user.addUser"))</Text>}
+            {!isSmallWidth && <Text>{capitalizeFirst(t("user.addUser"))}</Text>}
           </Button>
         </Link>
       </Header>
@@ -92,7 +92,7 @@ export default function App() {
         onEdit={(row) =>
           router.push({
             pathname: "/admin/users/edit",
-            params: { editUserId: row.id },
+            params: { editUserId: row.original.id },
           })
         }
         onDelete={handleDelete}
