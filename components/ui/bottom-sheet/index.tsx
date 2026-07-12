@@ -22,7 +22,7 @@ const DefaultBackground: React.FC<BottomSheetBackgroundProps> = ({ style }) => (
 );
 
 const DefaultHandle: React.FC<BottomSheetHandleProps> = () => (
-  <View className="bg-background items-center justify-center py-3.5 rounded-t-2xl border-t border-border">
+  <View className="bg-background items-center justify-center py-3.5 rounded-t-2xl border-t border-border cursor-pointer">
     <View className="w-10 h-1 rounded-full bg-foreground/20" />
   </View>
 );
