@@ -187,28 +187,32 @@ export function BaseTable<T>({
             className="flex-row items-center justify-end gap-2 p-2"
           >
             {onEdit && (
-              <Button
-                onPress={() => onEdit?.(item)}
-                variant="outline"
-                disabled={disabled}
-              >
-                <Icon as={Pencil} />
-                <Text className="hidden lg:inline">
-                  {capitalizeFirst(t("common.edit"))}
-                </Text>
-              </Button>
+              <View className="rounded-lg border border-background dark:border-background">
+                <Button
+                  onPress={() => onEdit?.(item)}
+                  variant="outline"
+                  disabled={disabled}
+                >
+                  <Icon as={Pencil} />
+                  <Text className="hidden lg:inline">
+                    {capitalizeFirst(t("common.edit"))}
+                  </Text>
+                </Button>
+              </View>
             )}
             {onDelete && (
-              <Button
-                onPress={() => onDelete?.(item)}
-                variant="outline"
-                disabled={disabled}
-              >
-                <Icon className="text-[hsl(var(--destructive))]" as={X} />
-                <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
-                  {capitalizeFirst(t("common.delete"))}
-                </Text>
-              </Button>
+              <View className="rounded-lg border border-background dark:border-background">
+                <Button
+                  onPress={() => onDelete?.(item)}
+                  variant="outline"
+                  disabled={disabled}
+                >
+                  <Icon className="text-[hsl(var(--destructive))]" as={X} />
+                  <Text className="hidden lg:inline !text-[hsl(var(--destructive))]">
+                    {capitalizeFirst(t("common.delete"))}
+                  </Text>
+                </Button>
+              </View>
             )}
           </View>
         )}
