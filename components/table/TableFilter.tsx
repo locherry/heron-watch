@@ -134,7 +134,6 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
     const { isSmallWidth } = useBreakpoint();
 
     const sheetRef = useRef<BottomSheetModal>(null);
-    const snapPoints = useMemo(() => ["40%", "70%"], []);
 
     const [startDate, setStartDate] = useState<Date | undefined>(
       defaultValue?.startDate,
@@ -258,7 +257,7 @@ export const TableFilter = forwardRef<TableFilterHandle, TableFilterProps>(
           </View>
         )}
 
-        <BottomSheetModal ref={sheetRef} index={0} snapPoints={snapPoints}>
+        <BottomSheetModal ref={sheetRef} index={0} enableDynamicSizing={true}>
           <BottomSheetView className="flex-1 px-4 pt-2 gap-4">
             <Text variant="h3">{capitalizeFirst(t("common.filters"))}</Text>
 
