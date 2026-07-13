@@ -3,7 +3,6 @@ import { Download } from "lucide-react-native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator } from "react-native";
-import { ActionSortState } from "~/@types/action";
 import { StockCategory } from "~/@types/stock";
 import Header from "~/components/Header";
 import RootView from "~/components/layout/RootView";
@@ -21,6 +20,7 @@ import {
 import { constants } from "~/lib/constants";
 import { exportActionsToSpreadsheet } from "~/lib/exportActions";
 import { useFetchQuery } from "~/lib/hooks/useFetchQuery";
+import { useActionsFilterStore } from "~/lib/stores/useActionsFilterStore";
 import { capitalizeFirst } from "~/lib/utils";
 
 export default function ViewActions() {
@@ -30,17 +30,15 @@ export default function ViewActions() {
   const { stockCategory = "PF_G" } = rawParams as {
     stockCategory: StockCategory;
   };
-  const [sorting, setSorting] = useState<ActionSortState | null>({
-    order_by: "created_at",
-    sort: "desc",
-  });
-  const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState<TableFilterValue>({});
 
-  // Reset page when category, sorting, or filters change
-  React.useEffect(() => {
-    setPage(1);
-  }, [stockCategory, sorting, filters]);
+  // Sorting/page/filters live in Zustand instead of local component, so that even when the component unmounts, the filters stay active
+  const sorting = useActionsFilterStore((s) => s.sorting);
+  const page = useActionsFilterStore((s) => s.page);
+  const filters = useActionsFilterStore((s) => s.filters);
+  const setSorting = useActionsFilterStore((s) => s.setSorting);
+  const setPage = useActionsFilterStore((s) => s.setPage);
+  const setFilters = useActionsFilterStore((s) => s.setFilters);
+  const resetFilters = useActionsFilterStore((s) => s.resetFilters);
 
   const endOfDay = (d: Date) => {
     const copy = new Date(d);
@@ -92,7 +90,7 @@ export default function ViewActions() {
   };
 
   const handleResetFilters = () => {
-    setFilters({});
+    resetFilters();
   };
 
   const [isExporting, setIsExporting] = useState(false);
