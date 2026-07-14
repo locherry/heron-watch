@@ -49,9 +49,43 @@ export function ActionHistoryModal({
           </Row>
 
           {isLoading && (
-            <View className="gap-2">
-              <Skeleton className="h-14 rounded" />
-              <Skeleton className="h-14 rounded" />
+            <View>
+              {[0, 1, 2].map((index) => {
+                const isLast = index === 2;
+
+                return (
+                  <View key={index} className="flex-row">
+                    {/* Timeline */}
+                    <View className="w-6 items-center">
+                      <Skeleton className="h-3 w-3 rounded-full" />
+                      {!isLast && (
+                        <View className="my-1 w-px flex-1 bg-border" />
+                      )}
+                    </View>
+
+                    {/* Content */}
+                    <View className="flex-1 pb-4 pl-2">
+                      <Row gap={6} className="items-center">
+                        <Skeleton className="h-4 w-4 rounded" />
+                        <Skeleton className="h-4 w-32 rounded" />
+                        <Skeleton className="h-4 w-16 rounded-full" />
+                      </Row>
+
+                      <Skeleton className="mt-1.5 h-3 w-40 rounded" />
+
+                      <Row gap={4} className="mt-2 items-center">
+                        <Skeleton className="h-3 w-3 rounded" />
+                        <Skeleton className="h-3 w-24 rounded" />
+                      </Row>
+
+                      <Row gap={4} className="mt-1.5 items-center">
+                        <Skeleton className="h-3 w-3 rounded" />
+                        <Skeleton className="h-3 w-28 rounded" />
+                      </Row>
+                    </View>
+                  </View>
+                );
+              })}
             </View>
           )}
 
