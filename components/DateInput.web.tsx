@@ -15,7 +15,7 @@ import { Input } from "./ui/input";
 
 type DateInputProps = {
   value?: Date;
-  onChange: (date: Date) => void;
+  onChange: (date: Date | undefined) => void;
   placeholder?: string;
   className?: string;
   disabled?: boolean;
@@ -84,6 +84,7 @@ export function DateInput({
     const trimmed = raw.trim();
     if (trimmed === "") {
       setParseError(false);
+      onChange(undefined);
       return;
     }
     const parsed = parseTypedDate(trimmed);
