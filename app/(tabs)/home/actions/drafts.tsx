@@ -24,7 +24,7 @@ import { useFetchMutation } from "~/lib/hooks/useFetchMutation";
 import { useDraftActionsStore } from "~/lib/stores/useDraftActionsStore";
 import { capitalizeFirst } from "~/lib/utils";
 
-export default function NewActions() {
+export default function DraftActions() {
   const [t] = useTranslation();
   const queryClient = useQueryClient();
   const {
@@ -90,7 +90,7 @@ export default function NewActions() {
 
   const handleEdit = (actionToBeEdited: any) => {
     router.push({
-      pathname: "/home/actions/new_action",
+      pathname: "/home/actions/new",
       params: { editActionId: actionToBeEdited.original.id },
     });
   };
@@ -143,7 +143,7 @@ export default function NewActions() {
         className="mb-4"
         variant="outline"
         icon={Plus}
-        onPress={() => router.push("/home/actions/new_action")}
+        onPress={() => router.push("/home/actions/new")}
       >
         {capitalizeFirst(t("actions.newAction"))}
       </Button>

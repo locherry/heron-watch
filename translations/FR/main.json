@@ -17,7 +17,7 @@
     "correctionTooltip": "Cette action a été créée par {{user}} le {{date}} afin de corriger une autre action.",
     "createdAt": "créé le",
     "createdBy": "créé par",
-    "editAction": "Mesure appropriée",
+    "editAction": "éditer l'action",
     "expireAt": "expirent à",
     "historyTitle": "historique de l'action",
     "id": "id",

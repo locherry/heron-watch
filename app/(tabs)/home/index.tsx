@@ -120,7 +120,7 @@ export default function Home() {
           <Row gap={8}>
             <Link
               href={{
-                pathname: "/home/actions/new_action",
+                pathname: "/home/actions/new",
                 params: { stockCategory: stockCategory },
               }}
               asChild

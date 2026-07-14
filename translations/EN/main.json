@@ -17,7 +17,7 @@
     "correctionTooltip": "this action was created by {{user}} on {{date}} to correct another action",
     "createdAt": "created at",
     "createdBy": "created by",
-    "editAction": "Correct action",
+    "editAction": "correct the action",
     "expireAt": "expire at",
     "historyTitle": "action's history",
     "id": "id",

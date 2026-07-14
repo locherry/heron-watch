@@ -581,8 +581,10 @@ export interface components {
             comment?: string | null;
             /** Format: date-time */
             expire_at?: string | null;
-            action_category: string | null;
+            action_category: number | null;
             transaction_code?: string | null;
+            product_code?: string | null;
+            batch_number?: string | null;
         };
         "Action.jsonld-action.read": components["schemas"]["HydraItemBaseSchema"] & {
             readonly id?: number;
@@ -748,13 +750,13 @@ export interface components {
                 "@id"?: string;
                 "@type"?: string;
                 /** Format: iri-reference */
-                first?: string;
+                first?: string | null;
                 /** Format: iri-reference */
-                last?: string;
+                last?: string | null;
                 /** Format: iri-reference */
-                previous?: string;
+                previous?: string | null;
                 /** Format: iri-reference */
-                next?: string;
+                next?: string | null;
             };
         };
         HydraCollectionBaseSchemaNoPagination: {
